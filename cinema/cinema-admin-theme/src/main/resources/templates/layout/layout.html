@@ -9,27 +9,27 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"/>
 
-    <link rel="stylesheet" href="/admin-asset/plugins/fontawesome-free/css/all.min.css"/>
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css"/>
 
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
-    <link rel="stylesheet" href="/admin-asset/dist/css/adminlte.min.css"/>
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css"/>
 
-    <link rel="stylesheet" href="/admin-asset/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"/>
+    <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
           integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet"
-          href="/admin-asset/dist/css/app.css">
+          href="/dist/css/app.css">
     <th:block th:replace="${css}"></th:block>
 </head>
 
 <body>
 <div class="wrapper">
     <!--  SideBar-->
-    <th:block th:replace="~{admin/fragments/sidebar :: nav}"></th:block>
+    <th:block th:replace="~{fragments/sidebar :: nav}"></th:block>
     <div class="main">
         <!--  Navigation-->
-        <th:block th:replace="~{admin/fragments/navigation :: nav}"></th:block>
+        <th:block th:replace="~{fragments/navigation :: nav}"></th:block>
         <!--  Main Content-->
         <th:block th:replace="${content}"></th:block>
     </div>
@@ -37,16 +37,16 @@
 </div>
 
 
-<script src="/admin-asset/plugins/jquery/jquery.min.js"></script>
-<script src="/admin-asset/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/admin-asset/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<script src="/admin-asset/dist/js/adminlte.js"></script>
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="/dist/js/adminlte.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
         integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/admin-asset/js/common.js"></script>
-<script src="/admin-asset/dist/js/app.js"></script>
+<script src="/js/common.js"></script>
+<script src="/dist/js/app.js"></script>
 <script>
     // Movie Chart
     const ctx = document.getElementById('movieChart');

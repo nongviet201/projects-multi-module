@@ -21,7 +21,7 @@ public class AdminController {
 
     @GetMapping("")
     public String getDashBoardPage() {
-        return "admin/index";
+        return "index";
     }
 
     @GetMapping("/user-details")
