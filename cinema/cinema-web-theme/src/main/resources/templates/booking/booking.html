@@ -64,37 +64,8 @@
     </th:block>
 </main>
 <th:block id="js">
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="text/javascript" src="/js/page/booking.js"></script>
-    <script th:inline="javaScript">
-        const divStage = document.getElementById("stage");
-        const showtimeId = [[${showtimeId}]];
-        let currentStage = 1;
-
-        if (showtimeId != null) {
-            currentStage++;
-            divStage.innerHTML = stageTwo;
-        } else {
-            $.ajax({
-                url: '/booking/get/stage-one', // Đường dẫn tới endpoint trên server
-                type: 'GET',
-                success: function(htmlResponse) {
-                    // Cập nhật nội dung HTML vào phần tử DOM
-                    divStage.innerHTML = htmlResponse;
-
-                    const cityBtns = document.querySelector(".city-btn");
-                    cityBtns.forEach(e => {
-                        button.onclick = getCityFunc(this);
-                    })
-                },
-                error: function(xhr, status, error) {
-                    console.error('Đã xảy ra lỗi: ' + error);
-                    console.error('Status:', status);
-                    console.error('Error:', error);
-                }
-            });
-        }
-    </script>
+    <script type="text/javascript" src="/js/booking/booking.js"></script>
+    <script type="text/javascript" src="/js/booking/stage-one.js"></script>
 </th:block>
 </body>
 </html>

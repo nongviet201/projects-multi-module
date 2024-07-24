@@ -1,38 +1,51 @@
-const cityBtns = document.querySelectorAll(".city-btn");
-const cityAccordion = document.querySelector("#collapseOne")
-const movieAccordion = document.querySelector("#collapseTwo");
-const showtimeAccordion = document.querySelector("#collapseThree");
+let cityBtns;
+let cityAccordion;
+let movieAccordion;
+let showtimeAccordion;
+let divDate;
+let cinema;
+let dateBtns;
+let timeBtns
+
+let showtimeData;
 let cityValue;
 let movieId;
 
+$.ajax({
+    url: '/booking/get/stage-one', type: 'GET', success: function (htmlResponse) {
+        divStage.innerHTML = htmlResponse;
+        cityBtns = document.querySelectorAll(".city-btn");
+        cityAccordion = document.querySelector("#collapseOne")
+        movieAccordion = document.querySelector("#collapseTwo");
+        showtimeAccordion = document.querySelector("#collapseThree");
+        divDate = document.querySelector(".div-date");
+        cinema = document.querySelector(".cinema");
+        dateBtns = document.querySelectorAll(".date-btn");
+        timeBtns = document.querySelectorAll(".time-btn");
+    }, error: function (xhr, status, error) {
+        console.error('Đã xảy ra lỗi: ' + error);
+        console.error('Status:', status);
+        console.error('Error:', error);
+    }
+});
+
 function getCityFunc(button) {
     cityValue = btnFunc(button, cityBtns)
-
     toggleAccordion(cityAccordion);
     toggleAccordion(movieAccordion);
 }
 
 function getMovieFunc(div) {
     movieId = div.getAttribute('value');
-    const movieName =
-        div.querySelector('h5').innerText;
-    const moviePoster =
-        div.querySelector('img').getAttribute('src');
+    const movieName = div.querySelector('h5').innerText;
+    const moviePoster = div.querySelector('img').getAttribute('src');
 
     showtimeDetailMovieShow(moviePoster, movieName);
     showtimeDetailCinemaHide();
     getShowtime(movieId, cityValue);
     toggleAccordion(movieAccordion);
     toggleAccordion(showtimeAccordion);
-
 }
-
-const divDate = document.querySelector(".div-date");
-const cinema = document.querySelector(".cinema");
-const dateBtns = document.querySelectorAll(".date-btn");
-const timeBtns = document.querySelectorAll(".time-btn");
-let showtimeData;
-let html = "";
 
 async function getShowtime(movieId, cityId) {
     try {
@@ -40,21 +53,18 @@ async function getShowtime(movieId, cityId) {
     } catch (e) {
         console.log(e);
     }
-
     if (showtimeData.data.length === 0) {
         divDate.innerHTML = "Phim bạn chọn chưa có lịch chiếu vui lòng chọn phim khác hoặc thử lại sau.";
         cinema.innerHTML = "";
     } else {
         showtimeData.data.forEach(showtime => {
-            html += `  
+            divDate.innerHTML = `  
                 <button class="date-btn border-0 py-2 px-3"
                         onclick="getDateFunc(this)"
                         value="${showtime.id}">
                         ${showtime.screeningDate}
                 </button>
             `;
-            divDate.innerHTML = html;
-            html = "";
         })
     }
 }
@@ -80,10 +90,10 @@ function getDateFunc(button) {
         </div>
     `
 }
+
 function showtimeFindById(id) {
     return showtimeData.data.find(showtime => showtime.id.toString() === id) || null;
 }
-
 
 
 function btnFunc(button, btnArray) {
@@ -93,6 +103,7 @@ function btnFunc(button, btnArray) {
     button.classList.add('active');
     return button.value;
 }
+
 function toggleAccordion(accordion) {
     const bsAccordion = new bootstrap.Collapse(accordion);
     if (bsAccordion._isShown) {
@@ -102,9 +113,6 @@ function toggleAccordion(accordion) {
     }
 }
 
-
-const showtimeDetailMovie = document.querySelector(".showtime-detail-movie");
-const showtimeDetailCinema = document.querySelector(".showtime-detail-cinema");
 function showtimeDetailMovieShow(poster, name) {
     showtimeDetailMovie.innerHTML = `
         <div class="col-lg-4">
@@ -120,20 +128,10 @@ function showtimeDetailMovieShow(poster, name) {
 function getShowtimeFunc(button) {
     const showtimeId = btnFunc(button, timeBtns);
     showtime = showtimeFindById(showtimeId.toString());
-    showtimeDetailCinemaShow(
-        showtime.auditorium.cinema.name,
-        showtime.auditorium.name,
-        showtime.screeningDate,
-        showtime.startTime
-    );
+    showtimeDetailCinemaShow(showtime.auditorium.cinema.name, showtime.auditorium.name, showtime.screeningDate, showtime.startTime);
 }
 
-function showtimeDetailCinemaShow(
-    cinemaName,
-    auditoriumName,
-    startDate,
-    startTime
-) {
+function showtimeDetailCinemaShow(cinemaName, auditoriumName, startDate, startTime) {
     showtimeDetailCinema.innerHTML = `
          <div>
             <strong>${cinemaName}</strong>
@@ -148,6 +146,7 @@ function showtimeDetailCinemaShow(
         </div>
     `
 }
+
 function showtimeDetailCinemaHide() {
     showtimeDetailCinema.innerHTML = "";
 }

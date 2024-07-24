@@ -34,14 +34,7 @@ public class WebController {
     }
 
     @GetMapping("/booking")
-    public String getBookingPage(@RequestParam(value = "showtimeId", required = false) String showtimeId, Model model) {
-        if (showtimeId != null) {
-            model.addAttribute(
-                    "showtimeId",
-                    showtimeId
-            );
-            return "pages/booking";
-        }
-        return "pages/booking";
+    public String getBookingPage() {
+        return "booking/booking";
     }
 }
