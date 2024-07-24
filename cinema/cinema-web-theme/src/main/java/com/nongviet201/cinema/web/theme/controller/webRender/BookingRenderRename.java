@@ -25,6 +25,6 @@ public class BookingRenderRename {
                 "movies",
                 movieService.getAllPublishMoviesOrderByReleaseDate()
         );
-        return "booking/stage-one";
+        return "booking/stage/stage-one";
     }
 }

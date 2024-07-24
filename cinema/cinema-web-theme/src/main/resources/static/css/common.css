@@ -31,6 +31,16 @@ button {
     padding: .5rem 1rem;
     background: none;
 }
+
+/*pointer*/
 .cursor-pointer {
      cursor: pointer;
  }
+.cursor-none {
+    cursor: none;
+}
+.cursor-context-menu {
+    cursor: context-menu;
+}
+
+
