@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: .content-index}, ~{:: #js})}">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Admin Movie Create</title>
+
+    <th:block id="css">
+        <link rel="stylesheet" href="/admin-asset/plugins/select2/css/select2.min.css"/>
+        <link rel="stylesheet" href="/admin-asset/dist/css/style.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    </th:block>
+
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-index">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/admin">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/admin/movies">Movie</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                Tạo phim
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-default">
+                            <i class="fas fa-chevron-left"></i> Quay lại
+                        </button>
+                        <button type="button" class="btn btn-info px-4" id="btn-create">
+                            Tạo
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="form-movie">
+                                    <div class="row">
+                                        <div class="col-md-8 ">
+                                            <div class="form-group">
+                                                <label>Tên phim</label>
+                                                <input type="text" class="form-control"
+                                                       id="name" name="name"/>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Trailer URL</label>
+                                                <input id="trailer" class="form-control"
+                                                          name="trailer"></input>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Mô tả ngắn</label>
+                                                <textarea id="description" class="form-control"
+                                                          rows="5" name="description"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Thể loại</label>
+                                                <div class="select2-purple">
+                                                    <select class="select2 form-control" multiple="multiple" id="genre">
+                                                        <option th:each="genre : ${genres}"
+                                                                th:value="${genre.id}"
+                                                                th:text="${genre.name}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Đạo diễn</label>
+                                                <div class="select2-purple">
+                                                    <select class="select2 form-control" multiple="multiple" id="actor">
+                                                        <option th:each="actor : ${actors}"
+                                                                th:value="${actor.id}"
+                                                                th:text="${actor.name}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Diễn viên</label>
+                                                <div class="select2-purple">
+                                                    <select class="select2 form-control" multiple="multiple"
+                                                            id="director">
+                                                        <option th:each="director : ${directors}"
+                                                                th:value="${director.id}"
+                                                                th:text="${director.name}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Trạng thái</label>
+                                                <select id="status" class="form-control">
+                                                    <option value="0">
+                                                        Nháp
+                                                    </option>
+                                                    <option value="1">
+                                                        Công khai
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Ngày </label>
+                                                <input type="text" class="form-control" id="releaseDate"
+                                                       name="releaseDate" value="22/10/2001"/>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Quốc gia</label>
+                                                <div class="select2-purple">
+                                                    <select class="select2 form-control" multiple="multiple"
+                                                            id="country">
+                                                        <option th:each="country : ${countries}"
+                                                                th:value="${country.id}"
+                                                                th:text="${country.name}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<th:block id="js">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/admin-asset/plugins/select2/js/select2.full.min.js"></script>
+
+    <!-- Validation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+            integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js"
+            integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/admin-asset/dist/js/main.js"></script>
+    <script>
+        $(".select2").select2();
+
+        // validation
+        $('#form-movie').validate({
+            rules: {
+                name: {
+                    required: true,
+                },
+                releaseDate: {
+                    required: true,
+                },
+                description: {
+                    required: true,
+                },
+                trailer: {
+                    required: true
+                }
+            },
+            messages: {
+                name: {
+                    required: "Vui lòng nhập tiêu tên phim"
+                },
+                releaseDate: {
+                    required: "Vui lòng nhập ngày công chiếu"
+                },
+                description: {
+                    required: "Vui lòng nhập mô tả"
+                },
+                trailer: {
+                    required: "Vui lòng nhập trailer"
+                }
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+
+        const nameEl = document.getElementById("name")
+        const trailerEl = document.getElementById("trailer")
+        const descriptionEl = document.getElementById("description")
+        const releaseDateEl = document.getElementById("releaseDate")
+        const statusEl = document.getElementById("status")
+        const countryEl = document.getElementById("country")
+        const btnCreate = document.getElementById("btn-create")
+
+        btnCreate.addEventListener("click", async (e) => {
+            e.preventDefault()
+
+            if (!$('#form-movie').valid()) {
+                return;
+            }
+
+            const data = {
+                name: nameEl.value,
+                trailer: trailerEl.value,
+                description: descriptionEl.value,
+                releaseDate: releaseDateEl.value,
+                status: statusEl.value === "1",
+                countryId: countryEl.value,
+                genreIds: $('#genre').val(),
+                actorIds: $('#actor').val(),
+                directorIds: $('#director').val(),
+            }
+
+            try {
+                await axios.post("/api/admin/movies", data)
+                toastr.success("Tạo movie thành công")
+                setTimeout(() => {
+                    window.location.href = "/admin/movies";
+                }, 1000)
+            } catch (error) {
+                console.log(error)
+                toastr.error(error.response.data.message)
+            }
+        })
+    </script>
+
+    <script>
+        $(function() {
+            $('input[name="releaseDate"]').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                minYear: 2000,
+                maxYear: parseInt(moment().format('YYYY'),10)
+            }, function(start, end, label) {
+                var years = moment().diff(start, 'years');
+                alert("You are " + years + " years old!");
+            });
+        });
+    </script>
+</th:block>
+</body>
+
+</html>

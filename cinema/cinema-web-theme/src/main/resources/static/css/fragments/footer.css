@@ -1,0 +1,16 @@
+footer {
+    background: #333;
+    color: #fff;
+    padding: 40px 0;
+}
+.footer-content h3 {
+    font-size: 18px;
+    text-transform: uppercase;
+}
+.footer-content ul li {
+    margin: 20px 0 ;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+    font-weight: 400;
+}

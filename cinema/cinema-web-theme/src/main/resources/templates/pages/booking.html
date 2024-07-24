@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{web/layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: #content}, ~{:: #js})}">
+<title>CINEMA</title>
+<th:block id="css">
+    <link rel="stylesheet" href="/web-asset/css/pages/booking.css">
+</th:block>
+<body>
+<main>
+    <th:block id="content">
+        <div class="line"></div>
+        <div class="booking-bar">
+            <ul class="d-flex justify-content-center">
+                <li class="active">
+                    <div class="process">
+                        Chọn phim / Rạp / Suất
+                    </div>
+                    <div class="process-line active"></div>
+                </li>
+                <li>
+                    <div class="process">
+                        Chọn ghế
+                    </div>
+                    <div class="process-line"></div>
+                </li>
+                <li>
+                    <div class="process">
+                        Chọn thức ăn
+                    </div>
+                    <div class="process-line"></div>
+                </li>
+                <li>
+                    <div class="process">
+                        Thanh toán
+                    </div>
+                    <div class="process-line"></div>
+                </li>
+                <li>
+                    <div class="process">
+                        Xác nhận
+                    </div>
+                    <div class="process-line"></div>
+                </li>
+
+            </ul>
+        </div>
+        <main class="pt-4 pb-5">
+            <div class="container px-1">
+                <div class="booking-body">
+                    <div class="row px-3">
+                        <div class="col-lg-8">
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item mb-4">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseOne" aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                            <p class="accordion-title">Chọn vị trí</p>
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show"
+                                         data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <div class="d-flex flex-row gap-2 flex-wrap">
+                                                <button class="city-btn"
+                                                        th:each="city : ${cities}"
+                                                        onclick="getCityFunc(this)"
+                                                        th:value="${city.getId()}"
+                                                        th:text="${city.getName()}">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item mb-4">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseTwo" aria-expanded="false"
+                                                aria-controls="collapseTwo">
+                                            <p class="accordion-title">Chọn Phim</p>
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" class="accordion-collapse collapse"
+                                         data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-4 col-6" th:each="movie : ${movies}">
+                                                    <div class="movie-select cursor-pointer"
+                                                         th:value="${movie.id}"
+                                                         onclick="getMovieFunc(this)">
+                                                        <img th:src="${movie.getPoster()}"
+                                                             th:alt="${movie.getName()}">
+                                                        <h5 th:text="${movie.getName()}"></h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item mb-4">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseThree" aria-expanded="false"
+                                                aria-controls="collapseThree">
+                                            <p class="accordion-title">Chọn Suất Chiếu</p>
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThree" class="accordion-collapse collapse"
+                                         data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <div class="px-4">
+                                                <div class="div-date">
+
+                                                </div>
+                                            </div>
+                                            <div class="cinema mt-4">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 py-3 ps-3">
+                            <div class="current-showtime w-100 h-100">
+                                <div class="line-detail"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </th:block>
+</main>
+<th:block id="js">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/web-asset/js/page/booking.js"></script>
+</th:block>
+</body>
+</html>

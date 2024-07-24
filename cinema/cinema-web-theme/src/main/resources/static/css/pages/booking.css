@@ -1,0 +1,89 @@
+.booking-bar ul li {
+    margin: 1rem 0;
+    font-weight: 600;
+    color: #D0D0D0;
+}
+
+.booking-bar ul {
+    background-color: white;
+    font-size: 1rem;
+}
+
+.booking-bar ul li .process {
+    margin: 0 .75rem;
+}
+
+.booking-bar ul li .process-line {
+    margin-top: 1rem;
+    border-bottom: 2px solid #D0D0D0;
+}
+
+.accordion-button {
+    box-shadow: none !important;
+}
+
+.accordion-body {
+    padding: .5rem 1.25rem 1rem;
+}
+
+.active {
+    color: #034EA2 !important;
+    border-color: #034EA2 !important;
+}
+
+main {
+    background-color: #F9F9F9;
+}
+
+@media only screen and (max-width: 426px) {
+    .booking-bar ul {
+        font-size: 0.688rem;
+    }
+}
+
+.accordion-title {
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+.accordion-body button {
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    font-size: 14px;
+    padding: .5rem 1rem;
+    background: none;
+}
+
+.accordion-body button:hover,
+.accordion-body button.active{
+    color: white !important;
+    background: #034EA2 !important;
+}
+
+.accordion-button:not(.collapsed) {
+    color: black;
+    background: none;
+}
+
+.movie-select {
+    padding: .5rem;
+}
+.movie-select h5 {
+    font-weight: 600;
+    margin-top: 1rem;
+    font-size: 18px;
+}
+.movie-select img{
+    height: 270px;
+}
+
+.current-showtime {
+    background: white;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+}
+.line-detail {
+    height: 6px;
+    background-color: rgb(245 128 32);
+}
