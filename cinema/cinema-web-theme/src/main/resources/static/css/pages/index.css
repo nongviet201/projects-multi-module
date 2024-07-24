@@ -1,0 +1,188 @@
+
+/* Offcanvas styles */
+.offcanvas-body {
+    margin-left: 20px;
+}
+
+/* Movie card styles */
+.movie {
+    padding: 5px;
+}
+
+
+
+.movie-content {
+    overflow: hidden;
+}
+
+.movie-img {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+/* Overlay styles */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Hover content styles */
+.movie-content-hover {
+    opacity: 0;
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+.movie-content-hover a {
+    display: inline-flex;
+    width: 120px;
+    height: 40px;
+    font-size: 14px;
+    border-radius: 3px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Button styles */
+.movie-hover-btn-ticket {
+    background-color: rgb(242, 107, 56);
+}
+
+.movie-hover-btn-ticket:hover,
+.movie-hover-btn-trailer:hover {
+    background-color: #FB9440;
+    border: none;
+}
+
+.movie-hover-btn-trailer {
+    border: 1px solid white;
+}
+
+/* Hover effect on image */
+.movie-img:hover .overlay {
+    opacity: 1;
+}
+
+.movie-img:hover .movie-content-hover {
+    opacity: 1;
+}
+
+/* Movie name style */
+.movie-name {
+    font-weight: 700;
+    font-size: 16px;
+    margin: 20px 0 30px;
+}
+
+/* Vote style */
+.vote {
+    position: absolute;
+    right: -10px;
+    top: 350px;
+    bottom: 0;
+    width: 5.625rem;
+    height: 1.6875rem;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.4);
+    font-size: 1.125rem;
+    color: white;
+    transform: skewX(25deg);
+}
+
+.vote .point {
+    transform: skewX(-25deg);
+    font-weight: 600;
+}
+
+/* More button style */
+.more-movie-btn {
+    background-color: white;
+    border: 1px solid #FB9440;
+    padding: 10px;
+    margin: 0;
+    width: 200px;
+}
+
+.more-movie-btn a {
+    font-size: 12px;
+    color: #FB9440;
+}
+
+.line {
+    margin: 48px 0;
+}
+
+/* Sub-blog styles */
+.sub-blog img {
+    width: 195px;
+    height: 150px;
+}
+
+/* Sub-menu styles */
+.body-sub-menu div span {
+    border-left: 4px solid rgb(3, 78, 162);
+}
+
+.body-sub-menu {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 40px;
+}
+.body-sub-menu ul{
+    display: flex;
+}
+.body-sub-menu ul li{
+    font-size: 16px;
+    margin-right: 32px;
+}
+.body-sub-menu h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #4A4A4A;
+}
+.body-sub-menu ul li a {
+    color: #333333;
+    font-weight: 700;
+    opacity: .5;
+}
+.body-sub-menu ul li a:hover {
+    color: #1a87f6;
+}
+
+@media only screen and (min-width: 1024px) {
+    .banner {
+        padding: 25px 0 50px;
+    }
+    .card-movie {
+        padding: 0 17px;
+    }
+    .movie-img {
+        max-height: 418px
+    }
+}
+
+@media only screen and (max-width: 426px) {
+    .movie-img {
+        max-height: 270px;
+        height: 100%;
+    }
+    .card-movie {
+        padding: 0 10px;
+    }
+}
