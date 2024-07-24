@@ -26,7 +26,7 @@ public class AdminController {
 
     @GetMapping("/user-details")
     public String getUserDetailsPage() {
-        return "user/detail";
+        return "/user/detail";
     }
 
     @GetMapping("/movies")
@@ -37,7 +37,7 @@ public class AdminController {
             "movies",
             movieService.getAll()
         );
-        return "movie/index";
+        return "/movie/index";
     }
 
     @GetMapping("/movie/{id}")
@@ -49,7 +49,7 @@ public class AdminController {
             "movie",
             movieService.findById(id)
         );
-        return "movie/detail";
+        return "/movie/detail";
     }
 
     @GetMapping("/movie/create")
@@ -60,7 +60,7 @@ public class AdminController {
         model.addAttribute("directors", directorService.getAllDirectors());
         model.addAttribute("actors", actorService.getAllActors());
         model.addAttribute("genres", genreService.getAllGenres());
-        return "movie/create";
+        return "/movie/create";
     }
 
 
