@@ -24,7 +24,9 @@
     <modules>
         <module>cinema-core</module>
         <module>cinema-web-theme</module>
+        <module>cinema-web-sdk</module>
         <module>cinema-admin-theme</module>
+        <module>cinema-admin-sdk</module>
     </modules>
 
     <properties>

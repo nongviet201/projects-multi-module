@@ -1,27 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{web/layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: #content}, ~{:: #js})}">
+      th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: #content}, ~{:: #js})}">
 <title th:text="${movie.getName()}"></title>
 <th:block id="css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css">
-    <link rel="stylesheet" href="/web-asset/css/movie/detail.css">
+    <link rel="stylesheet" href="/css/movie/detail.css">
 </th:block>
 <body>
 <main>
     <th:block id="content">
-        <div class="banner">
-            <div class="center">
-                <div class="item ">
-                    <img src="https://cdn.galaxycine.vn/media/2024/6/13/io2-2048_1718251991479.jpg" alt="">
-                </div>
-                <div class="item ">
-                    <img src="https://cdn.galaxycine.vn/media/2024/6/13/io2-2048_1718251991479.jpg" alt="">
-                </div>
-                <div class="item ">
-                    <img src="https://cdn.galaxycine.vn/media/2024/6/13/io2-2048_1718251991479.jpg" alt="">
-                </div>
-            </div>
+        <div class="trailer">
+
         </div>
         <main class="container mt-5">
             <div class="body-content ">
@@ -118,7 +108,7 @@
 </main>
 <th:block id="js">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
-    <script src="/web-asset/js/banner.js"></script>
+    <script src="/js/banner.js"></script>
 </th:block>
 </body>
 </html>

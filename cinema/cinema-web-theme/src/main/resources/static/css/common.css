@@ -1,0 +1,36 @@
+.line {
+    display: block;
+    border-bottom: 6px solid #f4f4f4;
+    transform: scaleY(-1);
+}
+.dash-line {
+    margin: 1.25rem 0;
+    border-bottom: 1px dashed rgb(153 153 153);
+}
+
+/*Text*/
+.text-orange {
+    color: rgb(245 128 32);
+}
+.text-white {
+    color: white !important;
+}
+.fs-14px {
+    font-size: 14px !important;
+}
+/*background*/
+.bg-orange {
+    background-color: rgb(245 128 32) !important;
+}
+
+/*button*/
+button {
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    font-size: 14px;
+    padding: .5rem 1rem;
+    background: none;
+}
+.cursor-pointer {
+     cursor: pointer;
+ }

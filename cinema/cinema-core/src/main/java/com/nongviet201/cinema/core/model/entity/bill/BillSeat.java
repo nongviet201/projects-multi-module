@@ -1,5 +1,4 @@
 package com.nongviet201.cinema.core.model.entity.bill;
-
 import com.nongviet201.cinema.core.model.entity.cinema.Seat;
 import jakarta.persistence.*;
 import lombok.*;

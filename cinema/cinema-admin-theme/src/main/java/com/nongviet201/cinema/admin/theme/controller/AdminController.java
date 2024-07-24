@@ -1,6 +1,7 @@
 package com.nongviet201.cinema.admin.theme.controller;
 
 
+import com.nongviet201.cinema.admin.sdk.service.MovieService;
 import com.nongviet201.cinema.core.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ public class AdminController {
 
     @GetMapping("/user-details")
     public String getUserDetailsPage() {
-        return "user/detail";
+        return "/user/detail";
     }
 
     @GetMapping("/movies")
@@ -35,9 +36,9 @@ public class AdminController {
     ) {
         model.addAttribute(
             "movies",
-            movieService.getAll()
+            movieService.getAllMoviesOderByReleaseDate()
         );
-        return "movie/index";
+        return "/movie/index";
     }
 
     @GetMapping("/movie/{id}")
@@ -47,9 +48,9 @@ public class AdminController {
         int id) {
         model.addAttribute(
             "movie",
-            movieService.findById(id)
+            movieService.getMovieById(id)
         );
-        return "movie/detail";
+        return "/movie/detail";
     }
 
     @GetMapping("/movie/create")
@@ -60,7 +61,7 @@ public class AdminController {
         model.addAttribute("directors", directorService.getAllDirectors());
         model.addAttribute("actors", actorService.getAllActors());
         model.addAttribute("genres", genreService.getAllGenres());
-        return "movie/create";
+        return "/movie/create";
     }
 
 

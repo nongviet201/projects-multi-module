@@ -47,13 +47,6 @@ main {
     font-weight: 700;
 }
 
-.accordion-body button {
-    border: 1px solid #e5e7eb;
-    border-radius: 5px;
-    font-size: 14px;
-    padding: .5rem 1rem;
-    background: none;
-}
 
 .accordion-body button:hover,
 .accordion-body button.active{
@@ -83,6 +76,7 @@ main {
     border-radius: 5px 5px 0 0;
     overflow: hidden;
 }
+
 .line-detail {
     height: 6px;
     background-color: rgb(245 128 32);

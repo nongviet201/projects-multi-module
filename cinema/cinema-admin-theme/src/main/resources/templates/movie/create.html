@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{admin/layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: .content-index}, ~{:: #js})}">
+      th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: .content-index}, ~{:: #js})}">
 
 <head>
     <meta charset="utf-8"/>
@@ -8,8 +8,8 @@
     <title>Admin Movie Create</title>
 
     <th:block id="css">
-        <link rel="stylesheet" href="/admin-asset/plugins/select2/css/select2.min.css"/>
-        <link rel="stylesheet" href="/admin-asset/dist/css/style.css">
+        <link rel="stylesheet" href="/plugins/select2/css/select2.min.css"/>
+        <link rel="stylesheet" href="/dist/css/style.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     </th:block>
 
@@ -161,7 +161,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="/admin-asset/plugins/select2/js/select2.full.min.js"></script>
+    <script src="/plugins/select2/js/select2.full.min.js"></script>
 
     <!-- Validation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
@@ -170,7 +170,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js"
             integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="/admin-asset/dist/js/main.js"></script>
+    <script src="/dist/js/main.js"></script>
     <script>
         $(".select2").select2();
 

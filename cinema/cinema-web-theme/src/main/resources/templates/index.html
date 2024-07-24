@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{web/layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: #content}, ~{:: #js})}">
+      th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: #content}, ~{:: #js})}">
 <title>CINEMA</title>
 <th:block id="css">
-    <link rel="stylesheet" href="/web-asset/plugins/slick-slider/slick.css">
-    <link rel="stylesheet" href="/web-asset/plugins/slick-slider/slick-theme.css">
-    <link rel="stylesheet" href="/web-asset/css/pages/index.css">
+    <link rel="stylesheet" href="/plugins/slick-slider/slick.css">
+    <link rel="stylesheet" href="/plugins/slick-slider/slick-theme.css">
+    <link rel="stylesheet" href="/css/pages/index.css">
 </th:block>
 <body>
 <main>
@@ -133,8 +133,8 @@
     </th:block>
 </main>
 <th:block id ="js">
-    <script src="/web-asset/plugins/slick-slider/slick.min.js"></script>
-    <script src="/web-asset/js/fragments/banner.js"></script>
+    <script src="/plugins/slick-slider/slick.min.js"></script>
+    <script src="/js/fragments/banner.js"></script>
 </th:block>
 </body>
 </html>

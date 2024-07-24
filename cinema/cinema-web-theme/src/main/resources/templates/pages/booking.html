@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{web/layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: #content}, ~{:: #js})}">
+      th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: #content}, ~{:: #js})}">
 <title>CINEMA</title>
 <th:block id="css">
-    <link rel="stylesheet" href="/web-asset/css/pages/booking.css">
+    <link rel="stylesheet" href="/css/pages/booking.css">
 </th:block>
 <body>
 <main>
@@ -110,11 +110,9 @@
                                         <div class="accordion-body">
                                             <div class="px-4">
                                                 <div class="div-date">
-
                                                 </div>
                                             </div>
                                             <div class="cinema mt-4">
-
                                             </div>
                                         </div>
                                     </div>
@@ -122,8 +120,31 @@
                             </div>
                         </div>
                         <div class="col-lg-4 py-3 ps-3">
-                            <div class="current-showtime w-100 h-100">
+                            <div class="current-showtime w-100">
                                 <div class="line-detail"></div>
+                                <div class="showtime-detail p-3">
+                                    <div class="showtime-detail-movie row">
+                                        <div class="col-lg-4">
+                                            <img src="https://www.galaxycine.vn/_next/static/media/img-blank.bb695736.svg"
+                                                 alt="">
+                                        </div>
+                                        <div class="col-lg-8 ps-3">
+                                            <strong> - </strong>
+                                        </div>
+                                    </div>
+                                    <div class="showtime-detail-cinema mt-4">
+
+                                    </div>
+                                    <div class="dash-line"></div>
+                                    <div class="showtime-detail-price d-flex justify-content-between">
+                                        <strong>Tổng cộng</strong>
+                                        <strong class="text-orange">0 <span>đ</span></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-5 d-flex">
+                                <button id="prev-page" class="text-orange w-100 me-1 py-2 border-0 ">Quay lại</button>
+                                <button id="next-page" class="w-100 ms-1 py-2 text-white bg-orange">Tiếp tục</button>
                             </div>
                         </div>
                     </div>
@@ -134,7 +155,7 @@
 </main>
 <th:block id="js">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="/web-asset/js/page/booking.js"></script>
+    <script type="text/javascript" src="/js/page/booking.js"></script>
 </th:block>
 </body>
 </html>

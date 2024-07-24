@@ -1,10 +1,8 @@
 package com.nongviet201.cinema.core.model.entity.bill;
 
-
 import com.nongviet201.cinema.core.model.entity.User;
 import com.nongviet201.cinema.core.model.entity.cinema.Seat;
-import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
-import jakarta.persistence.*;
+import com.nongviet201.cinema.core.model.entity.cinema.Showtime;import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;

@@ -21,7 +21,7 @@ public class Seat {
     SeatType type;
     boolean status;
     int seatRow;
-    int seatColumn;
+    String seatColumn;
 
     @ManyToOne
     @JoinColumn(name= "auditorium_id")

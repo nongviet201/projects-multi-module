@@ -1,6 +1,5 @@
 package com.nongviet201.cinema.core.service.impl;
 
-
 import com.nongviet201.cinema.core.model.entity.movie.Director;
 import com.nongviet201.cinema.core.repository.DirectorRepository;
 import com.nongviet201.cinema.core.service.DirectorService;
@@ -9,9 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@AllArgsConstructor
-public class DirectorServiceImpl implements DirectorService {
+@Service @AllArgsConstructor public class DirectorServiceImpl implements DirectorService {
     private final DirectorRepository directorRepository;
 
 

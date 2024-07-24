@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{admin/layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: .content-detail}, ~{:: #js})}">
+      th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: .content-detail}, ~{:: #js})}">
 
 <head>
     <title th:text="${movie.name}"></title>
 
     <th:block id="css">
-        <link rel="stylesheet" href="/admin-assets/plugins/select2/css/select2.min.css"/>
-        <link rel="stylesheet" href="/admin-assets/dist/css/style.css">
+
     </th:block>
 </head>
 
@@ -280,8 +279,6 @@
 </div>
 
 <th:block id="js">
-    <script src="/admin-assets/plugins/select2/js/select2.full.min.js"></script>
-    <script src="/admin-asset/js/main.js"></script>
     <script th:inline="javascript">
         const movie = [[${movie}]]
     </script>
