@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.web.theme.controller;
+package com.nongviet201.cinema.web.theme.controller.view;
 
 import com.nongviet201.cinema.core.service.CityService;
 import com.nongviet201.cinema.web.sdk.service.MovieService;
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @AllArgsConstructor
@@ -33,15 +34,14 @@ public class WebController {
     }
 
     @GetMapping("/booking")
-    public String getBookingPage(Model model) {
-        model.addAttribute(
-            "cities",
-            cityService.getAllCities()
-        );
-        model.addAttribute(
-            "movies",
-            movieService.getAllPublishMoviesOrderByReleaseDate()
-        );
+    public String getBookingPage(@RequestParam(value = "showtimeId", required = false) String showtimeId, Model model) {
+        if (showtimeId != null) {
+            model.addAttribute(
+                    "showtimeId",
+                    showtimeId
+            );
+            return "pages/booking";
+        }
         return "pages/booking";
     }
 }

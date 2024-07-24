@@ -49,103 +49,13 @@
                 <div class="booking-body">
                     <div class="row px-3">
                         <div class="col-lg-8">
-                            <div class="accordion" id="accordionExample">
-                                <div class="accordion-item mb-4">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseOne" aria-expanded="true"
-                                                aria-controls="collapseOne">
-                                            <p class="accordion-title">Chọn vị trí</p>
-                                        </button>
-                                    </h2>
-                                    <div id="collapseOne" class="accordion-collapse collapse show"
-                                         data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            <div class="d-flex flex-row gap-2 flex-wrap">
-                                                <button class="city-btn"
-                                                        th:each="city : ${cities}"
-                                                        onclick="getCityFunc(this)"
-                                                        th:value="${city.getId()}"
-                                                        th:text="${city.getName()}">
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item mb-4">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseTwo" aria-expanded="false"
-                                                aria-controls="collapseTwo">
-                                            <p class="accordion-title">Chọn Phim</p>
-                                        </button>
-                                    </h2>
-                                    <div id="collapseTwo" class="accordion-collapse collapse"
-                                         data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-lg-3 col-md-4 col-6" th:each="movie : ${movies}">
-                                                    <div class="movie-select cursor-pointer"
-                                                         th:value="${movie.id}"
-                                                         onclick="getMovieFunc(this)">
-                                                        <img th:src="${movie.getPoster()}"
-                                                             th:alt="${movie.getName()}">
-                                                        <h5 th:text="${movie.getName()}"></h5>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="accordion-item mb-4">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseThree" aria-expanded="false"
-                                                aria-controls="collapseThree">
-                                            <p class="accordion-title">Chọn Suất Chiếu</p>
-                                        </button>
-                                    </h2>
-                                    <div id="collapseThree" class="accordion-collapse collapse"
-                                         data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            <div class="px-4">
-                                                <div class="div-date">
-                                                </div>
-                                            </div>
-                                            <div class="cinema mt-4">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div id="stage">
+
                             </div>
                         </div>
                         <div class="col-lg-4 py-3 ps-3">
-                            <div class="current-showtime w-100">
-                                <div class="line-detail"></div>
-                                <div class="showtime-detail p-3">
-                                    <div class="showtime-detail-movie row">
-                                        <div class="col-lg-4">
-                                            <img src="https://www.galaxycine.vn/_next/static/media/img-blank.bb695736.svg"
-                                                 alt="">
-                                        </div>
-                                        <div class="col-lg-8 ps-3">
-                                            <strong> - </strong>
-                                        </div>
-                                    </div>
-                                    <div class="showtime-detail-cinema mt-4">
-
-                                    </div>
-                                    <div class="dash-line"></div>
-                                    <div class="showtime-detail-price d-flex justify-content-between">
-                                        <strong>Tổng cộng</strong>
-                                        <strong class="text-orange">0 <span>đ</span></strong>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-5 d-flex">
-                                <button id="prev-page" class="text-orange w-100 me-1 py-2 border-0 ">Quay lại</button>
-                                <button id="next-page" class="w-100 ms-1 py-2 text-white bg-orange">Tiếp tục</button>
-                            </div>
+                            <th:block th:replace="~{fragments/showtime-detail :: .content}">
+                            </th:block>
                         </div>
                     </div>
                 </div>
@@ -156,6 +66,35 @@
 <th:block id="js">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="/js/page/booking.js"></script>
+    <script th:inline="javaScript">
+        const divStage = document.getElementById("stage");
+        const showtimeId = [[${showtimeId}]];
+        let currentStage = 1;
+
+        if (showtimeId != null) {
+            currentStage++;
+            divStage.innerHTML = stageTwo;
+        } else {
+            $.ajax({
+                url: '/booking/get/stage-one', // Đường dẫn tới endpoint trên server
+                type: 'GET',
+                success: function(htmlResponse) {
+                    // Cập nhật nội dung HTML vào phần tử DOM
+                    divStage.innerHTML = htmlResponse;
+
+                    const cityBtns = document.querySelector(".city-btn");
+                    cityBtns.forEach(e => {
+                        button.onclick = getCityFunc(this);
+                    })
+                },
+                error: function(xhr, status, error) {
+                    console.error('Đã xảy ra lỗi: ' + error);
+                    console.error('Status:', status);
+                    console.error('Error:', error);
+                }
+            });
+        }
+    </script>
 </th:block>
 </body>
 </html>
