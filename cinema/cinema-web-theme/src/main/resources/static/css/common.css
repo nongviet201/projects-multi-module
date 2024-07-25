@@ -15,12 +15,42 @@
 .text-white {
     color: white !important;
 }
+
+.fs-12px {
+    font-size: 12px !important;
+}
 .fs-14px {
     font-size: 14px !important;
 }
-/*background*/
+.fs-16px {
+    font-size: 16px !important;
+}
+.fs-18px {
+    font-size: 18px!important;
+}
+.fs-20px {
+    font-size: 20px!important;
+}
+.fs-22px {
+    font-size: 22px!important;
+}
+.fs-24px {
+    font-size: 24px!important;
+}
+
+.fw-600 {
+    font-weight: 600!important;
+}
+.fw-700 {
+    font-weight: 700!important;
+}
+
+ /*background*/
 .bg-orange {
     background-color: rgb(245 128 32) !important;
+}
+.bg-white {
+    background-color: white!important;
 }
 
 /*button*/
@@ -44,3 +74,11 @@ button {
 }
 
 
+/*display*/
+.flex-warp {
+    flex-wrap: wrap !important;
+}
+
+.gap-1 {
+    gap: 1rem!important;
+}

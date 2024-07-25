@@ -1,5 +1,6 @@
-package com.nongviet201.cinema.web.theme.rest;
+package com.nongviet201.cinema.web.sdk.rest;
 
+import com.nongviet201.cinema.core.model.entity.cinema.Seat;
 import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
 import com.nongviet201.cinema.web.sdk.service.ShowtimeService;
 import jakarta.validation.Valid;

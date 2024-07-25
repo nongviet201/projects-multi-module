@@ -20,8 +20,8 @@ public class Seat {
     @Enumerated(EnumType.STRING)
     SeatType type;
     boolean status;
-    int seatRow;
-    String seatColumn;
+    String seatRow;
+    int seatColumn;
 
     @ManyToOne
     @JoinColumn(name= "auditorium_id")

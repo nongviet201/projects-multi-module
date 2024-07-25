@@ -1,19 +1,19 @@
-package com.nongviet201.cinema.web.theme.controller.view;
+package com.nongviet201.cinema.web.sdk.controller.view;
 
 import com.nongviet201.cinema.core.service.CityService;
+import com.nongviet201.cinema.core.service.ComboService;
 import com.nongviet201.cinema.web.sdk.service.MovieService;
+import com.nongviet201.cinema.web.sdk.service.SeatService;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
-@Controller
 @AllArgsConstructor
-public class WebController {
+public abstract class WebController {
     private final MovieService movieService;
-    private final CityService cityService;
+    private final SeatService seatService;
+    private final ComboService comboService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -34,7 +34,15 @@ public class WebController {
     }
 
     @GetMapping("/booking")
-    public String getBookingPage() {
+    public String getBookingPage(Model model) {
+        model.addAttribute(
+            "seats",
+            seatService.getAllSeatsByAuditoriumIdOrderBySeatColumnDesc(1)
+        );
+        model.addAttribute(
+            "combos",
+            comboService.getAllCombo()
+        );
         return "booking/booking";
     }
 }

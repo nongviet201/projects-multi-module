@@ -2,6 +2,7 @@ package com.nongviet201.cinema.web.sdk.service.impl;
 
 import com.nongviet201.cinema.core.model.entity.cinema.Auditorium;
 import com.nongviet201.cinema.core.model.entity.cinema.Cinema;
+import com.nongviet201.cinema.core.model.entity.cinema.Seat;
 import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.repository.AuditoriumRepository;
 import com.nongviet201.cinema.core.repository.CinemaRepository;
@@ -22,13 +23,19 @@ public class ShowtimeServiceImpl implements ShowtimeService {
 
     @Override
     public List<Showtime> getShowtimeByMovieIdAndCityId(int movieId, int cityId) {
-        List<Cinema> cinemas = cinemaRepository.findAllByCity_Id(cityId);
+        List<Integer> cinemaIds =
+            cinemaRepository.findAllByCity_Id(cityId)
+            .stream()
+            .map(Cinema::getId)
+            .collect(Collectors.toList());
+        List<Integer> auditoriumIds =
+            auditoriumRepository.findAllByCinema_IdIn(cinemaIds)
+            .stream()
+            .map(Auditorium::getId)
+            .collect(Collectors.toList());
 
-        List<Integer> cinemaIds = cinemas.stream().map(Cinema::getId).collect(Collectors.toList());
-        List<Auditorium> auditoriums = auditoriumRepository.findAllByCinema_IdIn(cinemaIds);
-
-        List<Integer> auditoriumIds = auditoriums.stream().map(Auditorium::getId).collect(Collectors.toList());
-        List<Showtime> showtimes = showtimeRepository.findAllByMovie_IdAndAuditorium_IdIn(movieId, auditoriumIds);
+        List<Showtime> showtimes =
+            showtimeRepository.findAllByMovie_IdAndAuditorium_IdIn(movieId, auditoriumIds);
 
         return showtimes;
     }

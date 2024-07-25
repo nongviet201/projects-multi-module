@@ -125,9 +125,12 @@ function showtimeDetailMovieShow(poster, name) {
     `
 }
 
+const nextBtn = document.getElementById("next-page");
+
 function getShowtimeFunc(button) {
     const showtimeId = btnFunc(button, timeBtns);
     showtime = showtimeFindById(showtimeId.toString());
+    nextBtn.value = showtime.auditorium.id
     showtimeDetailCinemaShow(showtime.auditorium.cinema.name, showtime.auditorium.name, showtime.screeningDate, showtime.startTime);
 }
 
@@ -150,3 +153,7 @@ function showtimeDetailCinemaShow(cinemaName, auditoriumName, startDate, startTi
 function showtimeDetailCinemaHide() {
     showtimeDetailCinema.innerHTML = "";
 }
+
+
+
+
