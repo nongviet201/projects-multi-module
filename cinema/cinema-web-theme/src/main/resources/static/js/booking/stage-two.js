@@ -3,50 +3,51 @@
 function stageTwo() {
     getListTimeShowtimeByMovieIdAndAuditoriumId(movieId, auditoriumId);
     getListSeatByAuditoriumId(auditoriumId);
+    showtimeDetailShowAll(showtime);
     nextBtn.classList.add("disabled");
 }
 
     // Tạo hàm render ghế ngồi
 function renderSeats(seats) {
-        seatContainer.classList.remove("d-none");
-        // Nhóm ghế theo hàng
-        seats.forEach(seat => {
-            const row = seat.seatRow;
-            if (!rows[row]) {
-                rows[row] = [];
-            }
-            rows[row].push(seat);
-        });
-
-        // Tạo phần tử HTML cho từng hàng ghế
-        for (let row in rows) {
-            const rowDiv = document.createElement('div');
-            const rowNameS = document.createElement('div');
-            const rowNameE = document.createElement('div');
-            const rowList = document.createElement('div');
-            rowDiv.className = 'seat-row';
-            rowNameS.innerHTML= row;
-            rowNameE.innerHTML= row;
-            rowDiv.appendChild(rowNameS);
-            rowList.className = 'seat-list';
-
-            let i = 0;
-            rows[row].forEach(seat => {
-                const seatBtn = document.createElement('button');
-                seatBtn.className = 'seat';
-                seatBtn.value = seat.id;
-                seatBtn.id = 'seat-'+ seat.id;
-                seatBtn.innerText = ++i;
-                seatBtn.onclick = function() {
-                    seatBtnFunc(seat.id);
-                };
-                rowList.appendChild(seatBtn);
-            });
-            rowDiv.appendChild(rowList);
-            rowDiv.appendChild(rowNameE);
-            seatMap.appendChild(rowDiv);
+    seatContainer.classList.remove("d-none");
+    // Nhóm ghế theo hàng
+    seats.forEach(seat => {
+        const row = seat.seatRow;
+        if (!rows[row]) {
+            rows[row] = [];
         }
+        rows[row].push(seat);
+    });
+
+    // Tạo phần tử HTML cho từng hàng ghế
+    for (let row in rows) {
+        const rowDiv = document.createElement('div');
+        const rowNameS = document.createElement('div');
+        const rowNameE = document.createElement('div');
+        const rowList = document.createElement('div');
+        rowDiv.className = 'seat-row';
+        rowNameS.innerHTML= row;
+        rowNameE.innerHTML= row;
+        rowDiv.appendChild(rowNameS);
+        rowList.className = 'seat-list';
+
+        let i = 0;
+        rows[row].forEach(seat => {
+            const seatBtn = document.createElement('button');
+            seatBtn.className = 'seat';
+            seatBtn.value = seat.id;
+            seatBtn.id = 'seat-'+ seat.id;
+            seatBtn.innerText = ++i;
+            seatBtn.onclick = function() {
+                seatBtnFunc(seat.id);
+            };
+            rowList.appendChild(seatBtn);
+        });
+        rowDiv.appendChild(rowList);
+        rowDiv.appendChild(rowNameE);
+        seatMap.appendChild(rowDiv);
     }
+}
 
 let currentSeatsChose = new Set();
 const numberSeatsChose = document.getElementById("number-seats-chose");
@@ -70,30 +71,8 @@ function seatBtnFunc(value) {
         nextBtn.classList.add("disabled");
     }
 
-    updateSeatsDetail();
+    showtimeDetailSeatShow();
 }
-
-function updateSeatsDetail() {
-    numberSeatsChose.innerText = currentSeatsChose.size;
-    // Cập nhật chi tiết ghế
-    if (currentSeatsChose.size > 0) {
-        showtimeDetailSeat.classList.remove("d-none");
-        seatName.innerHTML = "";
-        currentSeatsChose.forEach(seatId => {
-            let seat = seatsData.find(e => e.id === seatId);
-            console.log(seat)
-            const seatNameValue = document.createElement('span');
-            seatNameValue.innerText = `${seat.seatRow}${seat.seatColumn}, `;
-            seatNameValue.id = `${seat.seatRow}${seat.seatColumn}`;
-            seatName.appendChild(seatNameValue);
-        });
-    } else {
-        showtimeDetailSeat.classList.add("d-none");
-        seatName.innerHTML = "";
-    }
-}
-
-
 
 
 function getListTimeShowtimeByMovieIdAndAuditoriumId(movieId, auditoriumId) {

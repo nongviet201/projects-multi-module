@@ -1,6 +1,7 @@
 package com.nongviet201.cinema.web.sdk.controller.webRender;
 
 import com.nongviet201.cinema.core.service.CityService;
+import com.nongviet201.cinema.core.service.ComboService;
 import com.nongviet201.cinema.web.sdk.service.MovieService;
 import com.nongviet201.cinema.web.sdk.service.SeatService;
 import com.nongviet201.cinema.web.sdk.service.ShowtimeService;
@@ -18,6 +19,7 @@ public class BookingRender {
     private final MovieService movieService;
     private final CityService cityService;
     private final ShowtimeService showtimeService;
+    private final ComboService comboService;
 
     @GetMapping("/stage-one")
     public String getStageOneFragments(Model model) {
@@ -43,5 +45,16 @@ public class BookingRender {
             showtimeService.getShowtimeByMovieIdAndAuditoriumId(movieId, auditoriumId)
         );
         return "booking/stage/stage-two";
+    }
+
+    @GetMapping("/stage-three")
+    public String getStageThreeFragments(
+        Model model
+    ) {
+        model.addAttribute(
+                "combos",
+                comboService.getAllCombo()
+        );
+        return "booking/stage/stage-three";
     }
 }

@@ -89,6 +89,9 @@ button.disabled {
 .justify-content-between {
     justify-content: space-between!important;
 }
+.align-items-center {
+    align-items: center!important;
+}
 .gap-1 {
     gap: 1rem!important;
 }

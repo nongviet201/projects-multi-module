@@ -1,8 +1,8 @@
 <div class="content">
     <div class="current-showtime w-100">
-        <div class="line-detail"></div>
-        <div class="showtime-detail p-3">
-            <div class="showtime-detail-movie row">
+        <div class="line-ticket"></div>
+        <div class="ticket p-3">
+            <div class="ticket-movie row">
                 <div class="col-lg-4">
                     <img src="https://www.galaxycine.vn/_next/static/media/img-blank.bb695736.svg"
                          alt="">
@@ -11,11 +11,11 @@
                     <strong> - </strong>
                 </div>
             </div>
-            <div class="showtime-detail-cinema mt-4">
+            <div class="ticket-cinema mt-4">
 
             </div>
             <div class="dash-line"></div>
-            <div class="showtime-detail-seat d-none mt-4">
+            <div class="ticket-seat d-none mt-4">
                 <div class="d-flex justify-content-between">
                     <div class="fs-14px">
                         <strong id="number-seats-chose"></strong>
@@ -29,9 +29,18 @@
                 </div>
                 <div class="dash-line"></div>
             </div>
-            <div class="showtime-detail-price d-flex justify-content-between">
+            <div id="ticket-combo" class="d-none mt-4">
+                <div class="combo-detail">
+
+                </div>
+                <div class="dash-line"></div>
+            </div>
+            <div class="ticket-price d-flex justify-content-between">
                 <strong>Tổng cộng</strong>
-                <strong id="total-price" class="text-orange">0  <span>đ</span></strong>
+                <strong class="text-orange">
+                    <span id="total-price"></span>
+                    <span>đ</span>
+                </strong>
             </div>
         </div>
     </div>

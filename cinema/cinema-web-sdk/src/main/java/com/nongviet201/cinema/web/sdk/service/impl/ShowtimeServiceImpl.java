@@ -44,4 +44,9 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     public List<Showtime> getShowtimeByMovieIdAndAuditoriumId(Integer movieId, Integer auditoriumId) {
         return showtimeRepository.findAllByMovie_IdAndAuditorium_IdOrderByStartTimeDesc(movieId, auditoriumId);
     }
+
+    @Override
+    public Showtime getShowtimeById(Integer id) {
+        return showtimeRepository.findById(id);
+    }
 }

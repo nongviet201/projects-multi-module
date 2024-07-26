@@ -68,8 +68,6 @@ async function getShowtime(movieId, cityId) {
     }
 }
 
-let showtime;
-
 function getDateFunc(button) {
     dateValue = btnFunc(button, dateBtns);
     showtime = showtimeFindById(dateValue);
@@ -81,13 +79,32 @@ function getDateFunc(button) {
                 <div class="col-10">
                     <button class="time-btn"
                         value="${showtime.id}"
-                        onclick="getShowtimeFunc(this)">
+                        onclick="getShowtimeFuncBtn(this)">
                         ${showtime.startTime}
                     </button>
                 </div>
             </div>
         </div>
     `
+}
+
+function getShowtimeFuncBtn(button) {
+    const showtimeId = btnFunc(button, timeBtns);
+    showtime = showtimeFindById(showtimeId.toString());
+    auditoriumId = showtime.auditorium.id;
+
+    showtimeDetailCinemaShow(
+        showtime.auditorium.cinema.name,
+        showtime.auditorium.name,
+        showtime.screeningDate,
+        showtime.startTime
+    );
+
+    if (movieId && auditoriumId != null) {
+        nextBtn.classList.remove('disabled');
+    } else {
+        console.log("Chưa chọn phim");
+    }
 }
 
 function showtimeFindById(id) {
@@ -112,50 +129,7 @@ function toggleAccordion(accordion) {
     }
 }
 
-function showtimeDetailMovieShow(poster, name) {
-    showtimeDetailMovie.innerHTML = `
-        <div class="col-lg-4">
-            <img src="${poster}"
-                 alt="${name}">
-        </div>
-        <div class="col-lg-8 ps-3">
-            <strong>${name}</strong>
-        </div>
-    `
-}
 
-
-function getShowtimeFunc(button) {
-    const showtimeId = btnFunc(button, timeBtns);
-    showtime = showtimeFindById(showtimeId.toString());
-    auditoriumId = showtime.auditorium.id
-    showtimeDetailCinemaShow(showtime.auditorium.cinema.name, showtime.auditorium.name, showtime.screeningDate, showtime.startTime);
-    if (movieId && auditoriumId != null) {
-        nextBtn.classList.remove('disabled');
-    } else {
-        console.log("Chưa chọn phim");
-    }
-}
-
-function showtimeDetailCinemaShow(cinemaName, auditoriumName, startDate, startTime) {
-    showtimeDetailCinema.innerHTML = `
-         <div>
-            <strong>${cinemaName}</strong>
-            <span> - </span>
-            <span>${auditoriumName}</span>
-        </div>
-        <div class="fs-14px mt-2">
-            <span>Suất: </span>
-            <strong>${startTime}</strong>
-            <span> - </span>
-            <strong>${startDate}</strong>
-        </div>
-    `
-}
-
-function showtimeDetailCinemaHide() {
-    showtimeDetailCinema.innerHTML = "";
-}
 
 
 

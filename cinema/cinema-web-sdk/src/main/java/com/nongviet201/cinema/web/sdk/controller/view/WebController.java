@@ -4,6 +4,7 @@ import com.nongviet201.cinema.core.service.CityService;
 import com.nongviet201.cinema.core.service.ComboService;
 import com.nongviet201.cinema.web.sdk.service.MovieService;
 import com.nongviet201.cinema.web.sdk.service.SeatService;
+import com.nongviet201.cinema.web.sdk.service.ShowtimeService;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @AllArgsConstructor
 public abstract class WebController {
     private final MovieService movieService;
-    private final SeatService seatService;
-    private final ComboService comboService;
+    private final ShowtimeService showtimeService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -36,16 +36,13 @@ public abstract class WebController {
 
     @GetMapping("/booking")
     public String getBookingPage(
-            @RequestParam(value = "movieId", required = false) Integer movieId,
-            @RequestParam(value = "auditoriumId", required = false) Integer auditoriumId,
+            @RequestParam(value = "showtime", required = false) Integer showtimeId,
             Model model
     ) {
-        if (movieId != null) {
-            model.addAttribute("movieId", movieId);
-        }
-        if (auditoriumId != null) {
-            model.addAttribute("auditoriumId", auditoriumId);
-        }
+        model.addAttribute(
+            "showtime",
+            showtimeService.getShowtimeById(showtimeId)
+        );
         return "booking/booking";
     }
 }
