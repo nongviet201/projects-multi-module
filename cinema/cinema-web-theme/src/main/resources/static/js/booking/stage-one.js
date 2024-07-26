@@ -7,27 +7,26 @@ let cinema;
 let dateBtns;
 let timeBtns
 
-let showtimeData;
-let cityValue;
-let movieId;
 
-$.ajax({
-    url: '/booking/get/stage-one', type: 'GET', success: function (htmlResponse) {
-        divStage.innerHTML = htmlResponse;
-        cityBtns = document.querySelectorAll(".city-btn");
-        cityAccordion = document.querySelector("#collapseOne")
-        movieAccordion = document.querySelector("#collapseTwo");
-        showtimeAccordion = document.querySelector("#collapseThree");
-        divDate = document.querySelector(".div-date");
-        cinema = document.querySelector(".cinema");
-        dateBtns = document.querySelectorAll(".date-btn");
-        timeBtns = document.querySelectorAll(".time-btn");
-    }, error: function (xhr, status, error) {
-        console.error('Đã xảy ra lỗi: ' + error);
-        console.error('Status:', status);
-        console.error('Error:', error);
-    }
-});
+function stageOne() {
+    $.ajax({
+        url: '/booking/get/stage-one', type: 'GET', success: function (htmlResponse) {
+            divStage.innerHTML = htmlResponse;
+            cityBtns = document.querySelectorAll(".city-btn");
+            cityAccordion = document.querySelector("#collapseOne")
+            movieAccordion = document.querySelector("#collapseTwo");
+            showtimeAccordion = document.querySelector("#collapseThree");
+            divDate = document.querySelector(".div-date");
+            cinema = document.querySelector(".cinema");
+            dateBtns = document.querySelectorAll(".date-btn");
+            timeBtns = document.querySelectorAll(".time-btn");
+        }, error: function (xhr, status, error) {
+            console.error('Đã xảy ra lỗi: ' + error);
+            console.error('Status:', status);
+            console.error('Error:', error);
+        }
+    });
+}
 
 function getCityFunc(button) {
     cityValue = btnFunc(button, cityBtns)
@@ -125,13 +124,17 @@ function showtimeDetailMovieShow(poster, name) {
     `
 }
 
-const nextBtn = document.getElementById("next-page");
 
 function getShowtimeFunc(button) {
     const showtimeId = btnFunc(button, timeBtns);
     showtime = showtimeFindById(showtimeId.toString());
-    nextBtn.value = showtime.auditorium.id
+    auditoriumId = showtime.auditorium.id
     showtimeDetailCinemaShow(showtime.auditorium.cinema.name, showtime.auditorium.name, showtime.screeningDate, showtime.startTime);
+    if (movieId && auditoriumId != null) {
+        nextBtn.classList.remove('disabled');
+    } else {
+        console.log("Chưa chọn phim");
+    }
 }
 
 function showtimeDetailCinemaShow(cinemaName, auditoriumName, startDate, startTime) {

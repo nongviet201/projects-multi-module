@@ -10,16 +10,35 @@
             display: inline-block;
             text-align: center;
             padding: .2rem 0;
-            width: 40px;
+            width: 25px;
+            height: 25px;
             font-size: 12px;
+        }
+        .seat-list {
+            display: flex;
+            justify-content: center;
         }
         .seat-row {
             display: flex;
-            margin-bottom: 10px;
-            justify-content: center;
+            margin-bottom: 5px;
+            justify-content: space-between;
+            align-items: center;
         }
         #seat-container{
 
+        }
+        .seat-vip {
+            border-color: #f58a20 !important;
+        }
+        .seat-sold {
+            background-color: gray;
+            cursor: none;
+        }
+        .seat-demo {
+            margin: 5px;
+            padding: .2rem 0;
+            width: 25px;
+            height: 25px;
         }
     </style>
 </th:block>
@@ -34,10 +53,34 @@
                 <div class="booking-body">
                     <div class="row px-3">
                         <div class="col-lg-8">
-                            <div id="stage">
-
-                            </div>
-                            <div id="seat-container" class="mt-3 py-3 d-none bg-white">
+                            <div id="stage"></div>
+                            <div id="seat-container" class="bg-white my-4 p-4 d-none">
+                                <div id="seat-map" class="">
+                                </div>
+                                <p class="text-black-50 mt-5 text-center fs-12px">Màn Hình</p>
+                                <div class="screen-line"></div>
+                                <div class="my-4 d-flex justify-content-between">
+                                    <div class="d-flex gap-1">
+                                        <div>
+                                            <button class="seat-demo seat-sold"></button>
+                                            <span class="fs-14px text-black-50">Ghế đã bán</span>
+                                        </div>
+                                        <div>
+                                            <button class="seat-demo active"></button>
+                                            <span class="fs-14px text-black-50">Ghế đang chọn</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-1">
+                                        <div>
+                                            <button class="seat-demo seat-vip"></button>
+                                            <span class="fs-14px text-black-50">Ghế VIP</span>
+                                        </div>
+                                        <div>
+                                            <button class="seat-demo"></button>
+                                            <span class="fs-14px text-black-50">Ghế Thường</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-4 py-3 ps-3">
@@ -49,11 +92,15 @@
             </div>
         </main>
     </th:block>
-</main>
-<th:block id="js">
-    <script type="text/javascript" src="/js/booking/booking.js"></script>
-    <script type="text/javascript" src="/js/booking/stage-one.js"></script>
-    <script type="text/javascript" src="/js/booking/stage-two.js"></script>
-</th:block>
+    <th:block id="js">
+        <script th:inline="javascript">
+            let movieId = [[${movieId}]];
+            let auditoriumId = [[${auditoriumId}]]
+        </script>
+        <script type="text/javascript" src="/js/booking/stage-one.js"></script>
+        <script type="text/javascript" src="/js/booking/stage-two.js"></script>
+        <script type="text/javascript" src="/js/booking/booking.js"></script>
+        <script type="text/javascript" src="/js/booking/stage-three.js"></script>
+    </th:block>
 </body>
 </html>

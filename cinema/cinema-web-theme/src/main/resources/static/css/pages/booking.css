@@ -32,7 +32,11 @@
 }
 
 .activated {
-    color: rgb(88 142 202);
+    color: rgb(88 142 202) !important;
+    border-color: rgb(88 142 202)!important;
+}
+.screen-line {
+    border: 2px solid rgb(245 128 32);
 }
 
 main {
