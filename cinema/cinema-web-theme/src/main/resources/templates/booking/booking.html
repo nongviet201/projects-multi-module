@@ -6,17 +6,20 @@
     <link rel="stylesheet" href="/css/pages/booking.css">
     <style>
         .seat {
-            width: 50px;
-            height: 50px;
             margin: 5px;
             display: inline-block;
             text-align: center;
-            line-height: 50px;
-            border: 1px solid #000;
+            padding: .2rem 0;
+            width: 40px;
+            font-size: 12px;
         }
         .seat-row {
             display: flex;
             margin-bottom: 10px;
+            justify-content: center;
+        }
+        #seat-container{
+
         }
     </style>
 </th:block>
@@ -24,79 +27,17 @@
 <main>
     <th:block id="content">
         <div class="line"></div>
-        <div class="booking-bar cursor-context-menu">
-            <ul class="d-flex justify-content-center">
-                <li class="active">
-                    <div class="process">
-                        Chọn phim / Rạp / Suất
-                    </div>
-                    <div class="process-line active"></div>
-                </li>
-                <li>
-                    <div class="process">
-                        Chọn ghế
-                    </div>
-                    <div class="process-line"></div>
-                </li>
-                <li>
-                    <div class="process">
-                        Chọn thức ăn
-                    </div>
-                    <div class="process-line"></div>
-                </li>
-                <li>
-                    <div class="process">
-                        Thanh toán
-                    </div>
-                    <div class="process-line"></div>
-                </li>
-                <li>
-                    <div class="process">
-                        Xác nhận
-                    </div>
-                    <div class="process-line"></div>
-                </li>
-
-            </ul>
-        </div>
+        <th:block th:replace="~{booking/fragments/booking-bar :: .content}">
+        </th:block>
         <main class="pt-4 pb-5">
             <div class="container px-1">
                 <div class="booking-body">
                     <div class="row px-3">
                         <div class="col-lg-8">
                             <div id="stage">
-                                <div class="row bg-white px-4 py-4">
-                                    <div class="col-lg-2 fs-18px fw-600">
-                                        Đổi suất chiếu
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <div class="d-flex flex-warp gap-1 ms-4">
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
-                                            <button class="py-2 px-3">00:20</button>
 
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <div id="seat-container">
-
-
+                            <div id="seat-container" class="mt-3 py-3 d-none bg-white">
                             </div>
                         </div>
                         <div class="col-lg-4 py-3 ps-3">
@@ -111,51 +52,8 @@
 </main>
 <th:block id="js">
     <script type="text/javascript" src="/js/booking/booking.js"></script>
-<!--    <script type="text/javascript" src="/js/booking/stage-one.js"></script>-->
+    <script type="text/javascript" src="/js/booking/stage-one.js"></script>
     <script type="text/javascript" src="/js/booking/stage-two.js"></script>
-
-   <!-- <script>
-        $.ajax({
-            url: '/api/v1/seat/get/1',
-            type: 'GET',
-            success: function (response) {
-               renderSeats(response)
-            }, error: function (xhr, status, error) {
-                console.error('Đã xảy ra lỗi: ' + error);
-            }
-        });
-        // Tạo hàm render ghế ngồi
-        function renderSeats(seats) {
-            const container = document.getElementById('seat-container');
-            const rows = {};
-
-            // Nhóm ghế theo hàng
-            seats.forEach(seat => {
-                const row = seat.seatRow;
-                if (!rows[row]) {
-                    rows[row] = [];
-                }
-                rows[row].push(seat);
-            });
-
-            // Tạo phần tử HTML cho từng hàng ghế
-            for (let row in rows) {
-                const rowDiv = document.createElement('div');
-                rowDiv.className = 'seat-row';
-                rows[row].forEach(seat => {
-                    const seatDiv = document.createElement('button');
-                    seatDiv.className = 'seat';
-                    seatDiv.id = seat.id;
-                    seatDiv.innerText = seat.seatRow + seat.seatColumn;
-                    rowDiv.appendChild(seatDiv);
-                });
-                container.appendChild(rowDiv);
-            }
-        }
-
-        // Gọi hàm render
-        renderSeats(seats);
-    </script>-->
 </th:block>
 </body>
 </html>

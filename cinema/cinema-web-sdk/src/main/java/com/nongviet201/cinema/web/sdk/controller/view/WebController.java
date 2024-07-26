@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @AllArgsConstructor
 public abstract class WebController {
@@ -34,15 +35,17 @@ public abstract class WebController {
     }
 
     @GetMapping("/booking")
-    public String getBookingPage(Model model) {
-        model.addAttribute(
-            "seats",
-            seatService.getAllSeatsByAuditoriumIdOrderBySeatColumnDesc(1)
-        );
-        model.addAttribute(
-            "combos",
-            comboService.getAllCombo()
-        );
+    public String getBookingPage(
+            @RequestParam(value = "movieId", required = false) Integer movieId,
+            @RequestParam(value = "auditoriumId", required = false) Integer auditoriumId,
+            Model model
+    ) {
+        if (movieId != null) {
+            model.addAttribute("movieId", movieId);
+        }
+        if (auditoriumId != null) {
+            model.addAttribute("auditoriumId", auditoriumId);
+        }
         return "booking/booking";
     }
 }

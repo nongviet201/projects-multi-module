@@ -31,6 +31,10 @@
     border-color: #034EA2 !important;
 }
 
+.activated {
+    color: rgb(88 142 202);
+}
+
 main {
     background-color: #F9F9F9;
 }

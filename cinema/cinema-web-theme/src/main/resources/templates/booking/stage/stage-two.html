@@ -1,0 +1,12 @@
+<div id="stage-two" class="row bg-white px-4 py-4">
+    <div class="col-lg-2 fs-18px fw-600">
+        Đổi suất chiếu
+    </div>
+    <div class="col-lg-10">
+        <div id="time-list" class="d-flex flex-warp gap-1 ms-4">
+            <button class="active cursor-none" th:each="showtime : ${showtimes}"
+                    th:value="${showtime.getId()}"
+                    th:text="${showtime.getStartTime()}"></button>
+        </div>
+    </div>
+</div>

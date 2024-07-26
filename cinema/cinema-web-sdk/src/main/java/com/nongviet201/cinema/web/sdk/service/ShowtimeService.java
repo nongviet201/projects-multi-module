@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ShowtimeService {
     List<Showtime> getShowtimeByMovieIdAndCityId(int movieId, int cityId);
+
+    List<Showtime> getShowtimeByMovieIdAndAuditoriumId(Integer movieId, Integer auditoriumId);
 }
