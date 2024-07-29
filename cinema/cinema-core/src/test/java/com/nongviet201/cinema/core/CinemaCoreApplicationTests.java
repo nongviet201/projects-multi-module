@@ -70,13 +70,9 @@ class CinemaCoreApplicationTests {
     @Test
     void createCinemaData() {
         City hanoi = cityRepository.findById(1).orElse(null);
-        ;
         City bacGiang = cityRepository.findById(2).orElse(null);
-        ;
         City thaiNguyen = cityRepository.findById(3).orElse(null);
-        ;
         City caoBang = cityRepository.findById(4).orElse(null);
-        ;
 
 
         List<Cinema> cinemas = new ArrayList<>();
