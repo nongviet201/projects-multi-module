@@ -3,7 +3,7 @@ function stageThree() {
         url: '/booking/get/stage-three', type: 'GET', success: function (htmlResponse) {
             divStage.innerHTML = htmlResponse;
             getCombo()
-        }, error: function (xhr, status, error) {
+        }, error: function (xhr) {
             console.error('Đã xảy ra lỗi: ' + xhr);
         }
     });
