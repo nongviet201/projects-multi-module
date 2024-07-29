@@ -2,7 +2,9 @@ package com.nongviet201.cinema.core.model.entity.bill;
 
 import com.nongviet201.cinema.core.model.entity.User;
 import com.nongviet201.cinema.core.model.entity.cinema.Seat;
-import com.nongviet201.cinema.core.model.entity.cinema.Showtime;import jakarta.persistence.*;
+import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
+import com.nongviet201.cinema.core.model.enums.ReservationType;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -19,7 +21,7 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    boolean status;
+    ReservationType status;
     LocalDate createAt;
     LocalDate updateAt;
 
