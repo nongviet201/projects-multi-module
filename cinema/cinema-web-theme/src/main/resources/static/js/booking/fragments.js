@@ -1,4 +1,6 @@
 const stages = document.querySelectorAll('.booking-bar ul li');
+const showtimeDetailCinema = document.querySelector(".ticket-cinema");
+
 function updateBarStage() {
     stages.forEach(stage => {
         stage.classList.remove('active', 'activated');
@@ -27,6 +29,7 @@ function updateBarStage() {
 }
 
 function showtimeDetailMovieShow(poster, name) {
+    const showtimeDetailMovie = document.querySelector(".ticket-movie");
     showtimeDetailMovie.innerHTML = `
         <div class="col-lg-4">
             <img src="${poster}"
@@ -55,6 +58,7 @@ function showtimeDetailCinemaShow(cinemaName, auditoriumName, startDate, startTi
 }
 
 function showtimeDetailSeatShow() {
+    const showtimeDetailSeat = document.querySelector(".ticket-seat");
     numberSeatsChose.innerText = currentSeatsChose.size;
     if (currentSeatsChose.size > 0) {
         showtimeDetailSeat.classList.remove("d-none");
@@ -73,9 +77,19 @@ function showtimeDetailSeatShow() {
 }
 
 function ticketTotalPriceShow() {
+    totalPrice = totalComboPrice + totalTicketPrice;
     if (ticketTotalPrice) {
         ticketTotalPrice.innerText = `${totalPrice}`;
     }
+}
+
+function ticketDetailComboHide() {
+    const comboDetails = document.querySelector('.combo-detail');
+    const ticketCombo = document.getElementById('ticket-combo');
+    comboDetails.innerHTML = "";
+    ticketCombo.classList.add('d-none');
+    totalComboPrice = 0;
+    ticketTotalPriceShow();
 }
 
 function showtimeDetailShowAll(showtime) {

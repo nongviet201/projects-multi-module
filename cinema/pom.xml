@@ -27,6 +27,8 @@
         <module>cinema-web-sdk</module>
         <module>cinema-admin-theme</module>
         <module>cinema-admin-sdk</module>
+        <module>cinema-payment</module>
+        <module>cinema-payment/cinema-payment-vnpay</module>
     </modules>
 
     <properties>

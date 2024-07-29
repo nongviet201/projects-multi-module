@@ -17,7 +17,7 @@ public class BillCombo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     int quantity;
-    BigDecimal price;
+    long price;
 
     @ManyToOne
     @JoinColumn(name= "bill_id")

@@ -6,20 +6,14 @@ let divDate;
 let cinema;
 let dateBtns;
 let timeBtns
-
+let cityId;
 
 function stageOne() {
     $.ajax({
         url: '/booking/get/stage-one', type: 'GET', success: function (htmlResponse) {
             divStage.innerHTML = htmlResponse;
-            cityBtns = document.querySelectorAll(".city-btn");
-            cityAccordion = document.querySelector("#collapseOne")
-            movieAccordion = document.querySelector("#collapseTwo");
-            showtimeAccordion = document.querySelector("#collapseThree");
-            divDate = document.querySelector(".div-date");
-            cinema = document.querySelector(".cinema");
-            dateBtns = document.querySelectorAll(".date-btn");
-            timeBtns = document.querySelectorAll(".time-btn");
+            initializeElements();
+
         }, error: function (xhr, status, error) {
             console.error('Đã xảy ra lỗi: ' + error);
             console.error('Status:', status);
@@ -28,8 +22,19 @@ function stageOne() {
     });
 }
 
+function initializeElements() {
+    cityBtns = document.querySelectorAll(".city-btn");
+    cityAccordion = document.querySelector("#collapseOne")
+    movieAccordion = document.querySelector("#collapseTwo");
+    showtimeAccordion = document.querySelector("#collapseThree");
+    divDate = document.querySelector(".div-date");
+    cinema = document.querySelector(".cinema");
+    dateBtns = document.querySelectorAll(".date-btn");
+    timeBtns = document.querySelectorAll(".time-btn");
+}
+
 function getCityFunc(button) {
-    cityValue = btnFunc(button, cityBtns)
+    cityId = btnFunc(button, cityBtns)
     toggleAccordion(cityAccordion);
     toggleAccordion(movieAccordion);
 }
@@ -41,7 +46,7 @@ function getMovieFunc(div) {
 
     showtimeDetailMovieShow(moviePoster, movieName);
     showtimeDetailCinemaHide();
-    getShowtime(movieId, cityValue);
+    getShowtime(movieId, cityId);
     toggleAccordion(movieAccordion);
     toggleAccordion(showtimeAccordion);
 }

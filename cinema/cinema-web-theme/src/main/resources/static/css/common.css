@@ -9,6 +9,13 @@
 }
 
 /*Text*/
+.text-uppercase {
+    text-transform: uppercase!important;
+}
+.text-italic {
+    font-style: italic;
+}
+
 .text-center {
     text-align: center;
 }
@@ -18,6 +25,9 @@
 }
 .text-white {
     color: white !important;
+}
+.text-blue {
+    color: #034EA2 !important;
 }
 
 .fs-12px {
@@ -56,6 +66,12 @@
 .bg-white {
     background-color: white!important;
 }
+.bg-none {
+    background: none!important;
+}
+.bg-blue {
+    background-color: #034EA2 !important;
+}
 
 /*button*/
 button {
@@ -86,8 +102,17 @@ button.disabled {
 .flex-warp {
     flex-wrap: wrap !important;
 }
+.flex-direction-column {
+    flex-direction: column!important;
+}
+.d-inline-block {
+    display: inline-block !important;
+}
 .justify-content-between {
     justify-content: space-between!important;
+}
+.justify-content-center {
+    justify-content: center!important;
 }
 .align-items-center {
     align-items: center!important;

@@ -19,7 +19,7 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     boolean status;
-    BigDecimal totalPrice;
+    long totalPrice;
     LocalDate createAt;
     LocalDate updateAt;
 

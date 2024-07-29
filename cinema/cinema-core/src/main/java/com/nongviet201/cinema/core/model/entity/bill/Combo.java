@@ -21,5 +21,5 @@ public class Combo {
     String description;
     String image;
     boolean status;
-    BigDecimal price;
+    long price;
 }

@@ -89,3 +89,31 @@ main {
     height: 6px;
     background-color: rgb(245 128 32);
 }
+
+.modal-ticket {
+    background-color: transparent !important;
+    padding: 1rem !important;
+    border: none!important;
+}
+
+.modal-ticket .modal-body{
+    border: 1px solid white !important;
+    border-radius: 10px;
+    padding: 1.5rem !important;
+    overflow: hidden!important;
+}
+
+.modal-ticket p{
+    margin: 0;
+}
+.modal-line {
+    border: 2px dashed gray;
+    position: relative;
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 400px;
+        margin: 2rem auto;
+    }
+}

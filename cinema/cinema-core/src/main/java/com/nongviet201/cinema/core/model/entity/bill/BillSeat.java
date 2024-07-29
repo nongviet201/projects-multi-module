@@ -17,7 +17,7 @@ public class BillSeat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    BigDecimal price;
+    long price;
 
     @ManyToOne
     @JoinColumn(name= "bill_id")

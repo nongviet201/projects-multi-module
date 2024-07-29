@@ -57,4 +57,10 @@ public class BookingRender {
         );
         return "booking/stage/stage-three";
     }
+
+    @GetMapping("/stage-four")
+    public String getStageFourFragments(
+    ) {
+        return "booking/stage/stage-four";
+    }
 }

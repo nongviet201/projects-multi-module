@@ -1,16 +1,53 @@
-
+let rows = {};
+let seatsData = {};
+const divStageTwo = document.getElementById("stage-two");
+let currentSeatsChose = new Set();
+const numberSeatsChose = document.getElementById("number-seats-chose");
+const seatName = document.getElementById("seat-name");
+let totalTicketPrice = 0;
+let showtimeData;
 
 function stageTwo() {
-    getListTimeShowtimeByMovieIdAndAuditoriumId(movieId, auditoriumId);
-    getListSeatByAuditoriumId(auditoriumId);
+    fetchTimeShowtimesByMovieAndAuditorium(movieId, auditoriumId);
+    fetchSeatsByAuditoriumId(auditoriumId);
     showtimeDetailShowAll(showtime);
     nextBtn.classList.add("disabled");
 }
 
-    // Tạo hàm render ghế ngồi
+function fetchTimeShowtimesByMovieAndAuditorium(movieId, auditoriumId) {
+    $.ajax({
+        url: `/booking/get/stage-two?movieId=${movieId}&auditoriumId=${auditoriumId}`,
+        type: 'GET',
+        success: function (htmlResponse) {
+            const stageTwoHeader = document.createElement('div');
+            const seatContainer = document.getElementById("seat-container");
+            stageTwoHeader.innerHTML = htmlResponse;
+            divStageTwo.insertBefore(stageTwoHeader, seatContainer);
+        },
+        error: function (xhr, status, error) {
+            console.error(`Đã xảy ra lỗi: ${xhr}`);
+        }
+    });
+}
+
+function fetchSeatsByAuditoriumId(auditoriumId) {
+    $.ajax({
+        url: `/api/v1/seat/get/${auditoriumId}`,
+        type: 'GET',
+        success: function (response) {
+            seatsData = response;
+            renderSeats(seatsData);
+        },
+        error: function (xhr, status, error) {
+            console.error(`Đã xảy ra lỗi: ${xhr}`);
+        }
+    });
+}
+
 function renderSeats(seats) {
+    const seatContainer = document.getElementById("seat-container");
     seatContainer.classList.remove("d-none");
-    // Nhóm ghế theo hàng
+
     seats.forEach(seat => {
         const row = seat.seatRow;
         if (!rows[row]) {
@@ -19,44 +56,37 @@ function renderSeats(seats) {
         rows[row].push(seat);
     });
 
-    // Tạo phần tử HTML cho từng hàng ghế
-    for (let row in rows) {
+    for (const row in rows) {
         const rowDiv = document.createElement('div');
         const rowNameS = document.createElement('div');
         const rowNameE = document.createElement('div');
         const rowList = document.createElement('div');
-        rowDiv.className = 'seat-row';
-        rowNameS.innerHTML= row;
-        rowNameE.innerHTML= row;
-        rowDiv.appendChild(rowNameS);
-        rowList.className = 'seat-list';
 
-        let i = 0;
-        rows[row].forEach(seat => {
+        rowDiv.className = 'seat-row';
+        rowNameS.innerText = row;
+        rowNameE.innerText = row;
+        rowDiv.appendChild(rowNameS);
+
+        rowList.className = 'seat-list';
+        rows[row].forEach((seat, index) => {
             const seatBtn = document.createElement('button');
             seatBtn.className = 'seat';
             seatBtn.value = seat.id;
-            seatBtn.id = 'seat-'+ seat.id;
-            seatBtn.innerText = ++i;
-            seatBtn.onclick = function() {
-                seatBtnFunc(seat.id);
-            };
+            seatBtn.id = `seat-${seat.id}`;
+            seatBtn.innerText = index + 1;
+            seatBtn.onclick = () => seatBtnFunc(seat.id);
             rowList.appendChild(seatBtn);
         });
+
         rowDiv.appendChild(rowList);
         rowDiv.appendChild(rowNameE);
-        seatMap.appendChild(rowDiv);
+        document.getElementById('seat-map').appendChild(rowDiv);
     }
 }
 
-let currentSeatsChose = new Set();
-const numberSeatsChose = document.getElementById("number-seats-chose");
-const seatName = document.getElementById("seat-name");
-
-function seatBtnFunc(value) {
-    let seat = seatsData.find(e => e.id.toString() === value.toString());
-
-    const seatEl = document.getElementById("seat-" + seat.id);
+function seatBtnFunc(seatId) {
+    const seat = seatsData.find(e => e.id === seatId);
+    const seatEl = document.getElementById(`seat-${seat.id}`);
     const isActive = seatEl.classList.toggle("active");
 
     if (isActive) {
@@ -70,32 +100,13 @@ function seatBtnFunc(value) {
     } else {
         nextBtn.classList.add("disabled");
     }
-
     showtimeDetailSeatShow();
 }
 
-
-function getListTimeShowtimeByMovieIdAndAuditoriumId(movieId, auditoriumId) {
-    $.ajax({
-        url: '/booking/get/stage-two?movieId='+movieId+'&auditoriumId='+auditoriumId,
-        type: 'GET',
-        success: function (htmlResponse) {
-            divStage.innerHTML = htmlResponse;
-        }, error: function (xhr, status, error) {
-            console.error('Đã xảy ra lỗi: ' + xhr);
-        }
-    });
+function hideStageTwo() {
+    divStageTwo.style.display = "none";
 }
 
-function getListSeatByAuditoriumId(auditoriumId) {
-    $.ajax({
-        url: '/api/v1/seat/get/' + auditoriumId,
-        type: 'GET',
-        success: function (response) {
-            seatsData = response;
-            renderSeats(seatsData);
-        }, error: function (xhr, status, error) {
-            console.error('Đã xảy ra lỗi: ' + xhr);
-        }
-    });
+function showStageTwo() {
+    divStageTwo.style.display = "block";
 }

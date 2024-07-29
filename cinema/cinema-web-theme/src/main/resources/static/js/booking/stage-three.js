@@ -10,14 +10,13 @@ function stageThree() {
 }
 
 const comboData = new Map();
-
+let totalComboPrice = 0;
 const ticketCombo = document.getElementById('ticket-combo');
 
 function getCombo() {
     const combos = document.querySelectorAll('.combo');
 
     combos.forEach(combo => {
-        // Lấy các nút và số lượng trong combo
         const minusBtn = combo.querySelector('.minus');
         const plusBtn = combo.querySelector('.plus');
         const quantityDisplay = combo.querySelector('.combo-quantity');
@@ -45,12 +44,13 @@ function getCombo() {
     });
 }
 
+let combosName = new Map();
 
 function updateTicketCombo() {
     const comboDetails = document.querySelector('.combo-detail');
-    comboDetails.innerHTML = ''; // Xóa nội dung hiện tại của ticketCombo
+    comboDetails.innerHTML = '';
 
-    totalComboPrice = 0; // Đặt lại tổng giá của combo
+    totalComboPrice = 0;
     let isAnyComboSelected = false;
 
     comboData.forEach((quantity, comboId) => {
@@ -58,9 +58,10 @@ function updateTicketCombo() {
             isAnyComboSelected = true;
             const combo = document.querySelector(`.combo [value="${comboId}"]`).closest('.combo');
             const comboName = combo.querySelector('p.fs-18px').innerText;
-            const comboPrice = parseFloat(combo.querySelector('p.fs-16px').innerText.split(':')[1].trim()); // Lấy giá từ thông tin và chuyển đổi sang số thực
+            const comboPrice = parseFloat(combo.querySelector('p.fs-16px').innerText.split(':')[1].trim());
 
-            // Tính toán tổng giá của từng combo
+            combosName.set(comboId, comboName);
+
             const totalComboItemPrice = comboPrice * quantity;
             totalComboPrice += totalComboItemPrice;
 
@@ -71,13 +72,12 @@ function updateTicketCombo() {
                     <strong class="fs-14px">${quantity} <span> x </span></strong>
                     <span class="fs-14px text-black-50">${comboName}</span>
                 </div>
-                <strong class="fs-14px">${totalComboItemPrice.toFixed(2)}</strong> <!-- Hiển thị tổng giá với 2 chữ số thập phân -->
+                <strong class="fs-14px">${totalComboItemPrice}</strong>
             `;
             comboDetails.appendChild(detail);
         }
     });
 
-    totalPrice = totalComboPrice + totalTicketPrice;
     ticketTotalPriceShow();
 
     if (isAnyComboSelected) {
