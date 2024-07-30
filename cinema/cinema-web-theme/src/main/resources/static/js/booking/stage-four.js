@@ -63,7 +63,7 @@ function billSubmit(
     })
     billSubmitBtn.addEventListener('click', function () {
         if (billAccept.checked) {
-            payment()
+            createBill()
         } else {
             alert('Vui lòng xác nhận thông tin đặt vé');
         }
@@ -72,7 +72,7 @@ function billSubmit(
 
 let billId;
 
-async function payment() {
+async function createBill() {
     const billRequest = {
         userId: 1,
         showtimeId: showtime.id,
@@ -95,7 +95,24 @@ async function payment() {
     try {
         let res = await axios.post(`/api/v1/bills/create`, paymentRequest);
         billId = res.data;
-        console.log("Bill ID:", res.data);
+        payment(billId, totalPrice);
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function payment(
+    billId,
+    totalPrice
+) {
+    data = {
+        billId: billId,
+        amount: totalPrice
+    }
+    try {
+        let res = await axios.post(`/api/v1/vnpay/create-payment`, data);
+
+        window.location.href = res.data;
     } catch (e) {
         console.error(e);
     }

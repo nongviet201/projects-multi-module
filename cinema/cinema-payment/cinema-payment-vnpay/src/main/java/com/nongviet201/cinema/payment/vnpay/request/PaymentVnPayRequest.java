@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class PaymentVnPayRequest {
     Integer billId;
-    Integer amount;
+    Long amount;
 }
