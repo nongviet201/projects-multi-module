@@ -18,7 +18,7 @@ import java.time.LocalTime;
 public class Showtime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private LocalDate screeningDate;
     private LocalTime startTime;
     private LocalTime endTime;

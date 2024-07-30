@@ -9,7 +9,8 @@ import com.nongviet201.cinema.core.repository.ReservationRepository;
 import com.nongviet201.cinema.core.repository.SeatRepository;
 import com.nongviet201.cinema.core.repository.ShowtimeRepository;
 import com.nongviet201.cinema.core.repository.UserRepository;
-import com.nongviet201.cinema.web.sdk.Request.ReservationRequest;
+import com.nongviet201.cinema.core.service.ReservationService;
+import com.nongviet201.cinema.web.sdk.request.ReservationRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,34 +24,27 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @RequestMapping("/api/v1/reservations")
 public class ReservationsApi {
-    private final ReservationRepository reservationRepository;
-    private final UserRepository userRepository;
-    private final SeatRepository seatRepository;
-    private final ShowtimeRepository showtimeRepository;
+    private final ReservationService reservationService;
 
     @RequestMapping("/create")
     public ResponseEntity<?> createReservation(@Valid @RequestBody ReservationRequest request) {
-        User user = userRepository.findById(request.getUserId()).orElse(null);
-        Seat seat = seatRepository.findById(request.getSeatId()).orElse(null);
-        Showtime showtime = showtimeRepository.findById(request.getShowtimeId());
-
-        Reservation reservation = new Reservation();
-        reservation.setUser(user);
-        reservation.setSeat(seat);
-        reservation.setShowTime(showtime);
-        reservation.setStatus(ReservationType.PENDING);
-        reservation.setCreateAt(LocalDate.now());
-        reservation.setUpdateAt(LocalDate.now());
-
-        reservationRepository.save(reservation);
+        Reservation reservation = reservationService.createReservation(
+            request.getUserId(),
+            request.getSeatId(),
+            request.getShowtimeId()
+        );
         return ResponseEntity.ok(reservation);
     }
 
     @RequestMapping("/update-status")
     public ResponseEntity<?> updateStatusReservation(@Valid @RequestBody Integer id) {
-        Reservation reservation = reservationRepository.findById(id);
-        reservation.setStatus(ReservationType.ORDERED);
-        reservationRepository.save(reservation);
+        Reservation reservation = reservationService.updateReservation(id);
         return ResponseEntity.ok(reservation);
+    }
+
+    @RequestMapping("/cancel")
+    public ResponseEntity<?> cancelReservation(@Valid @RequestBody Integer id) {
+        reservationService.removeReservation(id);
+        return ResponseEntity.ok("delete complete");
     }
 }

@@ -1,7 +1,7 @@
 package com.nongviet201.cinema.web.sdk.rest;
 
 import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
-import com.nongviet201.cinema.web.sdk.service.ShowtimeService;
+import com.nongviet201.cinema.core.service.ShowtimeService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

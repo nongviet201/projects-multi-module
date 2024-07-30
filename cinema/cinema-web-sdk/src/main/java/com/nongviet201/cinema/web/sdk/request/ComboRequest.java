@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.web.sdk.Request;
+package com.nongviet201.cinema.web.sdk.request;
 
 import lombok.Getter;
 import lombok.Setter;

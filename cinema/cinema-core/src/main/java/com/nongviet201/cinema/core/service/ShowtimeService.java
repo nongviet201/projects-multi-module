@@ -1,7 +1,7 @@
-package com.nongviet201.cinema.web.sdk.service;
+package com.nongviet201.cinema.core.service;
 
-import com.nongviet201.cinema.core.model.entity.cinema.Seat;
 import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
+
 import java.util.List;
 
 public interface ShowtimeService {

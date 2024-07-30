@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class BillCombo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    Integer id;
     int quantity;
     long price;
 

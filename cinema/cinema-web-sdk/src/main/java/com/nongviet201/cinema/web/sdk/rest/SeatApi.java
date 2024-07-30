@@ -1,7 +1,7 @@
 package com.nongviet201.cinema.web.sdk.rest;
 
 import com.nongviet201.cinema.core.model.entity.cinema.Seat;
-import com.nongviet201.cinema.web.sdk.service.SeatService;
+import com.nongviet201.cinema.core.service.SeatService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

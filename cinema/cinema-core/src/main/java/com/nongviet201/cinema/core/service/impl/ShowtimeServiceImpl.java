@@ -1,13 +1,12 @@
-package com.nongviet201.cinema.web.sdk.service.impl;
+package com.nongviet201.cinema.core.service.impl;
 
 import com.nongviet201.cinema.core.model.entity.cinema.Auditorium;
 import com.nongviet201.cinema.core.model.entity.cinema.Cinema;
-import com.nongviet201.cinema.core.model.entity.cinema.Seat;
 import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.repository.AuditoriumRepository;
 import com.nongviet201.cinema.core.repository.CinemaRepository;
 import com.nongviet201.cinema.core.repository.ShowtimeRepository;
-import com.nongviet201.cinema.web.sdk.service.ShowtimeService;
+import com.nongviet201.cinema.core.service.ShowtimeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +46,6 @@ public class ShowtimeServiceImpl implements ShowtimeService {
 
     @Override
     public Showtime getShowtimeById(Integer id) {
-        return showtimeRepository.findById(id);
+        return showtimeRepository.findById(id).orElse(null);
     }
 }

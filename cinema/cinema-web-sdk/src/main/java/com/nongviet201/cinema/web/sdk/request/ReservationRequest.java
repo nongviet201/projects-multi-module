@@ -1,6 +1,5 @@
-package com.nongviet201.cinema.web.sdk.Request;
+package com.nongviet201.cinema.web.sdk.request;
 
-import com.nongviet201.cinema.core.model.entity.bill.Reservation;
 import com.nongviet201.cinema.core.model.enums.ReservationType;
 import lombok.Getter;
 import lombok.Setter;

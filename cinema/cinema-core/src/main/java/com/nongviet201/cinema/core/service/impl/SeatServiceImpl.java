@@ -1,8 +1,8 @@
-package com.nongviet201.cinema.web.sdk.service.impl;
+package com.nongviet201.cinema.core.service.impl;
 
 import com.nongviet201.cinema.core.model.entity.cinema.Seat;
 import com.nongviet201.cinema.core.repository.SeatRepository;
-import com.nongviet201.cinema.web.sdk.service.SeatService;
+import com.nongviet201.cinema.core.service.SeatService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -69,6 +69,10 @@ function showtimeDetailSeatShow() {
             seatNameValue.innerText = `${seat.seatRow}${seat.seatColumn}, `;
             seatNameValue.id = `${seat.seatRow}${seat.seatColumn}`;
             seatName.appendChild(seatNameValue);
+
+            const seatPrice = document.getElementById("seat-price");
+            seatPrice.innerText = `${totalTicketPrice}đ`;
+            ticketTotalPriceShow();
         });
     } else {
         showtimeDetailSeat.classList.add("d-none");

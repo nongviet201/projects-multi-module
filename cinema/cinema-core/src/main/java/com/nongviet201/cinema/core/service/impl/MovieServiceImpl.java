@@ -1,8 +1,8 @@
-package com.nongviet201.cinema.web.sdk.service.impl;
+package com.nongviet201.cinema.core.service.impl;
 
 import com.nongviet201.cinema.core.model.entity.movie.Movie;
-import com.nongviet201.cinema.core.repository.*;
-import com.nongviet201.cinema.web.sdk.service.MovieService;
+import com.nongviet201.cinema.core.repository.MovieRepository;
+import com.nongviet201.cinema.core.service.MovieService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +37,15 @@ public class MovieServiceImpl implements MovieService {
                    .replaceAll("\\s+", "-")
                    .replaceAll("[^a-z0-9-]", "");
         return slug;
+    }
+
+    @Override
+    public List<Movie> getAllMoviesOderByReleaseDate() {
+        return movieRepository.findAllByOrderByReleaseDateDesc();
+    }
+
+    @Override
+    public Movie getMovieById(int id) {
+        return movieRepository.findById(id).orElse(null);
     }
 }

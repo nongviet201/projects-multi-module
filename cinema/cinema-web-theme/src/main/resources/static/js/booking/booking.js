@@ -8,8 +8,6 @@ let movieId
 let auditoriumId;
 let totalPrice = 0;
 let totalComboPrice = 0;
-let totalTicketPrice = 0;
-let showtimeData;
 
 if (showtime === null) {
         stageOne();

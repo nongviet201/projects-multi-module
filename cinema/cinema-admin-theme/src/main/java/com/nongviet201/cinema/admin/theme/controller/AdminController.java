@@ -1,7 +1,6 @@
 package com.nongviet201.cinema.admin.theme.controller;
 
 
-import com.nongviet201.cinema.admin.sdk.service.MovieService;
 import com.nongviet201.cinema.core.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;

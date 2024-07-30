@@ -4,7 +4,6 @@ import com.nongviet201.cinema.core.model.entity.bill.Combo;
 import com.nongviet201.cinema.core.model.entity.cinema.*;
 import com.nongviet201.cinema.core.model.entity.movie.*;
 import com.nongviet201.cinema.core.model.enums.AuditoriumType;
-import com.nongviet201.cinema.core.model.enums.SeatType;
 import com.nongviet201.cinema.core.repository.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +39,8 @@ class CinemaCoreApplicationTests {
     private ShowtimeRepository showtimeRepository;
     @Autowired
     private ComboRepository comboRepository;
+    @Autowired
+    private SeatTypeRepository seatTypeRepository;
 
     @Test
     void createData() {
@@ -102,10 +103,12 @@ class CinemaCoreApplicationTests {
     @Test
     void createSeatData(int row, int column, int auditoriumId) {
         Auditorium auditorium = auditoriumRepository.findById(auditoriumId);
+        createSeatTypeData();
+        SeatType seatType = seatTypeRepository.findById(1).orElse(null);
         for (int i = 1; i <= row; i++) {
             for (int j = 1; j <= column; j++) {
                 Seat seat = Seat.builder()
-                        .type(SeatType.GHE_THUONG)
+                        .type(seatType)
                         .status(true)
                         .seatRow(numberToLetter(i))
                         .seatColumn(j)
@@ -115,6 +118,13 @@ class CinemaCoreApplicationTests {
             }
         }
     }
+
+    void createSeatTypeData() {
+        seatTypeRepository.save(new SeatType(1, "Ghế đơn", 50000));
+        seatTypeRepository.save(new SeatType(2, "Ghế VIP", 80000));
+        seatTypeRepository.save(new SeatType(3, "Ghế đôi", 160000));
+    }
+
     String numberToLetter(int number) {
         String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
                 "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",

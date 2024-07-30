@@ -91,8 +91,10 @@ function seatBtnFunc(seatId) {
 
     if (isActive) {
         currentSeatsChose.add(seat.id);
+        totalTicketPrice += seat.type.price;
     } else {
         currentSeatsChose.delete(seat.id);
+        totalTicketPrice -= seat.type.price;
     }
 
     if (currentSeatsChose.size > 0) {

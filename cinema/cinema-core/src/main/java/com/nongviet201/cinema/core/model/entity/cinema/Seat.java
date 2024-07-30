@@ -1,7 +1,6 @@
 package com.nongviet201.cinema.core.model.entity.cinema;
 
 
-import com.nongviet201.cinema.core.model.enums.SeatType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,8 +16,6 @@ public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    @Enumerated(EnumType.STRING)
-    SeatType type;
     boolean status;
     String seatRow;
     int seatColumn;
@@ -26,4 +23,8 @@ public class Seat {
     @ManyToOne
     @JoinColumn(name= "auditorium_id")
     Auditorium auditorium;
+
+    @ManyToOne
+    @JoinColumn(name = "seat_type_id")
+    SeatType type;
 }

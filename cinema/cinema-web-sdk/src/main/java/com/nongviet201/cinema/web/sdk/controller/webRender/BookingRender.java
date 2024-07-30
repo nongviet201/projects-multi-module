@@ -2,9 +2,8 @@ package com.nongviet201.cinema.web.sdk.controller.webRender;
 
 import com.nongviet201.cinema.core.service.CityService;
 import com.nongviet201.cinema.core.service.ComboService;
-import com.nongviet201.cinema.web.sdk.service.MovieService;
-import com.nongviet201.cinema.web.sdk.service.SeatService;
-import com.nongviet201.cinema.web.sdk.service.ShowtimeService;
+import com.nongviet201.cinema.core.service.MovieService;
+import com.nongviet201.cinema.core.service.ShowtimeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

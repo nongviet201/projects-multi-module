@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    Integer id;
     boolean status;
     long totalPrice;
     LocalDate createAt;

@@ -60,7 +60,6 @@ function updateTicketCombo() {
             const comboName = combo.querySelector('p.fs-18px').innerText;
             const comboPrice = parseFloat(combo.querySelector('p.fs-16px').innerText.split(':')[1].trim()); // Lấy giá từ thông tin và chuyển đổi sang số thực
             combosName.set(comboId, comboName);
-            // Tính toán tổng giá của từng combo
             const totalComboItemPrice = comboPrice * quantity;
             totalComboPrice += totalComboItemPrice;
 
@@ -71,7 +70,7 @@ function updateTicketCombo() {
                     <strong class="fs-14px">${quantity} <span> x </span></strong>
                     <span class="fs-14px text-black-50">${comboName}</span>
                 </div>
-                <strong class="fs-14px">${totalComboItemPrice.toFixed(2)}</strong> <!-- Hiển thị tổng giá với 2 chữ số thập phân -->
+                <strong class="fs-14px">${totalComboItemPrice}<span>đ</span></strong> <!-- Hiển thị tổng giá với 2 chữ số thập phân -->
             `;
             comboDetails.appendChild(detail);
         }
