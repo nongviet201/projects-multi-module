@@ -47,4 +47,56 @@ function updateTicketBill() {
     `);
 
     updateElement('bill-total-price', `${totalPrice} <span>đ</span>`);
+
+    billSubmit(
+    billAccept = document.getElementById("submit-check"),
+    billSubmitBtn = document.getElementById("btn-payment-submit")
+    )
+}
+
+function billSubmit(
+    billAccept,
+    billSubmitBtn
+) {
+    billAccept.addEventListener('click', function () {
+        billAccept.checked = true;
+    })
+    billSubmitBtn.addEventListener('click', function () {
+        if (billAccept.checked) {
+            payment()
+        } else {
+            alert('Vui lòng xác nhận thông tin đặt vé');
+        }
+    })
+}
+
+let billId;
+
+async function payment() {
+    const billRequest = {
+        userId: 1,
+        showtimeId: showtime.id,
+        totalPrice: totalPrice
+    }
+
+    const comboRequest = Array.from(comboData, ([key, value]) => ({
+        comboId: key,
+        quantity: value
+    }));
+
+    const seatRequest = Array.from(currentSeatsChose); 
+
+    const paymentRequest = {
+        billRequest: billRequest,
+        comboRequest: comboRequest,
+        seatRequest: seatRequest
+    };
+
+    try {
+        let res = await axios.post(`/api/v1/bills/create`, paymentRequest);
+        billId = res.data;
+        console.log("Bill ID:", res.data);
+    } catch (e) {
+        console.error(e);
+    }
 }

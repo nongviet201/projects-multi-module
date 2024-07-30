@@ -52,7 +52,8 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void removeReservation(Integer id) {
-        Reservation reservation = reservationRepository.findById(id).orElse(null);
+        Reservation reservation =
+            reservationRepository.findById(id).orElse(null);
         assert reservation != null;
         reservationRepository.delete(reservation);
     }

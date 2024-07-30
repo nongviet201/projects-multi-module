@@ -3,17 +3,20 @@ package com.nongviet201.cinema.payment.vnpay.config;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Random;
+import java.util.TimeZone;
 
 public class Config {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://localhost:8080/vnpay_jsp/vnpay_return.jsp";
+    public static String vnp_ReturnUrl = "http://localhost:8080/booking?stage=5";
     public static String vnp_TmnCode = "RLWIK86T";
     public static String secretKey = "YXS26RABKT3P53FEPKSEQ8YXIL0XEESI";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
     public static String vnp_Version = "2.1.0";
     public static String vnp_Command = "pay";
-    public static String orderType = "other";
+    public static String vnp_OrderType = "other";
 
     public static String hmacSHA512(final String key, final String data) {
         try {

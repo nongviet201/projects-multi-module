@@ -92,9 +92,11 @@ function seatBtnFunc(seatId) {
     if (isActive) {
         currentSeatsChose.add(seat.id);
         totalTicketPrice += seat.type.price;
+        upsertReservation(seat.id)
     } else {
         currentSeatsChose.delete(seat.id);
-        totalTicketPrice -= seat.type.price;
+        totalTicketPrice -= seat.type.price
+        cancelReservation(seat.id)
     }
 
     if (currentSeatsChose.size > 0) {
@@ -111,4 +113,31 @@ function hideStageTwo() {
 
 function showStageTwo() {
     divStageTwo.style.display = "block";
+}
+
+async function upsertReservation(seatId) {
+    const data = {
+        userId: 1,
+        seatId: seatId,
+        showtimeId: showtime.id,
+    }
+
+    try {
+        let res = await axios.post("/api/v1/reservations/create", data);
+        const seatEl = document.getElementById(`seat-${seatId}`);
+        seatEl.dataset.reservationId = res.data.id;
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+async function cancelReservation(seatId) {
+    const seatEl = document.getElementById(`seat-${seatId}`);
+    const reservationId = seatEl.dataset.reservationId;
+    try {
+        let res = await axios.delete(`/api/v1/reservations/cancel/${reservationId}`);
+        seatEl.dataset.reservationId = "";
+    } catch (e) {
+        console.log(e)
+    }
 }

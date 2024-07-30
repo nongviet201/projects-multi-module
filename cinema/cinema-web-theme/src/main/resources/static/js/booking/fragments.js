@@ -77,6 +77,7 @@ function showtimeDetailSeatShow() {
     } else {
         showtimeDetailSeat.classList.add("d-none");
         seatName.innerHTML = "";
+        ticketTotalPriceShow();
     }
 }
 

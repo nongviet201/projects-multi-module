@@ -13,10 +13,9 @@ import com.nongviet201.cinema.core.service.ReservationService;
 import com.nongviet201.cinema.web.sdk.request.ReservationRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
@@ -26,25 +25,31 @@ import java.time.LocalDate;
 public class ReservationsApi {
     private final ReservationService reservationService;
 
-    @RequestMapping("/create")
-    public ResponseEntity<?> createReservation(@Valid @RequestBody ReservationRequest request) {
+    @PostMapping("/create")
+    public ResponseEntity<?> createReservation(
+        @RequestBody ReservationRequest request
+    ) {
         Reservation reservation = reservationService.createReservation(
             request.getUserId(),
             request.getSeatId(),
             request.getShowtimeId()
         );
-        return ResponseEntity.ok(reservation);
+        return new ResponseEntity<>(reservation, HttpStatus.CREATED); // 201
     }
 
     @RequestMapping("/update-status")
-    public ResponseEntity<?> updateStatusReservation(@Valid @RequestBody Integer id) {
+    public ResponseEntity<?> updateStatusReservation(
+        @RequestBody Integer id
+    ) {
         Reservation reservation = reservationService.updateReservation(id);
         return ResponseEntity.ok(reservation);
     }
 
-    @RequestMapping("/cancel")
-    public ResponseEntity<?> cancelReservation(@Valid @RequestBody Integer id) {
+    @DeleteMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelReservation(
+        @PathVariable Integer id
+    ) {
         reservationService.removeReservation(id);
-        return ResponseEntity.ok("delete complete");
+        return ResponseEntity.noContent().build();
     }
 }

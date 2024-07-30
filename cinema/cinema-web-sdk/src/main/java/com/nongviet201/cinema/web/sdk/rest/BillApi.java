@@ -1,16 +1,14 @@
 package com.nongviet201.cinema.web.sdk.rest;
 
 import com.nongviet201.cinema.core.model.entity.bill.Bill;
-import com.nongviet201.cinema.core.repository.ComboRepository;
-import com.nongviet201.cinema.core.repository.SeatRepository;
 import com.nongviet201.cinema.core.service.BillComboService;
 import com.nongviet201.cinema.core.service.BillSeatService;
 import com.nongviet201.cinema.core.service.BillService;
-import com.nongviet201.cinema.web.sdk.request.BillRequest;
-import com.nongviet201.cinema.web.sdk.request.ComboRequest;
+import com.nongviet201.cinema.web.sdk.request.BillRequestDTO;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,19 +23,15 @@ public class BillApi {
     private final BillSeatService billSeatService;
     private final BillComboService billComboService;
 
-    @RequestMapping("/create")
-    protected ResponseEntity<?> createBill(
-        @Valid @RequestBody BillRequest request,
-        @Valid @RequestBody List<ComboRequest> comboRequest,
-        @Valid @RequestBody List<Integer> seatRequest
-    ) {
+    @PostMapping("/create")
+    protected ResponseEntity<?> createBill(@RequestBody BillRequestDTO.PaymentRequest paymentRequest) {
         Bill bill = billService.createBill(
-            request.getUserId(),
-            request.getShowtimeId(),
-            request.getTotalPrice()
+            paymentRequest.getBillRequest().getUserId(),
+            paymentRequest.getBillRequest().getShowtimeId(),
+            paymentRequest.getBillRequest().getTotalPrice()
         );
 
-        for (ComboRequest combo : comboRequest) {
+        for (BillRequestDTO.ComboRequest combo : paymentRequest.getComboRequest()) {
             billComboService.createBillCombo(
                 bill.getId(),
                 combo.getComboId(),
@@ -45,15 +39,15 @@ public class BillApi {
             );
         }
 
-        for (int seatId : seatRequest) {
+        for (int seatId : paymentRequest.getSeatRequest()) {
             billSeatService.createBillSeat(
                 bill.getId(),
                 seatId
             );
         }
-
         return ResponseEntity.ok(bill.getId());
     }
+
 
     @RequestMapping("/update")
     protected ResponseEntity<?> updateBill(

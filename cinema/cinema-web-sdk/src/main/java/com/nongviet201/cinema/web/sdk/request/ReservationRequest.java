@@ -1,6 +1,5 @@
 package com.nongviet201.cinema.web.sdk.request;
 
-import com.nongviet201.cinema.core.model.enums.ReservationType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,5 +9,4 @@ public class ReservationRequest {
     private Integer userId;
     private Integer seatId;
     private Integer showtimeId;
-    private ReservationType status;
 }
