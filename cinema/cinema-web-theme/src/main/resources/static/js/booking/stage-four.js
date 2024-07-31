@@ -35,6 +35,7 @@ function updateTicketBill() {
 
     const formatComboList = () => Array.from(comboData)
         .map(([comboId, quantity]) => {
+            if (quantity < 1) return '';
             const combo = combosName.get(comboId);
             return combo ? `<span class="fs-14px"><strong>${quantity} <span> x </span></strong> ${combo}</span>` : '';
         })
@@ -49,8 +50,8 @@ function updateTicketBill() {
     updateElement('bill-total-price', `${totalPrice} <span>đ</span>`);
 
     billSubmit(
-    billAccept = document.getElementById("submit-check"),
-    billSubmitBtn = document.getElementById("btn-payment-submit")
+        billAccept = document.getElementById("submit-check"),
+        billSubmitBtn = document.getElementById("btn-payment-submit")
     )
 }
 
@@ -84,7 +85,7 @@ async function createBill() {
         quantity: value
     }));
 
-    const seatRequest = Array.from(currentSeatsChose); 
+    const seatRequest = Array.from(currentSeatsChose);
 
     const paymentRequest = {
         billRequest: billRequest,

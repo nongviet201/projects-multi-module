@@ -58,6 +58,7 @@ function showtimeDetailCinemaShow(cinemaName, auditoriumName, startDate, startTi
 }
 
 function showtimeDetailSeatShow() {
+    const seatName = document.getElementById("seat-name");
     const showtimeDetailSeat = document.querySelector(".ticket-seat");
     numberSeatsChose.innerText = currentSeatsChose.size;
     if (currentSeatsChose.size > 0) {

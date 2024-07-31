@@ -17,14 +17,25 @@ import java.util.List;
 public class ShowtimeApi {
     private final ShowtimeService showtimeService;
 
-    @RequestMapping("/get/{movieId}/{cityId}")
-    public ResponseEntity<?> getShowtimeById(
+    @RequestMapping("/get/movieId/{movieId}")
+    public ResponseEntity<?> getShowtimeByMovieId(
         @Valid
-        @PathVariable int movieId,
-        @PathVariable int cityId
+        @PathVariable int movieId
     ) {
         List<Showtime> showtimes =
-            showtimeService.getShowtimeByMovieIdAndCityId(movieId, cityId);
+            showtimeService.getShowtimeByMovieId(movieId);
         return ResponseEntity.ok(showtimes);
     }
+
+    @RequestMapping("/get/showtimeId/{showtimeId}")
+    public ResponseEntity<?> getShowtimeById(
+        @Valid
+        @PathVariable int showtimeId
+    ) {
+        Showtime showtime =
+            showtimeService.getShowtimeById(showtimeId);
+        return ResponseEntity.ok(showtime);
+    }
+
+
 }

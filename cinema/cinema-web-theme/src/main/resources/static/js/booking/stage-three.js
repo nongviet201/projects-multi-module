@@ -1,7 +1,9 @@
+
 function stageThree() {
     $.ajax({
         url: '/booking/get/stage-three', type: 'GET', success: function (htmlResponse) {
             divStage.innerHTML = htmlResponse;
+            ticketDetailComboHide();
             getCombo()
         }, error: function (xhr) {
             console.error('Đã xảy ra lỗi: ' + xhr);

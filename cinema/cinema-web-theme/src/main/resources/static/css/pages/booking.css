@@ -39,6 +39,12 @@
     border: 2px solid rgb(245 128 32);
 }
 
+.date-btn {
+    border: 1px solid #D0D0D0;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
 main {
     background-color: #F9F9F9;
 }

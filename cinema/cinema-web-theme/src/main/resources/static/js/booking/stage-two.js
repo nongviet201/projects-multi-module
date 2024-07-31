@@ -1,28 +1,51 @@
-let rows = {};
-let seatsData = {};
 const divStageTwo = document.getElementById("stage-two");
 let currentSeatsChose = new Set();
 const numberSeatsChose = document.getElementById("number-seats-chose");
-const seatName = document.getElementById("seat-name");
 let totalTicketPrice = 0;
 let showtimeData;
+let seatsData = {};
+
+function timeBtnFunc(button) {
+    const timeBtns = document.querySelectorAll(".time-btn");
+    const id = btnFunc(button, timeBtns)
+    $.ajax({
+        url: `api/v1/showtime/get/showtimeId/${id}`,
+        type: 'GET',
+        success: function (response) {
+            currentSeatsChose = new Set();
+            totalTicketPrice = 0;
+            showtimeDetailSeatShow();
+            showtime = response;
+            showtimeDetailCinemaShow(
+                showtime.auditorium.cinema.name,
+                showtime.auditorium.name,
+                showtime.screeningDate,
+                showtime.startTime
+            );
+            fetchSeatsByAuditoriumId(showtime.auditorium.id);
+        },
+        error: function (xhr, status, error) {
+            console.error(`Đã xảy ra lỗi: ${xhr}`);
+        }
+    });
+}
 
 function stageTwo() {
-    fetchTimeShowtimesByMovieAndAuditorium(movieId, auditoriumId);
-    fetchSeatsByAuditoriumId(auditoriumId);
+    fetchTimeShowtimesByMovieAndAuditorium(showtime.id);
     showtimeDetailShowAll(showtime);
     nextBtn.classList.add("disabled");
 }
 
-function fetchTimeShowtimesByMovieAndAuditorium(movieId, auditoriumId) {
+function fetchTimeShowtimesByMovieAndAuditorium(showtimeId) {
     $.ajax({
-        url: `/booking/get/stage-two?movieId=${movieId}&auditoriumId=${auditoriumId}`,
+        url: `/booking/get/stage-two?showtimeId=${showtimeId}`,
         type: 'GET',
         success: function (htmlResponse) {
             const stageTwoHeader = document.createElement('div');
             const seatContainer = document.getElementById("seat-container");
             stageTwoHeader.innerHTML = htmlResponse;
             divStageTwo.insertBefore(stageTwoHeader, seatContainer);
+            fetchSeatsByAuditoriumId(showtime.auditorium.id);
         },
         error: function (xhr, status, error) {
             console.error(`Đã xảy ra lỗi: ${xhr}`);
@@ -35,6 +58,7 @@ function fetchSeatsByAuditoriumId(auditoriumId) {
         url: `/api/v1/seat/get/${auditoriumId}`,
         type: 'GET',
         success: function (response) {
+            seatsData = {};
             seatsData = response;
             renderSeats(seatsData);
         },
@@ -45,9 +69,10 @@ function fetchSeatsByAuditoriumId(auditoriumId) {
 }
 
 function renderSeats(seats) {
-    const seatContainer = document.getElementById("seat-container");
-    seatContainer.classList.remove("d-none");
-
+    document.getElementById("seat-container").classList.remove("d-none");
+    const seatMap = document.getElementById('seat-map');
+    seatMap.innerHTML = "";
+    let rows = {};
     seats.forEach(seat => {
         const row = seat.seatRow;
         if (!rows[row]) {
@@ -80,7 +105,7 @@ function renderSeats(seats) {
 
         rowDiv.appendChild(rowList);
         rowDiv.appendChild(rowNameE);
-        document.getElementById('seat-map').appendChild(rowDiv);
+        seatMap.appendChild(rowDiv);
     }
 }
 

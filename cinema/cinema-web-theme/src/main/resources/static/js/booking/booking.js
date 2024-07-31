@@ -4,16 +4,12 @@ const ticketTotalPrice = document.getElementById("total-price");
 const nextBtn = document.getElementById("next-page");
 const prevBtn = document.getElementById("prev-page");
 
-let movieId
-let auditoriumId;
 let totalPrice = 0;
 let totalComboPrice = 0;
 
 if (showtime === null) {
-        stageOne();
-    } else {
-    movieId = showtime.movie.id;
-    auditoriumId = showtime.auditorium.id;
+    stageOne();
+} else {
     currentStage = 2;
     stageChange();
 }
@@ -72,4 +68,3 @@ function stageFunction() {
         case 5:
     }
 }
-

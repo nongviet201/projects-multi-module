@@ -23,25 +23,24 @@ public class BookingRender {
     @GetMapping("/stage-one")
     public String getStageOneFragments(Model model) {
         model.addAttribute(
-                "cities",
-                cityService.getAllCities()
+            "cities",
+            cityService.getAllCities()
         );
         model.addAttribute(
-                "movies",
-                movieService.getAllPublishMoviesOrderByReleaseDate()
+            "movies",
+            movieService.getAllPublishMoviesOrderByReleaseDate()
         );
         return "booking/stage/stage-one";
     }
 
     @GetMapping("/stage-two")
     public String getStageTwoFragments(
-        @RequestParam(value = "movieId", required = true) Integer movieId,
-        @RequestParam(value = "auditoriumId", required = true) Integer auditoriumId,
+        @RequestParam(value = "showtimeId", required = true) Integer showtimeId,
         Model model
     ) {
         model.addAttribute(
             "showtimes",
-            showtimeService.getShowtimeByMovieIdAndAuditoriumId(movieId, auditoriumId)
+            showtimeService.getAllShowtimesOnTheSameDayById(showtimeId)
         );
         return "booking/stage/stage-two";
     }
@@ -51,8 +50,8 @@ public class BookingRender {
         Model model
     ) {
         model.addAttribute(
-                "combos",
-                comboService.getAllCombo()
+            "combos",
+            comboService.getAllCombo()
         );
         return "booking/stage/stage-three";
     }

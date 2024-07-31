@@ -1,3 +1,4 @@
+
 package com.nongviet201.cinema.core.service.impl;
 
 import com.nongviet201.cinema.core.model.entity.cinema.Auditorium;
@@ -21,22 +22,22 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     private final AuditoriumRepository auditoriumRepository;
 
     @Override
-    public List<Showtime> getShowtimeByMovieIdAndCityId(int movieId, int cityId) {
-        List<Integer> cinemaIds =
-            cinemaRepository.findAllByCity_Id(cityId)
-            .stream()
-            .map(Cinema::getId)
-            .collect(Collectors.toList());
-        List<Integer> auditoriumIds =
-            auditoriumRepository.findAllByCinema_IdIn(cinemaIds)
-            .stream()
-            .map(Auditorium::getId)
-            .collect(Collectors.toList());
-
+    public List<Showtime> getShowtimeByMovieId(int movieId) {
         List<Showtime> showtimes =
-            showtimeRepository.findAllByMovie_IdAndAuditorium_IdIn(movieId, auditoriumIds);
-
+            showtimeRepository.findAllByMovie_IdOrderByScreeningDateAsc(movieId);
         return showtimes;
+    }
+
+    @Override
+    public List<Showtime> getAllShowtimesOnTheSameDayById(Integer showtimeId) {
+        Showtime showtime = showtimeRepository.findById(showtimeId).orElse(null);
+        assert showtime != null;
+        return showtimeRepository
+            .findAllByMovie_IdAndAuditorium_IdAndScreeningDateOrderByStartTimeAsc(
+                showtime.getMovie().getId(),
+                showtime.getAuditorium().getId(),
+                showtime.getScreeningDate()
+            );
     }
 
     @Override
