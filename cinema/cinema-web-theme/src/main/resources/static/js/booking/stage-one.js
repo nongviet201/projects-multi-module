@@ -35,8 +35,7 @@ function initializeElements() {
 
 function getCityFunc(button) {
     cityId = btnFunc(button, cityBtns)
-    toggleAccordion(cityAccordion);
-    toggleAccordion(movieAccordion);
+    openNextAccordion(1);
 }
 
 function getMovieFunc(div) {
@@ -47,8 +46,7 @@ function getMovieFunc(div) {
     showtimeDetailMovieShow(moviePoster, movieName);
     showtimeDetailCinemaHide();
     getShowtime(movieId, cityId);
-    toggleAccordion(movieAccordion);
-    toggleAccordion(showtimeAccordion);
+    openNextAccordion(2);
 }
 
 async function getShowtime(movieId, cityId) {
@@ -65,7 +63,7 @@ async function getShowtime(movieId, cityId) {
             divDate.innerHTML = `  
                 <button class="date-btn border-0 py-2 px-3"
                         onclick="getDateFunc(this)"
-                        value="${showtime.id}">
+                        value="${showtime.screeningDate}">
                         ${showtime.screeningDate}
                 </button>
             `;
@@ -75,7 +73,14 @@ async function getShowtime(movieId, cityId) {
 
 function getDateFunc(button) {
     dateValue = btnFunc(button, dateBtns);
-    showtime = showtimeFindById(dateValue);
+    listShowtimeByDate = showtimeFindByDate(dateValue);
+
+    const divShowtime = document.createElement('div');
+    const divCinema = document.createElement('div');
+
+    listShowtimeByDate.forEach(showtime => {
+        
+    })
     cinema.innerHTML = `
         <div class="border-bottom pb-3">
             <p><strong>${showtime.auditorium.cinema.name}</strong></p>
@@ -116,6 +121,9 @@ function showtimeFindById(id) {
     return showtimeData.data.find(showtime => showtime.id.toString() === id) || null;
 }
 
+function showtimeFindByDate(date) {
+    return showtimeData.data.find(showtime => showtime.screeningDate.toString() === date) || null;
+}
 
 function btnFunc(button, btnArray) {
     btnArray.forEach(btn => {
@@ -125,16 +133,14 @@ function btnFunc(button, btnArray) {
     return button.value;
 }
 
-function toggleAccordion(accordion) {
-    const bsAccordion = new bootstrap.Collapse(accordion);
-    if (bsAccordion._isShown) {
-        bsAccordion.hide();
-    } else {
-        bsAccordion.show();
+function openNextAccordion(currentIndex) {
+    const nextIndex = currentIndex + 1;
+    const nextAccordionButton =
+        document.querySelector(`#accordionExample .accordion-item:nth-of-type(${nextIndex}) .accordion-button`);
+    if (nextAccordionButton) {
+        nextAccordionButton.click();
     }
 }
-
-
 
 
 
