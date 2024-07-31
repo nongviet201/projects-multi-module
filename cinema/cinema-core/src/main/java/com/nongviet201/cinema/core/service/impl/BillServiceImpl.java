@@ -49,4 +49,9 @@ public class BillServiceImpl implements BillService {
         billRepository.save(bill);
         return bill;
     }
+
+    @Override
+    public Bill getBillById(Integer bill) {
+        return billRepository.findById(bill).orElse(null);
+    }
 }

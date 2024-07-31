@@ -117,9 +117,89 @@ main {
     position: relative;
 }
 
+.seat {
+    margin: 5px;
+    display: inline-block;
+    text-align: center;
+    padding: .2rem 0;
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
+}
+.seat:hover{
+    border-color: #034EA2 !important;
+}
+
+.seat-list {
+    display: flex;
+    justify-content: center;
+}
+
+.seat-row {
+    display: flex;
+    margin-bottom: 5px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#seat-container {}
+
+.seat-vip {
+    border-color: #f58a20 !important;
+}
+
+.seat-sold {
+    background-color: gray;
+    cursor: none;
+}
+
+.seat-demo {
+    margin: 5px;
+    padding: .2rem 0;
+    width: 25px;
+    height: 25px;
+}
+
+.payment-logo {
+    width: 50px;
+    height: 50px;
+}
+
 @media (min-width: 576px) {
     .modal-dialog {
         max-width: 400px;
         margin: 2rem auto;
     }
+}
+
+._failed{ border-bottom: solid 4px red !important; }
+._failed i{  color:red !important;  }
+
+._success {
+    box-shadow: 0 15px 25px #00000019;
+    padding: 45px;
+    width: 100%;
+    text-align: center;
+    margin: 40px auto;
+    border-bottom: solid 4px #28a745;
+}
+
+._success i {
+    font-size: 55px !important;
+    color: #28a745;
+}
+
+._success h2 {
+    margin-bottom: 12px;
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-top: 10px;
+}
+
+._success p {
+    margin-bottom: 0px;
+    font-size: 18px;
+    color: #495057;
+    font-weight: 500;
 }

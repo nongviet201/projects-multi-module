@@ -1,7 +1,6 @@
 const divStageTwo = document.getElementById("stage-two");
 let currentSeatsChose = new Set();
 const numberSeatsChose = document.getElementById("number-seats-chose");
-let totalTicketPrice = 0;
 let showtimeData;
 let seatsData = {};
 

@@ -83,6 +83,7 @@ function showtimeDetailSeatShow() {
 }
 
 function ticketTotalPriceShow() {
+    const ticketTotalPrice = document.getElementById("total-price");
     totalPrice = totalComboPrice + totalTicketPrice;
     if (ticketTotalPrice) {
         ticketTotalPrice.innerText = `${totalPrice}`;

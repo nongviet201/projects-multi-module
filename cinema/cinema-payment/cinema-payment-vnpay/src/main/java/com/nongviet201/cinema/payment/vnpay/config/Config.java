@@ -10,7 +10,7 @@ import java.util.TimeZone;
 
 public class Config {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://localhost:8080/booking?stage=5";
+    public static String vnp_ReturnUrl = "http://localhost:8080/booking?";
     public static String vnp_TmnCode = "RLWIK86T";
     public static String secretKey = "YXS26RABKT3P53FEPKSEQ8YXIL0XEESI";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";

@@ -1,11 +1,16 @@
 const divStage = document.getElementById("stage");
 let currentStage = 1;
-const ticketTotalPrice = document.getElementById("total-price");
 const nextBtn = document.getElementById("next-page");
 const prevBtn = document.getElementById("prev-page");
 
 let totalPrice = 0;
 let totalComboPrice = 0;
+let totalTicketPrice = 0;
+
+if (code !== null) {
+    currentStage = 5;
+    stageChange();
+}
 
 if (showtime === null) {
     stageOne();
@@ -66,5 +71,7 @@ function stageFunction() {
             stageFour()
             break
         case 5:
+            stageFive()
+            break
     }
 }

@@ -5,55 +5,6 @@
 <title>CINEMA</title>
 <th:block id="css">
     <link rel="stylesheet" href="/css/pages/booking.css">
-    <style>
-        .seat {
-            margin: 5px;
-            display: inline-block;
-            text-align: center;
-            padding: .2rem 0;
-            width: 25px;
-            height: 25px;
-            font-size: 12px;
-        }
-        .seat:hover{
-            border-color: #034EA2 !important;
-        }
-
-        .seat-list {
-            display: flex;
-            justify-content: center;
-        }
-
-        .seat-row {
-            display: flex;
-            margin-bottom: 5px;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #seat-container {}
-
-        .seat-vip {
-            border-color: #f58a20 !important;
-        }
-
-        .seat-sold {
-            background-color: gray;
-            cursor: none;
-        }
-
-        .seat-demo {
-            margin: 5px;
-            padding: .2rem 0;
-            width: 25px;
-            height: 25px;
-        }
-
-        .payment-logo {
-            width: 50px;
-            height: 50px;
-        }
-    </style>
 </th:block>
 
 <body>
@@ -80,20 +31,22 @@
             </div>
         </main>
     </th:block>
+
     <th:block id="js">
         <script th:inline="javascript">
             let showtime = [[${showtime}]]
+            const stage = [[${stage}]]
+            const code = [[${code}]]
+            const bill = [[${bill}]]
         </script>
         <script type="text/javascript" src="/js/booking/fragments.js"></script>
         <script type="text/javascript" src="/js/booking/stage-one.js"></script>
         <script type="text/javascript" src="/js/booking/stage-two.js"></script>
+        <script type="text/javascript" src="/js/booking/stage-five.js"></script>
         <script type="text/javascript" src="/js/booking/booking.js"></script>
         <script type="text/javascript" src="/js/booking/stage-three.js"></script>
         <script type="text/javascript" src="/js/booking/stage-four.js"></script>
     </th:block>
 </main>
-
-
 </body>
-
 </html>

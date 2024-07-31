@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.web.sdk.controller.view;
 
+import com.nongviet201.cinema.core.service.BillService;
 import com.nongviet201.cinema.core.service.MovieService;
 import com.nongviet201.cinema.core.service.ShowtimeService;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public abstract class WebController {
     private final MovieService movieService;
     private final ShowtimeService showtimeService;
+    private final BillService billService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -34,6 +36,8 @@ public abstract class WebController {
     @GetMapping("/booking")
     public String getBookingPage(
             @RequestParam(value = "showtime", required = false) Integer showtimeId,
+            @RequestParam(value = "vnp_TxnRef", required = false) Integer bill,
+            @RequestParam(value = "vnp_ResponseCode", required = false) String code,
             Model model
     ) {
         if (showtimeId!= null) {
@@ -42,6 +46,28 @@ public abstract class WebController {
                 showtimeService.getShowtimeById(showtimeId)
             );
         }
+        if (bill!= null) {
+            if (code.equals("00")) {
+                model.addAttribute(
+                    "code",
+                    code
+                );
+                model.addAttribute(
+                    "bill",
+                    billService.updateBill(bill)
+                );
+            } else {
+                model.addAttribute(
+                    "code",
+                    code
+                );
+                model.addAttribute(
+                    "bill",
+                    billService.getBillById(bill)
+                );
+            }
+        }
+
         return "booking/booking";
     }
 }
