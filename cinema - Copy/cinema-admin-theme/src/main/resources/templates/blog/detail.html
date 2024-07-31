@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: .content-wrapper}, ~{:: #js})}">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AdminLTE 3 | Dashboard</title>
+    <th:block id="css">
+        <!-- Summernote -->
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
+        <!--  Toastr  -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
+              integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+        <link rel="stylesheet" href="/plugins/select2/css/select2.min.css" />
+        <link rel="stylesheet" href="/dist/css/style.css">
+    </th:block>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="#">Blog</a>
+                            </li>
+                            <li class="breadcrumb-item active" th:text="${blog.title}">
+                                Thực hành làm ứng dụng Meal Finder API
+                                với Javascript (Phần 2)
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-default">
+                            <i class="fas fa-chevron-left"></i> Quay lại
+                        </button>
+                        <button type="button" class="btn btn-info px-4" id="btn-update">
+                            Lưu
+                        </button>
+                        <button type="button" class="btn btn-primary px-4">
+                            Preview
+                        </button>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end">
+                        <button type="button" class="btn btn-danger px-4" id="btn-delete">
+                            Xóa
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="form-blog">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label>Tiêu đề</label>
+                                                <input type="text" class="form-control" name="title" id="title" th:value="${blog.getTitle()}"/>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Nội dung</label>
+                                                <textarea id="content" name="content" th:text="${blog.content}"></textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Mô tả ngắn</label>
+                                                <textarea id="description" class="form-control" rows="3" name="description" th:text="${blog.description}"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Trạng thái</label>
+                                                <select id="status" class="form-control" th:value="${blog.status}? '1':'0'">
+                                                    <option value="0" th:selected="${!blog.status}">
+                                                        Nháp
+                                                    </option>
+                                                    <option value="1" th:selected="${blog.status}">
+                                                        Công khai
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="thumbnail-preview-container mb-3">
+                                                    <img th:src="${blog.thumbnail}" alt="" id="thumbnail" />
+                                                </div>
+                                                <label for="input-thumbnail" class="btn btn-info btn-flat">
+                                                    Chọn hình ảnh
+                                                </label>
+                                                <input type="file" id="input-thumbnail" class="d-none">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="modal fade" id="modal-xl" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Extra Large Modal</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>One fine body…</p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-primary">
+                            Save changes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block id="js">
+    <!-- AdminLTE App -->
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
+    <script src="/plugins/select2/js/select2.full.min.js"></script>
+
+    <!-- Summernote -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+    <!-- Validation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+            integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js"
+            integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="/js/main.js"></script>
+    <script th:inline="javascript">
+        const blog = [[${blog}]]
+    </script>
+
+    <script >
+        $(document).ready(function () {
+            let content = $('#content').data('content');
+            $('#content').summernote({
+                placeholder: 'Enter Content',
+                height: 300,                 // set editor height
+                minHeight: null,             // set minimum height of editor
+                maxHeight: null,             // set maximum height of editor
+                focus: false                  // set focus to editable area after initializing summernote
+            }).summernote('code',  content);
+        });
+
+        // validation
+        $('#form-blog').validate({
+            rules: {
+                title: {
+                    required: true,
+                },
+                content: {
+                    required: true,
+                },
+                description: {
+                    required: true,
+                }
+            },
+            messages: {
+                title: {
+                    required: "Vui lòng nhập tiêu đề"
+                },
+                content: {
+                    required: "Vui lòng nhập nội dung bài viết"
+                },
+                description: {
+                    required: "Vui lòng nhập mô tả bài viết"
+                }
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+
+        const titleEl = document.getElementById("title")
+        let contentEl = document.getElementById("content")
+        const statusEl = document.getElementById("status")
+        const descriptionEl = document.getElementById("description")
+        const btnUpdate = document.getElementById("btn-update")
+        const btnDelete = document.getElementById("btn-delete")
+
+        btnUpdate.addEventListener("click", async (e) => {
+            e.preventDefault()
+
+            if (!$('#form-blog').valid()){
+                return;
+            }
+
+            const data = {
+                title: titleEl.value,
+                content: contentEl.value,
+                description: descriptionEl.value,
+                status : statusEl.value === "1"
+            }
+
+            try {
+                const res = await axios.put(`/api/admin/blogs/${blog.id}`, data);
+                toastr.success("Cập nhật blog thành công")
+                setTimeout(() => {
+                    window.location.href = "/admin/blogs/own-blogs";
+                }, 1000)
+            } catch (error) {
+                console.log(error)
+                toastr.error(error.response.data.message)
+            }
+        })
+
+        btnDelete.addEventListener("click", async (e) => {
+            const confirm = window.confirm("Bạn có chắc muốn xóa không?")
+            if (!confirm)
+                return;
+            try {
+                const res = await await axios.delete(`/api/admin/blogs/${blog.id}`)
+                console.log(res)
+                toastr.success("Xóa blog thành công ")
+                setTimeout(() => {
+                    window.location.href = "/admin/blogs/own-blogs";
+                }, 1000)
+            } catch (error) {
+                console.log(error)
+                toastr.error(error.data.message)
+            }
+        })
+
+    </script>
+</th:block>
+
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<div>
+    <div class="fs-20px fw-700" >Chọn Combo</div>
+    <div class="combo row mt-3" th:each="combo : ${combos}">
+        <div class="col-lg-3 pe-3">
+            <img  th:src="${combo.getImage()}" th:alt="${combo.getName()}">
+        </div>
+        <div class="col-lg-7 ps-2">
+            <div>
+                <p class="fs-18px fw-600 mb-1" th:text="${combo.getName()}"></p>
+                <span class="fs-14px text-black-50" th:text="${combo.getDescription()}"></span>
+                <p class="mt-3 mb-0 fs-16px fw-600">
+                    Giá: <span th:class="${combo.getId()}" th:value="${combo.getPrice()}" th:text="${combo.getPrice()}"></span>
+                </p>
+            </div>
+        </div>
+        <div class="col-lg-2 d-flex align-items-end">
+            <div th:class="${combo.getName()}">
+                <button class="minus fs-12px" style="padding:.25rem .75rem">-</button>
+                <button th:value="${combo.getId()}" class="combo-quantity fs-12px" style="padding:.25rem .75rem">0</button>
+                <button class="plus fs-12px" style="padding:.25rem .75rem">+</button>
+            </div>
+        </div>
+    </div>
+</div>
