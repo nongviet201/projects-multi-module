@@ -19,7 +19,7 @@ public class VnPayService {
 
     public ResponseEntity<?> createPayment(PaymentVnPayRequest request) {
         String vnp_TxnRef = String.valueOf(request.getBillId());
-        long amount = Long.parseLong(request.getAmount()) * 100;
+        long amount = request.getAmount() * 100;
 
         Map vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
