@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: #content}, ~{:: #js})}">
+<title>CINEMA</title>
+<th:block id="css">
+    <link rel="stylesheet" href="/css/pages/booking.css">
+    <style>
+        .seat {
+            margin: 5px;
+            display: inline-block;
+            text-align: center;
+            padding: .2rem 0;
+            width: 25px;
+            height: 25px;
+            font-size: 12px;
+        }
+        .seat:hover{
+            border-color: #034EA2 !important;
+        }
+
+        .seat-list {
+            display: flex;
+            justify-content: center;
+        }
+
+        .seat-row {
+            display: flex;
+            margin-bottom: 5px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #seat-container {}
+
+        .seat-vip {
+            border-color: #f58a20 !important;
+        }
+
+        .seat-sold {
+            background-color: gray;
+            cursor: none;
+        }
+
+        .seat-demo {
+            margin: 5px;
+            padding: .2rem 0;
+            width: 25px;
+            height: 25px;
+        }
+
+        .payment-logo {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</th:block>
+
+<body>
+    <main>
+        <th:block id="content">
+            <div class="line"></div>
+            <th:block th:replace="~{booking/fragments/booking-bar :: .content}">
+            </th:block>
+            <main class="pt-4 pb-5">
+                <div class="container px-1">
+                    <div class="booking-body">
+                        <div class="row px-3">
+                            <div class="col-lg-8">
+                                <div id="stage"></div>
+                                <div id="stage-two">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 py-3 ps-3">
+                                <th:block th:replace="~{booking/fragments/ticket :: .content}">
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </th:block>
+        <th:block id="js">
+            <script th:inline="javascript">
+                let showtime = [[${showtime}]]
+            </script>
+            <script type="text/javascript" src="/js/booking/fragments.js"></script>
+            <script type="text/javascript" src="/js/booking/stage-one.js"></script>
+            <script type="text/javascript" src="/js/booking/stage-two.js"></script>
+            <script type="text/javascript" src="/js/booking/booking.js"></script>
+            <script type="text/javascript" src="/js/booking/stage-three.js"></script>
+            <script type="text/javascript" src="/js/booking/stage-four.js"></script>
+        </th:block>
+    </main>
+
+
+</body>
+
+</html>

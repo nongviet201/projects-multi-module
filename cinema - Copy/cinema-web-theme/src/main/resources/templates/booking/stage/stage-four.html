@@ -1,0 +1,66 @@
+<div id="stage-four" class="row bg-white px-4 py-4">
+    <div class="fs-18px fw-600">
+        Phương thức thanh toán
+    </div>
+    <div>
+        <ul class="payment mt-3">
+            <li class="d-flex align-items-center gap-1">
+                <input type="radio" id="payment-vnPay" value="vnPay" checked>
+                <img class="payment-logo" src="https://cdn.galaxycine.vn/media/2021/12/2/download_1638460623615.png" alt="VNPay">
+                <label for="payment-vnPay">VNPay</label>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-ticket">
+            <div class="modal-header justify-content-center border-0">
+                <button type="button" class="p-0 border-0 fs-16px m-0 text-white"
+                        data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark fa-xl" style="color: #ffffff;"></i>
+                </button>
+            </div>
+            <div class="modal-body bg-white">
+                <div class="d-flex justify-content-center">
+                    <strong class=" text-uppercase ">Thông tin đặt vé</strong>
+                </div>
+                <div class="row mt-3">
+                    <strong class="col-2 pt-2 fs-14px">Phim</strong>
+                    <div id="bill-movie-name" class="col-10 border border-1 py-2 px-3">
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <strong class="col-2 pt-2 fs-14px">Rạp</strong>
+                    <div id="bill-cinema-name" class="col-10 border border-1 py-2 px-3">
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-2 pt-2 fs-14px"></div>
+                    <div id="bill-auditorium" class="col-10 d-flex flex-direction-column border border-1 py-2 px-3">
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <strong class="col-2 pt-2 fs-14px">Tổng</strong>
+                    <div class="col-10 px-3 py-2 bg-blue">
+                        <div id="bill-total-price" class="text-white fs-16px fw-600">200.000Đ</div>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="modal-line mt-4 mb-3"></div>
+                </div>
+                <p class="fs-16px text-italic">tôi xác nhận thông tin đặt vé đã chính xác
+                    <input id="submit-check" type="checkbox" name="submit" value="accept">
+                </p>
+                <div class="d-flex justify-content-center">
+                    <button id="btn-payment-submit" type="button" class="btn bg-orange text-white mt-3 fw-600">Thanh toán</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

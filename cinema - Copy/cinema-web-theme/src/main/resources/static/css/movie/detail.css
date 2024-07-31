@@ -1,0 +1,31 @@
+.movie-title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.movie-sub-entity {
+
+}
+
+.middle-content span {
+    border-left: 4px solid rgb(3 78 162);
+}
+
+.movie-rating {
+    margin: 5px 0;
+    font-size: 20px;
+}
+
+.movie-detail-img {
+    position: absolute;
+    bottom: 0;
+    box-shadow: 0 25px 25px rgba(0, 0, 0, .15);
+    border: 2px solid white;
+    border-radius: 3px;
+}
+
+.div-title {
+    border: 1px solid rgb(208 208 208);
+    border-radius: 5px;
+    font-size: 14px;
+}
