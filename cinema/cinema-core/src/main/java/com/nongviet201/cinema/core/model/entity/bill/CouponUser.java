@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @ToString
 @Getter
@@ -17,14 +18,14 @@ import java.time.LocalDate;
 public class CouponUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    LocalDate usedAt;
+    private int id;
+    private LocalDateTime usedAt;
 
     @OneToOne
     @JoinColumn(name = "coupon_id")
-    Coupon coupon;
+    private Coupon coupon;
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    User user;
+    private User user;
 }

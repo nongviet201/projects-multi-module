@@ -3,6 +3,7 @@ package com.nongviet201.cinema.web.sdk.controller.view;
 import com.nongviet201.cinema.core.service.BillService;
 import com.nongviet201.cinema.core.service.MovieService;
 import com.nongviet201.cinema.core.service.ShowtimeService;
+import com.nongviet201.cinema.web.sdk.controller.service.WebBillControllerService;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public abstract class WebController {
     private final MovieService movieService;
     private final ShowtimeService showtimeService;
-    private final BillService billService;
+    private final WebBillControllerService billControllerService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -29,6 +30,10 @@ public abstract class WebController {
         model.addAttribute(
             "movie",
             movieService.getPublishMovieBySlug(slug)
+        );
+        model.addAttribute(
+            "newMovies",
+            movieService.getAllPublishMoviesOrderByReleaseDate()
         );
         return "movie/detail";
     }
@@ -54,7 +59,7 @@ public abstract class WebController {
                 );
                 model.addAttribute(
                     "bill",
-                    billService.updateBill(bill)
+                    billControllerService.updateBill(bill)
                 );
             } else {
                 model.addAttribute(
@@ -63,11 +68,10 @@ public abstract class WebController {
                 );
                 model.addAttribute(
                     "bill",
-                    billService.getBillById(bill)
+                    billControllerService.getBillById(bill)
                 );
             }
         }
-
         return "booking/booking";
     }
 }

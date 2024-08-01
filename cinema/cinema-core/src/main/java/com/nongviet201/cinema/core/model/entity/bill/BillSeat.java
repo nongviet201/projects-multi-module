@@ -3,7 +3,7 @@ import com.nongviet201.cinema.core.model.entity.cinema.Seat;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @ToString
 @Getter
@@ -16,14 +16,16 @@ import java.math.BigDecimal;
 public class BillSeat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    long price;
+    private int id;
+    private long price;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
 
     @ManyToOne
     @JoinColumn(name= "bill_id")
-    Bill bill;
+    private Bill bill;
 
     @ManyToOne
     @JoinColumn(name = "seat_id")
-    Seat seat;
+    private Seat seat;
 }

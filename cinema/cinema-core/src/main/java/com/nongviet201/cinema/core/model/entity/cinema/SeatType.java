@@ -3,8 +3,6 @@ package com.nongviet201.cinema.core.model.entity.cinema;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @ToString
 @Getter
 @Setter

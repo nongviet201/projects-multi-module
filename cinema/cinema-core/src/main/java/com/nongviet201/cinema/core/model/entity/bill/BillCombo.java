@@ -3,7 +3,8 @@ package com.nongviet201.cinema.core.model.entity.bill;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @ToString
 @Getter
 @Setter
@@ -15,15 +16,17 @@ import java.math.BigDecimal;
 public class BillCombo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
-    int quantity;
-    long price;
+    private int id;
+    private int quantity;
+    private long price;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
 
     @ManyToOne
     @JoinColumn(name= "bill_id")
-    Bill bill;
+    private Bill bill;
 
     @ManyToOne
     @JoinColumn(name = "combo_id")
-    Combo combo;
+    private Combo combo;
 }

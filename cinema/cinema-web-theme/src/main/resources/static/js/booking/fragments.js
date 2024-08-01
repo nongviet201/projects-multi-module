@@ -71,8 +71,10 @@ function showtimeDetailSeatShow() {
             seatNameValue.id = `${seat.seatRow}${seat.seatColumn}`;
             seatName.appendChild(seatNameValue);
 
+            const seatType = document.getElementById("seat-type");
+            seatType.innerText = `${seat.type}`
             const seatPrice = document.getElementById("seat-price");
-            seatPrice.innerText = `${totalTicketPrice}đ`;
+            seatPrice.innerText = formatPrice(totalTicketPrice) + `đ`;
             ticketTotalPriceShow();
         });
     } else {
@@ -86,7 +88,7 @@ function ticketTotalPriceShow() {
     const ticketTotalPrice = document.getElementById("total-price");
     totalPrice = totalComboPrice + totalTicketPrice;
     if (ticketTotalPrice) {
-        ticketTotalPrice.innerText = `${totalPrice}`;
+        ticketTotalPrice.innerText = formatPrice(totalPrice);
     }
 }
 
@@ -115,3 +117,14 @@ function showtimeDetailShowAll(showtime) {
 function showtimeDetailCinemaHide() {
     showtimeDetailCinema.innerHTML = "";
 }
+
+function formatPrice(number) {
+    return number.toLocaleString('vi-VN');
+}
+
+window.addEventListener('beforeunload', function (e) {
+    const confirmationMessage = 'Bạn có chắc chắn muốn rời khỏi trang này?';
+    (e || window.event).returnValue = confirmationMessage;
+    return confirmationMessage;
+});
+

@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
@@ -32,8 +33,8 @@ public class BillServiceImpl implements BillService {
             .showTime(showtime)
             .totalPrice(totalPrice)
             .status(false)
-            .createAt(LocalDate.now())
-            .updateAt(LocalDate.now())
+            .createAt(LocalDateTime.now())
+            .updateAt(LocalDateTime.now())
             .build();
 
         billRepository.save(bill);
@@ -45,7 +46,7 @@ public class BillServiceImpl implements BillService {
         Bill bill = billRepository.findById(billId).orElse(null);
         assert bill != null;
         bill.setStatus(true);
-        bill.setUpdateAt(LocalDate.now());
+        bill.setUpdateAt(LocalDateTime.now());
         billRepository.save(bill);
         return bill;
     }

@@ -64,6 +64,7 @@ function updateTicketCombo() {
             combosName.set(comboId, comboName);
             const totalComboItemPrice = comboPrice * quantity;
             totalComboPrice += totalComboItemPrice;
+            let totalComboPriceFormat = formatPrice(totalComboPrice);
 
             let detail = document.createElement('div');
             detail.classList.add('d-flex', 'justify-content-between', 'align-items-center');
@@ -72,7 +73,7 @@ function updateTicketCombo() {
                     <strong class="fs-14px">${quantity} <span> x </span></strong>
                     <span class="fs-14px text-black-50">${comboName}</span>
                 </div>
-                <strong class="fs-14px">${totalComboItemPrice}<span>đ</span></strong> <!-- Hiển thị tổng giá với 2 chữ số thập phân -->
+                <strong class="fs-14px">${totalComboPriceFormat}<span>đ</span></strong> <!-- Hiển thị tổng giá với 2 chữ số thập phân -->
             `;
             comboDetails.appendChild(detail);
         }

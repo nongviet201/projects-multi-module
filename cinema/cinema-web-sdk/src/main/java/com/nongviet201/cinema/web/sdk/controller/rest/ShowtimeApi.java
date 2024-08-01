@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.web.sdk.rest;
+package com.nongviet201.cinema.web.sdk.controller.rest;
 
 import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.service.ShowtimeService;

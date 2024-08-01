@@ -92,12 +92,12 @@ function renderSeats(seats) {
         rowDiv.appendChild(rowNameS);
 
         rowList.className = 'seat-list';
-        rows[row].forEach((seat, index) => {
+        rows[row].forEach((seat) => {
             const seatBtn = document.createElement('button');
             seatBtn.className = 'seat';
             seatBtn.value = seat.id;
             seatBtn.id = `seat-${seat.id}`;
-            seatBtn.innerText = index + 1;
+            seatBtn.innerText = `${seat.seatColumn}`;
             seatBtn.onclick = () => seatBtnFunc(seat.id);
             rowList.appendChild(seatBtn);
         });
@@ -115,11 +115,11 @@ function seatBtnFunc(seatId) {
 
     if (isActive) {
         currentSeatsChose.add(seat.id);
-        totalTicketPrice += seat.type.price;
+        totalTicketPrice += seat.price;
         upsertReservation(seat.id)
     } else {
         currentSeatsChose.delete(seat.id);
-        totalTicketPrice -= seat.type.price
+        totalTicketPrice -= seat.price
         cancelReservation(seat.id)
     }
 
@@ -161,7 +161,15 @@ async function cancelReservation(seatId) {
     try {
         let res = await axios.delete(`/api/v1/reservations/cancel/${reservationId}`);
         seatEl.dataset.reservationId = "";
+        console.log('đã xóa');
     } catch (e) {
         console.log(e)
     }
 }
+
+window.addEventListener('load', function (e) {
+    currentSeatsChose.forEach(e =>{
+        cancelReservation(e)
+    })
+    console.log('Trang đang được tải lại hoặc rời khỏi.');
+});

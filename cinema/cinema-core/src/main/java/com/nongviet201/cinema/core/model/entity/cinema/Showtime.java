@@ -18,16 +18,16 @@ import java.time.LocalTime;
 public class Showtime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     private LocalDate screeningDate;
     private LocalTime startTime;
     private LocalTime endTime;
 
     @ManyToOne
     @JoinColumn(name = "movies_id")
-    Movie movie;
+    private Movie movie;
 
     @ManyToOne
     @JoinColumn(name= "auditorium_id")
-    Auditorium auditorium;
+    private Auditorium auditorium;
 }

@@ -1,11 +1,13 @@
 package com.nongviet201.cinema.core.model.entity.bill;
 
+
 import com.nongviet201.cinema.core.model.entity.User;
-import com.nongviet201.cinema.core.model.entity.cinema.Showtime;import jakarta.persistence.*;
+import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
+import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @ToString
 @Getter
 @Setter
@@ -17,17 +19,17 @@ import java.time.LocalDate;
 public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
-    boolean status;
-    long totalPrice;
-    LocalDate createAt;
-    LocalDate updateAt;
+    private int id;
+    private boolean status;
+    private long totalPrice;
+    private LocalDateTime createAt;
+    private LocalDateTime updateAt;
 
     @ManyToOne
     @JoinColumn(name= "user_id")
-    User user;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "showtime_id")
-    Showtime showTime;
+    private Showtime showTime;
 }

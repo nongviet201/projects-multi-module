@@ -17,17 +17,17 @@ import java.time.LocalDate;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto tăng id
-    Integer id;
+    private Integer id;
     @Column(nullable = false)
-    String username;
+    private String username;
     @Column(nullable = false)
-    String password;
-    String avatar;
-    String email;
-    String gender;
-    LocalDate birthday;
+    private String password;
+    private String avatar;
+    private String email;
+    private String gender;
+    private LocalDate birthday;
     @Enumerated(EnumType.STRING)
-    UserRole role;
-    LocalDate createAt;
-    LocalDate updateAt;
+    private UserRole role;
+    private LocalDate createAt;
+    private LocalDate updateAt;
 }

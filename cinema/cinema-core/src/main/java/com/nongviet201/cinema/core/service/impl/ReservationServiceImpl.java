@@ -13,7 +13,7 @@ import com.nongviet201.cinema.core.service.ReservationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
@@ -34,8 +34,8 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setSeat(seat);
         reservation.setShowTime(showtime);
         reservation.setStatus(ReservationType.PENDING);
-        reservation.setCreateAt(LocalDate.now());
-        reservation.setUpdateAt(LocalDate.now());
+        reservation.setCreateAt(LocalDateTime.now());
+        reservation.setUpdateAt(LocalDateTime.now());
 
         reservationRepository.save(reservation);
         return reservation;

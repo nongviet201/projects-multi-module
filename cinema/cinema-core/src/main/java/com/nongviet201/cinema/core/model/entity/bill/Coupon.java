@@ -3,7 +3,6 @@ package com.nongviet201.cinema.core.model.entity.bill;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 @ToString
 @Getter
@@ -16,10 +15,10 @@ import java.time.LocalDate;
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    long discountPrice;
-    int limitAmount;
-    String code;
-    LocalDate startDate;
-    LocalDate endDate;
+    private int id;
+    private long discountPrice;
+    private int limitAmount;
+    private String code;
+    private LocalDate startDate;
+    private LocalDate endDate;
 }

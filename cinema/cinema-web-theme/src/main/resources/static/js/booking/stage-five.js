@@ -21,13 +21,13 @@ function showStatus(code) {
                                 <div class="d-flex justify-content-between text-sm">
                                     <span>Tổng thanh toán:</span>
                                     <span class="fs-14px">
-                                        <strong class="fs-16px">${bill.totalPrice} <span> đ</span></strong>
+                                        <strong class="fs-16px">${bill.amount} <span> đ</span></strong>
                                     </span>
                                 </div>
                                 <div class="d-flex justify-content-between text-sm mt-2">
                                     <span>Thời gian:</span>
                                     <span class="fs-14px">
-                                        <strong class="fs-16px">${bill.updateAt}</strong>
+                                        <strong class="fs-16px">${bill.updatedAt}</strong>
                                     </span>
                                 </div>
                                 <div class="d-flex justify-content-between text-sm mt-2">
@@ -60,13 +60,13 @@ function showStatus(code) {
                                 <div class="d-flex justify-content-between text-sm">
                                     <span>Tổng thanh toán:</span>
                                     <span class="fs-14px">
-                                        <strong class="fs-16px">${bill.totalPrice} <span> đ</span></strong>
+                                        <strong class="fs-16px">${bill.amount} <span> đ</span></strong>
                                     </span>
                                 </div>
                                 <div class="d-flex justify-content-between text-sm mt-2">
                                     <span>Thời gian:</span>
                                     <span class="fs-14px">
-                                        <strong class="fs-16px">${bill.updateAt}</strong>
+                                        <strong class="fs-16px">${bill.updatedAt}</strong>
                                     </span>
                                 </div>
                                 <div class="d-flex justify-content-between text-sm mt-2">

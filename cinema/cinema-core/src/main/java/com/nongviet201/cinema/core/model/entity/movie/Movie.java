@@ -17,26 +17,31 @@ import java.util.List;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto tăng id
-    Integer id;
+    private Integer id;
     @Column(nullable = false)
-    String name;
-    String slug;
+    private String name;
+    private String slug;
     @Column(columnDefinition = "TEXT")
-    String description;
-    String poster;
-    int duration;
-    double rating;
-    boolean status;
-    String trailer;
-    LocalDate releaseDate;
-    LocalDate startAt;
-    LocalDate endAt;
-    LocalDate createdAt;
-    LocalDate updateAt;
+    private String description;
+    @Column(columnDefinition = "TEXT")
+    private String poster;
+    @Column(columnDefinition = "TEXT")
+    private String bannerImg;
+    private int duration;
+    private double rating;
+    private boolean status;
+    @Column(columnDefinition = "TEXT")
+    private String trailer;
+    private LocalDate releaseDate;
+    private LocalDate startAt;
+    private LocalDate endAt;
+    private LocalDate createdAt;
+    private LocalDate updateAt;
+    private String producer;
 
     @ManyToOne
     @JoinColumn(name = "countries_id")
-    Country country;
+    private Country country;
 
     @ManyToMany
     @JoinTable(
@@ -44,7 +49,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
-    List<Genre> genres;
+    private List<Genre> genres;
 
     @ManyToMany
     @JoinTable(
@@ -52,7 +57,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "director_id")
     )
-    List<Director> directors;
+    private List<Director> directors;
 
     @ManyToMany
     @JoinTable(
@@ -60,5 +65,5 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
-    List<Actor> actors;
+    private List<Actor> actors;
 }

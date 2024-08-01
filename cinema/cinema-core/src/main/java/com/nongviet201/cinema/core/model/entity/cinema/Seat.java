@@ -15,16 +15,16 @@ import lombok.*;
 public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    boolean status;
-    String seatRow;
-    int seatColumn;
+    private int id;
+    private boolean status;
+    private String seatRow;
+    private int seatColumn;
 
     @ManyToOne
     @JoinColumn(name= "auditorium_id")
-    Auditorium auditorium;
+    private Auditorium auditorium;
 
     @ManyToOne
     @JoinColumn(name = "seat_type_id")
-    SeatType type;
+    private SeatType type;
 }

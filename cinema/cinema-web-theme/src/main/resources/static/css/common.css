@@ -7,6 +7,9 @@
     margin: 1.25rem 0;
     border-bottom: 1px dashed rgb(153 153 153);
 }
+.line-blue {
+    border-left: 4px solid rgb(3 78 162) !important;
+}
 
 /*Text*/
 .text-uppercase {
@@ -72,6 +75,9 @@
 .bg-blue {
     background-color: #034EA2 !important;
 }
+.bg-black {
+    background-color: black !important;
+}
 
 /*button*/
 button {
@@ -120,3 +126,5 @@ button.disabled {
 .gap-1 {
     gap: 1rem!important;
 }
+
+/*position*/

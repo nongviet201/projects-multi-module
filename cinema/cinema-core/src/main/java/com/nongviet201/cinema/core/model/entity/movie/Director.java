@@ -14,8 +14,8 @@ import lombok.*;
 public class Director {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
-    String name;
-    String avatar;
-    String bio;
+    private Integer id;
+    private String name;
+    private String avatar;
+    private String bio;
 }

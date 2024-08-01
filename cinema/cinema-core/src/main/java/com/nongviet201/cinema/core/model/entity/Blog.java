@@ -16,21 +16,21 @@ import java.time.LocalDate;
 public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto tăng id
-    Integer id;
+    private Integer id;
     @Column(nullable = false)
-    String title;
+    private String title;
     @Column(nullable = false)
-    String slug;
+    private String slug;
     @Column(columnDefinition = "TEXT")
-    String description;
+    private String description;
     @Column(columnDefinition = "TEXT")
-    String content;
-    String thumbnail;
-    boolean status;
-    LocalDate createdAt;
-    LocalDate updateAt;
+    private String content;
+    private String thumbnail;
+    private boolean status;
+    private LocalDate createdAt;
+    private LocalDate updateAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    User user;
+    private User user;
 }

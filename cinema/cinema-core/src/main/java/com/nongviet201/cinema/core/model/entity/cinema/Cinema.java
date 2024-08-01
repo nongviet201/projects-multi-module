@@ -14,12 +14,12 @@ import lombok.*;
 public class Cinema {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    String name;
+    private int id;
+    private String name;
     @Column(columnDefinition = "TEXT")
-    String address;
+    private String address;
 
     @ManyToOne
     @JoinColumn(name = "city_id")
-    City city;
+    private City city;
 }

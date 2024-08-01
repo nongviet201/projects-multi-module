@@ -15,14 +15,14 @@ import lombok.*;
 public class Auditorium {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
     String name;
-    int totalRowChair;
-    int totalColumnChair;
+    private int totalRowChair;
+    private int totalColumnChair;
     @Enumerated(EnumType.STRING)
-    AuditoriumType auditoriumType;
+    private AuditoriumType auditoriumType;
 
     @ManyToOne
     @JoinColumn(name = "cinema_id")
-    Cinema cinema;
+    private Cinema cinema;
 }

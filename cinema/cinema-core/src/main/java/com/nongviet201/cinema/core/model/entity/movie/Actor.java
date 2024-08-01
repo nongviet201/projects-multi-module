@@ -14,9 +14,9 @@ import lombok.*;
 public class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
-    String name;
-    String avatar;
+    private Integer id;
+    private String name;
+    private String avatar;
     @Column(columnDefinition = "TEXT")
-    String bio;
+    private String bio;
 }

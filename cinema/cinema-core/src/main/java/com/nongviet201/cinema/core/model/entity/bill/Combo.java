@@ -2,8 +2,6 @@ package com.nongviet201.cinema.core.model.entity.bill;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
-
 @ToString
 @Getter
 @Setter
@@ -15,11 +13,11 @@ import java.math.BigDecimal;
 public class Combo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    String name;
+    private int id;
+    private String name;
     @Column(columnDefinition = "TEXT")
-    String description;
-    String image;
-    boolean status;
-    long price;
+    private String description;
+    private String image;
+    private boolean status;
+    private long price;
 }
