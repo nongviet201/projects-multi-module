@@ -121,10 +121,3 @@ function showtimeDetailCinemaHide() {
 function formatPrice(number) {
     return number.toLocaleString('vi-VN');
 }
-
-window.addEventListener('beforeunload', function (e) {
-    const confirmationMessage = 'Bạn có chắc chắn muốn rời khỏi trang này?';
-    (e || window.event).returnValue = confirmationMessage;
-    return confirmationMessage;
-});
-

@@ -1,0 +1,31 @@
+<div>
+    <span class="line-blue me-2"></span>
+    <p class="d-inline-block align-content-center fs-20px fw-700 text-uppercase">
+        Phim đang chiếu</p>
+    <div class="mt-3">
+        <div class="mt-1" th:each="movie : ${newMovies}">
+            <div class="movie-content">
+                <div class="movie-img" style="border-radius: 5px">
+                    <a th:href="'/movie/' + ${movie.getSlug()}">
+                        <img th:src="${movie.getBannerImg()}"
+                             th:alt="${movie.getName()}"
+                             style="height: 220px">
+                        <div class="overlay"></div>
+                    </a>
+                    <div class="movie-content-hover">
+                        <a th:href="'/movie/' + ${movie.getSlug()}"
+                           class="movie-hover-btn-ticket mb-3">
+                            <i class="fa-solid fa-ticket"></i>
+                            <p class="m-0 ms-2">Mua vé</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <a th:href="'/movie/' + ${movie.getSlug()}">
+                    <p class="my-3 fs-14px fw-600" th:text="${movie.getName()}"></p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

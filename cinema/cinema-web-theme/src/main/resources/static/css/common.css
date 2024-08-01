@@ -10,6 +10,9 @@
 .line-blue {
     border-left: 4px solid rgb(3 78 162) !important;
 }
+.line-blue-bottom {
+    border-bottom: 3px solid rgb(3 78 162) !important;
+}
 
 /*Text*/
 .text-uppercase {
@@ -80,6 +83,18 @@
 }
 
 /*button*/
+.like-btn {
+    background-color: #1a87f6;
+    color: white;
+    padding: 3px 12px;
+    font-size: 12px;
+}
+.view-btn {
+    background-color: #E9EDF1;
+    color: black;
+    padding: 3px 12px;
+    font-size: 12px;
+}
 button {
     border: 1px solid #e5e7eb;
     border-radius: 5px;

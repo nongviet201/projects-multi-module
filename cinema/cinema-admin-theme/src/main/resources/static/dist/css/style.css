@@ -8,3 +8,8 @@ img {
     position: relative;
     z-index: 1039;
 }
+
+@font-face {
+    font-family: 'ta-solid';
+    src: url(../fonts/fa-solid-900.woff2) format('woff2');
+}

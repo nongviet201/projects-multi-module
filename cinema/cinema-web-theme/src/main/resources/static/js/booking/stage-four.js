@@ -112,7 +112,6 @@ async function payment(
     }
     try {
         let res = await axios.post(`/api/v1/vnpay/create-payment`, data);
-
         window.location.href = res.data;
     } catch (e) {
         console.error(e);

@@ -1,6 +1,5 @@
 package com.nongviet201.cinema.web.sdk.controller.view;
 
-import com.nongviet201.cinema.core.service.BillService;
 import com.nongviet201.cinema.core.service.MovieService;
 import com.nongviet201.cinema.core.service.ShowtimeService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebBillControllerService;
@@ -26,14 +25,13 @@ public abstract class WebController {
     }
 
     @GetMapping("/movie/{slug}")
-    public String infoMoviePage(@PathVariable("slug") String slug, Model model) {
+    public String infoMoviePage(
+        @PathVariable("slug") String slug,
+        Model model
+    ) {
         model.addAttribute(
             "movie",
             movieService.getPublishMovieBySlug(slug)
-        );
-        model.addAttribute(
-            "newMovies",
-            movieService.getAllPublishMoviesOrderByReleaseDate()
         );
         return "movie/detail";
     }
@@ -74,4 +72,12 @@ public abstract class WebController {
         }
         return "booking/booking";
     }
+
+    @GetMapping("/blogs")
+    public String getBlogsPage(
+        Model model
+    ) {
+        return "blog/index";
+    }
+
 }

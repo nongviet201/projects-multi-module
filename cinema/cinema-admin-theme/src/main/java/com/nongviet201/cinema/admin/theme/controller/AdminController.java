@@ -63,5 +63,16 @@ public class AdminController {
         return "/movie/create";
     }
 
+    @GetMapping("/web/settings/banner")
+    public String getAdminWebSettingsBannerPage(
+    ) {
+        return "/web-settings/banner";
+    }
+
+    @GetMapping("/web/settings/theme")
+    public String getAdminWebSettingsThemePage(
+    ) {
+        return "/web-settings/theme";
+    }
 
 }

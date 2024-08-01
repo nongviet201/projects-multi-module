@@ -2,9 +2,9 @@ function stageFive() {
     showStatus(code)
 }
 
-
 function showStatus(code) {
     const bookingBody = document.querySelector(".booking-body");
+    const amountFormat = formatPrice(bill.amount);
     bookingBody.innerHTML = ``;
     if (code === "00") {
         bookingBody.innerHTML = `
@@ -21,13 +21,13 @@ function showStatus(code) {
                                 <div class="d-flex justify-content-between text-sm">
                                     <span>Tổng thanh toán:</span>
                                     <span class="fs-14px">
-                                        <strong class="fs-16px">${bill.amount} <span> đ</span></strong>
+                                        <strong class="fs-16px">${amountFormat} <span>đ</span></strong>
                                     </span>
                                 </div>
                                 <div class="d-flex justify-content-between text-sm mt-2">
                                     <span>Thời gian:</span>
                                     <span class="fs-14px">
-                                        <strong class="fs-16px">${bill.updatedAt}</strong>
+                                        <p class="fs-14px fw-600">${bill.updatedAt}</p>
                                     </span>
                                 </div>
                                 <div class="d-flex justify-content-between text-sm mt-2">
@@ -60,13 +60,13 @@ function showStatus(code) {
                                 <div class="d-flex justify-content-between text-sm">
                                     <span>Tổng thanh toán:</span>
                                     <span class="fs-14px">
-                                        <strong class="fs-16px">${bill.amount} <span> đ</span></strong>
+                                        <strong class="fs-16px">${amountFormat} <span> đ</span></strong>
                                     </span>
                                 </div>
                                 <div class="d-flex justify-content-between text-sm mt-2">
                                     <span>Thời gian:</span>
                                     <span class="fs-14px">
-                                        <strong class="fs-16px">${bill.updatedAt}</strong>
+                                        <p class="fs-14px fw-600">${bill.updatedAt}</p>
                                     </span>
                                 </div>
                                 <div class="d-flex justify-content-between text-sm mt-2">
