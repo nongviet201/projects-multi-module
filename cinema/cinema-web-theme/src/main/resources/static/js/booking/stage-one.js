@@ -1,4 +1,4 @@
-let cityId;
+
 
 function stageOne() {
     $.ajax({
@@ -12,15 +12,17 @@ function stageOne() {
         }
     });
 }
-
+let cityId;
 function getCityFunc(button) {
     cityBtns = document.querySelectorAll(".city-btn");
     cityId = btnFunc(button, cityBtns)
+    showtime = null;
+    showtimeCheck();
     openNextAccordion(1);
 }
 
 function getMovieFunc(div) {
-    movieId = div.getAttribute('value');
+    const movieId = div.getAttribute('value');
     const movieName = div.querySelector('h5').innerText;
     const moviePoster = div.querySelector('img').getAttribute('src');
 
@@ -32,7 +34,7 @@ function getMovieFunc(div) {
 
 async function getShowtime(movieId) {
     try {
-        showtimeData = await axios.get('api/v1/showtime/get/movieId/' + movieId);
+        showtimeData = await axios.get('api/v1/showtime/get/' + movieId + '/' + cityId);
     } catch (e) {
         console.log(e);
         return;
@@ -49,8 +51,8 @@ async function getShowtime(movieId) {
             showtimeDate.add(showtime.screeningDate);
         })
         showtimeDate.forEach(date => {
-            const dateBtn = document.createElement('div');
-            dateBtn.classList.add('date-btn', 'ms-3', 'py-2', 'px-3');
+            const dateBtn = document.createElement('button');
+            dateBtn.classList.add('date-btn', 'cursor-pointer', 'ms-3', 'py-2', 'px-3');
             dateBtn.onclick =  function() { getDateFunc(dateBtn); };
             dateBtn.value = date;
             dateBtn.innerText = date;
@@ -60,10 +62,10 @@ async function getShowtime(movieId) {
 }
 
 function getDateFunc(button) {
-    dateBtns = document.querySelectorAll(".date-btn");
-    dateValue = btnFunc(button, dateBtns);
+    const dateBtns = document.querySelectorAll(".date-btn");
+    const dateValue = btnFunc(button, dateBtns);
 
-    cinema = document.querySelector(".cinema");
+    const cinema = document.querySelector(".cinema");
     cinema.innerHTML = "";
 
     listShowtimeByDate = showtimeFindByDate(dateValue);
@@ -115,22 +117,19 @@ function getShowtimeFuncBtn(button) {
         showtime.startTime
     );
 
-    if (movieId && auditoriumId != null) {
-        nextBtn.classList.remove('disabled');
-    } else {
-        console.log("Chưa chọn phim");
-    }
+    showtimeCheck();
 }
 
-
-
-
 function showtimeFindById(id) {
-    return showtimeData.data.find(showtime => showtime.id.toString() === id) || null;
+    return showtimeData.data.find(
+        showtime => showtime.id.toString() === id
+    ) || null;
 }
 
 function showtimeFindByDate(date) {
-    return showtimeData.data.filter(showtime => showtime.screeningDate === date);
+    return showtimeData.data.filter(
+        showtime => showtime.screeningDate === date
+    );
 }
 
 function btnFunc(button, btnArray) {
@@ -147,5 +146,13 @@ function openNextAccordion(currentIndex) {
         document.querySelector(`#accordionExample .accordion-item:nth-of-type(${nextIndex}) .accordion-button`);
     if (nextAccordionButton) {
         nextAccordionButton.click();
+    }
+}
+
+function showtimeCheck() {
+    if (showtime != null) {
+        nextBtn.classList.remove('disabled');
+    } else {
+        nextBtn.classList.add('disabled');
     }
 }

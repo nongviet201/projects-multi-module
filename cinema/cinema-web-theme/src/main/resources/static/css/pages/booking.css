@@ -29,6 +29,7 @@
 .active {
     color: #034EA2 !important;
     border-color: #034EA2 !important;
+    pointer-events: none;
 }
 
 .activated {
@@ -128,6 +129,7 @@ main {
 }
 .seat:hover{
     border-color: #034EA2 !important;
+    transform: scale(1.1);
 }
 
 .seat-list {

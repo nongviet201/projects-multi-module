@@ -22,10 +22,10 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     private final AuditoriumRepository auditoriumRepository;
 
     @Override
-    public List<Showtime> getShowtimeByMovieId(int movieId) {
-        List<Showtime> showtimes =
-            showtimeRepository.findAllByMovie_IdOrderByScreeningDateAsc(movieId);
-        return showtimes;
+    public List<Showtime> getShowtimeByMovieIdCityId(int movieId, int cityId) {
+        return showtimeRepository.findAllByMovie_IdOrderByScreeningDateAsc(movieId).stream()
+            .filter(showtime -> showtime.getAuditorium().getCinema().getId() == cityId)
+            .collect(Collectors.toList());
     }
 
     @Override
