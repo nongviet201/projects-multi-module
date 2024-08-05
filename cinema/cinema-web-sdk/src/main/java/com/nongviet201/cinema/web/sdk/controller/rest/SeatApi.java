@@ -1,7 +1,5 @@
 package com.nongviet201.cinema.web.sdk.controller.rest;
 
-import com.nongviet201.cinema.core.model.entity.cinema.Seat;
-import com.nongviet201.cinema.core.service.SeatService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebSeatControllerService;
 import com.nongviet201.cinema.web.sdk.response.WebSeatResponse;
 import lombok.AllArgsConstructor;

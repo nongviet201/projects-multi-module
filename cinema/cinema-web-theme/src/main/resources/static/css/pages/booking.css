@@ -26,16 +26,6 @@
     padding: .5rem 1.25rem 1rem;
 }
 
-.active {
-    color: #034EA2 !important;
-    border-color: #034EA2 !important;
-    pointer-events: none;
-}
-
-.activated {
-    color: rgb(88 142 202) !important;
-    border-color: rgb(88 142 202)!important;
-}
 .screen-line {
     border: 2px solid rgb(245 128 32);
 }

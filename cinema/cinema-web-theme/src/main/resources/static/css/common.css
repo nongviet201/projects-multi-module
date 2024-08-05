@@ -35,7 +35,16 @@
 .text-blue {
     color: #034EA2 !important;
 }
+.text-gray {
+    color: gray!important;
+}
 
+.fs-8px {
+    font-size: 8px!important;
+}
+.fs-10px {
+    font-size: 10px!important;
+}
 .fs-12px {
     font-size: 12px !important;
 }
@@ -63,6 +72,11 @@
 }
 .fw-700 {
     font-weight: 700!important;
+}
+
+ /*Border*/
+.border-orange {
+    border-color: rgb(245 128 32) !important;
 }
 
  /*background*/
@@ -105,6 +119,28 @@ button {
 button.disabled {
     pointer-events: none;
     opacity: 0.5;
+}
+input {
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    font-size: 14px;
+    padding: .5rem;
+    height: 40px;
+    width: 100%;
+    background: none;
+}
+input:focus {
+    border: 1px solid rgb(158, 202, 251) !important;
+    outline: none;
+}
+.active {
+    color: #034EA2 !important;
+    border-color: #034EA2 !important;
+    pointer-events: none;
+}
+.activated {
+    color: rgb(88 142 202) !important;
+    border-color: rgb(88 142 202)!important;
 }
 
 /*pointer*/

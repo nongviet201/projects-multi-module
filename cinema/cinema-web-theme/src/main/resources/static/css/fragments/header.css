@@ -47,11 +47,17 @@ header .header-menu {
     padding: 8px 40px;
 }
 
+.modal-content {
 
+}
 
 @media only screen and (max-width: 768px) {
     .logo img {
         height: 50px;
         object-fit: cover;
     }
+}
+
+.dropdown-menu li:hover {
+    border-left: 3px solid #F58020FF !important ;
 }

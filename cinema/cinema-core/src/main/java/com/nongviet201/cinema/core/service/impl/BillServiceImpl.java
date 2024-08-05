@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.service.impl;
 
-import com.nongviet201.cinema.core.model.entity.User;
+import com.nongviet201.cinema.core.model.entity.user.User;
 import com.nongviet201.cinema.core.model.entity.bill.Bill;
 import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.repository.BillRepository;
@@ -11,7 +11,6 @@ import com.nongviet201.cinema.core.service.BillService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service

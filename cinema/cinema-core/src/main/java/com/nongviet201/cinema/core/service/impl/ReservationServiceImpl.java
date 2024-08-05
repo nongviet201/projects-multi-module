@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.service.impl;
 
-import com.nongviet201.cinema.core.model.entity.User;
+import com.nongviet201.cinema.core.model.entity.user.User;
 import com.nongviet201.cinema.core.model.entity.bill.Reservation;
 import com.nongviet201.cinema.core.model.entity.cinema.Seat;
 import com.nongviet201.cinema.core.model.entity.cinema.Showtime;

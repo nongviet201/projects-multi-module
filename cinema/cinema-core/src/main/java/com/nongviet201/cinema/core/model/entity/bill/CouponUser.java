@@ -1,10 +1,9 @@
 package com.nongviet201.cinema.core.model.entity.bill;
 
-import com.nongviet201.cinema.core.model.entity.User;
+import com.nongviet201.cinema.core.model.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @ToString

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <header th:fragment="header" class="content">
     <nav class="container">
         <div class="header-menu">
             <div class="logo">
                 <a href="/">
-                    <img src="/img/video_1243115.png" alt="logo">
+                    <span class="logo">VCinema</span>
                 </a>
             </div>
             <nav class="menu-item d-none d-xl-block">
@@ -25,11 +25,34 @@
                 </ul>
             </nav>
             <div class="menu-right">
-                <div class="search d-none d-xl-flex">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                <div class="search d-none d-xl-block">
+                    <i class="me-2 fa-solid fa-magnifying-glass"></i>
                 </div>
                 <div class="login-btn">
-                    <a href="">Đăng Nhập</a>
+                    <th:block sec:authorize="!isAuthenticated()">
+                        <button class="p-0 m-0 border-0 fs-14px" data-bs-target="#auth-login-modal" data-bs-toggle="modal">Đăng nhập</button>
+                    </th:block>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <div class="dropdown">
+                            <div class="d-flex" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img style="width: 50px; height: 50px" th:src="${#authentication.principal.user.getAvatar()}">
+                                <div class="d-flex text-center flex-column fs-14px ms-3">
+                                    <strong class="mb-2" th:text="${#authentication.principal.user.getFullName()}">
+                                        <span>star</span>
+                                    </strong>
+                                    <div class="d-flex justify-content-center align-items-center text-center gap-1">
+                                        <i class="fa-solid text-orange fa-circle-dollar-to-slot"></i>
+                                        <p class="mb-0">0 <span>Points</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="dropdown-menu mt-2">
+                                <li><a class="dropdown-item fs-14px" href="#"><i class="me-3 fa-regular fa-id-card"></i>Tài khoản</a></li>
+                                <li><a class="dropdown-item fs-14px" href="#"><i class="me-3 fa-solid fa-list-ul"></i>Lịch sử</a></li>
+                                <li><a class="dropdown-item fs-14px" href="#"><i class="me-3 fa-solid fa-arrow-right-from-bracket fa-flip-horizontal"></i>Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    </th:block>
                 </div>
                 <button class="btn d-xl-none" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive">
@@ -63,6 +86,175 @@
             </div>
         </div>
     </nav>
+
+    <section class="auth-modal">
+        <div class="modal fade" id="auth-login-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content px-3 mx-5">
+                    <div class="modal-header border-0 pb-0 px-0" style="flex-direction: column">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <img class="" src="https://cdn-icons-png.flaticon.com/512/7448/7448071.png"
+                             alt="user"
+                             style="height: 200px; width: 200px">
+                        <h4 class="mt-3">Đăng Nhập</h4>
+                    </div>
+                    <div class="modal-body px-3">
+                        <div id="form-login" class="">
+                            <div class="form-group mb-2">
+                                <label for="email" class="form-label fs-12px p-0 m-0 fw-600 text-gray">Email</label>
+                                <input type="text" class="form-login" id="email" name="email" placeholder="Nhập email"/>
+                            </div>
+                            <div class="form-group mb-4">
+                                <label for="password" class="form-label fs-12px p-0 m-0 fw-600 text-gray">Mật khẩu</label>
+                                <input type="password" class="form-login" id="password" name="password" placeholder="Nhập mật khẩu"/>
+                            </div>
+                            <div class="mb-3">
+                                <div class="btn w-100 d-flex justify-content-center align-items-center bg-orange text-white text-uppercase fs-14px" id="btn-login" onclick="login()" style="height: 40px">Đăng nhập</div>
+                            </div>
+                        </div>
+                        <button class="border-0 p-0 fs-14px fw-600 text-black-50" data-bs-target="#auth-forgot-password" data-bs-toggle="modal"><a>Quên mật khẩu?</a></button>
+                    </div>
+                    <div class="modal-footer mb-3 px-3 flex-column text-center">
+                        <p class="fs-14px fw-600 mb-0 text-gray">Bạn chưa có tài khoản?</p>
+                        <button class="border-1 border-orange text-orange w-100" data-bs-target="#auth-register-modal" data-bs-toggle="modal">Đăng ký</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="auth-register-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content px-3 mx-5">
+                    <div class="modal-header border-0 px-0 pb-0" style="flex-direction: column">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <img class="" src="https://cdn-icons-png.flaticon.com/512/7448/7448071.png"
+                             alt="user"
+                             style="height: 200px; width: 200px">
+                        <h4 class="mt-3">Đăng Ký</h4>
+                    </div>
+                    <div class="modal-body px-3">
+                        <div id="form-register" class="">
+                            <div class="form-group mb-1">
+                                <label for="register-name" class="form-label fs-12px p-0 m-0 fw-600 text-gray">Họ và tên</label>
+                                <input type="text" class="form-control" id="register-name" name="name" placeholder="Nhập Họ và Tên"/>
+                            </div>
+                            <div class="form-group mb-1">
+                                <label for="register-email" class="form-label fs-12px p-0 m-0 fw-600 text-gray">Email</label>
+                                <input type="text" class="form-control" id="register-email" name="email" placeholder="Nhập Email"/>
+                            </div>
+                            <div class="form-group mb-1">
+                                <label for="register-phone-number" class="form-label fs-12px p-0 m-0 fw-600 text-gray">Số điện thoại</label>
+                                <input type="text" class="form-control" id="register-phone-number" name="phoneNumber" placeholder="Nhập Số điện thoại"/>
+                            </div>
+                            <div class="form-group mb-1 d-flex align-items-center">
+                                <input id="male" type="radio" name="gender" value="Nam" class="form-check-input">
+                                <label for="male" class="form-check-label fs-14px mx-2">Nam</label>
+                                <input id="female" type="radio" name="gender" value="Nữ" class="form-check-input">
+                                <label for="female" class="form-check-label fs-14px mx-2">Nữ</label>
+                            </div>
+                            <div class="form-group mb-1">
+                                <label for="register-dob" class="form-label fs-12px p-0 m-0 fw-600 text-gray">Ngày sinh</label>
+                                <input type="date" class="form-control" id="register-dob" name="phoneNumber" placeholder="Ngày/Tháng/Năm"/>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="register-password" class="form-label fs-12px p-0 m-0 fw-600 text-gray">Mật khẩu</label>
+                                <input type="password" class="form-control" id="register-password" name="password" placeholder="Nhập mật khẩu"/>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="register-confirm-password" class="form-label fs-12px p-0 m-0 fw-600 text-gray">Nhập lại Mật khẩu</label>
+                                <input type="password" class="form-control" id="register-confirm-password" name="password" placeholder="Nhập lại mật khẩu"/>
+                            </div>
+                            <div class="mb-3">
+                                <div class="mb-2 d-flex">
+                                    <input id="accept-terms-of-service" type="checkbox" name="gender" class="form-check-input">
+                                    <label class="ms-2 fs-12px">Bằng việc đăng ký tài khoản, tôi đồng ý với <a>Điều khoản dịch vụ</a> của VCinema</label>
+                                </div>
+                                <div class="btn w-100 bg-orange d-flex justify-content-center align-items-center text-white text-uppercase fs-14px" onclick="register()" id="btn-register" style="height: 40px">
+                                    Đăng Ký
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer mb-3 px-3 flex-column text-center">
+                        <p class="fs-14px fw-600 mb-0 text-gray">Bạn đã có tài khoản?</p>
+                        <button class="border-1 border-orange text-orange w-100" data-bs-target="#auth-login-modal" data-bs-toggle="modal">Đăng Nhập</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="auth-forgot-password" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content px-3 mx-5">
+                    <div class="modal-header border-0 pb-0 px-0" style="flex-direction: column">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <img class="" src="https://cdn-icons-png.flaticon.com/512/7448/7448071.png"
+                             alt="user"
+                             style="height: 200px; width: 200px">
+                        <h4 class="mt-3">Quên Mật Khẩu?</h4>
+                    </div>
+                    <div class="modal-body pt-0">
+                        <div id="form-forgot-password" class="">
+                            <p class="fs-14px mb-2">Vui lòng cung cấp email đăng nhập, chúng tôi sẽ gửi link kích hoạt cho bạn.</p>
+                            <div class="form-group mb-3">
+                                <label for="forgot-password-email" class="form-label fs-12px p-0 m-0 fw-600 text-gray">Email</label>
+                                <input type="text" class="form-control" id="forgot-password-email" name="email" placeholder="Nhập email"/>
+                            </div>
+                            <div class="mb-3">
+                                <div class="btn w-100 bg-orange d-flex justify-content-center align-items-center text-white text-uppercase fs-14px" id="btn-forgot-password" style="height: 40px">Cấp lại mật khẩu</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer mb-3 px-3 flex-column text-center">
+                        <p class="fs-14px fw-600 mb-0 text-gray">Quay lại trang đăng nhập</p>
+                        <button class="border-1 border-orange text-orange w-100" data-bs-target="#auth-login-modal" data-bs-toggle="modal">Quay lại</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="auth-message-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content px-3 mx-5">
+                    <div class="modal-header border-0 pb-0 px-0" style="flex-direction: column">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <img class="" src="https://cdn-icons-png.flaticon.com/512/7448/7448071.png"
+                             alt="user"
+                             style="height: 200px; width: 200px">
+                        <h4 id="modal-message-title" class="mt-3">Title?</h4>
+                    </div>
+                    <div class="modal-body pt-0">
+                        <div id="modal-message-content" class="fs-14px my-2 text-center">
+                        </div>
+                    </div>
+                    <div class="modal-footer mb-3 px-3 flex-column text-center">
+                        <p class="fs-14px fw-600 mb-0 text-gray">Quay lại trang đăng nhập</p>
+                        <button class="border-1 border-orange text-orange w-100" data-bs-target="#auth-login-modal" data-bs-toggle="modal">Quay lại</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="toast-div">
+        <div class="toast toast-success align-items-center" style="width: auto; height: auto" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body d-flex fs-16px">
+                    <i class="fa-solid fa-check fa-2xl fw-700 me-2 m-auto" style="color: #28a745;"></i>
+                    <div class="m-auto">
+                        <p class="fs-14px fw-600 success-message m-auto">Thành công</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="toast toast-fail align-items-center" style="width: auto; height: auto" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body d-flex fs-18px">
+                    <i class="fa-solid fa-xmark fa-2xl fw-700 me-2 m-auto" style="color: red;"></i>
+                    <div class="m-auto">
+                        <p class="fs-14px fw-600 fail-message m-auto">Thất bại</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </header>
 </body>
 </html>

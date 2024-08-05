@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.core.model.entity;
 
+import com.nongviet201.cinema.core.model.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
