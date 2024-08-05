@@ -27,9 +27,6 @@ header .header-menu {
     justify-content: space-between;
     align-items: center;
 }
-.menu-right div {
-    margin-right: 10px;
-}
 .menu-right .login-btn {
     font-size: 14px;
 }

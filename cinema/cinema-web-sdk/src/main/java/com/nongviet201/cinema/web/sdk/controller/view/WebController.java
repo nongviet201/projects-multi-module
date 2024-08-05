@@ -1,8 +1,10 @@
 package com.nongviet201.cinema.web.sdk.controller.view;
 
+import com.nongviet201.cinema.core.service.AuthService;
 import com.nongviet201.cinema.core.service.MovieService;
 import com.nongviet201.cinema.core.service.ShowtimeService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebBillControllerService;
+import com.nongviet201.cinema.web.sdk.controller.service.WebVerifyService;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ public abstract class WebController {
     private final MovieService movieService;
     private final ShowtimeService showtimeService;
     private final WebBillControllerService billControllerService;
+    private final WebVerifyService verifyService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -80,4 +83,28 @@ public abstract class WebController {
         return "blog/index";
     }
 
+
+    @GetMapping("/verification")
+    public String getVerificationPage(
+        @RequestParam(value = "token", required = false) String token,
+        @RequestParam(value = "tokenForgotPassword", required = false) String tokenForgotPassword,
+        Model model
+    ) {
+        if (token!= null) {
+            model.addAttribute(
+                "verifyResponse",
+                verifyService.verifyRegister(token)
+            );
+        }
+        if (tokenForgotPassword!= null) {
+            if (verifyService.verifyForgotPassword(tokenForgotPassword)) {
+                model.addAttribute(
+                    "tokenForgotPassword",
+                    tokenForgotPassword
+                );
+                return "pages/verify";
+            }
+        }
+        return "pages/verify";
+    }
 }

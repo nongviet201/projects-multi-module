@@ -25,7 +25,7 @@
                 </ul>
             </nav>
             <div class="menu-right">
-                <div class="search d-none d-xl-block">
+                <div class="search d-none d-xl-block me-2">
                     <i class="me-2 fa-solid fa-magnifying-glass"></i>
                 </div>
                 <div class="login-btn">
@@ -49,7 +49,7 @@
                             <ul class="dropdown-menu mt-2">
                                 <li><a class="dropdown-item fs-14px" href="#"><i class="me-3 fa-regular fa-id-card"></i>Tài khoản</a></li>
                                 <li><a class="dropdown-item fs-14px" href="#"><i class="me-3 fa-solid fa-list-ul"></i>Lịch sử</a></li>
-                                <li><a class="dropdown-item fs-14px" href="#"><i class="me-3 fa-solid fa-arrow-right-from-bracket fa-flip-horizontal"></i>Đăng xuất</a></li>
+                                <li><a class="dropdown-item fs-14px" onclick="logout()"><i class="me-3 fa-solid fa-arrow-right-from-bracket fa-flip-horizontal"></i>Đăng xuất</a></li>
                             </ul>
                         </div>
                     </th:block>
@@ -86,7 +86,6 @@
             </div>
         </div>
     </nav>
-
     <section class="auth-modal">
         <div class="modal fade" id="auth-login-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
@@ -193,13 +192,13 @@
                     </div>
                     <div class="modal-body pt-0">
                         <div id="form-forgot-password" class="">
-                            <p class="fs-14px mb-2">Vui lòng cung cấp email đăng nhập, chúng tôi sẽ gửi link kích hoạt cho bạn.</p>
+                            <p class="fs-14px mb-2">Vui lòng cung cấp email đăng nhập, chúng tôi sẽ gửi link đăng nhập cho bạn.</p>
                             <div class="form-group mb-3">
                                 <label for="forgot-password-email" class="form-label fs-12px p-0 m-0 fw-600 text-gray">Email</label>
                                 <input type="text" class="form-control" id="forgot-password-email" name="email" placeholder="Nhập email"/>
                             </div>
                             <div class="mb-3">
-                                <div class="btn w-100 bg-orange d-flex justify-content-center align-items-center text-white text-uppercase fs-14px" id="btn-forgot-password" style="height: 40px">Cấp lại mật khẩu</div>
+                                <div class="btn w-100 bg-orange d-flex justify-content-center align-items-center text-white text-uppercase fs-14px" id="btn-forgot-password" onclick="forgotPassword()" style="height: 40px">quên mật khẩu</div>
                             </div>
                         </div>
                     </div>
