@@ -205,6 +205,7 @@ public class AuthServiceImpl implements AuthService {
 
         if (type == TokenType.PASSWORD_RESET) {
             tokenConfirm.setType(TokenType.PASSWORD_CHANGE);
+            tokenConfirmRepository.save(tokenConfirm);
             return new VerifyResponse(true, "Xác thực thành công, vui lòng tạo mật khẩu mới");
         } else {
             User user = tokenConfirm.getUser();
@@ -213,23 +214,6 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return new VerifyResponse(true, "Xác thực thành công");
-    }
-
-    private LoginRequest createLoginRequestFromToken(String token) {
-
-        TokenConfirm tokenConfirm = tokenConfirmRepository.findByTokenAndType(
-                token,
-                TokenType.PASSWORD_RESET
-            ).orElseThrow(
-                () -> new BadRequestException("Link xác thực không hợp lệ")
-        );
-
-        User user = tokenConfirm.getUser();
-
-        return LoginRequest.builder()
-            .email(user.getEmail())
-            .password(user.getPassword())
-            .build();
     }
 }
 

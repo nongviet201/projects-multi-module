@@ -159,7 +159,6 @@
     <script th:inline="javascript">
         let tokenForgotPassword = [[${tokenForgotPassword}]];
         console.log(tokenForgotPassword);
-
         async function changePassword() {
             let password = document.getElementById('change-password').value;
             let confirmPassword = document.getElementById('change-confirm-password').value;
@@ -175,7 +174,8 @@
                 const context = btn.textContent;
                 btnLoadingInClick(btn, context);
                 try {
-                    const res = await axios.post("/api/v1/auth/change-password" + data);
+                    const res = await axios.post("/api/v1/auth/change-password", data);
+                    console.log(res);
                     btnLoadingFinish(btn, context);
                     toastShowSuccess("Đổi mật khẩu thành công đang trở về trang chủ");
                     setTimeout(function () {
@@ -183,6 +183,7 @@
                     }, 2000);
                 } catch (e) {
                     btnLoadingFinish(btn, context);
+                    console.log(e);
                     toastShowFail(e.response.data.message);
                 }
             } else {

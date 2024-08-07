@@ -17,13 +17,12 @@ import java.util.Collections;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CustomUserDetail implements UserDetails {
-    User user;
+    protected User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
     }
-
 
     @Override
     public String getPassword() {
@@ -35,8 +34,11 @@ public class CustomUserDetail implements UserDetails {
         return user.getEmail();
     }
 
-    @Override
-    public boolean isEnabled() {
-        return user.isEnabled();
+    public String getFullName() {
+        return user.getFullName();
+    }
+
+    public String getAvatar() {
+        return user.getAvatar();
     }
 }

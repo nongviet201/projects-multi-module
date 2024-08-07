@@ -13,6 +13,9 @@
 .line-blue-bottom {
     border-bottom: 3px solid rgb(3 78 162) !important;
 }
+.line-gray-bottom {
+    border-bottom: 1px solid rgb(236 236 236) !important;
+}
 
 /*Text*/
 .text-uppercase {
@@ -137,6 +140,11 @@ input:focus {
     color: #034EA2 !important;
     border-color: #034EA2 !important;
     pointer-events: none;
+}
+.active-line-bottom {
+    border-bottom: 2px solid #034EA2!important;
+    width: 2rem!important;
+    height: 2px!important;
 }
 .activated {
     color: rgb(88 142 202) !important;

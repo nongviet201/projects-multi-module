@@ -28,7 +28,7 @@ async function register() {
     const email = document.getElementById("register-email").value;
     const phoneNumber = document.getElementById("register-phone-number").value;
     let gender;
-    document.getElementsByName("gender").forEach(e => {
+    document.querySelectorAll('input[type="radio"][name="gender"]').forEach(e => {
         if (e.checked) {
             gender = e.value;
         }

@@ -35,9 +35,9 @@
                     <th:block sec:authorize="isAuthenticated()">
                         <div class="dropdown">
                             <div class="d-flex" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img style="width: 50px; height: 50px" th:src="${#authentication.principal.user.getAvatar()}">
+                                <img style="width: 50px; height: 50px" th:src="${#authentication.principal.getAvatar()}">
                                 <div class="d-flex text-center flex-column fs-14px ms-3">
-                                    <strong class="mb-2" th:text="${#authentication.principal.user.getFullName()}">
+                                    <strong class="mb-2" th:text="${#authentication.principal.getFullName()}">
                                         <span>star</span>
                                     </strong>
                                     <div class="d-flex justify-content-center align-items-center text-center gap-1">
@@ -47,8 +47,8 @@
                                 </div>
                             </div>
                             <ul class="dropdown-menu mt-2">
-                                <li><a class="dropdown-item fs-14px" href="#"><i class="me-3 fa-regular fa-id-card"></i>Tài khoản</a></li>
-                                <li><a class="dropdown-item fs-14px" href="#"><i class="me-3 fa-solid fa-list-ul"></i>Lịch sử</a></li>
+                                <li><a class="dropdown-item fs-14px" href="/user?stage=2"><i class="me-3 fa-regular fa-id-card"></i>Tài khoản</a></li>
+                                <li><a class="dropdown-item fs-14px" href="/user?stage=1"><i class="me-3 fa-solid fa-list-ul"></i>Lịch sử</a></li>
                                 <li><a class="dropdown-item fs-14px" onclick="logout()"><i class="me-3 fa-solid fa-arrow-right-from-bracket fa-flip-horizontal"></i>Đăng xuất</a></li>
                             </ul>
                         </div>
@@ -86,6 +86,7 @@
             </div>
         </div>
     </nav>
+
     <section class="auth-modal">
         <div class="modal fade" id="auth-login-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">

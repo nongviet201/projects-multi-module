@@ -4,6 +4,7 @@ import com.nongviet201.cinema.core.service.AuthService;
 import com.nongviet201.cinema.core.service.MovieService;
 import com.nongviet201.cinema.core.service.ShowtimeService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebBillControllerService;
+import com.nongviet201.cinema.web.sdk.controller.service.WebUserControllerService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebVerifyService;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ public abstract class WebController {
     private final ShowtimeService showtimeService;
     private final WebBillControllerService billControllerService;
     private final WebVerifyService verifyService;
+    private final WebUserControllerService userControllerService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -106,5 +108,21 @@ public abstract class WebController {
             }
         }
         return "pages/verify";
+    }
+
+    @GetMapping("/user")
+    public String getUserPage(
+        @RequestParam(value = "stage", required = false) Integer stage,
+        Model model
+    ) {
+        model.addAttribute(
+            "user",
+            userControllerService.getCurrentUser()
+        );
+        model.addAttribute(
+            "stage",
+            stage
+        );
+        return "user/user";
     }
 }
