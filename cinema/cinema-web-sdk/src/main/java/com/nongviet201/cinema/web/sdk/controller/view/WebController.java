@@ -116,10 +116,6 @@ public abstract class WebController {
         Model model
     ) {
         model.addAttribute(
-            "user",
-            userControllerService.getCurrentUser()
-        );
-        model.addAttribute(
             "stage",
             stage
         );

@@ -1,6 +1,7 @@
 package com.nongviet201.cinema.core.rest;
 
-import com.nongviet201.cinema.core.request.ChangePasswordRequest;
+import com.nongviet201.cinema.core.request.ChangePasswordAccountRequest;
+import com.nongviet201.cinema.core.request.ChangePasswordMailRequest;
 import com.nongviet201.cinema.core.request.LoginRequest;
 import com.nongviet201.cinema.core.request.RegisterRequest;
 import com.nongviet201.cinema.core.service.AuthService;
@@ -38,13 +39,20 @@ public class AuthApi {
         return ResponseEntity.ok("forget password successfully");
     }
 
-    @PostMapping("/change-password")
-    public ResponseEntity<?> changePassword(
-        @RequestBody ChangePasswordRequest request
+    @PostMapping("/change-password-mail")
+    public ResponseEntity<?> changePasswordMail(
+        @RequestBody ChangePasswordMailRequest request
     ) {
-        authService.changePassword(request);
+        authService.changePasswordMail(request);
         return ResponseEntity.ok("change password successfully");
     }
 
+    @PostMapping("/change-password-account")
+    public ResponseEntity<?> changePasswordAccount(
+        @RequestBody ChangePasswordAccountRequest request
+    ) {
+        authService.changePasswordAccount(request);
+        return ResponseEntity.ok("change password successfully");
+    }
 
 }

@@ -41,6 +41,9 @@
 .text-gray {
     color: gray!important;
 }
+.text-red {
+    color: red !important;
+}
 
 .fs-8px {
     font-size: 8px!important;

@@ -1,41 +1,47 @@
-async function login() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const data = {
-        email: email, password: password
+document.getElementById('form-login').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!$('#form-login').valid()) {
+            return;
+        }
+
+        const data = {
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value
+        }
+
+        const btn = document.getElementById("btn-login");
+        const context = btn.textContent;
+
+        try {
+            btnLoadingInClick(btn)
+            const res = await axios.post("/api/v1/auth/login", data);
+            btnLoadingFinish(btn, context);
+            toastShowSuccess("Đăng nhập thành công!");
+            setTimeout(function () {
+                window.location.href = '/';
+            }, 2000);
+        } catch (e) {
+            btnLoadingFinish(btn, context);
+            modalErrorLog(
+                document.getElementById("auth-login-modal"),
+                document.querySelector(".error-login"),
+                e.response.data.message
+            )
+        }
+})
+
+document.getElementById('form-register').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!$('#form-register').valid()) {
+        return;
     }
 
-    const btn = document.getElementById("btn-login");
-    const context = btn.textContent;
-
-    try {
-        btnLoadingInClick(btn)
-        const res = await axios.post("/api/v1/auth/login", data);
-        btnLoadingFinish(btn, context);
-        toastShowSuccess("Đăng nhập thành công!");
-        setTimeout(function () {
-            window.location.href = '/';
-        }, 2000);
-    } catch (e) {
-        btnLoadingFinish(btn, context);
-        console.log(e.response.data.message);
-        toastShowFail(e.response.data.message);
-    }
-}
-
-async function register() {
-    const fullName = document.getElementById("register-name").value;
-    const email = document.getElementById("register-email").value;
-    const phoneNumber = document.getElementById("register-phone-number").value;
     let gender;
     document.querySelectorAll('input[type="radio"][name="gender"]').forEach(e => {
         if (e.checked) {
             gender = e.value;
         }
     })
-    const birthday = document.getElementById("register-dob").value;
-    const password = document.getElementById("register-password").value;
-    const confirmPassword = document.getElementById("register-confirm-password").value;
 
     const btn = document.getElementById("btn-register");
     const context = btn.textContent;
@@ -43,13 +49,13 @@ async function register() {
     if (document.getElementById("accept-terms-of-service").checked) {
         btnLoadingInClick(btn);
         let data = {
-            fullName: fullName,
-            email: email,
-            phoneNumber: phoneNumber,
+            fullName: document.getElementById("register-name").value,
+            email: document.getElementById("register-email").value,
+            phoneNumber: document.getElementById("register-phone-number").value,
             gender: gender,
-            birthday: birthday,
-            password: password,
-            confirmPassword: confirmPassword
+            birthday: document.getElementById("register-dob").value,
+            password: document.getElementById("register-password").value,
+            confirmPassword: document.getElementById("register-confirm-password").value
         }
         try {
             const res = await axios.post("/api/v1/auth/register", data);
@@ -59,14 +65,27 @@ async function register() {
             toastShowSuccess("Đăng ký thành công!");
         } catch (e) {
             btnLoadingFinish(btn, context);
-            toastShowFail(e.response.data.message);
+            modalErrorLog(
+                document.getElementById("auth-register-modal"),
+                document.querySelector(".error-register"),
+                e.response.data.message
+            )
         }
     } else {
-        toastShowFail("vui lòng đồng ý với điều khoản dịch vụ của chúng tôi")
+        modalErrorLog(
+            document.getElementById("auth-register-modal"),
+            document.querySelector(".error-register"),
+            "Vui lòng chấp nhận điều khoản dịch vụ của chúng tôi"
+        )
     }
-}
+})
 
-async function forgotPassword() {
+document.getElementById('form-forgot-password').addEventListener('submit', async (e) => {
+    e.preventDefault()
+    if (!$('#form-forgot-password').valid()) {
+        return;
+    }
+
     const email = document.getElementById("forgot-password-email").value;
     const btn = document.getElementById("btn-forgot-password");
     const context = btn.textContent;
@@ -79,9 +98,13 @@ async function forgotPassword() {
         toastShowSuccess("Quên mật khẩu thành công!");
     } catch (e) {
         btnLoadingFinish(btn, context);
-        toastShowFail(e.response.data.message);
+        modalErrorLog(
+            document.getElementById("auth-forgot-password"),
+            document.querySelector(".error-forgot-password"),
+            e.response.data.message
+        )
     }
-}
+})
 
 function logout() {
     toastShowSuccess("Đang đăng xuất tài khoản");
@@ -89,6 +112,134 @@ function logout() {
         window.location.href = '/logout';
     }, 2000);
 }
+
+$('#form-login').validate({
+    rules: {
+        email: {
+            required: true,
+            email: true,
+        },
+        password: {
+            required: true,
+        }
+    },
+    messages: {
+        email: {
+            required: "Không được để trống email",
+            email: "Email không đúng định dạng "
+        },
+        password: {
+            required: "Không được để trống password"
+        },
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+    }
+});
+
+$('#form-register').validate({
+    rules: {
+        name: {
+            required: true,
+        },
+        email: {
+            required: true,
+            email: true,
+        },
+        phoneNumber: {
+            required: true,
+            minlength: 10,
+        },
+        gender: {
+            required: true,
+        },
+        birthday: {
+            required: true,
+        },
+        password: {
+            required: true,
+            minlength: 8,
+        },
+        confirmPassword: {
+            required: true,
+            minlength: 8,
+            equalTo: "#register-password"
+        }
+    },
+    messages: {
+        name: {
+            required: "Không được để trống Họ tên",
+        },
+        email: {
+            required: "Không được để trống email",
+            email: "Email không đúng định dạng "
+        },
+        phoneNumber: {
+            required: "Không được để trống số điện thoại",
+            minlength: "Số điện thoại phải 10 chữ số"
+        },
+        gender : {
+            required: "Vui lòng chọn giới tính",
+        },
+        birthday: {
+            required: "Vui lòng chọn ngày sinh nhật",
+        },
+        password: {
+            required: "Không được để trống mật khẩu",
+            minlength: "Mật khẩu phải có ít nhất 8 kí tự",
+        },
+        confirmPassword: {
+            required: "Vui lòng nhập lại mật khẩu",
+            minlength: "Mật khẩu phải có ít nhất 8 kí tự",
+            equalTo: "Mật khẩu không khớp với mật khẩu trên"
+        },
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+    }
+});
+
+$('#form-forgot-password').validate({
+    rules: {
+        email: {
+            required: true,
+            email: true,
+        }
+    },
+    messages: {
+        email: {
+            required: "Không được để trống email",
+            email: "Email không đúng định dạng "
+        }
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+        error.addClass('invalid-feedback');
+        element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+        $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+        $(element).removeClass('is-invalid');
+    }
+});
 
 function showAuthMessageModal(status) {
     const modal = new bootstrap.Modal(document.getElementById('auth-message-modal'))
@@ -120,4 +271,11 @@ function btnLoadingFinish(button, context) {
 
 function hideModal(modalEl) {
     $(modalEl).modal('hide');
+}
+
+function modalErrorLog(modalEl, errorEl, message) {
+    errorEl.textContent = message;
+    modalEl.addEventListener('hidden.bs.modal', event => {
+        errorEl.textContent = "";
+    })
 }

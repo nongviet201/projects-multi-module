@@ -174,7 +174,7 @@
                 const context = btn.textContent;
                 btnLoadingInClick(btn, context);
                 try {
-                    const res = await axios.post("/api/v1/auth/change-password", data);
+                    const res = await axios.post("/api/v1/auth/change-password-mail", data);
                     console.log(res);
                     btnLoadingFinish(btn, context);
                     toastShowSuccess("Đổi mật khẩu thành công đang trở về trang chủ");

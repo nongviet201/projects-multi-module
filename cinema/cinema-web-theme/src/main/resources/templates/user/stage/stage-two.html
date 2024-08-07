@@ -1,10 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="profile card p-4">
+    <div class="row">
+        <div class="col-md-6 mb-3 px-3">
+            <label>Họ và tên</label>
+            <div class="form-control-plaintext d-flex align-items-center position-relative">
+                <i class="ms-2 fas fa-user"></i>
+                <input type="text" class="ms-3 form-control-plaintext" disabled th:value="${user.getFullName()}">
+            </div>
+        </div>
+        <div class="col-md-6 mb-3 px-3">
+            <label>Ngày sinh</label>
+            <div class="form-control-plaintext d-flex align-items-center position-relative">
+                <i class="ms-2 fas fa-calendar"></i>
+                <input type="text" class="ms-3 form-control-plaintext" disabled th:value="${user.getBirthday()}">
+            </div>
+        </div>
+        <div class="col-md-6 mb-3 px-3">
+            <label>Email</label>
+            <div class="form-control-plaintext d-flex align-items-center position-relative">
+                <i class="ms-2 fas fa-envelope"></i>
+                <input type="text" class="ms-3 form-control-plaintext" disabled name="email" th:value="${user.getEmail()}">
+            </div>
+        </div>
+        <div class="col-md-6 mb-3 px-3">
+            <label>Số điện thoại</label>
+            <div class="form-control-plaintext d-flex align-items-center position-relative">
+                <i class="ms-2 fas fa-mobile-button"></i>
+                <input type="text" class="ms-3 form-control-plaintext" disabled th:value="${user.getPhoneNumber()}">
+            </div>
+        </div>
+        <div class="col-md-6 mb-3 px-3">
+            <div class="d-flex flex-wrap align-items-center">
+                <div class="custom-control custom-radio mr-4">
+                    <input type="radio" id="male" name="gender" value="Nam" class="custom-control-input"
+                           th:checked="${user.getGender() == 'Nam'}" disabled>
+                    <label class="custom-control-label" for="male">Nam</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="female" name="gender" value="Nữ" class="custom-control-input"
+                           th:checked="${user.getGender() == 'Nữ'}" disabled>
+                    <label class="custom-control-label" for="female">Nữ</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3 px-3">
+            <label>Mật khẩu</label>
+            <div class="form-control-plaintext d-flex align-items-center position-relative">
+                <i class="ms-2 fas fa-lock"></i>
+                <input type="password" class="ms-3 form-control-plaintext pl-5" disabled th:value="${user.getPhoneNumber()}">
+                <span class="cursor-pointer w-25 text-orange fs-12px fw-700 text-center"
+                      data-bs-target="#auth-change-password"
+                      data-bs-toggle="modal">Thay đổi</span>
+            </div>
+        </div>
+        <div class="modal fade" id="auth-change-password" aria-hidden="true"
+             aria-labelledby="exampleModalToggleLabel5" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content px-3 mx-5">
+                    <div class="modal-header border-0 px-0 pb-0"
+                         style="flex-direction: column">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        <h4 class="mt-3">Đổi mật khẩu</h4>
+                        <span class="error-log text-red fs-14px"></span>
+                    </div>
+                    <div class="modal-body px-3">
+                        <form id="form-change-password">
+                            <div class="form-group mb-2">
+                                <label for="old-password"
+                                       class="form-label fs-12px p-0 m-0 fw-600 text-gray">Nhập
+                                    mật khẩu cũ</label>
+                                <input type="password" class="form-control"
+                                       id="old-password" name="oldPassword"
+                                       placeholder="Nhập mật khẩu"/>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="new-password"
+                                       class="form-label fs-12px p-0 m-0 fw-600 text-gray">Nhập
+                                    mật khẩu mới</label>
+                                <input type="password" class="form-control"
+                                       id="new-password" name="newPassword"
+                                       placeholder="Nhập mật khẩu"/>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="confirm-password"
+                                       class="form-label fs-12px p-0 m-0 fw-600 text-gray">Xác nhận mật khẩu mới</label>
+                                <input type="password" class="form-control"
+                                       id="confirm-password" name="confirmPassword"
+                                       placeholder="Xác nhận mật khẩu"/>
+                            </div>
+                            <div class="modal-footer mb-3 px-3 flex-column text-center">
+                                <p class="fs-14px fw-600 mb-0 text-gray">Xác nhận đổi mật khẩu?</p>
+                                <button id="btn-change-password" class="border-1 border-orange text-uppercase text-orange w-100" type="submit">
+                                    Cập nhật mật khâu mới
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

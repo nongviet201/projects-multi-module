@@ -7,12 +7,14 @@ import com.nongviet201.cinema.core.model.enums.TokenType;
 import com.nongviet201.cinema.core.model.enums.UserRole;
 import com.nongviet201.cinema.core.repository.TokenConfirmRepository;
 import com.nongviet201.cinema.core.repository.UserRepository;
-import com.nongviet201.cinema.core.request.ChangePasswordRequest;
+import com.nongviet201.cinema.core.request.ChangePasswordAccountRequest;
+import com.nongviet201.cinema.core.request.ChangePasswordMailRequest;
 import com.nongviet201.cinema.core.request.LoginRequest;
 import com.nongviet201.cinema.core.request.RegisterRequest;
 import com.nongviet201.cinema.core.response.VerifyResponse;
 import com.nongviet201.cinema.core.service.AuthService;
 import com.nongviet201.cinema.core.service.MailService;
+import com.nongviet201.cinema.core.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,6 +39,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenConfirmRepository tokenConfirmRepository;
     private final MailService mailService;
+    private final UserService userService;
 
     @Override
     public void login(LoginRequest request) {
@@ -80,7 +83,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void changePassword(ChangePasswordRequest request) {
+    public void changePasswordMail(ChangePasswordMailRequest request) {
         if (request.getPassword().length() < 8) {
             throw new BadRequestException("Mật khẩu phải có ít nhất 8 kí tự");
         }
@@ -107,6 +110,31 @@ public class AuthServiceImpl implements AuthService {
             TokenType.PASSWORD_RESET
         );
         return response.isSuccess();
+    }
+
+    @Override
+    public void changePasswordAccount(ChangePasswordAccountRequest request) {
+        if (request.getNewPassword().length() < 8) {
+            throw new BadRequestException("Mật khẩu phải có ít nhất 8 kí tự");
+        }
+
+        if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+            throw new BadRequestException("Mật khẩu xác nhận không chính xác");
+        }
+
+        User user = userService.getCurrentUser();
+
+        boolean checkPassword = passwordEncoder.matches(
+            request.getOldPassword(),
+            user.getPassword()
+        );
+
+        if (checkPassword) {
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            userRepository.save(user);
+        } else {
+            throw new BadRequestException("Mật khẩu cũ không chính xác");
+        }
     }
 
     private Authentication authenticateUser(LoginRequest request) {

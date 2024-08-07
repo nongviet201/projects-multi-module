@@ -7,6 +7,7 @@
         .account-nav ul li {
             display: flex;
             align-items: center;
+            cursor: pointer;
             flex-direction: column;
         }
 
@@ -92,9 +93,9 @@
                     <div class="col-4 pe-5">
                         <div class="card py-3 px-4">
                             <div class="d-flex line-gray-bottom justify-content-center pt-3 pb-4">
-                                <img style="width: 50px; height: 50px" th:src="${user.getAvatar()}">
+                                <img style="width: 50px; height: 50px" th:src="${#authentication.principal.getAvatar()}">
                                 <div class="d-flex text-center flex-column fs-14px ms-3">
-                                    <strong class="mb-2 fs-16px" th:text="${user.getFullName()}">Viet Nong</strong>
+                                    <strong class="mb-2 fs-16px" th:text="${#authentication.principal.getFullName()}"></strong>
                                     <div class="d-flex justify-content-center align-items-center text-center gap-1">
                                         <svg class="svg-inline--fa fa-circle-dollar-to-slot text-orange"
                                              aria-hidden="true" focusable="false" data-prefix="fas"
@@ -103,7 +104,6 @@
                                             <path fill="currentColor"
                                                   d="M326.7 403.7c-22.1 8-45.9 12.3-70.7 12.3s-48.7-4.4-70.7-12.3c-.3-.1-.5-.2-.8-.3c-30-11-56.8-28.7-78.6-51.4C70 314.6 48 263.9 48 208C48 93.1 141.1 0 256 0S464 93.1 464 208c0 55.9-22 106.6-57.9 144c-1 1-2 2.1-3 3.1c-21.4 21.4-47.4 38.1-76.3 48.6zM256 84c-11 0-20 9-20 20v14c-7.6 1.7-15.2 4.4-22.2 8.5c-13.9 8.3-25.9 22.8-25.8 43.9c.1 20.3 12 33.1 24.7 40.7c11 6.6 24.7 10.8 35.6 14l1.7 .5c12.6 3.8 21.8 6.8 28 10.7c5.1 3.2 5.8 5.4 5.9 8.2c.1 5-1.8 8-5.9 10.5c-5 3.1-12.9 5-21.4 4.7c-11.1-.4-21.5-3.9-35.1-8.5c-2.3-.8-4.7-1.6-7.2-2.4c-10.5-3.5-21.8 2.2-25.3 12.6s2.2 21.8 12.6 25.3c1.9 .6 4 1.3 6.1 2.1l0 0 0 0c8.3 2.9 17.9 6.2 28.2 8.4V312c0 11 9 20 20 20s20-9 20-20V298.2c8-1.7 16-4.5 23.2-9c14.3-8.9 25.1-24.1 24.8-45c-.3-20.3-11.7-33.4-24.6-41.6c-11.5-7.2-25.9-11.6-37.1-15l-.7-.2c-12.8-3.9-21.9-6.7-28.3-10.5c-5.2-3.1-5.3-4.9-5.3-6.7c0-3.7 1.4-6.5 6.2-9.3c5.4-3.2 13.6-5.1 21.5-5c9.6 .1 20.2 2.2 31.2 5.2c10.7 2.8 21.6-3.5 24.5-14.2s-3.5-21.6-14.2-24.5c-6.5-1.7-13.7-3.4-21.1-4.7V104c0-11-9-20-20-20zM48 352H64c19.5 25.9 44 47.7 72.2 64H64v32H256 448V416H375.8c28.2-16.3 52.8-38.1 72.2-64h16c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V400c0-26.5 21.5-48 48-48z"></path>
                                         </svg>
-                                        <!-- <i class="fa-solid text-orange fa-circle-dollar-to-slot"></i> Font Awesome fontawesome.com -->
                                         <p class="mb-0">0 <span>Points</span></p>
                                     </div>
                                 </div>
@@ -191,88 +191,8 @@
                                 </li>
                             </ul>
                         </nav>
-                        <div class="content">
-                            <div class="profile card p-4">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3 px-3">
-                                        <label>Họ và tên</label>
-                                        <div class="form-control-plaintext d-flex align-items-center position-relative">
-                                            <i class="ms-2 fas fa-user"></i>
-                                            <input type="text" class="ms-3 form-control-plaintext" disabled th:value="${user.getFullName()}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3 px-3">
-                                        <label>Ngày sinh</label>
-                                        <div class="form-control-plaintext d-flex align-items-center position-relative">
-                                            <i class="ms-2 fas fa-calendar"></i>
-                                            <input type="text" class="ms-3 form-control-plaintext" disabled th:value="${user.getBirthday()}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3 px-3">
-                                        <label>Email</label>
-                                        <div class="form-control-plaintext d-flex align-items-center position-relative">
-                                            <i class="ms-2 fas fa-envelope"></i>
-                                            <input type="text" class="ms-3 form-control-plaintext" disabled name="email" th:value="${user.getEmail()}">
-                                            <span class="text-orange fs-12px text-center fw-700">Thay đổi</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3 px-3">
-                                        <label>Số điện thoại</label>
-                                        <div class="form-control-plaintext d-flex align-items-center position-relative">
-                                            <i class="ms-2 fas fa-mobile-button"></i>
-                                            <input type="text" class="ms-3 form-control-plaintext" disabled th:value="${user.getPhoneNumber()}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3 px-3">
-                                        <div class="d-flex flex-wrap align-items-center">
-                                            <div class="custom-control custom-radio mr-4">
-                                                <input type="radio" id="male" name="gender" value="Nam" class="custom-control-input"
-                                                       th:checked="${user.getGender() == 'Nam'}" disabled>
-                                                <label class="custom-control-label" for="male">Nam</label>
-                                            </div>
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" id="female" name="gender" value="Nữ" class="custom-control-input"
-                                                       th:checked="${user.getGender() == 'Nữ'}" disabled>
-                                                <label class="custom-control-label" for="female">Nữ</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-3 px-3">
-                                        <label>Mật khẩu</label>
-                                        <div class="form-control-plaintext d-flex align-items-center position-relative">
-                                            <i class="ms-2 fas fa-lock"></i>
-                                            <input type="password" class="ms-3 form-control-plaintext pl-5" disabled th:value="${user.getPhoneNumber()}">
-                                            <span class="text-orange fs-12px fw-700 text-center">Thay đổi</span>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changePassword">
-                                        Launch static backdrop modal
-                                    </button>
-                                </div>
-                                <div class="modal">
-                                    <!-- Button trigger modal -->
+                        <div id="account-content">
 
-                                    <div class="modal fade" id="changePassword" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    ...
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Understood</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                        ...
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -281,12 +201,16 @@
     </th:block>
 </main>
 <th:block id="js">
-    <script>
+    <script th:inline="javascript">
+        let stage = [[${stage}]]
+        if (stage != null) {
+            updateAccountBar(stage);
+        }
+
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
         function updateAccountBar(stage) {
             const listItems = document.querySelectorAll('nav.account-nav ul li');
-
             listItems.forEach((li) => {
                 li.querySelectorAll('.active').forEach((activeDiv) => {
                     activeDiv.classList.remove('active');
@@ -307,9 +231,100 @@
                     li.appendChild(lineBottom);
                 }
             });
+
+            stageChange(stage);
         }
 
+        function stageChange(stage) {
+            const content = document.getElementById('account-content');
+            content.innerHTML = '';
+            $.ajax({
+                url: `user/get/stage-${stage}`,
+                type: 'GET',
+                success: function (response) {
+                    content.innerHTML = response;
+                    if (stage.toString() === "2") {
+                        changePasswordAccount();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(`Đã xảy ra lỗi: ${xhr}`);
+                }
+            });
+        }
+        function changePasswordAccount() {
+            document.getElementById('form-change-password').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (!$('#form-change-password').valid()) {
+                    return;
+                }
 
+                const data = {
+                    oldPassword: document.getElementById("old-password").value,
+                    newPassword: document.getElementById("new-password").value,
+                    confirmPassword: document.getElementById("confirm-password").value
+                }
+                const btn = document.getElementById("btn-change-password");
+                const context = btn.textContent;
+
+                try {
+                    const res = await axios.post("/api/v1/auth/change-password-account", data);
+                    console.log(res);
+                    btnLoadingFinish(btn, context);
+                    toastShowSuccess("Đổi mật khẩu thành công");
+                    hideModal(document.getElementById("auth-change-password"))
+                } catch (e) {
+                    btnLoadingFinish(btn, context);
+                    console.log(e);
+                    toastShowFail(e.response.data.message);
+                }
+            })
+
+            $('#form-change-password').validate({
+                rules: {
+                    oldPassword: {
+                        required: true,
+                        minlength: 8,
+                    },
+                    newPassword: {
+                        required: true,
+                        minlength: 8,
+                    },
+                    confirmPassword: {
+                        required: true,
+                        minlength: 8,
+                        equalTo: "#new-password"
+                    }
+                },
+                messages: {
+                    oldPassword: {
+                        required: "không được để trống",
+                        minlength: "Mật khẩu phải có ít nhất 8 kí tự",
+                    },
+                    newPassword: {
+                        required: "không được để trống",
+                        minlength: "Mật khẩu phải có ít nhất 8 kí tự",
+
+                    },
+                    confirmPassword: {
+                        required: "không được để trống",
+                        minlength: "Mật khẩu phải có ít nhất 8 kí tự",
+                        equalTo: "Mật khẩu xác nhận không trùng khớp với mật khẩu mới"
+                    },
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+        }
     </script>
 </th:block>
 </body>
