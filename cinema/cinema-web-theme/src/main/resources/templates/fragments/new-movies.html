@@ -5,7 +5,7 @@
     <div class="mt-3">
         <div class="mt-1" th:each="movie : ${newMovies}">
             <div class="movie-content">
-                <div class="movie-img" style="border-radius: 5px; height: 220px; background-color: #4A4A4A;  overflow: hidden">
+                <div class="movie-img w-100" style="border-radius: 5px; height: 264px; background-color: #4A4A4A;  overflow: hidden">
                     <a th:href="'/movie/' + ${movie.getSlug()}">
                         <img th:src="${movie.getBannerImg()}"
                              th:alt="${movie.getName()}"

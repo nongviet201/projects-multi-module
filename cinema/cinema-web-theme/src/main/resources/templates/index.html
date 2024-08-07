@@ -115,99 +115,44 @@
                     </div>
                     <div class="post">
                         <div class="row">
-                            <div class="col-lg-6">
-                                <div class="main-blog p-2 main-post">
-                                    <div class="main-post-img post-img">
-                                        <img src="https://www.galaxycine.vn/media/2024/7/5/deadpool--wolverine-du-suc-vuc-day-vu-tru-dien-anh-marvel-2_1720176204536.jpg"
-                                             alt="">
-                                    </div>
-                                    <p class="fs-18px mt-4 fw-700 fs-18px">[Review] Deadpool & Wolverine: Tri Ân 20 Năm X-Men Theo Phong Cách Bẩn Bựa</p>
-                                    <div class="mt-2">
-                                        <button class="like-btn">
-                                            <i class="fa-solid fa-thumbs-up"></i><span class="ps-1">Thích</span>
-                                        </button>
-                                        <button class=" view-btn">
-                                            <i class="fa-solid fa-eye"></i>
-                                            <span>400</span>
-                                        </button>
+                            <th:block th:each="post, iterStat : ${posts}">
+                                <div th:if="${iterStat.index == 0}" class="col-lg-6">
+                                        <div class="main-blog p-2 main-post">
+                                            <div class="main-post-img post-img">
+                                                <img th:src="${post.getThumbnail()}"
+                                                     th:alt="${post.getTitle()}">
+                                            </div>
+                                            <p class="fs-18px mt-4 fw-700 fs-18px" th:text="${post.getTitle()}"></p>
+                                            <div class="mt-2">
+                                                <button class="like-btn">
+                                                    <i class="fa-solid fa-thumbs-up"></i><span class="ps-1">Thích</span>
+                                                </button>
+                                                <button class=" view-btn">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                    <span th:text="${post.getView()}">400</span>
+                                                </button>
+                                            </div>
                                     </div>
                                 </div>
-                            </div>
+                            </th:block>
                             <div class="col-lg-6">
                                 <div class="sub-blog">
                                     <div class="d-flex flex-column mb-3 ms-2">
-                                        <div class="p-2 row">
+                                        <div class="p-2 row" th:each="post, iterStat : ${posts}" th:if="${iterStat.index != 0}" >
                                             <div class="post-img col-lg-5">
-                                                <img src="https://www.galaxycine.vn/media/2024/6/30/a-quiet-place-day-one-ngay-new-york-thanh-vung-dat-chet-2_1719726875743.jpg"
-                                                     alt="">
+                                                <img th:src="${post.getThumbnail()}"
+                                                     th:alt="${post.getTitle()}">
                                             </div>
                                             <div class="fs-18px fw-700 col-lg-7 ms-3">
-                                                <a class="fs-18px fw-600">
-                                                    [Review] Deadpool & Wolverine: Tri Ân 20 Năm X-Men Theo Phong Cách Bẩn Bựa
-                                                </a>
+                                                <a class="fs-18px fw-600" th:text="${post.getTitle()}"></a>
                                                 <div class="mt-2">
                                                     <button class="like-btn">
                                                         <i class="fa-solid fa-thumbs-up"></i><span class="ps-1">Thích</span>
                                                     </button>
                                                     <button class=" view-btn">
                                                         <i class="fa-solid fa-eye"></i>
-                                                        <span>400</span>
+                                                        <span th:text="${post.getView()}">400</span>
                                                     </button>
-                                                </div>
-                                                <div class="blog-description mt-2">
-                                                    <p class="fs-14px text-black-50 fw-600 m-0">
-                                                        là tác phẩm hay nhất của trilogy Deadpool, cũng là tác phẩm hay nhất cho người hâm mộ X-men nói riêng.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="p-2 row">
-                                            <div class="post-img col-lg-5">
-                                                <img src="https://www.galaxycine.vn/media/2024/6/30/a-quiet-place-day-one-ngay-new-york-thanh-vung-dat-chet-2_1719726875743.jpg"
-                                                     alt="">
-                                            </div>
-                                            <div class="fs-18px fw-700 col-lg-7 ms-3">
-                                                <a class="fs-18px fw-600">
-                                                    [Review] Deadpool & Wolverine: Tri Ân 20 Năm X-Men Theo Phong Cách Bẩn Bựa
-                                                </a>
-                                                <div class="mt-2">
-                                                    <button class="like-btn">
-                                                        <i class="fa-solid fa-thumbs-up"></i><span class="ps-1">Thích</span>
-                                                    </button>
-                                                    <button class=" view-btn">
-                                                        <i class="fa-solid fa-eye"></i>
-                                                        <span>400</span>
-                                                    </button>
-                                                </div>
-                                                <div class="blog-description mt-2">
-                                                    <p class="fs-14px text-black-50 fw-600 m-0">
-                                                        là tác phẩm hay nhất của trilogy Deadpool, cũng là tác phẩm hay nhất cho người hâm mộ X-men nói riêng.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="p-2 row">
-                                            <div class="post-img col-lg-5">
-                                                <img src="https://www.galaxycine.vn/media/2024/6/30/a-quiet-place-day-one-ngay-new-york-thanh-vung-dat-chet-2_1719726875743.jpg"
-                                                     alt="">
-                                            </div>
-                                            <div class="fs-18px fw-700 col-lg-7 ms-3">
-                                                <a class="fs-18px fw-600">
-                                                    [Review] Deadpool & Wolverine: Tri Ân 20 Năm X-Men Theo Phong Cách Bẩn Bựa
-                                                </a>
-                                                <div class="mt-2">
-                                                    <button class="like-btn">
-                                                        <i class="fa-solid fa-thumbs-up"></i><span class="ps-1">Thích</span>
-                                                    </button>
-                                                    <button class=" view-btn">
-                                                        <i class="fa-solid fa-eye"></i>
-                                                        <span>400</span>
-                                                    </button>
-                                                </div>
-                                                <div class="blog-description mt-2">
-                                                    <p class="fs-14px text-black-50 fw-600 m-0">
-                                                        là tác phẩm hay nhất của trilogy Deadpool, cũng là tác phẩm hay nhất cho người hâm mộ X-men nói riêng.
-                                                    </p>
                                                 </div>
                                             </div>
                                         </div>

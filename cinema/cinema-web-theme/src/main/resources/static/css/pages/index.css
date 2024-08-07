@@ -21,6 +21,11 @@
     border-radius: 10px;
 }
 
+.movie-img a img {
+    height: 100%;
+    width: 100%;
+}
+
 /* Overlay styles */
 .overlay {
     position: absolute;
@@ -178,7 +183,9 @@
         padding: 0 17px;
     }
     .movie-img {
-        max-height: 418px
+        max-height: 418px;
+        height: 418px;
+        background-color: #D0D0D0;
     }
 }
 

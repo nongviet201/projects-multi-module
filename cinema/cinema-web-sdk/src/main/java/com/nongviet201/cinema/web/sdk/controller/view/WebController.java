@@ -2,6 +2,7 @@ package com.nongviet201.cinema.web.sdk.controller.view;
 
 import com.nongviet201.cinema.core.service.AuthService;
 import com.nongviet201.cinema.core.service.MovieService;
+import com.nongviet201.cinema.core.service.PostService;
 import com.nongviet201.cinema.core.service.ShowtimeService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebBillControllerService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebUserControllerService;
@@ -12,19 +13,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.stream.Collectors;
+
 @AllArgsConstructor
 public abstract class WebController {
     private final MovieService movieService;
     private final ShowtimeService showtimeService;
     private final WebBillControllerService billControllerService;
     private final WebVerifyService verifyService;
-    private final WebUserControllerService userControllerService;
+    private final PostService postService;
 
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute(
             "movies",
             movieService.getAllPublishMoviesOrderByReleaseDate()
+        );
+        model.addAttribute(
+            "posts",
+            postService.getAllPublishPostsOrderByUpdatedAt()
+                .stream()
+                .limit(4)
+                .collect(Collectors.toList())
         );
         return "index";
     }
@@ -82,6 +92,10 @@ public abstract class WebController {
     public String getBlogsPage(
         Model model
     ) {
+        model.addAttribute(
+            "posts",
+            postService.getAllPublishPostsOrderByUpdatedAt()
+        );
         return "blog/index";
     }
 
