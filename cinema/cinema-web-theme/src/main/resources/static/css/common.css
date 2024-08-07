@@ -131,8 +131,6 @@ input {
     border-radius: 5px;
     font-size: 14px;
     padding: .5rem;
-    height: 40px;
-    width: 100%;
     background: none;
 }
 input:focus {

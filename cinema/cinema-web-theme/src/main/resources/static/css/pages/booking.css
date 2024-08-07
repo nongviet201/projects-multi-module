@@ -159,7 +159,6 @@ main {
 
 @media (min-width: 576px) {
     .modal-dialog {
-        max-width: 400px;
         margin: 2rem auto;
     }
 }

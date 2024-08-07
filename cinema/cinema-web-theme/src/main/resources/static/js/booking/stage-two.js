@@ -167,9 +167,3 @@ async function cancelReservation(seatId) {
     }
 }
 
-window.addEventListener('load', function (e) {
-    currentSeatsChose.forEach(e =>{
-        cancelReservation(e)
-    })
-    console.log('Trang đang được tải lại hoặc rời khỏi.');
-});

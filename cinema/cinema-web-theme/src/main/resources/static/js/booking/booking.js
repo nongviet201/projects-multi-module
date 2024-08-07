@@ -61,7 +61,7 @@ function stageFunction() {
             stageOne()
             break;
         case 2:
-            changePasswordAccount()
+            stageTwo()
             break;
         case 3:
             hideStageTwo()

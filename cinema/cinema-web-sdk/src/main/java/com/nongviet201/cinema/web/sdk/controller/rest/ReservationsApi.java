@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.core.rest;
+package com.nongviet201.cinema.web.sdk.controller.rest;
 
 import com.nongviet201.cinema.core.model.entity.bill.Reservation;
 import com.nongviet201.cinema.core.request.ReservationRequest;
