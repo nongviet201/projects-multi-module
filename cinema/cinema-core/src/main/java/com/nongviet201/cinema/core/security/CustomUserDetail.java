@@ -38,4 +38,9 @@ public class CustomUserDetail implements UserDetails {
     public String getAvatar() {
         return user.getAvatar();
     }
+
+    @Override
+    public boolean isEnabled() {
+        return user.isEnabled();
+    }
 }

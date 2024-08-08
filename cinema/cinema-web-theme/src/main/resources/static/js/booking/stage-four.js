@@ -74,12 +74,6 @@ function billSubmit(
 let billId;
 
 async function createBill() {
-    const billRequest = {
-        userId: 1,
-        showtimeId: showtime.id,
-        totalPrice: totalPrice
-    }
-
     const comboRequest = Array.from(comboData, ([key, value]) => ({
         comboId: key,
         quantity: value
@@ -88,7 +82,7 @@ async function createBill() {
     const seatRequest = Array.from(currentSeatsChose);
 
     const paymentRequest = {
-        billRequest: billRequest,
+        showtimeId: showtime.id,
         comboRequest: comboRequest,
         seatRequest: seatRequest
     };

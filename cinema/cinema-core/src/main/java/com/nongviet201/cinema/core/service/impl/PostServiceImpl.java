@@ -16,4 +16,9 @@ public class PostServiceImpl implements PostService {
     public List<Post> getAllPublishPostsOrderByUpdatedAt() {
         return postRepository.findAllByStatusOrderByCreatedAt(true);
     }
+
+    @Override
+    public Post getPostById(Integer id) {
+        return postRepository.findById(id).orElse(null);
+    }
 }

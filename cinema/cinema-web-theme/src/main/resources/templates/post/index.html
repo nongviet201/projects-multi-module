@@ -23,11 +23,14 @@
                     <div class="mt-3 d-flex" th:each="post : ${posts}">
                         <div class="me-3">
                             <div class="post-index-img">
-                                <a ><img class="post-img" th:src="${post.getThumbnail()}" th:alt="${post.getTitle()}"></a>
+                                <a th:href="@{'/posts?id='+ ${post.getId()}}">
+                                    <img class="post-img" th:src="${post.getThumbnail()}" th:alt="${post.getTitle()}">
+                                </a>
                             </div>
                         </div>
                         <div class="">
-                            <a class="fs-18px fw-600" th:text="${post.getTitle()}"></a>
+                            <a class="fs-18px fw-600" th:href="@{'/posts?id='+ ${post.getId()}}"
+                               th:text="${post.getTitle()}"></a>
                             <div class="mt-2">
                                 <button class="like-btn">
                                     <i class="fa-solid fa-thumbs-up"></i><span class="ms-1">Thích</span>

@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.core.service.impl;
 
+import com.nongviet201.cinema.core.exception.BadRequestException;
 import com.nongviet201.cinema.core.model.entity.bill.Bill;
 import com.nongviet201.cinema.core.model.entity.bill.BillCombo;
 import com.nongviet201.cinema.core.model.entity.bill.Combo;
@@ -18,9 +19,13 @@ public class BillComboServiceImpl implements BillComboService {
     private final ComboRepository comboRepository;
 
     @Override
-    public void createBillCombo(Integer billId, Integer comboId, Integer quantity) {
-        Combo combo = comboRepository.findById(comboId).orElse(null);
-        Bill bill = billRepository.findById(billId).orElse(null);
+    public long createBillCombo(Integer billId, Integer comboId, Integer quantity) {
+        Combo combo = comboRepository.findById(comboId)
+            .orElseThrow(() -> new BadRequestException("Combo không tồn tại"));
+
+        Bill bill = billRepository.findById(billId)
+            .orElseThrow(() -> new BadRequestException("Bill không tồn tại"));
+
         assert combo != null;
         billComboRepository.save(
             BillCombo.builder()
@@ -30,5 +35,7 @@ public class BillComboServiceImpl implements BillComboService {
                 .price(combo.getPrice() * quantity)
                 .build()
         );
+
+        return combo.getPrice() * quantity;
     }
 }

@@ -13,4 +13,6 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, Integer> {
     List<Showtime> findAllByMovie_IdOrderByScreeningDateAsc(Integer movieId);
     List<Showtime> findAllByMovie_IdAndAuditorium_IdAndScreeningDateOrderByStartTimeAsc(Integer movieId, Integer auditoriumId, LocalDate screeningDate);
     List<Showtime> findAllByMovie_IdAndAuditorium_IdOrderByStartTimeDesc(Integer movieId, Integer auditoriumId);
+    List<Showtime> findAllByMovie_IdAndScreeningDateOrderByScreeningDateAsc(int movieId, LocalDate screeningDate);
+
 }

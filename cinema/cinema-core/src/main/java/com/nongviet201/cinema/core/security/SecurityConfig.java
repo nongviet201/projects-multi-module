@@ -45,9 +45,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable); //tắt csrf
 
-        String[] paths = {"/phim-le", "/phim-bo", "/phim-chieu-rap", "/tin-tuc/**"};
+        String[] web = {
+            "/booking/get/stage-two",
+            "/booking/get/stage-three",
+            "/user"
+        };
 
         http.authorizeHttpRequests(auth -> {
+            auth.requestMatchers(web).authenticated();
             auth.anyRequest().permitAll();
         });
 

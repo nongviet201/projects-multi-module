@@ -13,4 +13,6 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
     Movie findBySlugAndStatus(String slug, boolean status);
 
     List<Movie> findAllByOrderByReleaseDateDesc();
+
+    Movie findByIdAndStatus(int id, boolean b);
 }

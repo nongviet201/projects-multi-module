@@ -12,4 +12,5 @@ public interface MovieService {
     List<Movie> getAllMoviesOderByReleaseDate();
     Movie getMovieById(int id);
 
+    Movie getPublishMovieById(int id);
 }

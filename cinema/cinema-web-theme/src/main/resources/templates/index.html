@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: #content}, ~{:: #js})}">
 <title>VCINEMA</title>
 <th:block id="css">
@@ -64,13 +63,13 @@
                         <div class="card-movie position-relative col-lg-3 col-6" th:each="movie : ${movies}">
                             <div class="movie-content">
                                 <div class="movie-img">
-                                    <a th:href="'/movie/' + ${movie.getSlug()}">
+                                    <a th:href="'/movie/' + ${movie.getId()}">
                                         <img th:src="${movie.getPoster()}"
                                              th:alt="${movie.getName()}">
                                         <div class="overlay"></div>
                                     </a>
                                     <div class="movie-content-hover">
-                                        <a th:href="'/movie/' + ${movie.getSlug()}"
+                                        <a th:href="'/movie/' + ${movie.getId()}"
                                             class="movie-hover-btn-ticket mb-3">
                                             <i class="fa-solid fa-ticket"></i>
                                             <p class="m-0 ms-2">Mua vé</p>
@@ -88,7 +87,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a th:href="'/movie/' + ${movie.getSlug()}">
+                            <a th:href="'/movie/' + ${movie.getId()}">
                                 <h3 class="movie-name text-uppercase" th:text="${movie.name}"></h3>
                             </a>
                         </div>
@@ -115,21 +114,25 @@
                     </div>
                     <div class="post">
                         <div class="row">
-                            <th:block th:each="post, iterStat : ${posts}">
-                                <div th:if="${iterStat.index == 0}" class="col-lg-6">
+                            <th:block th:if="${posts[0]} != null">
+                                <div class="col-lg-6">
                                         <div class="main-blog p-2 main-post">
                                             <div class="main-post-img post-img">
-                                                <img th:src="${post.getThumbnail()}"
-                                                     th:alt="${post.getTitle()}">
+                                                <a th:href="@{'/posts?id=' + ${posts[0].getId()}}">
+                                                    <img th:src="${posts[0].getThumbnail()}"
+                                                         th:alt="${posts[0].getTitle()}">
+                                                </a>
                                             </div>
-                                            <p class="fs-18px mt-4 fw-700 fs-18px" th:text="${post.getTitle()}"></p>
+                                            <a class="fs-18px mt-4 fw-700 fs-18px"
+                                               th:href="@{'/posts?id=' + ${posts[0].getId()}}" th:text="${posts[0].getTitle()}">
+                                            </a>
                                             <div class="mt-2">
                                                 <button class="like-btn">
                                                     <i class="fa-solid fa-thumbs-up"></i><span class="ps-1">Thích</span>
                                                 </button>
                                                 <button class=" view-btn">
                                                     <i class="fa-solid fa-eye"></i>
-                                                    <span th:text="${post.getView()}">400</span>
+                                                    <span th:text="${posts[0].getView()}">400</span>
                                                 </button>
                                             </div>
                                     </div>
@@ -140,11 +143,14 @@
                                     <div class="d-flex flex-column mb-3 ms-2">
                                         <div class="p-2 row" th:each="post, iterStat : ${posts}" th:if="${iterStat.index != 0}" >
                                             <div class="post-img col-lg-5">
-                                                <img th:src="${post.getThumbnail()}"
-                                                     th:alt="${post.getTitle()}">
+                                                <a th:href="@{'/posts?id=' + ${post.getId()}}">
+                                                    <img th:src="${post.getThumbnail()}"
+                                                         th:alt="${post.getTitle()}">
+                                                </a>
                                             </div>
                                             <div class="fs-18px fw-700 col-lg-7 ms-3">
-                                                <a class="fs-18px fw-600" th:text="${post.getTitle()}"></a>
+                                                <a class="fs-18px fw-600" th:href="@{'/posts?id=' + ${post.getId()}}"
+                                                   th:text="${post.getTitle()}"></a>
                                                 <div class="mt-2">
                                                     <button class="like-btn">
                                                         <i class="fa-solid fa-thumbs-up"></i><span class="ps-1">Thích</span>

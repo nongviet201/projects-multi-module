@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.core.service.impl;
 
+import com.nongviet201.cinema.core.exception.BadRequestException;
 import com.nongviet201.cinema.core.model.entity.bill.Bill;
 import com.nongviet201.cinema.core.model.entity.bill.BillSeat;
 import com.nongviet201.cinema.core.model.entity.cinema.Seat;
@@ -16,10 +17,15 @@ public class BillSeatServiceImpl implements BillSeatService {
     private final BillRepository billRepository;
     private final SeatRepository seatRepository;
     private final BillSeatRepository billSeatRepository;
+
     @Override
-    public void createBillSeat(Integer billId, Integer SeatId) {
-        Bill bill = billRepository.findById(billId).orElse(null);
-        Seat seat = seatRepository.findById(SeatId).orElse(null);
+    public long createBillSeat(Integer billId, Integer SeatId) {
+        Bill bill = billRepository.findById(billId)
+            .orElseThrow(() -> new BadRequestException("Bill không tồn tại"));
+
+        Seat seat = seatRepository.findById(SeatId)
+            .orElseThrow(() -> new BadRequestException("Ghế không tồn tại"));
+
         assert seat != null;
 
         billSeatRepository.save(
@@ -29,5 +35,7 @@ public class BillSeatServiceImpl implements BillSeatService {
                 .price(seat.getType().getPrice())
                 .build()
         );
+
+        return seat.getType().getPrice();
     }
 }

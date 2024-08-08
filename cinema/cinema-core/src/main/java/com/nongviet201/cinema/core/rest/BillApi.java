@@ -24,25 +24,8 @@ public class BillApi {
     @PostMapping("/create")
     protected ResponseEntity<?> createBill(@RequestBody BillRequestDTO.PaymentRequest paymentRequest) {
         Bill bill = billService.createBill(
-            paymentRequest.getBillRequest().getUserId(),
-            paymentRequest.getBillRequest().getShowtimeId(),
-            paymentRequest.getBillRequest().getTotalPrice()
+            paymentRequest
         );
-
-        for (BillRequestDTO.ComboRequest combo : paymentRequest.getComboRequest()) {
-            billComboService.createBillCombo(
-                bill.getId(),
-                combo.getComboId(),
-                combo.getQuantity()
-            );
-        }
-
-        for (int seatId : paymentRequest.getSeatRequest()) {
-            billSeatService.createBillSeat(
-                bill.getId(),
-                seatId
-            );
-        }
         return ResponseEntity.ok(bill.getId());
     }
 

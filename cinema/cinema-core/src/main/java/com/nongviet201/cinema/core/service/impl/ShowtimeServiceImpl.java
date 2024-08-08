@@ -1,8 +1,6 @@
 
 package com.nongviet201.cinema.core.service.impl;
 
-import com.nongviet201.cinema.core.model.entity.cinema.Auditorium;
-import com.nongviet201.cinema.core.model.entity.cinema.Cinema;
 import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.repository.AuditoriumRepository;
 import com.nongviet201.cinema.core.repository.CinemaRepository;
@@ -11,6 +9,7 @@ import com.nongviet201.cinema.core.service.ShowtimeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,8 +17,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ShowtimeServiceImpl implements ShowtimeService {
     private final ShowtimeRepository showtimeRepository;
-    private final CinemaRepository cinemaRepository;
-    private final AuditoriumRepository auditoriumRepository;
 
     @Override
     public List<Showtime> getShowtimeByMovieIdCityId(int movieId, int cityId) {
@@ -38,6 +35,11 @@ public class ShowtimeServiceImpl implements ShowtimeService {
                 showtime.getAuditorium().getId(),
                 showtime.getScreeningDate()
             );
+    }
+
+    @Override
+    public List<Showtime> getAllShowtimesByMovieIdAnDate(int movieId, LocalDate date) {
+        return showtimeRepository.findAllByMovie_IdAndScreeningDateOrderByScreeningDateAsc(movieId, date);
     }
 
     @Override

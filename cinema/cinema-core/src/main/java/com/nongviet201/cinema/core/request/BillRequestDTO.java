@@ -9,13 +9,6 @@ import java.util.List;
 public class BillRequestDTO {
     @Getter
     @Setter
-    public static class BillRequest {
-        Integer userId;
-        Integer showtimeId;
-        long totalPrice;
-    }
-    @Getter
-    @Setter
     public static class ComboRequest {
         Integer comboId;
         Integer quantity;
@@ -24,7 +17,7 @@ public class BillRequestDTO {
     @Getter
     @Setter
     public static class PaymentRequest {
-        private BillRequest billRequest;
+        private Integer showtimeId;
         private List<ComboRequest> comboRequest;
         private List<Integer> seatRequest;
     }

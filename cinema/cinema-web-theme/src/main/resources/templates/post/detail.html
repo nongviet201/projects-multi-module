@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: #content}, ~{:: #js})}">
+<title>CINEMA</title>
+<th:block id="css">
+    <link rel="stylesheet" href="/css/pages/index.css">
+</th:block>
+<body>
+<main>
+    <th:block id="content">
+        <div class="line mt-3"></div>
+        <main class="container">
+            <div class="row">
+                <div class="col-lg-8 ">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb fs-14px">
+                            <li class="breadcrumb-item "><a href="/">Trang Chủ</a></li>
+                            <li class="breadcrumb-item "><a href="/posts">Góc Điện Ảnh</a></li>
+                            <li class="breadcrumb-item active" aria-current="page" th:text="${post.getTitle()}"></li>
+                        </ol>
+                    </nav>
+                    <div>
+                        <h1 class="fw-700 fs-30px" th:text="${post.getTitle()}"></h1>
+                        <div class="my-2">
+                            <button class="like-btn">
+                                <i class="fa-solid fa-thumbs-up"></i><span class="ms-1">Thích</span>
+                            </button>
+                            <button class="view-btn ms-2">
+                                <i class="fa-solid fa-eye"></i>
+                                <span th:text="${post.getView()}">400</span>
+                            </button>
+                        </div>
+                        <div class="post-content" th:utext="${post.getContent()}">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 ps-5 new-movies"></div>
+            </div>
+        </main>
+    </th:block>
+</main>
+<th:block id ="js">
+    <script src="/js/fragments/new-movies.js"></script>
+</th:block>
+</body>
+</html>

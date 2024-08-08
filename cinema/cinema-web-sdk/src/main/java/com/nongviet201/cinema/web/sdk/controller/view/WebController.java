@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -39,14 +40,18 @@ public abstract class WebController {
         return "index";
     }
 
-    @GetMapping("/movie/{slug}")
+    @GetMapping("/movie/{id}")
     public String infoMoviePage(
-        @PathVariable("slug") String slug,
+        @PathVariable("id") int id,
         Model model
     ) {
         model.addAttribute(
             "movie",
-            movieService.getPublishMovieBySlug(slug)
+            movieService.getPublishMovieById(id)
+        );
+        model.addAttribute(
+            "showtimes",
+            showtimeService.getAllShowtimesByMovieIdAnDate(id, LocalDate.now())
         );
         return "movie/detail";
     }
@@ -88,15 +93,23 @@ public abstract class WebController {
         return "booking/booking";
     }
 
-    @GetMapping("/blogs")
+    @GetMapping("/posts")
     public String getBlogsPage(
+        @RequestParam(value = "id", required = false) Integer id,
         Model model
     ) {
         model.addAttribute(
             "posts",
             postService.getAllPublishPostsOrderByUpdatedAt()
         );
-        return "blog/index";
+        if (id!= null) {
+            model.addAttribute(
+                "post",
+                postService.getPostById(id)
+            );
+            return "post/detail";
+        }
+        return "post/index";
     }
 
 
@@ -126,7 +139,7 @@ public abstract class WebController {
 
     @GetMapping("/user")
     public String getUserPage(
-        @RequestParam(value = "stage", required = false) Integer stage,
+        @RequestParam(value = "stage", defaultValue = "2") Integer stage,
         Model model
     ) {
         model.addAttribute(

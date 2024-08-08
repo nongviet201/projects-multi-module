@@ -5,8 +5,12 @@ import com.nongviet201.cinema.core.request.ChangePasswordMailRequest;
 import com.nongviet201.cinema.core.request.LoginRequest;
 import com.nongviet201.cinema.core.request.RegisterRequest;
 import com.nongviet201.cinema.core.service.AuthService;
+import com.nongviet201.cinema.core.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthApi {
     private final AuthService authService;
+    private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(
@@ -55,4 +60,10 @@ public class AuthApi {
         return ResponseEntity.ok("change password successfully");
     }
 
+    @GetMapping("/check-login")
+    public ResponseEntity<Boolean> checkLoginStatus(HttpServletRequest request) {
+        boolean isLoggedIn = SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
+            && !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
+        return ResponseEntity.ok(isLoggedIn);
+    }
 }
