@@ -19,10 +19,17 @@ if (showtime === null) {
     stageChange();
 }
 
-nextBtn.addEventListener('click', () => {
+nextBtn.addEventListener('click', async () => {
     if (currentStage.toString() !== "4") {
-        nextBtn.classList.remove("disabled");
-        nextFunc();
+        if (currentStage.toString() === "1") {
+            const loggedIn = await checkLogin();
+            if (loggedIn) {
+                nextBtn.classList.remove("disabled");
+                nextFunc();
+            }
+        } else {
+            nextFunc();
+        }
     }
 });
 

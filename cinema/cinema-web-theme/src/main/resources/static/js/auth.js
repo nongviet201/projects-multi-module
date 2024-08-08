@@ -1,3 +1,5 @@
+let isLogin = false;
+
 document.getElementById('form-login').addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!$('#form-login').valid()) {
@@ -17,9 +19,8 @@ document.getElementById('form-login').addEventListener('submit', async (e) => {
             const res = await axios.post("/api/v1/auth/login", data);
             btnLoadingFinish(btn, context);
             toastShowSuccess("Đăng nhập thành công!");
-            setTimeout(function () {
-                window.location.href = '/';
-            }, 2000);
+            setHeaderUserInfo(res.data);
+            hideModal(document.getElementById('auth-login-modal'));
         } catch (e) {
             btnLoadingFinish(btn, context);
             modalErrorLog(
@@ -111,6 +112,21 @@ function logout() {
     setTimeout(function () {
         window.location.href = '/logout';
     }, 2000);
+}
+
+async function checkLogin() {
+    try {
+        const res = await axios.get("/api/v1/auth/check-login");
+        if (res.data === false) {
+            $(document.getElementById('auth-login-modal')).modal('show');
+            return false;
+        } else {
+            return true;
+        }
+    } catch (e) {
+        console.log(e);
+        return false;
+    }
 }
 
 $('#form-login').validate({
@@ -278,4 +294,28 @@ function modalErrorLog(modalEl, errorEl, message) {
     modalEl.addEventListener('hidden.bs.modal', event => {
         errorEl.textContent = "";
     })
+}
+
+function setHeaderUserInfo(user) {
+    document.querySelector('.login-btn').innerHTML = `
+    <div class="dropdown">
+        <div class="d-flex" data-bs-toggle="dropdown" aria-expanded="false">
+            <img style="width: 50px; height: 50px" src="${user.avatar}">
+            <div class="d-flex text-center flex-column fs-14px ms-3">
+                <strong class="mb-2">
+                    <span>${user.fullName}</span>
+                </strong>
+                <div class="d-flex justify-content-center align-items-center text-center gap-1">
+                    <i class="fa-solid text-orange fa-circle-dollar-to-slot"></i>
+                    <p class="mb-0">0 <span>Points</span></p>
+                </div>
+            </div>
+        </div>
+        <ul class="dropdown-menu mt-2">
+            <li><a class="dropdown-item fs-14px" href="/user"><i class="me-3 fa-regular fa-id-card"></i>Tài khoản</a></li>
+            <li><a class="dropdown-item fs-14px" href="/user?stage=1"><i class="me-3 fa-solid fa-list-ul"></i>Lịch sử</a></li>
+            <li><a class="dropdown-item fs-14px" onclick="logout()"><i class="me-3 fa-solid fa-arrow-right-from-bracket fa-flip-horizontal"></i>Đăng xuất</a></li>
+        </ul>
+    </div>
+    `;
 }
