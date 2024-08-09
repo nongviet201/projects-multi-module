@@ -19,7 +19,10 @@ function updateTicketBill() {
 
     updateElement('bill-movie-name', `
         <p class="fs-16px fw-600 text-blue">${showtime.movie.name}</p>
-        <p class="fs-14px">type</p>
+        <p class="fs-14px">${showtime.auditorium.auditoriumType.toString()} 
+        <span> - </span> 
+        <span class="fs-14px px-2 py-1 fw-700 bg-orange text-white" style="border-radius: 5px">T${showtime.movie.ageRequirement}</span>
+        </p>
     `);
 
     updateElement('bill-cinema-name', `
@@ -43,11 +46,11 @@ function updateTicketBill() {
         .join(' ');
 
     updateElement('bill-auditorium', `
-        <p class="fs-16px">${showtime.auditorium.name} <strong class="fs-14px ms-2">${formatSeatList()}</strong></p>
+        <p class="fs-16px">${showtime.auditorium.name}: <strong class="fs-14px ms-2">${formatSeatList()}</strong></p>
         ${formatComboList()}
     `);
 
-    updateElement('bill-total-price', `${totalPrice} <span>đ</span>`);
+    updateElement('bill-total-price', `${formatPrice(totalPrice)} <span>đ</span>`);
 
     billSubmit(
         billAccept = document.getElementById("submit-check"),

@@ -27,6 +27,7 @@ public class Movie {
     private String poster;
     @Column(columnDefinition = "TEXT")
     private String bannerImg;
+    private Integer ageRequirement;
     private int duration;
     private double rating;
     private boolean status;

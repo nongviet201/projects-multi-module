@@ -36,7 +36,8 @@
                     <div class="col-lg-3 col-md-4 col-6" th:each="movie : ${movies}">
                         <div class="movie-select cursor-pointer"
                              th:value="${movie.id}"
-                             onclick="getMovieFunc(this)">
+                             onclick="getMovieFunc(this)"
+                             th:attr="data-movie-age=${movie.getAgeRequirement()}">
                             <img th:src="${movie.getPoster()}"
                                  th:alt="${movie.getName()}">
                             <h5 th:text="${movie.getName()}"></h5>

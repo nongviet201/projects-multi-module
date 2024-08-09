@@ -4,6 +4,7 @@ import com.nongviet201.cinema.core.service.CityService;
 import com.nongviet201.cinema.core.service.ComboService;
 import com.nongviet201.cinema.core.service.MovieService;
 import com.nongviet201.cinema.core.service.ShowtimeService;
+import com.nongviet201.cinema.web.sdk.controller.service.WebShowtimeControllerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BookingRender {
     private final MovieService movieService;
     private final CityService cityService;
-    private final ShowtimeService showtimeService;
+    private final WebShowtimeControllerService showtimeControllerService;
     private final ComboService comboService;
 
     @GetMapping("/stage-one")
@@ -35,12 +36,12 @@ public class BookingRender {
 
     @GetMapping("/stage-two")
     public String getStageTwoFragments(
-        @RequestParam(value = "showtimeId", required = true) Integer showtimeId,
+        @RequestParam(value = "showtimeId") Integer showtimeId,
         Model model
     ) {
         model.addAttribute(
             "showtimes",
-            showtimeService.getAllShowtimesOnTheSameDayById(showtimeId)
+                showtimeControllerService.getAllShowtimesOnTheSameDayById(showtimeId)
         );
         return "booking/stage/stage-two";
     }

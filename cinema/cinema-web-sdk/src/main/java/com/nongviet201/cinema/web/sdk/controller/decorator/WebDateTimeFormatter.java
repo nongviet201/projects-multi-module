@@ -4,23 +4,45 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 @Service
 public class WebDateTimeFormatter {
 
-    public String formatDate(
+    public String formatFullDate(
         LocalDate date
     ) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd/MM/yyyy", new Locale("vi", "VN"));
         return date.format(formatter);
     }
 
-    public String formatDateTime(
+    public String formatDateToEEEEddMM(
+        LocalDate date
+    ) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd/MM", new Locale("vi", "VN"));
+        return date.format(formatter);
+    }
+
+    public String formatDateToDDmmYYYY(
+        LocalDate date
+    ) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", new Locale("vi", "VN"));
+        return date.format(formatter);
+    }
+
+    public String formatFullDateTime(
         LocalDateTime dateTime
     ) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm - EEEE, dd/MM/yyyy ", new Locale("vi", "VN"));
         return dateTime.format(formatter);
+    }
+
+    public String formatTimeToHHmm(
+            LocalTime time
+    ) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm", new Locale("vi", "VN"));
+        return time.format(formatter);
     }
 }

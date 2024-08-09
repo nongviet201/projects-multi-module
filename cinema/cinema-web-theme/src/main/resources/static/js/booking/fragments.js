@@ -28,7 +28,7 @@ function updateBarStage() {
     }
 }
 
-function showtimeDetailMovieShow(poster, name) {
+function showtimeDetailMovieShow(poster, name, movieAgeRequirement) {
     const showtimeDetailMovie = document.querySelector(".ticket-movie");
     showtimeDetailMovie.innerHTML = `
         <div class="col-lg-4">
@@ -37,11 +37,20 @@ function showtimeDetailMovieShow(poster, name) {
         </div>
         <div class="col-lg-8 ps-3">
             <strong>${name}</strong>
+            <div class="mt-2">
+            <span class="ticket-movie-auditorium-type fs-14px"></span>
+            <span class="fw-700"> - </span>
+            <span class="bg-orange fw-700 fs-14px text-white py-1 px-2" style="border-radius: 3px">T${movieAgeRequirement}</span>
+            </div> 
         </div>
     `
 }
 
-function showtimeDetailCinemaShow(cinemaName, auditoriumName, startDate, startTime) {
+function showtimeDetailCinemaShow(cinemaName, auditoriumName, startDate, startTime, auditoriumType) {
+    function getCurrentYear() {
+        const now = new Date();  // Tạo một đối tượng Date mới với thời gian hiện tại
+        return now.getFullYear(); // Lấy năm từ đối tượng Date
+    }
     showtimeDetailCinema.innerHTML = `
          <div>
             <strong>${cinemaName}</strong>
@@ -52,9 +61,10 @@ function showtimeDetailCinemaShow(cinemaName, auditoriumName, startDate, startTi
             <span>Suất: </span>
             <strong>${startTime}</strong>
             <span> - </span>
-            <strong>${startDate}</strong>
+            <strong>${startDate}/${getCurrentYear()}</strong>
         </div>
     `
+    document.querySelector(".ticket-movie-auditorium-type").innerHTML = `${auditoriumType} `;
 }
 
 function showtimeDetailSeatShow() {
@@ -103,19 +113,22 @@ function ticketDetailComboHide() {
 
 function showtimeDetailShowAll(showtime) {
     showtimeDetailMovieShow(
-        showtime.movie.poster,
-        showtime.movie.name
+        showtime.moviePoster,
+        showtime.movieName,
+        showtime.ageRequirement
     );
     showtimeDetailCinemaShow(
-        showtime.auditorium.cinema.name,
-        showtime.auditorium.name,
+        showtime.cinemaName,
+        showtime.auditoriumName,
         showtime.screeningDate,
-        showtime.startTime
+        showtime.startTime,
+        showtime.auditoriumType
     );
 }
 
 function showtimeDetailCinemaHide() {
     showtimeDetailCinema.innerHTML = "";
+    document.querySelector(".ticket-movie-auditorium-type").innerHTML = ``;
 }
 
 function formatPrice(number) {

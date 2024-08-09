@@ -2,6 +2,7 @@ package com.nongviet201.cinema.web.sdk.controller.rest;
 
 import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.service.ShowtimeService;
+import com.nongviet201.cinema.web.sdk.controller.service.WebShowtimeControllerService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +16,20 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/api/v1/showtime")
 public class ShowtimeApi {
-    private final ShowtimeService showtimeService;
+
+    private final WebShowtimeControllerService showtimeControllerService;
 
     @RequestMapping("/get/{movieId}/{cityId}")
     public ResponseEntity<?> getShowtimeByMovieIdAndCityId(
         @PathVariable int movieId,
         @PathVariable int cityId
     ) {
-        List<Showtime> showtimes =
-            showtimeService.getShowtimeByMovieIdCityId(movieId, cityId);
-        return ResponseEntity.ok(showtimes);
+        return ResponseEntity.ok(
+            showtimeControllerService.getShowtimeByMovieIdAndCityId(
+                    movieId,
+                    cityId
+            )
+        );
     }
 
     @RequestMapping("/get/showtimeId/{showtimeId}")
@@ -32,9 +37,9 @@ public class ShowtimeApi {
         @Valid
         @PathVariable int showtimeId
     ) {
-        Showtime showtime =
-            showtimeService.getShowtimeById(showtimeId);
-        return ResponseEntity.ok(showtime);
+        return ResponseEntity.ok(
+                showtimeControllerService.  getShowtimeById(showtimeId)
+        );
     }
 
 

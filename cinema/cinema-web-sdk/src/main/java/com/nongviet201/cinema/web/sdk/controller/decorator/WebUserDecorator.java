@@ -22,7 +22,7 @@ public class WebUserDecorator {
             user.getPhoneNumber(),
             user.getAvatar(),
             user.getGender(),
-            timeFormatter.formatDate(user.getBirthday())
+            timeFormatter.formatDateToDDmmYYYY(user.getBirthday())
         );
     }
 }

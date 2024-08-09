@@ -19,9 +19,9 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     private final ShowtimeRepository showtimeRepository;
 
     @Override
-    public List<Showtime> getShowtimeByMovieIdCityId(int movieId, int cityId) {
+    public List<Showtime> getShowtimeByMovieIdAndCityId(int movieId, int cityId) {
         return showtimeRepository.findAllByMovie_IdOrderByScreeningDateAsc(movieId).stream()
-            .filter(showtime -> showtime.getAuditorium().getCinema().getId() == cityId)
+            .filter(showtime -> showtime.getAuditorium().getCinema().getCity().getId() == cityId)
             .collect(Collectors.toList());
     }
 

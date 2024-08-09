@@ -16,12 +16,13 @@ function timeBtnFunc(button) {
             showtimeDetailSeatShow();
             showtime = response;
             showtimeDetailCinemaShow(
-                showtime.auditorium.cinema.name,
-                showtime.auditorium.name,
+                showtime.cinemaName,
+                showtime.auditoriumName,
                 showtime.screeningDate,
-                showtime.startTime
+                showtime.startTime,
+                showtime.auditoriumType
             );
-            fetchSeatsByAuditoriumId(showtime.auditorium.id);
+            fetchSeatsByAuditoriumId(showtime.auditoriumId);
         },
         error: function (xhr, status, error) {
             console.error(`Đã xảy ra lỗi: ${xhr}`);
@@ -44,7 +45,7 @@ function fetchTimeShowtimesByMovieAndAuditorium(showtimeId) {
             const seatContainer = document.getElementById("seat-container");
             stageTwoHeader.innerHTML = htmlResponse;
             divStageTwo.insertBefore(stageTwoHeader, seatContainer);
-            fetchSeatsByAuditoriumId(showtime.auditorium.id);
+            fetchSeatsByAuditoriumId(showtime.auditoriumId);
         },
         error: function (xhr, status, error) {
             console.error(`Đã xảy ra lỗi: ${xhr}`);
@@ -138,6 +139,8 @@ function hideStageTwo() {
 function showStageTwo() {
     divStageTwo.style.display = "block";
 }
+
+connectWS();
 
 async function upsertReservation(seatId) {
     const data = {

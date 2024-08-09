@@ -1,11 +1,9 @@
 package com.nongviet201.cinema.web.sdk.controller.view;
 
-import com.nongviet201.cinema.core.service.AuthService;
 import com.nongviet201.cinema.core.service.MovieService;
 import com.nongviet201.cinema.core.service.PostService;
-import com.nongviet201.cinema.core.service.ShowtimeService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebBillControllerService;
-import com.nongviet201.cinema.web.sdk.controller.service.WebUserControllerService;
+import com.nongviet201.cinema.web.sdk.controller.service.WebShowtimeControllerService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebVerifyService;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
@@ -19,10 +17,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public abstract class WebController {
     private final MovieService movieService;
-    private final ShowtimeService showtimeService;
+    private final WebShowtimeControllerService showtimeControllerService;
     private final WebBillControllerService billControllerService;
     private final WebVerifyService verifyService;
     private final PostService postService;
+
 
     @GetMapping("/")
     public String index(Model model) {
@@ -51,7 +50,7 @@ public abstract class WebController {
         );
         model.addAttribute(
             "showtimes",
-            showtimeService.getAllShowtimesByMovieIdAnDate(id, LocalDate.now())
+            showtimeControllerService.getAllShowTimesByMovieIdAndDate(id, LocalDate.now())
         );
         return "movie/detail";
     }
@@ -66,7 +65,7 @@ public abstract class WebController {
         if (showtimeId!= null) {
             model.addAttribute(
                 "showtime",
-                showtimeService.getShowtimeById(showtimeId)
+                showtimeControllerService.getShowtimeById(showtimeId)
             );
         }
         if (bill!= null) {
