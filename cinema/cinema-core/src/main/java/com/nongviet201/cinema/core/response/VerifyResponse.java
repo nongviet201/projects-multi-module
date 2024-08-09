@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 public class VerifyResponse {
     Boolean success;
     String message;
+    String token;
 
     public boolean isSuccess() {
         return success;

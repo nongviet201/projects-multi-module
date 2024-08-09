@@ -125,13 +125,10 @@ public abstract class WebController {
             );
         }
         if (tokenForgotPassword!= null) {
-            if (verifyService.verifyForgotPassword(tokenForgotPassword)) {
-                model.addAttribute(
-                    "tokenForgotPassword",
-                    tokenForgotPassword
-                );
-                return "pages/verify";
-            }
+            model.addAttribute(
+                "verifyResponse",
+                verifyService.verifyForgotPassword(tokenForgotPassword)
+            );
         }
         return "pages/verify";
     }

@@ -105,12 +105,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Boolean confirmForgotPassword(String token) {
-        VerifyResponse response = confirmToken(
+    public VerifyResponse confirmForgotPassword(String token) {
+        return confirmToken(
             token,
             TokenType.PASSWORD_RESET
         );
-        return response.isSuccess();
     }
 
     @Override
@@ -220,14 +219,17 @@ public class AuthServiceImpl implements AuthService {
 
     private VerifyResponse confirmToken(String token, TokenType type) {
         TokenConfirm tokenConfirm = tokenConfirmRepository.findByTokenAndType(token, type)
-            .orElseThrow(() -> new BadRequestException("Link xác thực không hợp lệ"));
+            .orElse(null);
+        if (tokenConfirm == null) {
+            return new VerifyResponse(false, "Link xác thực không tồn tại hoặc đã được sử dụng trước đó", "");
+        }
 
         if (tokenConfirm.getConfirmedAt() != null) {
-            return new VerifyResponse(false, "Tài khoản đã được xác thực trước đó");
+            return new VerifyResponse(false, "Link xác thực đã được sử dụng trước đó", "");
         }
 
         if (tokenConfirm.getExpiresAt().isBefore(LocalDateTime.now())) {
-            return new VerifyResponse(false, "Link xác thực đã hết hạn");
+            return new VerifyResponse(false, "Link xác thực đã hết hạn", "");
         }
 
         tokenConfirm.setConfirmedAt(LocalDateTime.now());
@@ -236,14 +238,14 @@ public class AuthServiceImpl implements AuthService {
         if (type == TokenType.PASSWORD_RESET) {
             tokenConfirm.setType(TokenType.PASSWORD_CHANGE);
             tokenConfirmRepository.save(tokenConfirm);
-            return new VerifyResponse(true, "Xác thực thành công, vui lòng tạo mật khẩu mới");
+            return new VerifyResponse(true, "Xác thực Email thành công, vui lòng tạo mật khẩu mới", token);
         } else {
             User user = tokenConfirm.getUser();
             user.setEnabled(true);
             userRepository.save(user);
         }
 
-        return new VerifyResponse(true, "Xác thực thành công");
+        return new VerifyResponse(true, "Tài khoản của bạn đã đuợc xác thực thành công!!", "");
     }
 }
 

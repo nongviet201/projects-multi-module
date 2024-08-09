@@ -20,7 +20,7 @@ public class BillSeatServiceImpl implements BillSeatService {
 
     @Override
     public long createBillSeat(Integer billId, Integer SeatId) {
-        Bill bill = billRepository.findById(billId)
+/*        Bill bill = billRepository.findById(billId)
             .orElseThrow(() -> new BadRequestException("Bill không tồn tại"));
 
         Seat seat = seatRepository.findById(SeatId)
@@ -36,6 +36,7 @@ public class BillSeatServiceImpl implements BillSeatService {
                 .build()
         );
 
-        return seat.getType().getPrice();
+        return seat.getType().getPrice();*/
+        return 0; // Placeholder for the actual implementation
     }
 }

@@ -21,8 +21,7 @@ public class WebSeatDecorator {
           seat.getSeatRow(),
           seat.getSeatColumn(),
           seat.isStatus(),
-          seat.getType().getName(),
-          seat.getType().getPrice()
+          seat.getType().toString()
         );
     }
 }

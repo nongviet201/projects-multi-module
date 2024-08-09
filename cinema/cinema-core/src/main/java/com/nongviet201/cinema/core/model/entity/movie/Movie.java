@@ -1,7 +1,10 @@
 package com.nongviet201.cinema.core.model.entity.movie;
 
+import com.nongviet201.cinema.core.model.enums.GraphicsType;
+import com.nongviet201.cinema.core.model.enums.TranslationType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -39,6 +42,15 @@ public class Movie {
     private LocalDate createdAt;
     private LocalDate updateAt;
     private String producer;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "json")
+    private List<GraphicsType> graphicsType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "json")
+    private List<TranslationType> translationsType;
+
 
     @ManyToOne
     @JoinColumn(name = "countries_id")

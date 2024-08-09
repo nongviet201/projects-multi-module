@@ -17,7 +17,7 @@ public class WebVerifyService {
         return authService.confirmRegistration(token);
     }
 
-    public Boolean verifyForgotPassword(
+    public VerifyResponse verifyForgotPassword(
         String tokenForgotPassword
     ) {
         return authService.confirmForgotPassword(tokenForgotPassword);

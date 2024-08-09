@@ -11,5 +11,4 @@ public class WebSeatResponse {
     private Integer seatColumn;
     private boolean status;
     private String type;
-    private long price;
 }

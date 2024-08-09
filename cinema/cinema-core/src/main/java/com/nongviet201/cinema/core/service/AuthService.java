@@ -17,7 +17,7 @@ public interface AuthService {
 
     void changePasswordMail(ChangePasswordMailRequest request);
 
-    Boolean confirmForgotPassword(String token);
+    VerifyResponse confirmForgotPassword(String token);
 
     void changePasswordAccount(ChangePasswordAccountRequest request);
 }
