@@ -176,8 +176,8 @@ public class AuthServiceImpl implements AuthService {
             .phoneNumber(request.getPhoneNumber())
             .birthday(LocalDate.parse(request.getBirthday()))
             .gender(request.getGender())
-            .updateAt(LocalDate.now())
-            .createAt(LocalDate.now())
+            .updatedAt(LocalDate.now())
+            .createdAt(LocalDate.now())
             .enabled(false)
             .role(UserRole.USER)
             .build();
@@ -206,6 +206,7 @@ public class AuthServiceImpl implements AuthService {
 
     private void sendPasswordResetEmail(User user, TokenConfirm token) {
         Map<String, String> data = createEmailData(user, token);
+        System.out.println("token:" + token);
         mailService.sendMailResetPassword(data);
     }
 

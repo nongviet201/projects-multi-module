@@ -19,8 +19,8 @@ public class BillCombo {
     private int id;
     private int quantity;
     private long price;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name= "bill_id")

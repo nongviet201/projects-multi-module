@@ -30,7 +30,7 @@ public class Post {
     private PostType type;
     private Integer view;
     private LocalDate createdAt;
-    private LocalDate updateAt;
+    private LocalDate updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

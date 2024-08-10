@@ -192,7 +192,7 @@
                                         <td th:text="${episode.name}">Tên tập phim</td>
                                         <td th:text="${episode.videoUrl}">Video URL</td>
                                         <td th:text="${episode.duration}">Thời lượng</td>
-                                        <td th:text="${#temporals.format(episode.createAt, 'dd/MM/yyyy')}">Ngày tạo
+                                        <td th:text="${#temporals.format(episode.createdAt, 'dd/MM/yyyy')}">Ngày tạo
                                         </td>
                                         <td>
                                             <button class="btn btn-sm btn-warning text-white">

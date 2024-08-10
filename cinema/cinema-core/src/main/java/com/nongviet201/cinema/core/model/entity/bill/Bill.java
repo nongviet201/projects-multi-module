@@ -22,8 +22,8 @@ public class Bill {
     private int id;
     private boolean status;
     private long totalPrice;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private Integer responseCode;
 
     @ManyToOne

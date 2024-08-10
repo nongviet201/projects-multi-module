@@ -127,7 +127,6 @@
                                             <button id="change-password-btn" class="cmn-btn w-100 bg-orange text-center fw-600 p-2 btn-bg-1" type="submit"> Đổi mật khẩu</button>
                                         </div>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
@@ -159,80 +158,61 @@
 <th:block id="js">
     <script th:inline="javascript">
         let tokenForgotPassword = [[${verifyResponse.token}]];
-        console.log(tokenForgotPassword);
-        async function changePassword() {
-            let password = document.getElementById('change-password').value;
-            let confirmPassword = document.getElementById('change-confirm-password').value;
 
-            if (password === confirmPassword) {
-                const data = {
-                    token: tokenForgotPassword,
-                    password: password,
-                    passwordConfirm: confirmPassword
-                }
-                console.log(data)
-                const btn = document.getElementById('change-password-btn');
-                const context = btn.textContent;
-                btnLoadingInClick(btn, context);
-                try {
-                    const res = await axios.post("/api/v1/auth/change-password-mail", data);
-                    console.log(res);
-                    btnLoadingFinish(btn, context);
-                    toastShowSuccess("Đổi mật khẩu thành công đang trở về trang chủ");
-                    setTimeout(function () {
-                        window.location.href = '/';
-                    }, 2000);
-                } catch (e) {
-                    btnLoadingFinish(btn, context);
-                    console.log(e);
-                    toastShowFail(e.response.data.message);
-                }
-            } else {
-                toastShowFail("Mật khẩu không trùng khớp")
-            }
-        }
-
-
-
-        document.getElementById('form-forgot-password').addEventListener('submit', async (e) => {
+        document.getElementById('form-confirm-change-password').addEventListener('submit', async (e) => {
             e.preventDefault()
+
             if (!$('#form-confirm-change-password').valid()) {
                 return;
             }
 
-            const email = document.getElementById("forgot-password-email").value;
-            const btn = document.getElementById("btn-forgot-password");
+            const data = {
+                token: tokenForgotPassword,
+                password: document.getElementById('change-password').value,
+                passwordConfirm: document.getElementById('change-confirm-password').value
+            }
+            console.log(data)
+            const btn = document.getElementById('change-password-btn');
             const context = btn.textContent;
-            btnLoadingInClick(btn);
+            btnLoadingInClick(btn, context);
             try {
-                const res = await axios.post("/api/v1/auth/forgot-password?email=" + email);
-                showAuthMessageModal("forgot-password");
+                const res = await axios.post("/api/v1/auth/change-password-mail", data);
+                console.log(res);
                 btnLoadingFinish(btn, context);
-                hideModal('#auth-forgot-password');
-                toastShowSuccess("Quên mật khẩu thành công!");
+                toastShowSuccess("Đổi mật khẩu thành công đang trở về trang chủ");
+                setTimeout(function () {
+                    window.location.href = '/';
+                }, 2000);
             } catch (e) {
                 btnLoadingFinish(btn, context);
-                modalErrorLog(
-                    document.getElementById("auth-forgot-password"),
-                    document.querySelector(".error-forgot-password"),
-                    e.response.data.message
-                )
+                console.log(e);
+                toastShowFail(e.response.data.message);
             }
         })
 
 
         $('#form-confirm-forgot-password').validate({
             rules: {
-                email: {
+                password: {
                     required: true,
-                    email: true,
+                    minlength: 8,
+                },
+                confirmPassword: {
+                    required: true,
+                    minlength: 8,
+                    equalTo: "#register-password"
                 }
             },
             messages: {
-                email: {
-                    required: "Không được để trống email",
-                    email: "Email không đúng định dạng "
-                }
+                password: {
+                    required: "Không được để trống mật khẩu",
+                    minlength: "Mật khẩu phải có ít nhất 8 kí tự",
+                },
+                confirmPassword: {
+                    required: "Vui lòng nhập lại mật khẩu",
+                    minlength: "Mật khẩu phải có ít nhất 8 kí tự",
+                    equalTo: "Mật khẩu không khớp với mật khẩu trên"
+                },
             },
             errorElement: 'span',
             errorPlacement: function (error, element) {

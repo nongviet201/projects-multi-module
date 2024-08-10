@@ -9,12 +9,12 @@ public class WebBillToResponseConverter {
     public WebBillResponse convert(
         int id,
         long amount,
-        String updateAt
+        String updatedAt
     ) {
         return WebBillResponse.builder()
             .id(id)
             .amount(amount)
-            .updatedAt(updateAt)
+            .updatedAt(updatedAt)
             .build();
     }
 }

@@ -41,8 +41,8 @@ public class BillServiceImpl implements BillService {
             .showTime(showtime)
             .totalPrice(0)
             .status(false)
-            .createAt(LocalDateTime.now())
-            .updateAt(LocalDateTime.now())
+            .createdAt(LocalDateTime.now())
+            .updatedAt(LocalDateTime.now())
             .build();
         billRepository.save(bill);
 
@@ -73,7 +73,7 @@ public class BillServiceImpl implements BillService {
         Bill bill = billRepository.findById(billId).orElse(null);
         assert bill != null;
         bill.setStatus(true);
-        bill.setUpdateAt(LocalDateTime.now());
+        bill.setUpdatedAt(LocalDateTime.now());
         billRepository.save(bill);
         return bill;
     }

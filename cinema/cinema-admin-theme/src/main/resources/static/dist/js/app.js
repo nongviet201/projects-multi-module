@@ -23765,7 +23765,7 @@
                 return this._resolvePossibleFunction(e)
             }
 
-            updateAttachment(e) {
+            updatedAttachment(e) {
                 return "right" === e ? "end" : "left" === e ? "start" : e
             }
 
@@ -23805,7 +23805,7 @@
             }
 
             _addAttachmentClass(e) {
-                this.getTipElement().classList.add(`${this._getBasicClassPrefix()}-${this.updateAttachment(e)}`)
+                this.getTipElement().classList.add(`${this._getBasicClassPrefix()}-${this.updatedAttachment(e)}`)
             }
 
             _getAttachment(e) {

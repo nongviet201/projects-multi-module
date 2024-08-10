@@ -19,8 +19,8 @@ public class BillSeat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private long price;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name= "bill_id")

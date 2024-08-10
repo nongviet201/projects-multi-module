@@ -18,7 +18,7 @@
 .movie-img {
     position: relative;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 7px;
 }
 
 .movie-img a img {
@@ -51,7 +51,7 @@
     transition: opacity 0.3s ease;
 }
 
-.movie-content-hover a {
+.movie-content-hover a, button {
     display: inline-flex;
     width: 120px;
     height: 40px;
@@ -107,6 +107,14 @@
     font-size: 1.125rem;
     color: white;
     transform: skewX(25deg);
+}
+
+.age-requirement {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    overflow: hidden;
+    border-radius: 5px;
 }
 
 .vote .point {

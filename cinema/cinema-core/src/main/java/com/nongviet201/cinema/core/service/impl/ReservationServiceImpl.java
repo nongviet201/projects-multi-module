@@ -34,8 +34,8 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setSeat(seat);
         reservation.setShowTime(showtime);
         reservation.setStatus(ReservationType.PENDING);
-        reservation.setCreateAt(LocalDateTime.now());
-        reservation.setUpdateAt(LocalDateTime.now());
+        reservation.setCreatedAt(LocalDateTime.now());
+        reservation.setUpdatedAt(LocalDateTime.now());
 
         reservationRepository.save(reservation);
         return reservation;

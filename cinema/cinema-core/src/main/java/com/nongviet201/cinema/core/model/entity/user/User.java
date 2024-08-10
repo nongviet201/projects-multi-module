@@ -30,6 +30,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
     private boolean enabled;
-    private LocalDate createAt;
-    private LocalDate updateAt;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 }

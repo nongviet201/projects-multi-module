@@ -419,7 +419,7 @@ function _addToZip( zip, obj ) {
 				}
 
 				for ( i=0, ien=attrs.length ; i<ien ; i++ ) {
-					var attr = val.createAttribute( attrs[i].name.replace( ':', '_dt_b_namespace_token_' ) );
+					var attr = val.createdAttribute( attrs[i].name.replace( ':', '_dt_b_namespace_token_' ) );
 					attr.value = attrs[i].value;
 					worksheet.setAttributeNode( attr );
 				}

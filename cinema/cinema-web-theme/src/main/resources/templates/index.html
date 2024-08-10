@@ -27,7 +27,7 @@
 <body>
 <main>
     <th:block id="content">
-        <div class="banner">
+        <section class="banner">
             <div class="center">
                 <div class="item ">
                     <img src="https://cdn.galaxycine.vn/media/2024/6/13/io2-2048_1718251991479.jpg" alt="">
@@ -39,7 +39,8 @@
                     <img src="https://cdn.galaxycine.vn/media/2024/6/13/io2-2048_1718251991479.jpg" alt="">
                 </div>
             </div>
-        </div>
+        </section>
+
         <main class="container ">
             <div class="body-content">
                 <div class="body-sub-menu">
@@ -58,7 +59,7 @@
                     </nav>
                 </div>
 
-                <div class="movie">
+                <section class="movie">
                     <div class="row">
                         <div class="card-movie position-relative col-lg-3 col-6" th:each="movie : ${movies}">
                             <div class="movie-content">
@@ -74,15 +75,21 @@
                                             <i class="fa-solid fa-ticket"></i>
                                             <p class="m-0 ms-2">Mua vé</p>
                                         </a>
-                                        <a class="movie-hover-btn-trailer">
+                                        <button data-bs-toggle="modal"
+                                                data-bs-target="#trailer-modal-index" class="movie-hover-btn-trailer" th:attr="url=${movie.getTrailer()}" onclick="playTrailer(this)">
                                             <i class="fa-solid fa-circle-play"></i>
                                             <p class="m-0 ms-2">Trailer</p>
-                                        </a>
+                                        </button>
                                     </div>
                                     <div class="vote">
                                         <p class="point">
                                             <span><i class="fa-solid fa-star fa-xs" style="color: #FFD43B;"></i></span>
                                             <span th:text="${movie.getRating()}"></span>
+                                        </p>
+                                    </div>
+                                    <div class="age-requirement">
+                                        <p class="py-1 px-2 fs-14px m-0 fw-700 bg-orange text-white">
+                                            <span th:text="'T' + ${movie.getAgeRequirement()}"></span>
                                         </p>
                                     </div>
                                 </div>
@@ -95,7 +102,14 @@
                             <button class="more-movie-btn"><a href="">Xem thêm ></a></button>
                         </div>
                     </div>
-                </div>
+                    <div class="modal fade " id="trailer-modal-index" tabindex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content trailer-content">
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 <div class="line"></div>
 
@@ -179,6 +193,27 @@
 <th:block id ="js">
     <script src="/plugins/slick-slider/slick.min.js"></script>
     <script src="/js/fragments/banner.js"></script>
+    <script>
+        function playTrailer(button) {
+            const trailerContent = document.querySelector(".trailer-content")
+            let trailer = button.getAttribute('url');
+            trailerContent.innerHTML = `
+             <iframe
+                style = "width: 100%; height: 90vh"
+                src="${trailer}"
+                title = "YouTube video player"
+                allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy = "strict-origin-when-cross-origin"
+                allowfullscreen >
+            </iframe>
+            `;
+
+            const trailerModalEl = document.getElementById('trailer-modal-index')
+            trailerModalEl.addEventListener('hidden.bs.modal', event => {
+                trailerContent.innerHTML = ``;
+            })
+        }
+    </script>
 </th:block>
 </body>
 </html>

@@ -18,7 +18,7 @@ public class WebBillDecorator {
         return converter.convert(
             bill.getId(),
             bill.getTotalPrice(),
-            dateTimeFormatter.formatFullDateTime(bill.getUpdateAt())
+            dateTimeFormatter.formatFullDateTime(bill.getCreatedAt())
         );
     }
 }

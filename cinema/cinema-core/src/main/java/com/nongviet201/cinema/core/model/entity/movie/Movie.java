@@ -1,10 +1,14 @@
 package com.nongviet201.cinema.core.model.entity.movie;
 
+import com.nongviet201.cinema.core.converter.GenericConverter;
+import com.nongviet201.cinema.core.model.entity.movie.Actor;
+import com.nongviet201.cinema.core.model.entity.movie.Country;
+import com.nongviet201.cinema.core.model.entity.movie.Director;
+import com.nongviet201.cinema.core.model.entity.movie.Genre;
 import com.nongviet201.cinema.core.model.enums.GraphicsType;
 import com.nongviet201.cinema.core.model.enums.TranslationType;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Type;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,41 +20,55 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table (name = "movies")
+@Table(name = "movies")
 public class Movie {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto tăng id
     private Integer id;
+
     @Column(nullable = false)
     private String name;
+
     private String slug;
+
     @Column(columnDefinition = "TEXT")
     private String description;
+
     @Column(columnDefinition = "TEXT")
     private String poster;
+
     @Column(columnDefinition = "TEXT")
     private String bannerImg;
-    private Integer ageRequirement;
-    private int duration;
-    private double rating;
-    private boolean status;
-    @Column(columnDefinition = "TEXT")
+
     private String trailer;
+
+    private Integer ageRequirement;
+
+    private int duration;
+
+    private double rating;
+
+    private boolean status;
+
+    @Column(columnDefinition = "TEXT")
     private LocalDate releaseDate;
+
     private LocalDate startAt;
+
     private LocalDate endAt;
+
     private LocalDate createdAt;
-    private LocalDate updateAt;
+
+    private LocalDate updatedAt;
+
     private String producer;
 
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "json")
-    private List<GraphicsType> graphicsType;
+    @Convert(converter = GraphicsTypeConverter.class)
+    private List<GraphicsType> graphicsTypes;
 
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "json")
-    private List<TranslationType> translationsType;
-
+    @Convert(converter = TranslationTypeConverter.class)
+    private List<TranslationType> translationTypes;
 
     @ManyToOne
     @JoinColumn(name = "countries_id")
@@ -79,4 +97,18 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
     private List<Actor> actors;
+
+    @Converter(autoApply = true)
+    public static class GraphicsTypeConverter extends GenericConverter<GraphicsType> {
+        public GraphicsTypeConverter() {
+            super(GraphicsType.class);
+        }
+    }
+
+    @Converter(autoApply = true)
+    public static class TranslationTypeConverter extends GenericConverter<TranslationType> {
+        public TranslationTypeConverter() {
+            super(TranslationType.class);
+        }
+    }
 }
