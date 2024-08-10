@@ -68,29 +68,80 @@ function showtimeDetailCinemaShow(cinemaName, auditoriumName, startDate, startTi
 }
 
 function showtimeDetailSeatShow() {
-    const seatName = document.getElementById("seat-name");
-    const showtimeDetailSeat = document.querySelector(".ticket-seat");
-    numberSeatsChose.innerText = currentSeatsChose.size;
+    const ticketSeat = document.querySelector(".ticket-seat");
+    const seatContainer = ticketSeat.querySelector(".seat-container");
+    const dashLine = ticketSeat.querySelector(".dash-line");
+
+    seatContainer.innerHTML = "";
+
+    let totalPrice = 0;
+
     if (currentSeatsChose.size > 0) {
-        showtimeDetailSeat.classList.remove("d-none");
-        seatName.innerHTML = "";
+        ticketSeat.classList.remove("d-none");
+
+        const seatGroups = {
+            "VIP": [],
+            "NORMAL": [],
+            "COUPLE": []
+        };
+
         currentSeatsChose.forEach(seatId => {
             let seat = seatsData.find(e => e.id === seatId);
-            const seatNameValue = document.createElement('span');
-            seatNameValue.innerText = `${seat.seatRow}${seat.seatColumn}, `;
-            seatNameValue.id = `${seat.seatRow}${seat.seatColumn}`;
-            seatName.appendChild(seatNameValue);
-
-            const seatType = document.getElementById("seat-type");
-            seatType.innerText = `${seat.type}`
-            const seatPrice = document.getElementById("seat-price");
-            seatPrice.innerText = formatPrice(totalTicketPrice) + `đ`;
-            ticketTotalPriceShow();
+            seatGroups[seat.type].push(seat);
         });
-    } else {
-        showtimeDetailSeat.classList.add("d-none");
-        seatName.innerHTML = "";
+
+        Object.keys(seatGroups).forEach(type => {
+            if (seatGroups[type].length > 0) {
+                let typeSeats = seatGroups[type];
+                let seatNames = typeSeats.map(seat => `${seat.seatRow}${seat.seatColumn}`).join(', ');
+                let seatPrice = typeSeats.reduce((acc, seat) => acc + seat.price, 0);
+
+                totalPrice += seatPrice;
+
+                let typeContainer = document.createElement('div');
+                typeContainer.classList.add('d-flex', 'justify-content-between');
+
+                // Hiển thị số lượng ghế đã chọn
+                let seatTypeText = document.createElement('span');
+                seatTypeText.classList.add('fs-14px', 'fw-700');
+                seatTypeText.innerHTML = `${typeSeats.length} <span class="fw-600"> x ${getSeatTypeText(type)}</span>`;
+
+                let seatPriceText = document.createElement('span');
+                seatPriceText.classList.add('text-end', 'fw-700');
+                seatPriceText.innerText = `${formatPrice(seatPrice)} đ`;
+
+                // Tạo phần danh sách ghế
+                let seatListRow = document.createElement('div');
+                seatListRow.classList.add('mb-3', 'fs-14px'); // Bootstrap class for muted text
+                seatListRow.innerHTML = `Ghế: <span class="fw-bold">${seatNames}</span>`;
+
+                // Thêm các phần tử vào container
+                typeContainer.appendChild(seatTypeText);
+                typeContainer.appendChild(seatPriceText);
+                seatContainer.appendChild(typeContainer);
+                seatContainer.appendChild(seatListRow);
+            }
+        });
+
+        dashLine.classList.remove("d-none");
+        ticketSeat.querySelector("#seat-price").innerText = formatPrice(totalPrice) + " đ";
         ticketTotalPriceShow();
+    } else {
+        ticketSeat.classList.add("d-none");
+        ticketTotalPriceShow();
+    }
+}
+
+function getSeatTypeText(type) {
+    switch (type) {
+        case 'VIP':
+            return 'Ghế VIP';
+        case 'NORMAL':
+            return 'Ghế Đơn';
+        case 'COUPLE':
+            return 'Ghế Đôi';
+        default:
+            return 'lỗi';
     }
 }
 

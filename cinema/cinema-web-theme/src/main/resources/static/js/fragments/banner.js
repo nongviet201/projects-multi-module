@@ -33,3 +33,10 @@ $(document).ready(function () {
         ]
     });
 });
+
+$(window).on('load', function() {
+    $('.banner').css({
+        'opacity': '1',
+        'transform': 'scale(1)'
+    });
+});

@@ -11,7 +11,8 @@ public class WebSeatToResponseConverter {
          String seatRow,
          Integer seatColumn,
          boolean status,
-         String type
+         String type,
+         long price
     ) {
         return WebSeatResponse.builder()
             .id(id)
@@ -19,6 +20,7 @@ public class WebSeatToResponseConverter {
             .seatColumn(seatColumn)
             .status(status)
             .type(type)
+            .price(price)
             .build();
     }
 }

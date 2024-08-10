@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.core.response;
 
+import com.nongviet201.cinema.core.model.enums.VerifyResponseType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,11 +11,8 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VerifyResponse {
-    Boolean success;
-    String message;
-    String token;
-
-    public boolean isSuccess() {
-        return success;
-    }
+    private VerifyResponseType type;
+    private Boolean status;
+    private String message;
+    private String token;
 }

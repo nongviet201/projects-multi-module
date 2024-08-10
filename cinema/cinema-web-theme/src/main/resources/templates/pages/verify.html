@@ -86,53 +86,69 @@
     <th:block id="content">
         <div class="container">
             <th:block th:if="${verifyResponse != null}">
-                <div th:if="${verifyResponse.success == true and verifyResponse.token == null}">
-                    <div class="congratulation-area text-center my-5 py-4">
-                        <div class="container">
-                            <div class="congratulation-wrapper">
-                                <div class="congratulation-contents center-text">
-                                    <div class="congratulation-contents-icon">
-                                        <i class="fas fa-check"></i>
+                <div th:if="${verifyResponse.getStatus() == true}">
+                    <div th:if="${verifyResponse.type.toString().equals('REGISTRATION') and verifyResponse.token == null}">
+                        <div class="congratulation-area text-center my-5 py-4">
+                            <div class="container">
+                                <div class="congratulation-wrapper">
+                                    <div class="congratulation-contents center-text">
+                                        <div class="congratulation-contents-icon">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <h4 class="congratulation-contents-title fw-700 fs-22px text-uppercase"> Chúc
+                                            mừng! </h4>
+                                        <p class="congratulation-contents-para"
+                                           th:text="${verifyResponse.getMessage()}"></p>
+                                        <div class="btn-wrapper mt-4">
+                                            <a href="/" class="cmn-btn bg-orange fw-600 p-2 btn-bg-1"> Về Trang Chủ </a>
+                                        </div>
                                     </div>
-                                    <h4 class="congratulation-contents-title fw-700 fs-22px text-uppercase"> Chúc mừng! </h4>
-                                    <p class="congratulation-contents-para" th:text="${verifyResponse.getMessage()}"></p>
-                                    <div class="btn-wrapper mt-4">
-                                        <a href="/" class="cmn-btn bg-orange fw-600 p-2 btn-bg-1"> Về Trang Chủ </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${verifyResponse.type.toString().toString().equals('CHANGE_PASSWORD')  and verifyResponse.token != null}">
+                        <div class="congratulation-area text-center my-5 py-4">
+                            <div class="container">
+                                <div class="congratulation-wrapper">
+                                    <div class="congratulation-contents center-text">
+                                        <div class="congratulation-contents-icon">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <h4 class="congratulation-contents-title fw-700 fs-22px text-uppercase"> xác
+                                            nhận tài khoản thành công </h4>
+                                        <p class="congratulation-contents-para"> vui lòng nhập mật khẩu mới cho tài
+                                            khoản của bạn</p>
+                                        <form id="form-confirm-change-password">
+                                            <div class="form-group mb-1">
+                                                <label for="change-password"
+                                                       class="form-label fs-12px p-0 m-0 fw-600 text-gray">Mật
+                                                    khẩu</label>
+                                                <input type="password" class="form-control" id="change-password"
+                                                       name="password" placeholder="Nhập mật khẩu"/>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label for="change-confirm-password"
+                                                       class="form-label fs-12px p-0 m-0 fw-600 text-gray">Nhập lại Mật
+                                                    khẩu</label>
+                                                <input type="password" class="form-control" id="change-confirm-password"
+                                                       name="confirmPassword" placeholder="Nhập lại mật khẩu"/>
+                                            </div>
+                                            <div class="form-group btn-wrapper mt-4">
+                                                <button id="change-password-btn"
+                                                        class="cmn-btn w-100 bg-orange text-center fw-600 p-2 btn-bg-1 d-flex justify-content-center align-items-center"
+                                                        type="submit"> Đổi mật khẩu
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div th:if="${verifyResponse.success == true and verifyResponse.token != null}">
-                    <div class="congratulation-area text-center my-5 py-4">
-                        <div class="container">
-                            <div class="congratulation-wrapper">
-                                <div class="congratulation-contents center-text">
-                                    <div class="congratulation-contents-icon">
-                                        <i class="fas fa-check"></i>
-                                    </div>
-                                    <h4 class="congratulation-contents-title fw-700 fs-22px text-uppercase"> xác nhận tài khoản thành công </h4>
-                                    <p class="congratulation-contents-para"> vui lòng nhập mật khẩu mới cho tài khoản của bạn</p>
-                                    <form id="form-confirm-change-password">
-                                        <div class="form-group mb-1">
-                                            <label for="change-password" class="form-label fs-12px p-0 m-0 fw-600 text-gray">Mật khẩu</label>
-                                            <input type="password" class="form-control" id="change-password" name="password" placeholder="Nhập mật khẩu"/>
-                                        </div>
-                                        <div class="form-group mb-3">
-                                            <label for="change-confirm-password" class="form-label fs-12px p-0 m-0 fw-600 text-gray">Nhập lại Mật khẩu</label>
-                                            <input type="password" class="form-control" id="change-confirm-password" name="confirmPassword" placeholder="Nhập lại mật khẩu"/>
-                                        </div>
-                                        <div class="form-group btn-wrapper mt-4">
-                                            <button id="change-password-btn" class="cmn-btn w-100 bg-orange text-center fw-600 p-2 btn-bg-1" type="submit"> Đổi mật khẩu</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div th:if="${verifyResponse.success == false}">
+
+                <div th:if="${verifyResponse.getStatus() == false}">
                     <div class="congratulation-area text-center my-5 py-4">
                         <div class="container">
                             <div class="congratulation-wrapper">

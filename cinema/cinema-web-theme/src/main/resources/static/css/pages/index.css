@@ -51,7 +51,8 @@
     transition: opacity 0.3s ease;
 }
 
-.movie-content-hover a, button {
+.movie-content .movie-content-hover a,
+.movie-content .movie-content-hover button {
     display: inline-flex;
     width: 120px;
     height: 40px;

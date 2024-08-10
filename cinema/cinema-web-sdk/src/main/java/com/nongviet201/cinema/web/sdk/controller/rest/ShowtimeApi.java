@@ -38,7 +38,7 @@ public class ShowtimeApi {
         @PathVariable int showtimeId
     ) {
         return ResponseEntity.ok(
-                showtimeControllerService.  getShowtimeById(showtimeId)
+                showtimeControllerService.getShowtimeById(showtimeId)
         );
     }
 

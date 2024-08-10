@@ -22,7 +22,7 @@ function timeBtnFunc(button) {
                 showtime.startTime,
                 showtime.auditoriumType
             );
-            fetchSeatsByAuditoriumId(showtime.auditoriumId);
+            fetchSeatsByShowtimeId(showtime.auditoriumId);
         },
         error: function (xhr, status, error) {
             console.error(`Đã xảy ra lỗi: ${xhr}`);
@@ -31,12 +31,12 @@ function timeBtnFunc(button) {
 }
 
 function stageTwo() {
-    fetchTimeShowtimesByMovieAndAuditorium(showtime.id);
+    getShowtimeById(showtime.id);
     showtimeDetailShowAll(showtime);
     nextBtn.classList.add("disabled");
 }
 
-function fetchTimeShowtimesByMovieAndAuditorium(showtimeId) {
+function getShowtimeById(showtimeId) {
     $.ajax({
         url: `/booking/get/stage-two?showtimeId=${showtimeId}`,
         type: 'GET',
@@ -45,17 +45,19 @@ function fetchTimeShowtimesByMovieAndAuditorium(showtimeId) {
             const seatContainer = document.getElementById("seat-container");
             stageTwoHeader.innerHTML = htmlResponse;
             divStageTwo.insertBefore(stageTwoHeader, seatContainer);
-            fetchSeatsByAuditoriumId(showtime.auditoriumId);
+            fetchSeatsByShowtimeId(showtime.id);
         },
         error: function (xhr, status, error) {
             console.error(`Đã xảy ra lỗi: ${xhr}`);
+            console.error('Status:', status);
+            console.error('Error:', error);
         }
     });
 }
 
-function fetchSeatsByAuditoriumId(auditoriumId) {
+function fetchSeatsByShowtimeId(showtimeId) {
     $.ajax({
-        url: `/api/v1/seat/get/${auditoriumId}`,
+        url: `/api/v1/seat/get/${showtimeId}`,
         type: 'GET',
         success: function (response) {
             seatsData = {};
@@ -67,7 +69,6 @@ function fetchSeatsByAuditoriumId(auditoriumId) {
         }
     });
 }
-
 function renderSeats(seats) {
     document.getElementById("seat-container").classList.remove("d-none");
     const seatMap = document.getElementById('seat-map');
@@ -93,14 +94,39 @@ function renderSeats(seats) {
         rowDiv.appendChild(rowNameS);
 
         rowList.className = 'seat-list';
+        let coupleDiv = null;
+        let coupleCounter = 0;
+
         rows[row].forEach((seat) => {
-            const seatBtn = document.createElement('button');
-            seatBtn.className = 'seat';
-            seatBtn.value = seat.id;
-            seatBtn.id = `seat-${seat.id}`;
-            seatBtn.innerText = `${seat.seatColumn}`;
-            seatBtn.onclick = () => seatBtnFunc(seat.id);
-            rowList.appendChild(seatBtn);
+            if (seat.status === true) {
+                const seatBtn = document.createElement('button');
+
+                seatBtn.className = 'seat';
+                seatBtn.value = seat.id;
+                seatBtn.id = `seat-${seat.id}`;
+                seatBtn.innerText = `${seat.seatColumn}`;
+                seatBtn.onclick = () => seatBtnFunc(seat.id);
+
+                if (seat.type === 'COUPLE') {
+                    if (coupleCounter % 2 === 0) {
+                        coupleDiv = document.createElement('div');
+                        coupleDiv.className = 'div-seat-double';
+                        coupleDiv.onclick = function () { seatCoupleBtnFunc(this); };
+                        rowList.appendChild(coupleDiv);
+                    }
+                    seatBtn.classList.remove('seat');
+                    seatBtn.classList.add('seat-double');
+                    seatBtn.onclick = null;
+                    coupleDiv.appendChild(seatBtn);
+                    coupleCounter++;
+                } else {
+                    rowList.appendChild(seatBtn);
+                }
+
+                if (seat.type === 'VIP') {
+                    seatBtn.classList.add('seat-vip');
+                }
+            }
         });
 
         rowDiv.appendChild(rowList);
@@ -109,18 +135,29 @@ function renderSeats(seats) {
     }
 }
 
+function seatCoupleBtnFunc(coupleDivEl) {
+    const isActive = coupleDivEl.classList.toggle("active");
+    coupleDivEl.querySelectorAll('.seat-double').forEach(seatEl => {
+        seatUpdate(seatEl.value.toString(), isActive)
+    })
+}
+
 function seatBtnFunc(seatId) {
-    const seat = seatsData.find(e => e.id === seatId);
-    const seatEl = document.getElementById(`seat-${seat.id}`);
+    const seatEl = document.getElementById('seat-'+seatId);
     const isActive = seatEl.classList.toggle("active");
 
+    seatUpdate(seatId, isActive);
+}
+
+function seatUpdate(value, isActive) {
+    const seat = seatsData.find(e => e.id.toString() === value.toString());
     if (isActive) {
         currentSeatsChose.add(seat.id);
-        totalTicketPrice += seat.price;
+        totalTicketPrice += 0;
         upsertReservation(seat.id)
     } else {
         currentSeatsChose.delete(seat.id);
-        totalTicketPrice -= seat.price
+        totalTicketPrice -= 0;
         cancelReservation(seat.id)
     }
 

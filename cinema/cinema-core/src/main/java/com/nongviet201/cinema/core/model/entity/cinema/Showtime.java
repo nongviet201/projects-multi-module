@@ -1,6 +1,8 @@
 package com.nongviet201.cinema.core.model.entity.cinema;
 
 import com.nongviet201.cinema.core.model.entity.movie.Movie;
+import com.nongviet201.cinema.core.model.enums.GraphicsType;
+import com.nongviet201.cinema.core.model.enums.ScreeningTimeType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +24,10 @@ public class Showtime {
     private LocalDate screeningDate;
     private LocalTime startTime;
     private LocalTime endTime;
+    @Enumerated(EnumType.STRING)
+    private ScreeningTimeType screeningTimeType;
+    @Enumerated(EnumType.STRING)
+    private GraphicsType graphicsType;
 
     @ManyToOne
     @JoinColumn(name = "movies_id")

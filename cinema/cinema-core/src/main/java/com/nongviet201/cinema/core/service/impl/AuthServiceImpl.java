@@ -5,6 +5,7 @@ import com.nongviet201.cinema.core.model.entity.user.TokenConfirm;
 import com.nongviet201.cinema.core.model.entity.user.User;
 import com.nongviet201.cinema.core.model.enums.TokenType;
 import com.nongviet201.cinema.core.model.enums.UserRole;
+import com.nongviet201.cinema.core.model.enums.VerifyResponseType;
 import com.nongviet201.cinema.core.repository.TokenConfirmRepository;
 import com.nongviet201.cinema.core.repository.UserRepository;
 import com.nongviet201.cinema.core.request.ChangePasswordAccountRequest;
@@ -222,15 +223,15 @@ public class AuthServiceImpl implements AuthService {
         TokenConfirm tokenConfirm = tokenConfirmRepository.findByTokenAndType(token, type)
             .orElse(null);
         if (tokenConfirm == null) {
-            return new VerifyResponse(false, "Link xác thực không tồn tại hoặc đã được sử dụng trước đó", "");
+            return new VerifyResponse(VerifyResponseType.NOT_FOUND, false, "Link xác thực không tồn tại", null);
         }
 
         if (tokenConfirm.getConfirmedAt() != null) {
-            return new VerifyResponse(false, "Link xác thực đã được sử dụng trước đó", "");
+            return new VerifyResponse(VerifyResponseType.USED, false, "Link xác thực đã được sử dụng trước đó", null);
         }
 
         if (tokenConfirm.getExpiresAt().isBefore(LocalDateTime.now())) {
-            return new VerifyResponse(false, "Link xác thực đã hết hạn", "");
+            return new VerifyResponse(VerifyResponseType.EXPIRED, false, "Link xác thực đã hết hạn", null);
         }
 
         tokenConfirm.setConfirmedAt(LocalDateTime.now());
@@ -239,14 +240,14 @@ public class AuthServiceImpl implements AuthService {
         if (type == TokenType.PASSWORD_RESET) {
             tokenConfirm.setType(TokenType.PASSWORD_CHANGE);
             tokenConfirmRepository.save(tokenConfirm);
-            return new VerifyResponse(true, "Xác thực Email thành công, vui lòng tạo mật khẩu mới", token);
+            return new VerifyResponse(VerifyResponseType.CHANGE_PASSWORD, true, "Xác thực Email thành công, vui lòng tạo mật khẩu mới", token);
         } else {
             User user = tokenConfirm.getUser();
             user.setEnabled(true);
             userRepository.save(user);
         }
 
-        return new VerifyResponse(true, "Tài khoản của bạn đã đuợc xác thực thành công!!", "");
+        return new VerifyResponse(VerifyResponseType.REGISTRATION, true, "Tài khoản của bạn đã đuợc xác thực thành công!!", null);
     }
 }
 

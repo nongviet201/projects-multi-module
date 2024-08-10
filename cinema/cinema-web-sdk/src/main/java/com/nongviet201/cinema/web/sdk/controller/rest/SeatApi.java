@@ -17,12 +17,12 @@ public class SeatApi {
 
     private final WebSeatControllerService seatControllerService;
 
-    @RequestMapping("/get/{auditoriumId}")
+    @RequestMapping("/get/{showtimeId}")
     public ResponseEntity<?> getSeat(
-        @PathVariable int auditoriumId
+        @PathVariable int showtimeId
     ) {
         List<WebSeatResponse> seats =
-            seatControllerService.getAllSeatsByAuditoriumIdOrderBySeatColumnDesc(auditoriumId);
+            seatControllerService.getSeatsByShowtimeId(showtimeId);
         return ResponseEntity.ok(seats);
     }
 }
