@@ -153,11 +153,9 @@ function seatUpdate(value, isActive) {
     const seat = seatsData.find(e => e.id.toString() === value.toString());
     if (isActive) {
         currentSeatsChose.add(seat.id);
-        totalTicketPrice += 0;
         upsertReservation(seat.id)
     } else {
         currentSeatsChose.delete(seat.id);
-        totalTicketPrice -= 0;
         cancelReservation(seat.id)
     }
 

@@ -74,7 +74,7 @@ function showtimeDetailSeatShow() {
 
     seatContainer.innerHTML = "";
 
-    let totalPrice = 0;
+    totalTicketPrice = 0;
 
     if (currentSeatsChose.size > 0) {
         ticketSeat.classList.remove("d-none");
@@ -94,9 +94,11 @@ function showtimeDetailSeatShow() {
             if (seatGroups[type].length > 0) {
                 let typeSeats = seatGroups[type];
                 let seatNames = typeSeats.map(seat => `${seat.seatRow}${seat.seatColumn}`).join(', ');
-                let seatPrice = typeSeats.reduce((acc, seat) => acc + seat.price, 0);
+                let seatPrice;
 
-                totalPrice += seatPrice;
+                seatPrice = typeSeats.reduce((acc, seat) => acc + seat.price, 0);
+
+                totalTicketPrice += seatPrice;
 
                 let typeContainer = document.createElement('div');
                 typeContainer.classList.add('d-flex', 'justify-content-between');
@@ -120,15 +122,23 @@ function showtimeDetailSeatShow() {
                 typeContainer.appendChild(seatPriceText);
                 seatContainer.appendChild(typeContainer);
                 seatContainer.appendChild(seatListRow);
+                ticketTotalPriceShow();
             }
         });
 
         dashLine.classList.remove("d-none");
-        ticketSeat.querySelector("#seat-price").innerText = formatPrice(totalPrice) + " đ";
         ticketTotalPriceShow();
     } else {
         ticketSeat.classList.add("d-none");
         ticketTotalPriceShow();
+    }
+}
+
+function ticketTotalPriceShow() {
+    const ticketTotalPrice = document.getElementById("total-price");
+    totalPrice = totalComboPrice + totalTicketPrice;
+    if (ticketTotalPrice) {
+        ticketTotalPrice.innerText = formatPrice(totalPrice);
     }
 }
 
@@ -142,14 +152,6 @@ function getSeatTypeText(type) {
             return 'Ghế Đôi';
         default:
             return 'lỗi';
-    }
-}
-
-function ticketTotalPriceShow() {
-    const ticketTotalPrice = document.getElementById("total-price");
-    totalPrice = totalComboPrice + totalTicketPrice;
-    if (ticketTotalPrice) {
-        ticketTotalPrice.innerText = formatPrice(totalPrice);
     }
 }
 
