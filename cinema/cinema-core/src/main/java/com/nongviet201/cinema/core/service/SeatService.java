@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface SeatService {
     List<Seat> getAllSeatsByAuditoriumIdOrderBySeatColumnDesc(int auditoriumId);
+
+    Seat getSeatById(int seatId);
     
 }

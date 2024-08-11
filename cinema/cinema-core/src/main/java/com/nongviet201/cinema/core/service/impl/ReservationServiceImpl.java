@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.core.service.impl;
 
+import com.nongviet201.cinema.core.exception.BadRequestException;
 import com.nongviet201.cinema.core.model.entity.user.User;
 import com.nongviet201.cinema.core.model.entity.bill.Reservation;
 import com.nongviet201.cinema.core.model.entity.cinema.Seat;
@@ -10,6 +11,9 @@ import com.nongviet201.cinema.core.repository.SeatRepository;
 import com.nongviet201.cinema.core.repository.ShowtimeRepository;
 import com.nongviet201.cinema.core.repository.UserRepository;
 import com.nongviet201.cinema.core.service.ReservationService;
+import com.nongviet201.cinema.core.service.SeatService;
+import com.nongviet201.cinema.core.service.ShowtimeService;
+import com.nongviet201.cinema.core.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +23,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
-    private final UserRepository userRepository;
-    private final SeatRepository seatRepository;
-    private final ShowtimeRepository showtimeRepository;
+    private final UserService userService;
+    private final SeatService seatService;
+    private final ShowtimeService showtimeService;
 
     @Override
-    public Reservation createReservation(Integer userId, Integer seatId, Integer showtimeId) {
-        User user = userRepository.findById(userId).orElse(null);
-        Seat seat = seatRepository.findById(seatId).orElse(null);
-        Showtime showtime = showtimeRepository.findById(showtimeId).orElse(null);
+    public Reservation createReservation(Integer seatId, Integer showtimeId) {
+        User user = userService.getCurrentUser();
+        Seat seat = seatService.getSeatById(seatId);
+        Showtime showtime = showtimeService.getShowtimeById(showtimeId);
 
         Reservation reservation = new Reservation();
         reservation.setUser(user);
@@ -42,12 +46,16 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation updateReservation(Integer id) {
-        Reservation reservation = reservationRepository.findById(id).orElse(null);
-        assert reservation != null;
+    public void updateReservation(Integer id) {
+        Reservation reservation = getReservationById(id);
         reservation.setStatus(ReservationType.ORDERED);
         reservationRepository.save(reservation);
-        return null;
+    }
+
+    @Override
+    public Reservation getReservationById(Integer id) {
+        return reservationRepository.findById(id)
+            .orElseThrow(() -> new BadRequestException("không tìm thấy thông tin đặt chỗ với id: " + id));
     }
 
     @Override

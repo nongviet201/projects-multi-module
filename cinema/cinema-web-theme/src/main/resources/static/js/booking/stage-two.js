@@ -1,6 +1,5 @@
 const divStageTwo = document.getElementById("stage-two");
 let currentSeatsChose = new Set();
-const numberSeatsChose = document.getElementById("number-seats-chose");
 let showtimeData;
 let seatsData = {};
 
@@ -15,6 +14,7 @@ function timeBtnFunc(button) {
             totalTicketPrice = 0;
             showtimeDetailSeatShow();
             showtime = response;
+            checkShowtimeHeader(showtime.id);
             showtimeDetailCinemaShow(
                 showtime.cinemaName,
                 showtime.auditoriumName,
@@ -22,7 +22,7 @@ function timeBtnFunc(button) {
                 showtime.startTime,
                 showtime.auditoriumType
             );
-            fetchSeatsByShowtimeId(showtime.auditoriumId);
+            fetchSeatsByShowtimeId(showtime.id);
         },
         error: function (xhr, status, error) {
             console.error(`Đã xảy ra lỗi: ${xhr}`);
@@ -34,6 +34,16 @@ function stageTwo() {
     getShowtimeById(showtime.id);
     showtimeDetailShowAll(showtime);
     nextBtn.classList.add("disabled");
+    checkShowtimeHeader(showtime.id)
+}
+
+function checkShowtimeHeader(showtimeId) {
+    const timeEl = document.querySelectorAll('.time-btn');
+    timeEl.forEach(e => {
+        if (e.value.toString() === showtimeId.toString()) {
+            e.classList.add('active');
+        }
+    })
 }
 
 function getShowtimeById(showtimeId) {
@@ -46,6 +56,7 @@ function getShowtimeById(showtimeId) {
             stageTwoHeader.innerHTML = htmlResponse;
             divStageTwo.insertBefore(stageTwoHeader, seatContainer);
             fetchSeatsByShowtimeId(showtime.id);
+            checkShowtimeHeader(showtime.id);
         },
         error: function (xhr, status, error) {
             console.error(`Đã xảy ra lỗi: ${xhr}`);
@@ -179,7 +190,6 @@ connectWS();
 
 async function upsertReservation(seatId) {
     const data = {
-        userId: 1,
         seatId: seatId,
         showtimeId: showtime.id,
     }

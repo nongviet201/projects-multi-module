@@ -60,6 +60,7 @@ async function getShowtime(movieId) {
             dateBtn.innerText = date;
             divDate.appendChild(dateBtn);
         })
+        getDateFunc(divDate.firstElementChild);
     }
 }
 

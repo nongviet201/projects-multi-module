@@ -37,6 +37,10 @@ $(document).ready(function () {
 $(window).on('load', function() {
     $('.banner').css({
         'opacity': '1',
-        'transform': 'scale(1)'
     });
+    $('.slick-slide').css({
+        'transform': 'scale(1)',
+        'opacity': '1'
+    });
+
 });

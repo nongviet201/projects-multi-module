@@ -21,6 +21,7 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Enumerated(EnumType.STRING)
     private ReservationType status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -1,6 +1,7 @@
 
 package com.nongviet201.cinema.core.service.impl;
 
+import com.nongviet201.cinema.core.exception.BadRequestException;
 import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.repository.AuditoriumRepository;
 import com.nongviet201.cinema.core.repository.CinemaRepository;
@@ -10,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,15 +29,19 @@ public class ShowtimeServiceImpl implements ShowtimeService {
 
     @Override
     public List<Showtime> getAllShowtimesOnTheSameDayById(Integer showtimeId) {
-        Showtime showtime = showtimeRepository.findById(showtimeId).orElse(null);
-        assert showtime != null;
-        return showtimeRepository
-            .findAllByMovie_IdAndAuditorium_IdAndScreeningDateOrderByStartTimeAsc(
+        Showtime showtime = getShowtimeById(showtimeId);
+
+        List<Showtime> showTimes = showtimeRepository.findAllByMovie_IdAndAuditoriumTypeAndScreeningDateOrderByStartTimeAsc(
                 showtime.getMovie().getId(),
-                showtime.getAuditorium().getId(),
+                showtime.getAuditoriumType(),
                 showtime.getScreeningDate()
-            );
+        );
+
+        return showTimes.stream()
+                .filter(e -> e.getAuditorium().getCinema().equals(showtime.getAuditorium().getCinema()) && e.getAuditorium().getAuditoriumType() == showtime.getAuditorium().getAuditoriumType())
+                .collect(Collectors.toList());
     }
+
 
     @Override
     public List<Showtime> getAllShowtimesByMovieIdAnDate(int movieId, LocalDate date) {
@@ -49,6 +55,8 @@ public class ShowtimeServiceImpl implements ShowtimeService {
 
     @Override
     public Showtime getShowtimeById(Integer id) {
-        return showtimeRepository.findById(id).orElse(null);
+        return showtimeRepository.findById(id).orElseThrow(
+                () ->  new BadRequestException("không tìm thấy suất chiếu có id: " + id)
+        );
     }
 }

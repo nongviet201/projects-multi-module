@@ -19,7 +19,6 @@ public class ReservationsApi {
         @RequestBody ReservationRequest request
     ) {
         Reservation reservation = reservationService.createReservation(
-            request.getUserId(),
             request.getSeatId(),
             request.getShowtimeId()
         );
@@ -30,8 +29,8 @@ public class ReservationsApi {
     public ResponseEntity<?> updateStatusReservation(
         @RequestBody Integer id
     ) {
-        Reservation reservation = reservationService.updateReservation(id);
-        return ResponseEntity.ok(reservation);
+        reservationService.updateReservation(id);
+        return ResponseEntity.ok("thành công");
     }
 
     @DeleteMapping("/cancel/{id}")

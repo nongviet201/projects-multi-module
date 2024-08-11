@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.core.service.impl;
 
+import com.nongviet201.cinema.core.exception.BadRequestException;
 import com.nongviet201.cinema.core.model.entity.cinema.Seat;
 import com.nongviet201.cinema.core.repository.SeatRepository;
 import com.nongviet201.cinema.core.service.SeatService;
@@ -15,5 +16,11 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public List<Seat> getAllSeatsByAuditoriumIdOrderBySeatColumnDesc(int auditoriumId) {
         return seatRepository.findAllByAuditoriumIdOrderBySeatColumnDesc(auditoriumId)  ;
+    }
+
+    @Override
+    public Seat getSeatById(int seatId) {
+        return seatRepository.findById(seatId)
+                .orElseThrow(() -> new BadRequestException("không tìm thấy ghế với id: " + seatId));
     }
 }
