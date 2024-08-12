@@ -11,33 +11,31 @@ function connectWS() {
     });
 
     function handleSeatUpdate(response) {
-        var seatUpdatesDiv = document.getElementById('seatUpdates');
-        var updateMessage = document.createElement('div');
-        updateMessage.textContent = 'Seat ID: ' + response.seatId +
-            ', Showtime ID: ' + response.showtimeId +
-            ', Status: ' + response.status;
-        seatUpdatesDiv.appendChild(updateMessage);
-    }
-
-    // Thiết lập kết nối đến WebSocket server cho cập nhật suất chiếu
-    var socketShowtime = new SockJS('/ws/showtimeUpdate');
-    var stompClientShowtime = Stomp.over(socketShowtime);
-
-    stompClientShowtime.connect({}, function (frame) {
-        console.log('Connected to showtime update: ' + frame);
-
-        stompClientShowtime.subscribe('/topic/showtimeUpdate', function (message) {
-            var response = JSON.parse(message.body);
-            handleShowtimeUpdate(response);
-        });
-    });
-
-    function handleShowtimeUpdate(response) {
-        var showtimeUpdatesDiv = document.getElementById('showtimeUpdates');
-        var updateMessage = document.createElement('div');
-        updateMessage.textContent = 'Showtime ID: ' + response.showtimeId +
-            ', Time: ' + response.time +
-            ', Status: ' + response.status;
-        showtimeUpdatesDiv.appendChild(updateMessage);
+        console.log(response)
+        if (showtime.id === response.showtimeId) {
+            const seat = seatsData.find(e => e.id.toString() === response.seatId.toString());
+            const seatEl = document.getElementById('seat-'+response.seatId);
+            if (response.status === "PENDING") {
+                if (seat.type === "COUPLE") {
+                    seatEl.parentElement.classList.add("seat-hover");
+                } else {
+                    seatEl.classList.add("seat-hover");
+                }
+            }
+            if (response.status === "ORDERED") {
+                if (seat.type === "COUPLE") {
+                    seatEl.parentElement.classList.add("seat-sold");
+                } else {
+                    seatEl.classList.add("seat-sold");
+                }
+            }
+            if (response.status == null) {
+                if (seat.type === "COUPLE") {
+                    seatEl.parentElement.classList.remove("seat-hover", "seat-sold");
+                } else {
+                    seatEl.classList.add("seat-hover", "seat-sold");
+                }
+            }
+        }
     }
 }

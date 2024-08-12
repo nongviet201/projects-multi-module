@@ -33,7 +33,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     @Transactional
     public void createReservation(
-        ReservationRequest request
+            ReservationRequest request
     ) {
         if (isSeatAvailable(request.getSeatId(), request.getShowtimeId())) {
             throw new BadRequestException("Ghế đã đặt hoặc giữ bởi người dùng khác");
@@ -43,21 +43,22 @@ public class ReservationServiceImpl implements ReservationService {
         Seat seat = seatService.getSeatById(request.getSeatId());
         Showtime showtime = showtimeService.getShowtimeById(request.getShowtimeId());
 
-        Reservation reservation = new Reservation();
-        reservation.setUser(user);
-        reservation.setSeat(seat);
-        reservation.setShowTime(showtime);
-        reservation.setStatus(ReservationType.PENDING);
-        reservation.setCreatedAt(LocalDateTime.now());
-        reservation.setUpdatedAt(LocalDateTime.now());
+        Reservation reservation = Reservation.builder()
+                .user(user)
+                .seat(seat)
+                .showTime(showtime)
+                .status(ReservationType.PENDING)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
 
         reservationRepository.save(reservation);
 
         SeatReservationResponse response = SeatReservationResponse.builder()
-            .seatId(reservation.getSeat().getId())
-            .showtimeId(reservation.getShowTime().getId())
-            .status(reservation.getStatus())
-            .build();
+                .seatId(reservation.getSeat().getId())
+                .showtimeId(reservation.getShowTime().getId())
+                .status(reservation.getStatus())
+                .build();
 
         messagingTemplate.convertAndSend("/topic/seatUpdate", response);
     }
@@ -72,34 +73,45 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Reservation getReservationById(Integer id) {
         return reservationRepository.findById(id)
-            .orElseThrow(() -> new BadRequestException("không tìm thấy thông tin đặt chỗ với id: " + id));
+                .orElseThrow(() -> new BadRequestException("không tìm thấy thông tin đặt chỗ với id: " + id));
     }
 
     @Override
     public void removeReservation(
-        ReservationRequest request
+            ReservationRequest request
     ) {
         Reservation reservation = reservationRepository.findBySeat_IdAndShowTime_Id(
-            request.getSeatId(),
-            request.getShowtimeId()
+                request.getSeatId(),
+                request.getShowtimeId()
         ).orElseThrow(() -> new BadRequestException("không tìm thấy thông tin đặt chỗ"));
+
+        if (reservation.getUser() != userService.getCurrentUser()) {
+            throw new BadRequestException("người dùng này không phải người dùng đã đặt chỗ");
+        }
 
         reservationRepository.delete(reservation);
 
         SeatReservationResponse response = SeatReservationResponse.builder()
-            .seatId(request.getSeatId())
-            .showtimeId(request.getShowtimeId())
-            .status(null)
-            .build();
+                .seatId(request.getSeatId())
+                .showtimeId(request.getShowtimeId())
+                .status(null)
+                .build();
         messagingTemplate.convertAndSend("/topic/seatUpdate", response);
     }
 
     @Override
     public boolean isSeatAvailable(Integer seatId, Integer showtimeId) {
         return reservationRepository.existsBySeat_IdAndShowTime_IdAndStatusIn(
-            seatId,
-            showtimeId,
-            List.of(ReservationType.ORDERED, ReservationType.PENDING)
+                seatId,
+                showtimeId,
+                List.of(ReservationType.ORDERED, ReservationType.PENDING)
         );
+    }
+
+    @Override
+    public List<Reservation> getAllReservationByShowtimeId(
+            int showtimeId
+    ) {
+        return reservationRepository.findAllByShowTime_Id(showtimeId);
     }
 }
