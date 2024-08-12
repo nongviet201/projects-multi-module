@@ -18,11 +18,10 @@ public class ReservationsApi {
     public ResponseEntity<?> createReservation(
         @RequestBody ReservationRequest request
     ) {
-        Reservation reservation = reservationService.createReservation(
-            request.getSeatId(),
-            request.getShowtimeId()
+        reservationService.createReservation(
+            request
         );
-        return new ResponseEntity<>(reservation, HttpStatus.CREATED); // 201
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping("/update-status")
@@ -30,14 +29,14 @@ public class ReservationsApi {
         @RequestBody Integer id
     ) {
         reservationService.updateReservation(id);
-        return ResponseEntity.ok("thành công");
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/cancel/{id}")
+    @DeleteMapping("/cancel")
     public ResponseEntity<?> cancelReservation(
-        @PathVariable Integer id
+        @RequestBody ReservationRequest request
     ) {
-        reservationService.removeReservation(id);
-        return ResponseEntity.noContent().build();
+        reservationService.removeReservation(request);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -1,36 +1,43 @@
 function connectWS() {
-    const wsUrl = 'ws://localhost:8080/ws';
+    let socketSeat = new SockJS('/booking/ws');
+    let stompClientSeat = Stomp.over(socketSeat);
+    stompClientSeat.connect({}, function (frame) {
+        console.log('Connected to seat update: ' + frame);
 
-    const socket = new WebSocket(wsUrl);
+        stompClientSeat.subscribe('/topic/seatUpdate', function (message) {
+            var response = JSON.parse(message.body);
+            handleSeatUpdate(response);
+        });
+    });
 
-    socket.onopen = function(event) {
-        console.log('WebSocket connection opened:', event);
-        // Gửi một tin nhắn đến server khi kết nối mở
-        socket.send('connect ws success');
-    };
-
-// Xử lý sự kiện khi nhận được tin nhắn từ server
-    socket.onmessage = function(event) {
-        console.log('Message from server:', event.data);
-    };
-
-// Xử lý sự kiện khi kết nối WebSocket bị đóng
-    socket.onclose = function(event) {
-        console.log('WebSocket connection closed:', event);
-    };
-
-// Xử lý sự kiện khi có lỗi xảy ra
-    socket.onerror = function(error) {
-        console.error('WebSocket error:', error);
-    };
-
-// Gửi tin nhắn đến server
-    function sendMessage(message) {
-        if (socket.readyState === WebSocket.OPEN) {
-            socket.send(message);
-        } else {
-            console.error('WebSocket is not open. Cannot send message.');
-        }
+    function handleSeatUpdate(response) {
+        var seatUpdatesDiv = document.getElementById('seatUpdates');
+        var updateMessage = document.createElement('div');
+        updateMessage.textContent = 'Seat ID: ' + response.seatId +
+            ', Showtime ID: ' + response.showtimeId +
+            ', Status: ' + response.status;
+        seatUpdatesDiv.appendChild(updateMessage);
     }
 
+    // Thiết lập kết nối đến WebSocket server cho cập nhật suất chiếu
+    var socketShowtime = new SockJS('/ws/showtimeUpdate');
+    var stompClientShowtime = Stomp.over(socketShowtime);
+
+    stompClientShowtime.connect({}, function (frame) {
+        console.log('Connected to showtime update: ' + frame);
+
+        stompClientShowtime.subscribe('/topic/showtimeUpdate', function (message) {
+            var response = JSON.parse(message.body);
+            handleShowtimeUpdate(response);
+        });
+    });
+
+    function handleShowtimeUpdate(response) {
+        var showtimeUpdatesDiv = document.getElementById('showtimeUpdates');
+        var updateMessage = document.createElement('div');
+        updateMessage.textContent = 'Showtime ID: ' + response.showtimeId +
+            ', Time: ' + response.time +
+            ', Status: ' + response.status;
+        showtimeUpdatesDiv.appendChild(updateMessage);
+    }
 }

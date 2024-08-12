@@ -6,6 +6,7 @@ let seatsData = {};
 function timeBtnFunc(button) {
     const timeBtns = document.querySelectorAll(".time-btn");
     const id = btnFunc(button, timeBtns)
+    connectWS();
     $.ajax({
         url: `api/v1/showtime/get/showtimeId/${id}`,
         type: 'GET',
@@ -47,6 +48,7 @@ function checkShowtimeHeader(showtimeId) {
 }
 
 function getShowtimeById(showtimeId) {
+    connectWS();
     $.ajax({
         url: `/booking/get/stage-two?showtimeId=${showtimeId}`,
         type: 'GET',
@@ -185,8 +187,6 @@ function hideStageTwo() {
 function showStageTwo() {
     divStageTwo.style.display = "block";
 }
-
-connectWS();
 
 async function upsertReservation(seatId) {
     const data = {

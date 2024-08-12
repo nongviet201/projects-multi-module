@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.web.sdk.ws.handler;
+package com.nongviet201.cinema.core.ws.handler;
 
 import org.springframework.web.socket.BinaryMessage;
 import org.springframework.web.socket.CloseStatus;
