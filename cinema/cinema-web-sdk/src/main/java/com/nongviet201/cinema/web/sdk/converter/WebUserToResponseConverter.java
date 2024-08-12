@@ -1,6 +1,5 @@
 package com.nongviet201.cinema.web.sdk.converter;
 
-import com.nongviet201.cinema.core.model.entity.user.User;
 import com.nongviet201.cinema.web.sdk.response.WebUserResponse;
 import org.springframework.stereotype.Service;
 

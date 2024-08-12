@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.web.sdk.controller.decorator;
 
-import com.nongviet201.cinema.core.model.entity.bill.Bill;
+import com.nongviet201.cinema.core.entity.bill.Bill;
 import com.nongviet201.cinema.web.sdk.converter.WebBillToResponseConverter;
 import com.nongviet201.cinema.web.sdk.response.WebBillResponse;
 import lombok.AllArgsConstructor;

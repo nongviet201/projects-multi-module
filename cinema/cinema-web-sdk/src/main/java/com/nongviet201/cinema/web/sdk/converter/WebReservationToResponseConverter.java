@@ -7,14 +7,18 @@ import org.springframework.stereotype.Service;
 public class WebReservationToResponseConverter {
 
     public WebReservationResponse convert(
-            Integer seatId,
-            Integer showtimeId,
-            String status
+        Integer seatId,
+        Integer showtimeId,
+        String status,
+        Boolean isCurrentUser,
+        Long timeRemaining
     ) {
         return WebReservationResponse.builder()
-                .seatId(seatId)
-                .showtimeId(showtimeId)
-                .status(status)
-                .build();
+            .seatId(seatId)
+            .showtimeId(showtimeId)
+            .status(status)
+            .isCurrentUser(isCurrentUser)
+            .timeRemaining(timeRemaining)
+            .build();
     }
 }

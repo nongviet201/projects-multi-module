@@ -2,6 +2,7 @@ package com.nongviet201.cinema.web.sdk.controller.decorator;
 
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -44,5 +45,19 @@ public class WebDateTimeFormatter {
     ) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm", new Locale("vi", "VN"));
         return time.format(formatter);
+    }
+
+    public long calculateRemainingMillis(LocalDateTime startOrderTime) {
+        LocalDateTime endTime = startOrderTime.plusMinutes(10);
+
+        LocalDateTime now = LocalDateTime.now();
+
+        Duration duration = Duration.between(now, endTime);
+
+        long remainingMillis = duration.toMillis();
+
+        remainingMillis -= 10000;
+
+        return Math.max(remainingMillis, 0);
     }
 }

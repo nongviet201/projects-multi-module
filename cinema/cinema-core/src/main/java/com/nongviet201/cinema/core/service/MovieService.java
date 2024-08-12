@@ -1,7 +1,7 @@
 package com.nongviet201.cinema.core.service;
 
 
-import com.nongviet201.cinema.core.model.entity.movie.Movie;
+import com.nongviet201.cinema.core.entity.movie.Movie;
 
 import java.util.List;
 

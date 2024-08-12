@@ -1,6 +1,5 @@
 package com.nongviet201.cinema.web.sdk.controller.service;
 
-import com.nongviet201.cinema.core.model.entity.bill.Bill;
 import com.nongviet201.cinema.core.service.BillService;
 import com.nongviet201.cinema.web.sdk.controller.decorator.WebBillDecorator;
 import com.nongviet201.cinema.web.sdk.response.WebBillResponse;

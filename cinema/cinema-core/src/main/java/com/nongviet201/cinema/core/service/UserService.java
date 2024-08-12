@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.service;
 
-import com.nongviet201.cinema.core.model.entity.user.User;
+import com.nongviet201.cinema.core.entity.user.User;
 
 public interface UserService {
     User findByEmail(String email);
@@ -8,4 +8,6 @@ public interface UserService {
     void createUser();
 
     User getCurrentUser();
+
+    Boolean isCurrentUser(User user);
 }

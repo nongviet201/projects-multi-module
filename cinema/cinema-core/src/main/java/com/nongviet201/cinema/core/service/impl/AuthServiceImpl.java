@@ -1,8 +1,8 @@
 package com.nongviet201.cinema.core.service.impl;
 
 import com.nongviet201.cinema.core.exception.BadRequestException;
-import com.nongviet201.cinema.core.model.entity.user.TokenConfirm;
-import com.nongviet201.cinema.core.model.entity.user.User;
+import com.nongviet201.cinema.core.entity.user.TokenConfirm;
+import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.model.enums.TokenType;
 import com.nongviet201.cinema.core.model.enums.UserRole;
 import com.nongviet201.cinema.core.model.enums.VerifyResponseType;

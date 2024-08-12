@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.web.sdk.controller.decorator;
 
-import com.nongviet201.cinema.core.model.entity.user.User;
+import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.web.sdk.converter.WebUserToResponseConverter;
 import com.nongviet201.cinema.web.sdk.response.WebUserResponse;
 import lombok.AllArgsConstructor;

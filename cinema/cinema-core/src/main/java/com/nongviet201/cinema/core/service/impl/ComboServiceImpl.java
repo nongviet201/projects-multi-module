@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.service.impl;
 
-import com.nongviet201.cinema.core.model.entity.bill.Combo;
+import com.nongviet201.cinema.core.entity.bill.Combo;
 import com.nongviet201.cinema.core.repository.ComboRepository;
 import com.nongviet201.cinema.core.service.ComboService;
 import lombok.AllArgsConstructor;

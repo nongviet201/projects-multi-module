@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.service.impl;
 
-import com.nongviet201.cinema.core.model.entity.movie.Genre;
+import com.nongviet201.cinema.core.entity.movie.Genre;
 import com.nongviet201.cinema.core.repository.GenreRepository;
 import com.nongviet201.cinema.core.service.GenreService;
 import lombok.AllArgsConstructor;

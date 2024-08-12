@@ -173,13 +173,22 @@ function seatUpdate(value, isActive) {
         currentSeatsChose.delete(seat.id);
         cancelReservation(seat.id);
     }
+    if (currentSeatsChose.size === 1) {
+        startCountDown();
+    } else if (currentSeatsChose.size === 0) {
+        cancelCountDown();
+    }
 
-    if (currentSeatsChose.size > 0) {
+    checkNextBtn();
+    showtimeDetailSeatShow();
+}
+
+function checkNextBtn() {
+    if (currentSeatsChose.size >= 1) {
         nextBtn.classList.remove("disabled");
-    } else {
+    } else if (currentSeatsChose.size === 0) {
         nextBtn.classList.add("disabled");
     }
-    showtimeDetailSeatShow();
 }
 
 function hideStageTwo() {
@@ -195,44 +204,56 @@ async function upsertReservation(seatId) {
         seatId: seatId,
         showtimeId: showtime.id,
     }
-
     try {
         let res = await axios.post("/api/v1/reservations/create", data);
     } catch (e) {
         console.error(e.message)
     }
 }
-async function getReservation(showtimeId){
-    $.ajax({
-        url: `/api/v1/reservations/get/${showtimeId}`,
-        type: 'GET',
-        success: function (response) {
-            let reservation = response;
-            console.log(reservation)
-            reservation.forEach(e => {
-                if (e.showtimeId === showtime.id) {
-                    const seat = seatsData.find(seat => seat.id.toString() === e.seatId.toString());
-                    const seatEl = document.getElementById(`seat-${e.seatId}`)
-                    if (e.status === "PENDING") {
-                        if (seat.type === "COUPLE"){
-                            seatEl.parentElement.classList.add('seat-hover');
-                        } else {
-                            seatEl.classList.add('seat-hover');
+
+async function getReservation(showtimeId) {
+    try {
+        let reservation = await $.ajax({
+            url: `/api/v1/reservations/get/${showtimeId}`,
+            type: 'GET',
+        });
+        console.log(reservation);
+
+        reservation.forEach(e => {
+            if (e.showtimeId === showtimeId) {
+                const seat = seatsData.find(seat => seat.id.toString() === e.seatId.toString());
+                const seatEl = document.getElementById(`seat-${e.seatId}`);
+
+                if (e.status === "PENDING") {
+                    if (seat.type === "COUPLE") {
+                        seatEl.parentElement.classList.add('seat-hover');
+                        if (e.isCurrentUser) {
+                            seatEl.parentElement.classList.add('active');
+                            currentSeatsChose.add(e.seatId);
+                            startCountDown(e.timeRemaining);
                         }
                     } else {
-                        if (seat.type === "COUPLE"){
-                            seatEl.parentElement.classList.add('seat-sold');
-                        } else {
-                            seatEl.classList.add('seat-sold');
+                        seatEl.classList.add('seat-hover');
+                        if (e.isCurrentUser) {
+                            seatEl.classList.add('active');
+                            currentSeatsChose.add(e.seatId);
                         }
                     }
+                } else {
+                    if (seat.type === "COUPLE") {
+                        seatEl.parentElement.classList.add('seat-sold');
+                    } else {
+                        seatEl.classList.add('seat-sold');
+                    }
                 }
-            })
-        },
-        error: function (xhr, status, error) {
-            console.error(`Đã xảy ra lỗi: ${xhr}`);
-        }
-    });
+            }
+        });
+
+        checkNextBtn();
+        showtimeDetailSeatShow();
+    } catch (error) {
+        console.error(`Đã xảy ra lỗi: ${error}`);
+    }
 }
 
 async function cancelReservation(seatId) {

@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.security;
 
-import com.nongviet201.cinema.core.model.entity.user.User;
+import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

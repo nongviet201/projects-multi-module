@@ -1,7 +1,5 @@
 package com.nongviet201.cinema.web.sdk.controller.rest;
 
-import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
-import com.nongviet201.cinema.core.service.ShowtimeService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebShowtimeControllerService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -9,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @AllArgsConstructor

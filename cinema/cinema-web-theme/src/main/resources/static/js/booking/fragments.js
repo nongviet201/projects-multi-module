@@ -187,3 +187,49 @@ function showtimeDetailCinemaHide() {
 function formatPrice(number) {
     return number.toLocaleString('vi-VN');
 }
+
+
+let timerInterval;
+let targetTime;
+
+function startCountDown(timeRemaining) {
+    if (timeRemaining != null) {
+        targetTime = new Date().getTime() + timeRemaining;
+    } else {
+        targetTime = new Date().getTime() + 600000; // Default 10 minutes
+    }
+
+    document.getElementById('countdown').classList.remove('d-none');
+
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    timerInterval = setInterval(updateTimer, 1000);
+}
+
+function cancelCountDown() {
+    const countdownElement = document.getElementById('countdown');
+    if (countdownElement) {
+        countdownElement.classList.add('d-none');
+    }
+    document.getElementById('timer').innerHTML = "00:00";
+    clearInterval(timerInterval);
+}
+
+function updateTimer() {
+    const now = new Date().getTime();
+    const timeLeft = targetTime - now;
+
+    if (timeLeft <= 0) {
+        cancelCountDown();
+        return;
+    }
+
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+    const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+
+    document.getElementById('timer').innerHTML = `${formattedMinutes}:${formattedSeconds}`;
+}

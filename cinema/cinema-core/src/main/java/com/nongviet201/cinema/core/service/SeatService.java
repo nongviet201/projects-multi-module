@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.service;
 
-import com.nongviet201.cinema.core.model.entity.cinema.Seat;
+import com.nongviet201.cinema.core.entity.cinema.Seat;
 
 import java.util.List;
 

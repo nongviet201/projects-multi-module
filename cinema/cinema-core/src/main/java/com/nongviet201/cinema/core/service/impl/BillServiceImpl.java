@@ -1,18 +1,15 @@
 package com.nongviet201.cinema.core.service.impl;
 
+import com.nongviet201.cinema.core.entity.bill.Bill;
+import com.nongviet201.cinema.core.entity.bill.TranslationPayment;
+import com.nongviet201.cinema.core.entity.cinema.Showtime;
+import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.exception.BadRequestException;
-import com.nongviet201.cinema.core.model.entity.user.User;
-import com.nongviet201.cinema.core.model.entity.bill.Bill;
-import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
+import com.nongviet201.cinema.core.model.enums.PaymentMethod;
 import com.nongviet201.cinema.core.repository.BillRepository;
-import com.nongviet201.cinema.core.repository.ShowtimeRepository;
-import com.nongviet201.cinema.core.repository.UserRepository;
-
+import com.nongviet201.cinema.core.repository.TranslationPaymentRepository;
 import com.nongviet201.cinema.core.request.BillRequestDTO;
-import com.nongviet201.cinema.core.service.BillComboService;
-import com.nongviet201.cinema.core.service.BillSeatService;
-import com.nongviet201.cinema.core.service.BillService;
-import com.nongviet201.cinema.core.service.UserService;
+import com.nongviet201.cinema.core.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,19 +19,32 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BillServiceImpl implements BillService {
     private final UserService userService;
-    private final ShowtimeRepository showtimeRepository;
+    private final ShowtimeService showtimeService;
+    private final ReservationService reservationService;
     private final BillRepository billRepository;
     private final BillSeatService billSeatService;
     private final BillComboService billComboService;
+    private final TranslationPaymentRepository translationPaymentRepository;
 
     @Override
-    public Bill createBill(
+    public Integer createBill(
         BillRequestDTO.PaymentRequest paymentRequest
     ) {
         User user = userService.getCurrentUser();
 
-        Showtime showtime = showtimeRepository.findById(paymentRequest.getShowtimeId())
-            .orElseThrow(() -> new BadRequestException("Suất chiếu không tồn tại"));;
+        Showtime showtime = showtimeService.getShowtimeById(
+            paymentRequest.getShowtimeId()
+        );
+
+        paymentRequest.getSeatRequest().forEach(seatId -> {
+            if (!reservationService.checkPendingReservation(
+                user.getId(),
+                showtime.getId(),
+                seatId
+            )) {
+                throw new BadRequestException("Không tìm thấy thông tin đặt chỗ");
+            }
+        });
 
         Bill bill = Bill.builder()
             .user(user)
@@ -63,9 +73,19 @@ public class BillServiceImpl implements BillService {
             );
         }
 
+        TranslationPayment translationPayment = TranslationPayment.builder()
+            .status(false)
+            .createdAt(LocalDateTime.now())
+            .updatedAt(LocalDateTime.now())
+            .paymentMethod(PaymentMethod.values()[paymentRequest.getPaymentMethod()])
+            .build();
+        translationPaymentRepository.save(translationPayment);
+
         bill.setTotalPrice(totalPrice);
+        bill.setTranslationPayment(translationPayment);
         billRepository.save(bill);
-        return bill;
+
+        return bill.getId();
     }
 
     @Override
@@ -79,7 +99,9 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public Bill getBillById(Integer bill) {
-        return billRepository.findById(bill).orElse(null);
+    public Bill getBillById(Integer id) {
+        return billRepository.findById(id).orElseThrow(
+            () -> new BadRequestException("Không tìm thấy hóa đơn")
+        );
     }
 }

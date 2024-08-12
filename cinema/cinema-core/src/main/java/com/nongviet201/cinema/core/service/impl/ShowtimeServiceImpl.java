@@ -2,16 +2,13 @@
 package com.nongviet201.cinema.core.service.impl;
 
 import com.nongviet201.cinema.core.exception.BadRequestException;
-import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
-import com.nongviet201.cinema.core.repository.AuditoriumRepository;
-import com.nongviet201.cinema.core.repository.CinemaRepository;
+import com.nongviet201.cinema.core.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.repository.ShowtimeRepository;
 import com.nongviet201.cinema.core.service.ShowtimeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

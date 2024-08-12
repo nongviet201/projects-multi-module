@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.repository;
 
-import com.nongviet201.cinema.core.model.entity.Post;
+import com.nongviet201.cinema.core.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

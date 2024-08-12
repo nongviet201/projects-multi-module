@@ -1,7 +1,7 @@
 
 package com.nongviet201.cinema.core.service;
 
-import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
+import com.nongviet201.cinema.core.entity.cinema.Showtime;
 
 import java.time.LocalDate;
 import java.util.List;

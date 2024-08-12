@@ -1,8 +1,7 @@
 package com.nongviet201.cinema.web.sdk.controller.decorator;
 
-import com.nongviet201.cinema.core.model.entity.bill.BaseTicketPrice;
-import com.nongviet201.cinema.core.model.entity.cinema.Seat;
-import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
+import com.nongviet201.cinema.core.entity.cinema.Seat;
+import com.nongviet201.cinema.core.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.model.enums.DayType;
 import com.nongviet201.cinema.core.service.BaseTicketPriceService;
 import com.nongviet201.cinema.web.sdk.converter.WebSeatToResponseConverter;
@@ -11,7 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
-import java.util.List;
 
 @Service
 @AllArgsConstructor

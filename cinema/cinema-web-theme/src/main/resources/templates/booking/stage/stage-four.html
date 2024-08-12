@@ -4,10 +4,20 @@
     </div>
     <div>
         <ul class="payment mt-3">
-            <li class="d-flex align-items-center gap-1">
-                <input type="radio" id="payment-vnPay" value="vnPay" checked>
+            <li class="d-flex align-items-center mb-4 gap-1">
+                <input type="radio" id="payment-vnpay" name="payment" value="1" onclick="getSelectedPayment()">
                 <img class="payment-logo" src="https://cdn.galaxycine.vn/media/2021/12/2/download_1638460623615.png" alt="VNPay">
                 <label for="payment-vnPay">VNPay</label>
+            </li>
+             <li class="d-flex align-items-center mb-4 gap-1">
+                <input type="radio" id="payment-momo" name="payment" value="2" onclick="getSelectedPayment()">
+                <img class="payment-logo" src="https://cdn.galaxycine.vn/media/2020/10/20/momo-icon_1603203874499.png" alt="Momo">
+                <label for="payment-momo">Momo</label>
+            </li>
+            <li class="d-flex align-items-center mb-4 gap-1">
+                <input type="radio" id="payment-zalopay" name="payment" value="3" onclick="getSelectedPayment()">
+                <img class="payment-logo" src="https://cdn.galaxycine.vn/media/2024/7/10/zalopay_1720600308412.png" alt="ZaloPay">
+                <label for="payment-momo">ZaloPay</label>
             </li>
         </ul>
     </div>

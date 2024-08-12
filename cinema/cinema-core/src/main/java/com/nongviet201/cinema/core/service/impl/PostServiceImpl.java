@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.service.impl;
 
-import com.nongviet201.cinema.core.model.entity.Post;
+import com.nongviet201.cinema.core.entity.Post;
 import com.nongviet201.cinema.core.repository.PostRepository;
 import com.nongviet201.cinema.core.service.PostService;
 import lombok.AllArgsConstructor;

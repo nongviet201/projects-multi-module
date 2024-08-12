@@ -20,5 +20,6 @@ public class BillRequestDTO {
         private Integer showtimeId;
         private List<ComboRequest> comboRequest;
         private List<Integer> seatRequest;
+        private Integer paymentMethod;
     }
 }

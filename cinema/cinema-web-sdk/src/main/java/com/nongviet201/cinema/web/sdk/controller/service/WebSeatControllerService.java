@@ -1,7 +1,7 @@
 package com.nongviet201.cinema.web.sdk.controller.service;
 
-import com.nongviet201.cinema.core.model.entity.cinema.Seat;
-import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
+import com.nongviet201.cinema.core.entity.cinema.Seat;
+import com.nongviet201.cinema.core.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.service.SeatService;
 import com.nongviet201.cinema.core.service.ShowtimeService;
 import com.nongviet201.cinema.web.sdk.controller.decorator.WebSeatDecorator;

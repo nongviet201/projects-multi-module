@@ -1,7 +1,7 @@
 package com.nongviet201.cinema.core.service.impl;
 
 import com.nongviet201.cinema.core.exception.BadRequestException;
-import com.nongviet201.cinema.core.model.entity.cinema.Seat;
+import com.nongviet201.cinema.core.entity.cinema.Seat;
 import com.nongviet201.cinema.core.repository.SeatRepository;
 import com.nongviet201.cinema.core.service.SeatService;
 import lombok.AllArgsConstructor;

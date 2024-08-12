@@ -134,6 +134,7 @@ main {
 #seat-map button.active,
 .div-seat-double.active{
     background-color: #034EA2 !important;
+    pointer-events: auto!important;
     color: white !important;
 }
 .div-seat-double.active button {
@@ -175,7 +176,8 @@ main {
 
 .seat-sold {
     background-color: gray;
-    cursor: none;
+    cursor: none!important;
+    pointer-events: none!important;
 }
 
 .seat-double {
@@ -189,7 +191,11 @@ main {
 .seat-hover {
     border-color: gold !important;
     background-color: gold;
-    cursor: none;
+    pointer-events: none;
+}
+.seat-hover,
+.seat-hover button {
+    color: white;
 }
 
 .seat-demo {

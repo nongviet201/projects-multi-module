@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.rest;
 
-import com.nongviet201.cinema.core.model.entity.user.User;
+import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.request.ChangePasswordAccountRequest;
 import com.nongviet201.cinema.core.request.ChangePasswordMailRequest;
 import com.nongviet201.cinema.core.request.LoginRequest;
@@ -11,8 +11,6 @@ import com.nongviet201.cinema.core.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

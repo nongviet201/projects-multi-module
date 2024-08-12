@@ -5,6 +5,7 @@ function stageFour() {
         success: function (htmlResponse) {
             divStage.innerHTML = htmlResponse;
             updateTicketBill();
+            nextBtn.classList.add("disabled");
         },
         error: function (xhr, status, error) {
             console.error(`Đã xảy ra lỗi: ${error}`);
@@ -13,20 +14,30 @@ function stageFour() {
         }
     });
 }
+let paymentMethod;
+function getSelectedPayment() {
+    const selectedInput = document.querySelector('input[name="payment"]:checked');
+    if (selectedInput) {
+        nextBtn.classList.remove("disabled");
+        paymentMethod = selectedInput.value;
+    } else {
+        nextBtn.classList.add("disabled");;
+    }
+}
 
 function updateTicketBill() {
     const updateElement = (id, html) => document.getElementById(id).innerHTML = html;
 
     updateElement('bill-movie-name', `
-        <p class="fs-16px fw-600 text-blue">${showtime.movie.name}</p>
-        <p class="fs-14px">${showtime.auditorium.auditoriumType.toString()} 
+        <p class="fs-16px fw-600 text-blue">${showtime.movieName}</p>
+        <p class="fs-14px">${showtime.auditoriumType} 
         <span> - </span> 
-        <span class="fs-14px px-2 py-1 fw-700 bg-orange text-white" style="border-radius: 5px">T${showtime.movie.ageRequirement}</span>
+        <span class="fs-14px px-2 py-1 fw-700 bg-orange text-white" style="border-radius: 5px">T${showtime.ageRequirement}</span>
         </p>
     `);
 
     updateElement('bill-cinema-name', `
-        <p class="fs-16px fw-600 text-blue">${showtime.auditorium.cinema.name}</p>
+        <p class="fs-16px fw-600 text-blue">${showtime.cinemaName}</p>
         <p class="fw-600 fs-14px">${showtime.startTime}, ${showtime.screeningDate}</p>
     `);
 
@@ -46,7 +57,7 @@ function updateTicketBill() {
         .join(' ');
 
     updateElement('bill-auditorium', `
-        <p class="fs-16px">${showtime.auditorium.name}: <strong class="fs-14px ms-2">${formatSeatList()}</strong></p>
+        <p class="fs-16px">${showtime.auditoriumName}: <strong class="fs-14px ms-2">${formatSeatList()}</strong></p>
         ${formatComboList()}
     `);
 
@@ -87,21 +98,20 @@ async function createBill() {
     const paymentRequest = {
         showtimeId: showtime.id,
         comboRequest: comboRequest,
-        seatRequest: seatRequest
+        seatRequest: seatRequest,
+        paymentMethod: paymentMethod
     };
 
     try {
         let res = await axios.post(`/api/v1/bills/create`, paymentRequest);
-        billId = res.data;
-        payment(billId, totalPrice);
+        payment(res.data);
     } catch (e) {
         console.error(e);
     }
 }
 
 async function payment(
-    billId,
-    totalPrice
+    billId
 ) {
     data = {
         billId: billId,

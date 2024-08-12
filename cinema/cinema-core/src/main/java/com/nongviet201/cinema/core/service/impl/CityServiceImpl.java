@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.service.impl;
 
-import com.nongviet201.cinema.core.model.entity.cinema.City;
+import com.nongviet201.cinema.core.entity.cinema.City;
 import com.nongviet201.cinema.core.repository.CityRepository;
 import com.nongviet201.cinema.core.service.CityService;
 import lombok.AllArgsConstructor;

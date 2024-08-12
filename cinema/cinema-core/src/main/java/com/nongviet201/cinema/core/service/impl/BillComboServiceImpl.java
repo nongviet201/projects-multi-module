@@ -1,9 +1,9 @@
 package com.nongviet201.cinema.core.service.impl;
 
 import com.nongviet201.cinema.core.exception.BadRequestException;
-import com.nongviet201.cinema.core.model.entity.bill.Bill;
-import com.nongviet201.cinema.core.model.entity.bill.BillCombo;
-import com.nongviet201.cinema.core.model.entity.bill.Combo;
+import com.nongviet201.cinema.core.entity.bill.Bill;
+import com.nongviet201.cinema.core.entity.bill.BillCombo;
+import com.nongviet201.cinema.core.entity.bill.Combo;
 import com.nongviet201.cinema.core.repository.BillComboRepository;
 import com.nongviet201.cinema.core.repository.BillRepository;
 import com.nongviet201.cinema.core.repository.ComboRepository;

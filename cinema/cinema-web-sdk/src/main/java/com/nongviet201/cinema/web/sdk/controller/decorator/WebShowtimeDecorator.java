@@ -1,7 +1,6 @@
 package com.nongviet201.cinema.web.sdk.controller.decorator;
 
-import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
-import com.nongviet201.cinema.core.service.ShowtimeService;
+import com.nongviet201.cinema.core.entity.cinema.Showtime;
 import com.nongviet201.cinema.web.sdk.converter.WebShowtimeToResponseConvert;
 import com.nongviet201.cinema.web.sdk.response.WebShowtimeResponse;
 import lombok.AllArgsConstructor;

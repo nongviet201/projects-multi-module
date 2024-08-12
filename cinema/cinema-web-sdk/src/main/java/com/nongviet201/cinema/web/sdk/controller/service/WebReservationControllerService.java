@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.web.sdk.controller.service;
 
-import com.nongviet201.cinema.core.model.entity.bill.Reservation;
+import com.nongviet201.cinema.core.entity.bill.Reservation;
 import com.nongviet201.cinema.core.request.ReservationRequest;
 import com.nongviet201.cinema.core.service.ReservationService;
 import com.nongviet201.cinema.web.sdk.controller.decorator.WebReservationDecorator;

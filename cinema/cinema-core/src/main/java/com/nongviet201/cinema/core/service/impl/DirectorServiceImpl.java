@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.service.impl;
 
-import com.nongviet201.cinema.core.model.entity.movie.Director;
+import com.nongviet201.cinema.core.entity.movie.Director;
 import com.nongviet201.cinema.core.repository.DirectorRepository;
 import com.nongviet201.cinema.core.service.DirectorService;
 import lombok.AllArgsConstructor;

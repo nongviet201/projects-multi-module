@@ -1,14 +1,14 @@
 package com.nongviet201.cinema.core.service.impl;
 
 import com.nongviet201.cinema.core.exception.BadRequestException;
-import com.nongviet201.cinema.core.model.entity.bill.Reservation;
-import com.nongviet201.cinema.core.model.entity.cinema.Seat;
-import com.nongviet201.cinema.core.model.entity.cinema.Showtime;
-import com.nongviet201.cinema.core.model.entity.user.User;
+import com.nongviet201.cinema.core.entity.bill.Reservation;
+import com.nongviet201.cinema.core.entity.cinema.Seat;
+import com.nongviet201.cinema.core.entity.cinema.Showtime;
+import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.model.enums.ReservationType;
 import com.nongviet201.cinema.core.repository.ReservationRepository;
 import com.nongviet201.cinema.core.request.ReservationRequest;
-import com.nongviet201.cinema.core.response.SeatReservationResponse;
+import com.nongviet201.cinema.core.response.ReservationResponse;
 import com.nongviet201.cinema.core.service.ReservationService;
 import com.nongviet201.cinema.core.service.SeatService;
 import com.nongviet201.cinema.core.service.ShowtimeService;
@@ -33,7 +33,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     @Transactional
     public void createReservation(
-            ReservationRequest request
+        ReservationRequest request
     ) {
         if (isSeatAvailable(request.getSeatId(), request.getShowtimeId())) {
             throw new BadRequestException("Ghế đã đặt hoặc giữ bởi người dùng khác");
@@ -44,21 +44,22 @@ public class ReservationServiceImpl implements ReservationService {
         Showtime showtime = showtimeService.getShowtimeById(request.getShowtimeId());
 
         Reservation reservation = Reservation.builder()
-                .user(user)
-                .seat(seat)
-                .showTime(showtime)
-                .status(ReservationType.PENDING)
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build();
+            .user(user)
+            .seat(seat)
+            .showtime(showtime)
+            .status(ReservationType.PENDING)
+            .createdAt(LocalDateTime.now())
+            .updatedAt(LocalDateTime.now())
+            .startOrderTime(LocalDateTime.now())
+            .build();
 
         reservationRepository.save(reservation);
 
-        SeatReservationResponse response = SeatReservationResponse.builder()
-                .seatId(reservation.getSeat().getId())
-                .showtimeId(reservation.getShowTime().getId())
-                .status(reservation.getStatus())
-                .build();
+        ReservationResponse response = ReservationResponse.builder()
+            .seatId(reservation.getSeat().getId())
+            .showtimeId(reservation.getShowtime().getId())
+            .status(reservation.getStatus())
+            .build();
 
         messagingTemplate.convertAndSend("/topic/seatUpdate", response);
     }
@@ -73,16 +74,25 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Reservation getReservationById(Integer id) {
         return reservationRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("không tìm thấy thông tin đặt chỗ với id: " + id));
+            .orElseThrow(() -> new BadRequestException("không tìm thấy thông tin đặt chỗ với id: " + id));
+    }
+
+    @Override
+    public Reservation getReservationByUserIdAndShowtimeIdAndSeatId(Integer userId, Integer showtimeId, Integer seatId) {
+        return reservationRepository.findByUserIdAndShowtimeIdAndSeatId(
+            userId,
+            showtimeId,
+            seatId
+            ).orElseThrow(() -> new BadRequestException("không tìm thấy thông tin đặt chỗ"));
     }
 
     @Override
     public void removeReservation(
-            ReservationRequest request
+        ReservationRequest request
     ) {
-        Reservation reservation = reservationRepository.findBySeat_IdAndShowTime_Id(
-                request.getSeatId(),
-                request.getShowtimeId()
+        Reservation reservation = reservationRepository.findBySeat_IdAndShowtime_Id(
+            request.getSeatId(),
+            request.getShowtimeId()
         ).orElseThrow(() -> new BadRequestException("không tìm thấy thông tin đặt chỗ"));
 
         if (reservation.getUser() != userService.getCurrentUser()) {
@@ -91,27 +101,42 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservationRepository.delete(reservation);
 
-        SeatReservationResponse response = SeatReservationResponse.builder()
-                .seatId(request.getSeatId())
-                .showtimeId(request.getShowtimeId())
-                .status(null)
-                .build();
+        ReservationResponse response = ReservationResponse.builder()
+            .seatId(request.getSeatId())
+            .showtimeId(request.getShowtimeId())
+            .status(null)
+            .build();
         messagingTemplate.convertAndSend("/topic/seatUpdate", response);
     }
 
     @Override
     public boolean isSeatAvailable(Integer seatId, Integer showtimeId) {
-        return reservationRepository.existsBySeat_IdAndShowTime_IdAndStatusIn(
-                seatId,
-                showtimeId,
-                List.of(ReservationType.ORDERED, ReservationType.PENDING)
+        return reservationRepository.existsBySeatIdAndShowtimeIdAndStatusIn(
+            seatId,
+            showtimeId,
+            List.of(ReservationType.ORDERED, ReservationType.PENDING)
+        );
+    }
+
+    @Override
+    public boolean checkPendingReservation(
+        Integer userId,
+        Integer showtimeId,
+        Integer seatId
+    ) {
+        return reservationRepository.existsByUserIdAndShowtimeIdAndSeatIdAndStatus(
+            userId,
+            showtimeId,
+            seatId,
+            ReservationType.PENDING
         );
     }
 
     @Override
     public List<Reservation> getAllReservationByShowtimeId(
-            int showtimeId
+        int showtimeId
     ) {
-        return reservationRepository.findAllByShowTime_Id(showtimeId);
+        return reservationRepository.findAllByShowtime_Id(showtimeId);
     }
+
 }

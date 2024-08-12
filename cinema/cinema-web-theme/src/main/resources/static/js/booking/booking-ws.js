@@ -1,17 +1,17 @@
 function connectWS() {
-    let socketSeat = new SockJS('/booking/ws');
-    let stompClientSeat = Stomp.over(socketSeat);
+    let socketBooking = new SockJS('/booking/ws');
+    let stompClientSeat = Stomp.over(socketBooking);
+
     stompClientSeat.connect({}, function (frame) {
-        console.log('Connected to seat update: ' + frame);
+        console.log('Connected to booking ws: ' + frame);
 
         stompClientSeat.subscribe('/topic/seatUpdate', function (message) {
-            var response = JSON.parse(message.body);
+            const response = JSON.parse(message.body);
             handleSeatUpdate(response);
         });
     });
 
     function handleSeatUpdate(response) {
-        console.log(response)
         if (showtime.id === response.showtimeId) {
             const seat = seatsData.find(e => e.id.toString() === response.seatId.toString());
             const seatEl = document.getElementById('seat-'+response.seatId);
@@ -30,10 +30,12 @@ function connectWS() {
                 }
             }
             if (response.status == null) {
+                currentSeatsChose.delete(response.seatId);
+                showtimeDetailSeatShow();
                 if (seat.type === "COUPLE") {
-                    seatEl.parentElement.classList.remove("seat-hover", "seat-sold");
+                    seatEl.parentElement.classList.remove("seat-hover", "seat-sold", "active");
                 } else {
-                    seatEl.classList.add("seat-hover", "seat-sold");
+                    seatEl.classList.remove("seat-hover", "seat-sold", "active");
                 }
             }
         }
