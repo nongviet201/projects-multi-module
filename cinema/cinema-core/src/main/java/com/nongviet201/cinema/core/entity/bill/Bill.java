@@ -2,7 +2,7 @@ package com.nongviet201.cinema.core.entity.bill;
 
 import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.entity.cinema.Showtime;
-import com.nongviet201.cinema.payment.vnpay.code.ResponseCodeVNPAY;
+import com.nongviet201.cinema.core.model.enums.BillStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,13 +20,11 @@ public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private boolean status;
+    private BillStatus status;
     private long totalPrice;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    @Enumerated(EnumType.STRING)
-    private ResponseCodeVNPAY responseCodeVNPAY;
 
     @ManyToOne
     @JoinColumn(name= "user_id")
@@ -34,7 +32,7 @@ public class Bill {
 
     @ManyToOne
     @JoinColumn(name = "showtime_id")
-    private Showtime showTime;
+    private Showtime showtime;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "translation_payment_id")

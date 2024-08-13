@@ -8,9 +8,9 @@ import lombok.experimental.FieldDefaults;
 
 @Getter
 @Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ToPaymentRequest {
     private Integer billId;
     private Long amount;
     private Integer timeRemain;
+    private PaymentMethod paymentMethod;
 }

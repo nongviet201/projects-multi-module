@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.web.sdk.controller.webRender;
 
+import com.nongviet201.cinema.web.sdk.controller.service.WebUserBillProfileControllerService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebUserControllerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,11 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserProfileRender {
 
     private final WebUserControllerService userControllerService;
+    private final WebUserBillProfileControllerService userBillProfileControllerService;
 
     @GetMapping("/stage-1")
     public String getStageOneFragments(
         Model model
     ) {
+        model.addAttribute(
+            "bills",
+            userBillProfileControllerService.getCurrentUserBillProfile()
+        );
         return "user/stage/stage-one";
     }
 

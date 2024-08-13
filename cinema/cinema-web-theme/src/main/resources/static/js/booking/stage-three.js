@@ -9,6 +9,7 @@ function stageThree() {
             console.error('Đã xảy ra lỗi: ' + xhr);
         }
     });
+    nextBtn.classList.remove('disabled');
 }
 
 const comboData = new Map();

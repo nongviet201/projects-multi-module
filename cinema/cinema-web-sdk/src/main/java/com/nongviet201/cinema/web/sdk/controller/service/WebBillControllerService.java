@@ -17,10 +17,4 @@ public class WebBillControllerService {
             billService.getBillById(id)
         );
     }
-
-    public WebBillResponse updateBill(Integer bill) {
-        return billDecorator.decorate(
-            billService.updateBill(bill)
-        );
-    }
 }

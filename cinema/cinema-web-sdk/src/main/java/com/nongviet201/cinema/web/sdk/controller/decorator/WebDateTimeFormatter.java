@@ -33,6 +33,21 @@ public class WebDateTimeFormatter {
         return date.format(formatter);
     }
 
+    public String formatDateTommYYYY(
+            LocalDate date
+        ) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy", new Locale("vi", "VN"));
+            return date.format(formatter);
+    }
+
+    public String formatDateTimeTommYYYY(
+            LocalDate date
+        ) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy", new Locale("vi", "VN"));
+            return date.format(formatter);
+    }
+
+
     public String formatFullDateTime(
         LocalDateTime dateTime
     ) {

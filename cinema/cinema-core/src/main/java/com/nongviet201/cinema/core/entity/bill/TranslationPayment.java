@@ -20,6 +20,10 @@ public class TranslationPayment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private boolean status;
+    private String bankCode;
+    private String payDate;
+    private String transactionNo; //Mã giao dịch ghi nhận tại hệ thống VNPAY. Ví dụ: 20170829153052
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -27,5 +31,6 @@ public class TranslationPayment {
     private PaymentMethod paymentMethod;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "response_codevnpay", length = 50)
     private ResponseCodeVNPAY responseCodeVNPAY;
 }

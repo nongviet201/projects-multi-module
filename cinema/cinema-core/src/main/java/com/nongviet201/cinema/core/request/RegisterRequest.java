@@ -4,17 +4,15 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Getter
-@Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegisterRequest {
-    String fullName;
-    String email;
-    String phoneNumber;
-    String gender;
-    String birthday;
-    String password;
-    String confirmPassword;
+    protected String fullName;
+    protected String email;
+    protected String phoneNumber;
+    protected String gender;
+    protected String birthday;
+    protected String password;
+    protected String confirmPassword;
 }

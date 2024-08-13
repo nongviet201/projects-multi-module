@@ -78,22 +78,21 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation getReservationByUserIdAndShowtimeIdAndSeatId(Integer userId, Integer showtimeId, Integer seatId) {
-        return reservationRepository.findByUserIdAndShowtimeIdAndSeatId(
-            userId,
-            showtimeId,
-            seatId
-            ).orElseThrow(() -> new BadRequestException("không tìm thấy thông tin đặt chỗ"));
+    public Reservation getReservationByUserIdAndShowtimeIdAndSeatId(
+        Integer userId,
+        Integer showtimeId,
+        Integer seatId
+    ) {
+        return reservationRepository.findByUserIdAndShowtimeIdAndSeatId(userId, showtimeId, seatId)
+            .orElseThrow(() -> new BadRequestException("không tìm thấy thông tin đặt chỗ"));
     }
 
     @Override
     public void removeReservation(
         ReservationRequest request
     ) {
-        Reservation reservation = reservationRepository.findBySeat_IdAndShowtime_Id(
-            request.getSeatId(),
-            request.getShowtimeId()
-        ).orElseThrow(() -> new BadRequestException("không tìm thấy thông tin đặt chỗ"));
+        Reservation reservation = reservationRepository.findBySeat_IdAndShowtime_Id(request.getSeatId(), request.getShowtimeId())
+            .orElseThrow(() -> new BadRequestException("không tìm thấy thông tin đặt chỗ"));
 
         if (reservation.getUser() != userService.getCurrentUser()) {
             throw new BadRequestException("người dùng này không phải người dùng đã đặt chỗ");

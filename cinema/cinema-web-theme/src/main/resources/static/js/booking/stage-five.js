@@ -1,12 +1,12 @@
 function stageFive() {
-    showStatus(code)
+    showStatus(bill.status)
 }
 
-function showStatus(code) {
+function showStatus(status) {
     const bookingBody = document.querySelector(".booking-body");
     const amountFormat = formatPrice(bill.amount);
     bookingBody.innerHTML = ``;
-    if (code === "00") {
+    if (status === true) {
         bookingBody.innerHTML = `
         <div class="container">
             <div class="row justify-content-center">
@@ -53,8 +53,7 @@ function showStatus(code) {
                     <i class="fa-regular fa-circle-xmark"
                        style="width: 4rem; height: 4rem; color: #ff0000"></i>
                     <h1 class="fs-24px fw-700 mt-3"> Thanh toán thất bại</h1>
-                    <p class="my-2 text-black-50 fs-16px">có lỗi sảy ra,<br> vui lòng kiểm tra lại hoặc thử lại sau ít
-                        phút</p>
+                    <p class="my-2 text-black-50 fs-16px">${bill.statusMessage}</p>
                     <div class="my-3 border-1 p-2">
                         <div class="mt-6 border p-3" style="border-radius: 5px">
                                 <div class="d-flex justify-content-between text-sm">

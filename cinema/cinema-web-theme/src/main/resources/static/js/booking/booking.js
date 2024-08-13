@@ -7,7 +7,7 @@ let totalPrice = 0;
 let totalComboPrice = 0;
 let totalTicketPrice = 0;
 
-if (code !== null) {
+if (bill !== null) {
     currentStage = 5;
     stageChange();
 }

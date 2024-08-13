@@ -12,6 +12,7 @@ import java.util.List;
 public class BillRequestDTO {
     @Getter
     @Setter
+    @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class ComboRequest {
         Integer comboId;
         Integer quantity;
@@ -19,10 +20,11 @@ public class BillRequestDTO {
 
     @Getter
     @Setter
+    @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class PaymentRequest {
-        private Integer showtimeId;
-        private List<ComboRequest> comboRequest;
-        private List<Integer> seatRequest;
-        private Integer paymentMethod;
+        Integer showtimeId;
+        List<ComboRequest> comboRequest;
+        List<Integer> seatRequest;
+        Integer paymentMethod;
     }
 }

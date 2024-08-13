@@ -9,12 +9,16 @@ public class WebBillToResponseConverter {
     public WebBillResponse convert(
         int id,
         long amount,
-        String updatedAt
+        String updatedAt,
+        boolean status,
+        String statusMessage
     ) {
         return WebBillResponse.builder()
             .id(id)
             .amount(amount)
             .updatedAt(updatedAt)
+            .status(status)
+            .statusMessage(statusMessage)
             .build();
     }
 }

@@ -81,7 +81,7 @@ function billSubmit(
     })
     billSubmitBtn.addEventListener('click', function () {
         if (billAccept.checked) {
-            if (paymentUrl != null && paymentUrl !== "") {
+            if (paymentUrl == null || paymentUrl === "") {
                 createBill()
             } else {
                 window.location.href = paymentUrl;
@@ -111,9 +111,9 @@ async function createBill() {
         let res = await axios.post(`/api/v1/bills/create`, paymentRequest);
         paymentUrl = res.data;
         console.log(paymentUrl)
-        // if (paymentUrl !== "") {
-        //     window.location.href = paymentUrl;
-        // }
+        if (paymentUrl != null) {
+            window.location.href = paymentUrl;
+        }
     } catch (e) {
         console.error(e);
     }

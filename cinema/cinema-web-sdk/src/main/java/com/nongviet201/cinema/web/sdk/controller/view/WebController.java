@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public abstract class WebController {
     private final MovieService movieService;
-    private final WebShowtimeControllerService showtimeControllerService;
-    private final WebBillControllerService billControllerService;
+    private final WebShowtimeControllerService webShowtimeControllerService;
+    private final WebBillControllerService webBillControllerService;
     private final WebVerifyService verifyService;
     private final PostService postService;
 
@@ -50,7 +50,7 @@ public abstract class WebController {
         );
         model.addAttribute(
             "showtimes",
-            showtimeControllerService.getAllShowTimesByMovieIdAndDate(id, LocalDate.now())
+            webShowtimeControllerService.getAllShowTimesByMovieIdAndDate(id, LocalDate.now())
         );
         return "movie/detail";
     }
@@ -58,36 +58,20 @@ public abstract class WebController {
     @GetMapping("/booking")
     public String getBookingPage(
             @RequestParam(value = "showtime", required = false) Integer showtimeId,
-            @RequestParam(value = "vnp_TxnRef", required = false) Integer bill,
-            @RequestParam(value = "vnp_ResponseCode", required = false) String code,
+            @RequestParam(value = "billId", required = false) Integer billId,
             Model model
     ) {
         if (showtimeId!= null) {
             model.addAttribute(
                 "showtime",
-                showtimeControllerService.getShowtimeById(showtimeId)
+                webShowtimeControllerService.getShowtimeById(showtimeId)
             );
         }
-        if (bill!= null) {
-            if (code.equals("00")) {
-                model.addAttribute(
-                    "code",
-                    code
-                );
-                model.addAttribute(
-                    "bill",
-                    billControllerService.updateBill(bill)
-                );
-            } else {
-                model.addAttribute(
-                    "code",
-                    code
-                );
-                model.addAttribute(
-                    "bill",
-                    billControllerService.getBillById(bill)
-                );
-            }
+        if (billId!= null) {
+            model.addAttribute(
+                "bill",
+                webBillControllerService.getBillById(billId)
+            );
         }
         return "booking/booking";
     }

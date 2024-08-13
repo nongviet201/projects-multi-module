@@ -7,6 +7,8 @@ import lombok.Getter;
 @Builder
 public class WebBillResponse {
     private Integer id;
+    private boolean status;
+    private String statusMessage;
     private Long amount;
     private String updatedAt;
 }

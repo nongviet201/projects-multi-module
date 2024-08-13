@@ -1,6 +1,5 @@
 package com.nongviet201.cinema.core.service.impl;
 
-import com.nongviet201.cinema.core.entity.bill.BaseTicketPrice;
 import com.nongviet201.cinema.core.entity.bill.Bill;
 import com.nongviet201.cinema.core.entity.bill.BillSeat;
 import com.nongviet201.cinema.core.entity.cinema.Seat;
@@ -17,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -35,7 +35,7 @@ public class BillSeatServiceImpl implements BillSeatService {
         Seat seat = seatRepository.findById(SeatId)
             .orElseThrow(() -> new BadRequestException("Ghế không tồn tại"));
 
-        Showtime showtime = showtimeService.getShowtimeById(bill.getShowTime().getId());
+        Showtime showtime = showtimeService.getShowtimeById(bill.getShowtime().getId());
 
         DayType dayType;
         if (showtime.getScreeningDate().getDayOfWeek().equals(DayOfWeek.SATURDAY) ||
@@ -67,7 +67,11 @@ public class BillSeatServiceImpl implements BillSeatService {
     }
 
     @Override
-    public BillSeat getBillSeatByBillId(Integer billId) {
-        return null;
+    public List<BillSeat> getBillSeatByBillId(Integer billId) {
+        List<BillSeat> billSeats = billSeatRepository.findByBillId(billId);
+        if (billSeats.isEmpty()) {
+            throw new BadRequestException("Không tìm thấy ghế của hóa đơn: " + billId);
+        }
+        return billSeats;
     }
 }

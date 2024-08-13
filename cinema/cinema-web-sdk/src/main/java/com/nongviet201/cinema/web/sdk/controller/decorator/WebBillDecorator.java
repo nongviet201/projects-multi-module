@@ -1,6 +1,7 @@
 package com.nongviet201.cinema.web.sdk.controller.decorator;
 
 import com.nongviet201.cinema.core.entity.bill.Bill;
+import com.nongviet201.cinema.core.model.enums.BillStatus;
 import com.nongviet201.cinema.web.sdk.converter.WebBillToResponseConverter;
 import com.nongviet201.cinema.web.sdk.response.WebBillResponse;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,9 @@ public class WebBillDecorator {
         return converter.convert(
             bill.getId(),
             bill.getTotalPrice(),
-            dateTimeFormatter.formatFullDateTime(bill.getCreatedAt())
+            dateTimeFormatter.formatFullDateTime(bill.getCreatedAt()),
+            bill.getStatus() == BillStatus.PAID,
+            bill.getTranslationPayment().getResponseCodeVNPAY().getMessage()
         );
     }
 }

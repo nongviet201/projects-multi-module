@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/bills")
-public class BillApi {
+public class BillAPI {
     private final BillService billService;
 
     @PostMapping("/create")
@@ -24,13 +24,5 @@ public class BillApi {
         return ResponseEntity.ok(
             billService.createBill(paymentRequest)
         );
-    }
-
-    @RequestMapping("/update")
-    protected ResponseEntity<?> updateBill(
-        @Valid @RequestBody Integer billId
-    ) {
-        Bill bill = billService.updateBill(billId);
-        return ResponseEntity.ok(bill.getId());
     }
 }

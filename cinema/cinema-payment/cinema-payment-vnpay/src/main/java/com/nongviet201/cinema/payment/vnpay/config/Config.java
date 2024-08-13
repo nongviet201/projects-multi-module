@@ -10,7 +10,7 @@ import java.util.TimeZone;
 
 public class Config {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://localhost:8080/booking?";
+    public static String vnp_ReturnUrl = "http://localhost:8080/api/v1/payment/vnpay-return?";
     public static String vnp_TmnCode = "RLWIK86T";
     public static String secretKey = "YXS26RABKT3P53FEPKSEQ8YXIL0XEESI";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
@@ -18,9 +18,11 @@ public class Config {
     public static String vnp_Command = "pay";
     public static String vnp_OrderType = "other";
 
-    public static String hmacSHA512(final String key, final String data) {
+    public static String hmacSHA512(
+        final String key,
+        final String data
+    ) {
         try {
-
             if (key == null || data == null) {
                 throw new NullPointerException();
             }

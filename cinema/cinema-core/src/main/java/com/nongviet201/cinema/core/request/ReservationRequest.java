@@ -8,7 +8,6 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ReservationRequest {
     private Integer seatId;
     private Integer showtimeId;
