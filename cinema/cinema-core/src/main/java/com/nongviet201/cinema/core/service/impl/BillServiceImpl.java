@@ -34,57 +34,57 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public String createBill(
-        BillRequestDTO.PaymentRequest paymentRequest
+            BillRequestDTO.PaymentRequest paymentRequest
     ) {
         User user = userService.getCurrentUser();
 
         Showtime showtime = showtimeService.getShowtimeById(
-            paymentRequest.getShowtimeId()
+                paymentRequest.getShowtimeId()
         );
 
         paymentRequest.getSeatRequest().forEach(seatId -> {
             if (!reservationService.checkPendingReservation(
-                user.getId(),
-                showtime.getId(),
-                seatId
+                    user.getId(),
+                    showtime.getId(),
+                    seatId
             )) {
                 throw new BadRequestException("Không tìm thấy thông tin đặt chỗ");
             }
         });
 
         Bill bill = Bill.builder()
-            .user(user)
-            .showtime(showtime)
-            .totalPrice(0)
-            .status(BillStatus.PENDING_PAYMENT)
-            .createdAt(now())
-            .updatedAt(now())
-            .build();
+                .user(user)
+                .showtime(showtime)
+                .totalPrice(0)
+                .status(BillStatus.PENDING_PAYMENT)
+                .createdAt(now())
+                .updatedAt(now())
+                .build();
         billRepository.save(bill);
 
         long totalPrice = 0;
 
         for (BillRequestDTO.ComboRequest combo : paymentRequest.getComboRequest()) {
             totalPrice += billComboService.createBillCombo(
-                bill.getId(),
-                combo.getComboId(),
-                combo.getQuantity()
+                    bill.getId(),
+                    combo.getComboId(),
+                    combo.getQuantity()
             );
         }
 
         for (int seatId : paymentRequest.getSeatRequest()) {
             totalPrice += billSeatService.createBillSeat(
-                bill.getId(),
-                seatId
+                    bill.getId(),
+                    seatId
             );
         }
 
         TranslationPayment translationPayment = TranslationPayment.builder()
-            .status(false)
-            .createdAt(now())
-            .updatedAt(now())
-            .paymentMethod(PaymentMethod.values()[paymentRequest.getPaymentMethod()-1])
-            .build();
+                .status(false)
+                .createdAt(now())
+                .updatedAt(now())
+                .paymentMethod(PaymentMethod.values()[paymentRequest.getPaymentMethod()-1])
+                .build();
         translationPaymentRepository.save(translationPayment);
 
         bill.setTotalPrice(totalPrice);
@@ -92,34 +92,35 @@ public class BillServiceImpl implements BillService {
         billRepository.save(bill);
 
         Reservation reservation = reservationService.getReservationByUserIdAndShowtimeIdAndSeatId(
-            user.getId(),
-            showtime.getId(),
-            paymentRequest.getSeatRequest().get(0)
+                user.getId(),
+                showtime.getId(),
+                paymentRequest.getSeatRequest().get(0)
         );
 
         Integer timeRemain = reservation.getStartOrderTime().plusMinutes(10).minusMinutes(now().getMinute()).getMinute();
 
         return paymentMethodService.transitionToPaymentMethod(
-            ToPaymentRequest.builder()
-                .billId(bill.getId())
-                .amount(totalPrice)
-                .timeRemain(timeRemain)
-                .paymentMethod(translationPayment.getPaymentMethod())
-                .build()
+                ToPaymentRequest.builder()
+                        .billId(bill.getId())
+                        .amount(totalPrice)
+                        .timeRemain(timeRemain)
+                        .paymentMethod(translationPayment.getPaymentMethod())
+                        .build()
         );
     }
 
     @Override
     public Bill getBillById(Integer id) {
         return billRepository.findById(id).orElseThrow(
-            () -> new BadRequestException("Không tìm thấy hóa đơn")
+                () -> new BadRequestException("Không tìm thấy hóa đơn")
         );
     }
 
     @Override
     public List<Bill> clientGetBillUserProfile() {
-        return billRepository.findByUserId(
-            1
+        return billRepository.findByUserIdAndStatusOrderByPaymentAtDesc(
+                userService.getCurrentUser().getId(),
+                BillStatus.PAID
         );
     }
 }

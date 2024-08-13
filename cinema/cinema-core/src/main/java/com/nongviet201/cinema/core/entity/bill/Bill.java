@@ -23,6 +23,7 @@ public class Bill {
     private BillStatus status;
     private long totalPrice;
 
+    private LocalDateTime paymentAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

@@ -4,6 +4,7 @@ import com.nongviet201.cinema.core.service.MovieService;
 import com.nongviet201.cinema.core.service.PostService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebBillControllerService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebShowtimeControllerService;
+import com.nongviet201.cinema.web.sdk.controller.service.WebUserControllerService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebVerifyService;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ public abstract class WebController {
     private final MovieService movieService;
     private final WebShowtimeControllerService webShowtimeControllerService;
     private final WebBillControllerService webBillControllerService;
+    private final WebUserControllerService webUserControllerService;
     private final WebVerifyService verifyService;
     private final PostService postService;
 
@@ -125,6 +127,10 @@ public abstract class WebController {
         model.addAttribute(
             "stage",
             stage
+        );
+        model.addAttribute(
+            "userStatistic",
+            webUserControllerService.getUserStatistic()
         );
         return "user/user";
     }

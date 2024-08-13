@@ -16,6 +16,7 @@ import com.nongviet201.cinema.core.response.VerifyResponse;
 import com.nongviet201.cinema.core.service.AuthService;
 import com.nongviet201.cinema.core.service.MailService;
 import com.nongviet201.cinema.core.service.UserService;
+import com.nongviet201.cinema.core.service.UserStatisticService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,6 +43,7 @@ public class AuthServiceImpl implements AuthService {
     private final TokenConfirmRepository tokenConfirmRepository;
     private final MailService mailService;
     private final UserService userService;
+    private final UserStatisticService userStatisticService;
 
     @Override
     public void login(LoginRequest request) {
@@ -66,6 +68,8 @@ public class AuthServiceImpl implements AuthService {
         tokenConfirmRepository.save(token);
 
         sendRegistrationEmail(newUser, token);
+
+        userStatisticService.createStatistic(newUser);
     }
 
     @Override

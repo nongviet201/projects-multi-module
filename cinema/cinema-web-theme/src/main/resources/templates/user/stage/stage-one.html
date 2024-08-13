@@ -12,17 +12,17 @@
             </div>
             <div class="align-items-center row w-100">
                 <div class="w-50 col-8 mx-4">
-                    <p class="lh-base m-0 fw-700" th:text="${bill.getMovieName()}">Phim Điện Ảnh Doraemon: Nobita Và Bản Giao Hưởng Địa Cầu</p>
-                    <span class="fs-14px" th:text="${bill.getGraphicsTypeAndAuditoriumType()}">2D Lồng Tiếng</span>
+                    <p class="lh-base m-0 fw-700">[[${bill.getMovieName()}]]</p>
+                    <span class="fs-14px">[[${bill.getGraphicsTypeAndAuditoriumType()}]]</span>
                 </div>
-                <div class="ms-3 col-5 d-flex justify-content-between">
+                <div class="ms-3 col-5 d-flex justify-content-between align-items-center">
                     <div>
-                        <p class="fs-14px m-0" th:text="${bill.getCinemaName()}">Cinema Long Biên
-                            <strong class="14px"> - <span th:text="${bill.getAuditoriumName()}">RAP 6</span></strong>
+                        <p class="fs-14px m-0">[[${bill.getCinemaName()}]]
+                            <strong class="14px"> - <span>[[${bill.getAuditoriumName()}]]</span></strong>
                         </p>
-                        <strong class="fs-14px" th:text="${bill.getStartTime()}">20:00
+                        <strong class="fs-14px">[[${bill.getStartTime()}]]
                             <span> - </span>
-                            <span th:text="${bill.getScreeningDate()}">Thứ Năm, 02/07/2024</span>
+                            <span>[[${bill.getScreeningDate()}]]</span>
                         </strong>
                     </div>
                     <div>
@@ -33,7 +33,7 @@
             </div>
         </div>
     </div>
-    <div>
+<!--    <div>
         <p class="text-center fs-14px fw-600 text-black-50 mt-3">Tháng <span>04/2024</span></p>
         <div class="card-history d-flex align-items-center bg-white px-4 py-2 mb-4">
             <div style="width: 65px; height: 70px; border-radius: 10px; overflow: hidden">
@@ -54,5 +54,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>

@@ -4,6 +4,7 @@ import com.nongviet201.cinema.core.entity.movie.Movie;
 import com.nongviet201.cinema.core.model.enums.AuditoriumType;
 import com.nongviet201.cinema.core.model.enums.GraphicsType;
 import com.nongviet201.cinema.core.model.enums.ScreeningTimeType;
+import com.nongviet201.cinema.core.model.enums.TranslationType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,6 +29,8 @@ public class Showtime {
     private GraphicsType graphicsType;
     @Enumerated(EnumType.STRING)
     private AuditoriumType auditoriumType;
+    @Enumerated(EnumType.STRING)
+    private TranslationType translationType;
 
     private LocalDate screeningDate;
     private LocalTime startTime;

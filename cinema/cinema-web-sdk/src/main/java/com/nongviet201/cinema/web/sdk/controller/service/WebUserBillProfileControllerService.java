@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,12 +25,13 @@ public class WebUserBillProfileControllerService {
         List<Bill> bills = billService.clientGetBillUserProfile().stream().limit(20).toList();
 
         return bills.stream()
-            .collect(Collectors.groupingBy(
-                bill -> dateTimeFormatter.formatDateTimeTommYYYY(bill.getTranslationPayment().getUpdatedAt()),
-                Collectors.mapping(
-                    userBillProfileDecorator::decorate,
-                    Collectors.toList()
-                )
-            ));
+                .collect(Collectors.groupingBy(
+                        bill -> dateTimeFormatter.formatDateTimeTommYYYY(bill.getPaymentAt()),
+                        LinkedHashMap::new,
+                        Collectors.mapping(
+                                userBillProfileDecorator::decorate,
+                                Collectors.toList()
+                        )
+                ));
     }
 }

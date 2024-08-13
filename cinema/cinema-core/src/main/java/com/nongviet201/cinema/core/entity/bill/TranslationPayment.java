@@ -21,7 +21,7 @@ public class TranslationPayment {
     private int id;
     private boolean status;
     private String bankCode;
-    private String payDate;
+    private LocalDateTime payDate;
     private String transactionNo; //Mã giao dịch ghi nhận tại hệ thống VNPAY. Ví dụ: 20170829153052
 
     private LocalDateTime createdAt;

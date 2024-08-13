@@ -3,13 +3,17 @@ package com.nongviet201.cinema.core.service.impl;
 import com.nongviet201.cinema.core.entity.bill.Bill;
 import com.nongviet201.cinema.core.entity.bill.Reservation;
 import com.nongviet201.cinema.core.entity.bill.TranslationPayment;
+import com.nongviet201.cinema.core.entity.user.User;
+import com.nongviet201.cinema.core.entity.user.UserStatistic;
 import com.nongviet201.cinema.core.exception.BadRequestException;
 import com.nongviet201.cinema.core.model.enums.BillStatus;
 import com.nongviet201.cinema.core.model.enums.PaymentMethod;
 import com.nongviet201.cinema.core.model.enums.ReservationType;
+import com.nongviet201.cinema.core.model.enums.UserRank;
 import com.nongviet201.cinema.core.repository.BillRepository;
 import com.nongviet201.cinema.core.repository.ReservationRepository;
 import com.nongviet201.cinema.core.repository.TranslationPaymentRepository;
+import com.nongviet201.cinema.core.repository.UserStatisticRepository;
 import com.nongviet201.cinema.core.request.ToPaymentRequest;
 import com.nongviet201.cinema.core.request.VnPayReturnRequest;
 import com.nongviet201.cinema.core.service.*;
@@ -17,6 +21,9 @@ import com.nongviet201.cinema.payment.vnpay.code.ResponseCodeVNPAY;
 import com.nongviet201.cinema.payment.vnpay.service.VnPayService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static java.time.LocalDateTime.now;
 
@@ -31,6 +38,8 @@ public class PaymentServiceImpl implements PaymentService {
     private final ReservationService reservationService;
     private final BillSeatService billSeatService;
     private final ReservationRepository reservationRepository;
+    private final UserStatisticService userStatisticService;
+
 
     @Override
     public String transitionToPaymentMethod(
@@ -58,14 +67,16 @@ public class PaymentServiceImpl implements PaymentService {
         Bill bill = billRepository.findById(request.getBillId())
             .orElseThrow(() -> new BadRequestException("Không tìm thấy thông tin hóa đơn"));
 
-        if (bill.getStatus() != BillStatus.PENDING_PAYMENT) {
-            throw new BadRequestException("Đơn hàng đã được thanh toán hoặc đang trong quá trình xử lý");
-        }
+        checkBill(bill);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
+        bill.setPaymentAt(LocalDateTime.parse(request.getPayDate(), formatter));
 
         TranslationPayment translationPayment = bill.getTranslationPayment();
         translationPayment.setBankCode(request.getBankCode());
         translationPayment.setTransactionNo(request.getTransactionNo());
-        translationPayment.setPayDate(request.getPayDate());
+        translationPayment.setPayDate(LocalDateTime.parse(request.getPayDate(), formatter));
 
         checkVnPayResponseCode(
             bill,
@@ -75,6 +86,18 @@ public class PaymentServiceImpl implements PaymentService {
         );
 
         return bill.getId();
+    }
+
+    private void checkBill(
+        Bill bill
+    ) {
+        if (bill.getStatus() == BillStatus.PENDING_PROCESSING) {
+            throw new BadRequestException("Đơn hàng đang trong quá trình xử lý");
+        } else if (bill.getStatus() == BillStatus.CANCEL) {
+            throw new BadRequestException("Đơn hàng đã bị hủy");
+        } else if (bill.getStatus() == BillStatus.FAILED) {
+            throw new BadRequestException("Đơn hàng này gặp phải tình trạng lỗi, vui lòng đặt lại đơn mới");
+        }
     }
 
     private void updateBill(
@@ -147,7 +170,11 @@ public class PaymentServiceImpl implements PaymentService {
             else {
                 updateBill(bill, translationPayment, responseCode, true, BillStatus.PAID);
                 billSuccess(bill.getId(), bill.getUser().getId(), bill.getShowtime().getId());
+                userStatisticService.UpdateUserStatistic(bill.getTotalPrice());
             }
         }
     }
+
+
 }
+
