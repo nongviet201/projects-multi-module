@@ -1,3 +1,6 @@
+let paymentMethod;
+let paymentUrl;
+
 function stageFour() {
     $.ajax({
         url: '/booking/get/stage-four',
@@ -14,7 +17,7 @@ function stageFour() {
         }
     });
 }
-let paymentMethod;
+
 function getSelectedPayment() {
     const selectedInput = document.querySelector('input[name="payment"]:checked');
     if (selectedInput) {
@@ -78,14 +81,16 @@ function billSubmit(
     })
     billSubmitBtn.addEventListener('click', function () {
         if (billAccept.checked) {
-            createBill()
+            if (paymentUrl != null && paymentUrl !== "") {
+                createBill()
+            } else {
+                window.location.href = paymentUrl;
+            }
         } else {
             alert('Vui lòng xác nhận thông tin đặt vé');
         }
     })
 }
-
-let billId;
 
 async function createBill() {
     const comboRequest = Array.from(comboData, ([key, value]) => ({
@@ -104,22 +109,11 @@ async function createBill() {
 
     try {
         let res = await axios.post(`/api/v1/bills/create`, paymentRequest);
-        payment(res.data);
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-async function payment(
-    billId
-) {
-    data = {
-        billId: billId,
-        amount: totalPrice
-    }
-    try {
-        let res = await axios.post(`/api/v1/vnpay/create-payment`, data);
-        window.location.href = res.data;
+        paymentUrl = res.data;
+        console.log(paymentUrl)
+        // if (paymentUrl !== "") {
+        //     window.location.href = paymentUrl;
+        // }
     } catch (e) {
         console.error(e);
     }

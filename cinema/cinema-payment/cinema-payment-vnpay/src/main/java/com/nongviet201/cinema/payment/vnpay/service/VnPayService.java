@@ -1,7 +1,6 @@
 package com.nongviet201.cinema.payment.vnpay.service;
 
 import com.nongviet201.cinema.payment.vnpay.config.Config;
-import com.nongviet201.cinema.payment.vnpay.request.PaymentVnPayRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,37 +16,24 @@ import static com.nongviet201.cinema.payment.vnpay.config.Config.*;
 @AllArgsConstructor
 public class VnPayService {
 
-    public ResponseEntity<?> createPayment(PaymentVnPayRequest request) {
-        String vnp_TxnRef = String.valueOf(request.getBillId());
-        long amount = request.getAmount() * 100;
+    public String createPayment(
+            Integer billId,
+            Long totalPrice,
+            Integer timeRemain
+    ) {
+        Map<Object, Object> vnp_Params = getVnPayParams(
+                String.valueOf(billId),
+                totalPrice * 100,
+                timeRemain
+        );
 
-        Map vnp_Params = new HashMap<>();
-        vnp_Params.put("vnp_Version", vnp_Version);
-        vnp_Params.put("vnp_Command", vnp_Command);
-        vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
-        vnp_Params.put("vnp_Amount", String.valueOf(amount));
-        vnp_Params.put("vnp_CurrCode", "VND");
-        vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
-        vnp_Params.put("vnp_OrderType", vnp_OrderType);
-        vnp_Params.put("vnp_Locale", "vn");
-        vnp_Params.put("vnp_ReturnUrl", vnp_ReturnUrl);
-        vnp_Params.put("vnp_IpAddr", "42.119.181.35");
-
-        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String vnp_CreateDate = formatter.format(cld.getTime());
-        vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
-
-        cld.add(Calendar.MINUTE, 5);
-        String vnp_ExpireDate = formatter.format(cld.getTime());
-        vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
 
         List fieldNames = new ArrayList(vnp_Params.keySet());
         Collections.sort(fieldNames);
         StringBuilder hashData = new StringBuilder();
         StringBuilder query = new StringBuilder();
         Iterator itr = fieldNames.iterator();
+
         while (itr.hasNext()) {
             String fieldName = (String) itr.next();
             String fieldValue = (String) vnp_Params.get(fieldName);
@@ -68,9 +54,38 @@ public class VnPayService {
         String queryUrl = query.toString();
         String vnp_SecureHash = Config.hmacSHA512(Config.secretKey, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
-        String paymentUrl = Config.vnp_PayUrl + "?" + queryUrl;
-        return ResponseEntity.ok().body(paymentUrl);
+
+        return Config.vnp_PayUrl + "?" + queryUrl;
     }
 
 
+    private Map<Object, Object> getVnPayParams(
+            String billId,
+            long amount,
+            int timeRemain
+    ) {
+        Map<Object, Object> vnp_Params = new HashMap<>();
+        vnp_Params.put("vnp_Version", vnp_Version);
+        vnp_Params.put("vnp_Command", vnp_Command);
+        vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
+        vnp_Params.put("vnp_Amount", String.valueOf(amount));
+        vnp_Params.put("vnp_CurrCode", "VND");
+        vnp_Params.put("vnp_TxnRef", billId);
+        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + billId);
+        vnp_Params.put("vnp_OrderType", vnp_OrderType);
+        vnp_Params.put("vnp_Locale", "vn");
+        vnp_Params.put("vnp_ReturnUrl", vnp_ReturnUrl);
+        vnp_Params.put("vnp_IpAddr", "42.119.181.35");
+
+        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String vnp_CreateDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
+
+        cld.add(Calendar.MINUTE, timeRemain);
+        String vnp_ExpireDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
+
+        return vnp_Params;
+    }
 }

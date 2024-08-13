@@ -4,7 +4,7 @@ import com.nongviet201.cinema.core.entity.bill.Bill;
 import com.nongviet201.cinema.core.request.BillRequestDTO;
 
 public interface BillService {
-    Integer createBill(BillRequestDTO.PaymentRequest paymentRequest);
+    String createBill(BillRequestDTO.PaymentRequest paymentRequest);
     Bill updateBill(Integer billId);
     Bill getBillById(Integer bill);
 }
