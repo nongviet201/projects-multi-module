@@ -206,7 +206,8 @@
 <th:block id="js">
     <script th:inline="javascript">
         let stage = [[${stage}]]
-        if (stage != null) {
+
+        if (stage) {
             updateAccountBar(stage);
         }
 

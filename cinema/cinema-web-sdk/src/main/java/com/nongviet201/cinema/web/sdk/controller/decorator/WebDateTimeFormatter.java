@@ -33,18 +33,25 @@ public class WebDateTimeFormatter {
         return date.format(formatter);
     }
 
-    public String formatDateTommYYYY(
+    public String formatDateToEEEEmmYYYY(
             LocalDate date
         ) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy", new Locale("vi", "VN"));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MM/yyyy", new Locale("vi", "VN"));
+            return date.format(formatter);
+    }
+
+    public String formatDateTimeToEEEEmmYYYY(
+            LocalDateTime date
+        ) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MM/yyyy", new Locale("vi", "VN"));
             return date.format(formatter);
     }
 
     public String formatDateTimeTommYYYY(
-            LocalDate date
-        ) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy", new Locale("vi", "VN"));
-            return date.format(formatter);
+        LocalDateTime date
+    ) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
+        return date.format(formatter);
     }
 
 
@@ -75,4 +82,5 @@ public class WebDateTimeFormatter {
 
         return Math.max(remainingMillis, 0);
     }
+
 }

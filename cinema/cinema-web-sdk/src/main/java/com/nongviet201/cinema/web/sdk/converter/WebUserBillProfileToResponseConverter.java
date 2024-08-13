@@ -9,9 +9,10 @@ public class WebUserBillProfileToResponseConverter {
     public WebUserBillProfileResponse convert(
         int billId,
         int showtimeId,
-        String payDate,
         String movieName,
+        String moviePoster,
         String auditoriumName,
+        String cinemaName,
         String startTime,
         String screeningDate,
         String graphicsTypeAndAuditoriumType
@@ -19,9 +20,10 @@ public class WebUserBillProfileToResponseConverter {
         return WebUserBillProfileResponse.builder()
             .billId(billId)
             .showtimeId(showtimeId)
-            .payDate(payDate)
             .movieName(movieName)
+            .moviePoster(moviePoster)
             .auditoriumName(auditoriumName)
+            .cinemaName(cinemaName)
             .startTime(startTime)
             .screeningDate(screeningDate)
             .graphicsTypeAndAuditoriumType(graphicsTypeAndAuditoriumType)

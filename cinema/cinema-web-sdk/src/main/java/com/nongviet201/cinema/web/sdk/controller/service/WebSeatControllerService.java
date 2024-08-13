@@ -28,7 +28,6 @@ public class WebSeatControllerService {
         for (Seat seat : seats) {
             webSeats.add(webSeatDecorator.converter(seat, showtime));
         }
-
         return webSeats;
     }
 }

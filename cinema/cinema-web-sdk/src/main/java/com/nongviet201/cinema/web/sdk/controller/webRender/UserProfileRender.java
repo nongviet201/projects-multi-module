@@ -21,7 +21,7 @@ public class UserProfileRender {
         Model model
     ) {
         model.addAttribute(
-            "bills",
+            "billMap",
             userBillProfileControllerService.getCurrentUserBillProfile()
         );
         return "user/stage/stage-one";

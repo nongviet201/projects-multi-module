@@ -9,5 +9,5 @@ public interface BillService {
     String createBill(BillRequestDTO.PaymentRequest paymentRequest);
     Bill getBillById(Integer bill);
 
-    List<Bill> getBillByUserId();
+    List<Bill> clientGetBillUserProfile();
 }

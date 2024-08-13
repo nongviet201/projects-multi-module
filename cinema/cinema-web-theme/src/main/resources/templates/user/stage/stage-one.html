@@ -1,67 +1,40 @@
 <div class="history">
     <p class="text-center fs-14px fw-600 text-black-50">Lưu ý: chỉ hiển thị 20 giao dịch gần nhất</p>
-    <div>
-        <p class="text-center fs-14px fw-600 text-black-50 mt-3">Tháng <span>06/2024</span></p>
-        <div class="card-history d-flex align-items-center bg-white px-4 py-2 mb-4">
+    <div th:each="billMap : ${billMap}">
+        <p class="text-center fs-14px fw-600 text-black-50 mt-3">Tháng
+            <span th:text="${billMap.key}">06/2024</span>
+        </p>
+        <div class="card-history d-flex align-items-center bg-white px-4 py-2 mb-4"
+             th:each="bill : ${billMap.value}">
             <div style="width: 65px; height: 70px; border-radius: 10px; overflow: hidden">
-                <img src="https://cdn.galaxycine.vn/media/2024/5/21/doraemon-movie-43-nobitas-earth-symphony-1-1_1716273120350.jpg"
+                <img th:src="${bill.getMoviePoster()}"
                      alt="">
             </div>
-            <div class="ms-4 d-flex align-items-center justify-content-between">
-                <div class="w-50">
-                    <p class="lh-base m-0 fw-700">Phim Điện Ảnh Doraemon: Nobita Và Bản Giao Hưởng Địa Cầu</p>
-                    <span class="fs-14px">2D Lồng Tiếng</span>
+            <div class="align-items-center row w-100">
+                <div class="w-50 col-8 mx-4">
+                    <p class="lh-base m-0 fw-700" th:text="${bill.getMovieName()}">Phim Điện Ảnh Doraemon: Nobita Và Bản Giao Hưởng Địa Cầu</p>
+                    <span class="fs-14px" th:text="${bill.getGraphicsTypeAndAuditoriumType()}">2D Lồng Tiếng</span>
                 </div>
-                <div class="ms-3">
-                    <p class="fs-14px m-0">Cinema Long Biên <strong class="14px"> - <span>RAP 6</span></strong></p>
-                    <strong class="fs-14px">20:00 <span> - </span> <span>Thứ Năm, 02/07/2024</span></strong>
+                <div class="ms-3 col-5 d-flex justify-content-between">
+                    <div>
+                        <p class="fs-14px m-0" th:text="${bill.getCinemaName()}">Cinema Long Biên
+                            <strong class="14px"> - <span th:text="${bill.getAuditoriumName()}">RAP 6</span></strong>
+                        </p>
+                        <strong class="fs-14px" th:text="${bill.getStartTime()}">20:00
+                            <span> - </span>
+                            <span th:text="${bill.getScreeningDate()}">Thứ Năm, 02/07/2024</span>
+                        </strong>
+                    </div>
+                    <div>
+                        <p class="m-0 fs-14px fw-700 text-orange line-gray-bottom">Chi tiết</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="m-0 fs-14px fw-700 text-orange line-gray-bottom">Chi tiết</p>
-                </div>
-            </div>
-        </div>
-        <div class="card-history d-flex align-items-center bg-white px-4 py-2 mb-4">
-            <div style="width: 65px; height: 70px; border-radius: 10px; overflow: hidden">
-                <img src="https://cdn.galaxycine.vn/media/2024/5/21/doraemon-movie-43-nobitas-earth-symphony-1-1_1716273120350.jpg"
-                     alt="">
-            </div>
-            <div class="ms-4 d-flex align-items-center justify-content-between">
-                <div class="w-50">
-                    <p class="lh-base m-0 fw-700">Phim Điện Ảnh Doraemon: Nobita Và Bản Giao Hưởng Địa Cầu</p>
-                    <span class="fs-14px">2D Lồng Tiếng</span>
-                </div>
-                <div class="ms-3">
-                    <p class="fs-14px m-0">Cinema Long Biên <strong class="14px"> - <span>RAP 6</span></strong></p>
-                    <strong class="fs-14px">20:00 <span> - </span> <span>Thứ Năm, 02/07/2024</span></strong>
-                </div>
-                <div>
-                    <p class="m-0 fs-14px fw-700 text-orange line-gray-bottom">Chi tiết</p>
-                </div>
+
             </div>
         </div>
     </div>
     <div>
         <p class="text-center fs-14px fw-600 text-black-50 mt-3">Tháng <span>04/2024</span></p>
-        <div class="card-history d-flex align-items-center bg-white px-4 py-2 mb-4">
-            <div style="width: 65px; height: 70px; border-radius: 10px; overflow: hidden">
-                <img src="https://cdn.galaxycine.vn/media/2024/5/21/doraemon-movie-43-nobitas-earth-symphony-1-1_1716273120350.jpg"
-                     alt="">
-            </div>
-            <div class="ms-4 d-flex align-items-center justify-content-between">
-                <div class="w-50">
-                    <p class="lh-base m-0 fw-700">Phim Điện Ảnh Doraemon: Nobita Và Bản Giao Hưởng Địa Cầu</p>
-                    <span class="fs-14px">2D Lồng Tiếng</span>
-                </div>
-                <div class="ms-3">
-                    <p class="fs-14px m-0">Cinema Long Biên <strong class="14px"> - <span>RAP 6</span></strong></p>
-                    <strong class="fs-14px">20:00 <span> - </span> <span>Thứ Năm, 02/07/2024</span></strong>
-                </div>
-                <div>
-                    <p class="m-0 fs-14px fw-700 text-orange line-gray-bottom">Chi tiết</p>
-                </div>
-            </div>
-        </div>
         <div class="card-history d-flex align-items-center bg-white px-4 py-2 mb-4">
             <div style="width: 65px; height: 70px; border-radius: 10px; overflow: hidden">
                 <img src="https://cdn.galaxycine.vn/media/2024/5/21/doraemon-movie-43-nobitas-earth-symphony-1-1_1716273120350.jpg"

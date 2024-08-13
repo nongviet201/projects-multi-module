@@ -117,9 +117,9 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public List<Bill> getBillByUserId() {
+    public List<Bill> clientGetBillUserProfile() {
         return billRepository.findByUserId(
-            userService.getCurrentUser().getId()
+            1
         );
     }
 }

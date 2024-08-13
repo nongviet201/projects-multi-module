@@ -26,9 +26,10 @@ public class WebUserBillProfileDecorator {
         return converter.convert(
             bill.getId(),
             bill.getShowtime().getId(),
-            dateTimeFormatter.formatDateTimeTommYYYY(LocalDate.from(bill.getTranslationPayment().getUpdatedAt())),
             bill.getShowtime().getMovie().getName(),
+            bill.getShowtime().getMovie().getPoster(),
             bill.getShowtime().getAuditorium().getName(),
+            bill.getShowtime().getAuditorium().getCinema().getName(),
             dateTimeFormatter.formatTimeToHHmm(bill.getShowtime().getStartTime()),
             dateTimeFormatter.formatFullDate(bill.getShowtime().getScreeningDate()),
             graphicsTypeAndAuditoriumType
