@@ -22,9 +22,6 @@ public class BillSeat {
     private long price;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    @Enumerated(EnumType.STRING)
-
-    private ResponseCodeVNPAY responseCode;
 
     @ManyToOne
     @JoinColumn(name= "bill_id")

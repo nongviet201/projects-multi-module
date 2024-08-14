@@ -76,7 +76,9 @@ public class UserStatisticServiceImpl implements UserStatisticService {
         return roundPoints(rawPoints);
     }
 
-    private int roundPoints(double rawPoints) {
+    private int roundPoints(
+        double rawPoints
+    ) {
         // Lấy phần thập phân của điểm
         double fractionalPart = rawPoints - Math.floor(rawPoints);
 
