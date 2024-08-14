@@ -65,7 +65,7 @@ function updateTicketCombo() {
             combosName.set(comboId, comboName);
             const totalComboItemPrice = comboPrice * quantity;
             totalComboPrice += totalComboItemPrice;
-            let totalComboPriceFormat = formatPrice(totalComboPrice);
+            let totalComboPriceFormat = formatPrice(totalComboItemPrice);
 
             let detail = document.createElement('div');
             detail.classList.add('d-flex', 'justify-content-between', 'align-items-center');

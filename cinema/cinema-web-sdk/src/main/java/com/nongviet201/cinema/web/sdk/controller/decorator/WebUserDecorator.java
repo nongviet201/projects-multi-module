@@ -44,7 +44,7 @@ public class WebUserDecorator {
 
     private double calculatePercentage(int currentValue) {
         int maxValue = 4000000;
-        double maxPercentage = 85.0;
+        double maxPercentage = 90.0;
         return (currentValue / (double) maxValue) * maxPercentage;
     }
 }

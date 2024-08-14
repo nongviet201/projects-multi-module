@@ -21,7 +21,7 @@ public class WebUserBillProfileDecorator {
         Bill bill
     ) {
         String graphicsTypeAndAuditoriumType =
-            bill.getShowtime().getGraphicsType().toString() + bill.getShowtime().getAuditoriumType().toString();
+            bill.getShowtime().getAuditoriumType().toString() + bill.getShowtime().getGraphicsType().toString();
 
         return converter.convert(
             bill.getId(),

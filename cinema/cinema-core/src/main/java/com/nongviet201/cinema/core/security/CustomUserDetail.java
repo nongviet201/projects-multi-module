@@ -1,6 +1,7 @@
 package com.nongviet201.cinema.core.security;
 
 import com.nongviet201.cinema.core.entity.user.User;
+import com.nongviet201.cinema.core.model.enums.UserRole;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,33 +15,33 @@ import java.util.Collections;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CustomUserDetail implements UserDetails {
-    protected User user;
+    private String username;
+    private String password;
+    private UserRole userRole;
+    private boolean isEnabled;
+
+    @Getter
+    private String avatar;
+    @Getter
+    private String fullName;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + userRole));
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
-    }
-
-    public String getFullName() {
-        return user.getFullName();
-    }
-
-    public String getAvatar() {
-        return user.getAvatar();
+        return username;
     }
 
     @Override
     public boolean isEnabled() {
-        return user.isEnabled();
+        return isEnabled;
     }
 }

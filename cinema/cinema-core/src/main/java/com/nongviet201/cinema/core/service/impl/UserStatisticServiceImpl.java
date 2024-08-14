@@ -49,6 +49,7 @@ public class UserStatisticServiceImpl implements UserStatisticService {
         } else {
             userStatistic.setPoints(calculatePoints(userStatistic.getUserRank(), totalSpending));
             userStatistic.setTotalSpending(userStatistic.getTotalSpending() + totalSpending);
+            userStatistic.setUserRank(setUserRank(userStatistic.getTotalSpending()));
             userStatisticRepository.save(userStatistic);
         }
     }
@@ -66,29 +67,32 @@ public class UserStatisticServiceImpl implements UserStatisticService {
         );
     }
 
-    public int calculatePoints(
+    private int calculatePoints(
         UserRank userRank,
         long transactionAmount
     ) {
-        // Tính điểm thô (raw points) dựa trên tỉ lệ tích lũy
-        double rawPoints = transactionAmount * userRank.getAccumulationRate();
-
+        double rawPoints = ((double) transactionAmount / 1000) * userRank.getAccumulationRate();
         return roundPoints(rawPoints);
     }
 
-    private int roundPoints(
-        double rawPoints
-    ) {
-        // Lấy phần thập phân của điểm
+    private int roundPoints(double rawPoints) {
         double fractionalPart = rawPoints - Math.floor(rawPoints);
-
         if (fractionalPart >= 0.5) {
-            // Làm tròn lên
             return (int) Math.ceil(rawPoints);
         } else {
-            // Làm tròn xuống
             return (int) Math.floor(rawPoints);
         }
+    }
+
+    private UserRank setUserRank(
+        long totalSpending
+    ) {
+        if (totalSpending == 0) {
+            return UserRank.NORMAL;
+        } if (totalSpending >= 2000000 && totalSpending <= 3999999) {
+            return UserRank.VIP;
+        }
+        return UserRank.PREMIUM;
     }
 
 }
