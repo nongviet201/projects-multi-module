@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
       th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: .content-detail}, ~{:: #js})}">
-
 <head>
     <title th:text="${movie.name}"></title>
-
     <th:block id="css">
+        <style>
+            input::selection,
+            option::selection{
+                background-color: white;
+            }
 
+            select {
+                height: 100% !important;
+            }
+        </style>
     </th:block>
 </head>
 
@@ -61,67 +68,81 @@
                                     <div class="row">
                                         <div class="col-md-8 ">
                                             <div class="form-group">
-                                                <label>Tên phim</label>
+                                                <label for="name">Tên phim</label>
                                                 <input type="text" class="form-control" id="name" name="name"
                                                        th:value="${movie.name}"/>
                                             </div>
+                                            <div class="form-group mt-3">
+                                                <label for="slug">Slug</label>
+                                                <input type="text" class="form-control" id="slug" name="slug"
+                                                       th:value="${movie.getSlug()}"/>
+                                            </div>
 
-                                            <div class="form-group">
-                                                <label>Trailer URL</label>
+                                            <div class="form-group mt-3">
+                                                <label for="trailer">Trailer URL</label>
                                                 <textarea id="trailer" class="form-control" rows="3" name="trailer"
                                                           th:text="${movie.trailer}"></textarea>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label>Mô tả ngắn</label>
+                                            <div class="form-group mt-3">
+                                                <label for="description">Mô tả ngắn</label>
                                                 <textarea id="description" class="form-control" rows="5"
                                                           name="description" th:text="${movie.description}"></textarea>
                                             </div>
-                                            <div class="form-group">
-                                                <label>Thể loại</label>
+                                            <div class="form-group mt-3">
+                                                <label for="genre">Thể loại</label>
                                                 <div class="select2-purple">
                                                     <select class="select2 form-control" multiple="multiple" id="genre">
-                                                        <option th:each="genre : ${genres}"
-                                                                th:selected="${movie.genres.contains(genre)}"
+                                                        <option th:each="genre : ${movie.getGenres()}"
                                                                 th:value="${genre.id}"
-                                                                th:text="${genre.name}"
-                                                        >
+                                                                th:text="${genre.name}">
+<!--                                                            th:selected="${movie.genres.contains(genre)}"-->
                                                         </option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label>Đạo diễn</label>
+                                            <div class="form-group mt-3">
+                                                <label for="actor">Diễn viên</label>
                                                 <div class="select2-purple">
                                                     <select class="select2 form-control" multiple="multiple" id="actor">
-                                                        <option th:each="actor : ${actors}"
-                                                                th:selected="${movie.actors.contains(actor)}"
+                                                        <option th:each="actor : ${movie.getActors()}"
                                                                 th:value="${actor.id}"
-                                                                th:text="${actor.name}"
-                                                        >
+                                                                th:text="${actor.name}">
                                                         </option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label>Diễn viên</label>
+                                            <div class="form-group mt-3">
+                                                <label for="director">Đạo diễn</label>
                                                 <div class="select2-purple">
                                                     <select class="select2 form-control" multiple="multiple"
                                                             id="director">
-                                                        <option th:each="director : ${directors}"
-                                                                th:selected="${movie.directors.contains(director)}"
+                                                        <option th:each="director : ${movie.getDirectors()}"
                                                                 th:value="${director.id}"
-                                                                th:text="${director.name}"
-                                                        >
+                                                                th:text="${director.name}">
                                                         </option>
                                                     </select>
                                                 </div>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="producer">Nhà sản xuất</label>
+                                                <input id="producer" type="text" class="form-control" th:value="${movie.getProducer()}">
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <div class="banner-preview-container mb-3">
+                                                    <img th:src="${movie.getBannerImg()}" alt="" id="bannerImg">
+                                                </div>
+                                                <label for="input-bannerImg" class="btn btn-info btn-flat"
+                                                       data-toggle="modal" data-target="#modal-xl">
+                                                    Chọn hình ảnh
+                                                </label>
+                                                <input type="file" id="input-bannerImg" class="d-none">
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>Trạng thái</label>
+                                                <label for="status">Trạng thái</label>
                                                 <select id="status" class="form-control"
                                                         th:value="${movie.status}? '1':'0'">
                                                     <option value="0" th:selected="${!movie.status}">
@@ -133,26 +154,50 @@
                                                 </select>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label>Ngày phát hành</label>
-                                                <input type="text" class="form-control" id="releaseYear"
-                                                       name="releaseYear" th:value="${movie.releaseDate}"/>
+                                            <div class="form-group mt-3">
+                                                <label for="releaseDate">Ngày phát hành</label>
+                                                <input type="date" class="form-control" id="releaseDate"
+                                                       name="releaseDate" th:value="${movie.releaseDate}"/>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label>Quốc gia</label>
+                                            <div class="form-group mt-3">
+                                                <label for="graphicsType">Hình thức chiếu</label>
+                                                <div class="select2-purple">
+                                                    <select id="graphicsType" class=" form-control" multiple="multiple">
+                                                        <option th:each="graphicType : ${movie.getGraphicsTypes()}"
+                                                                th:value="${graphicType}"
+                                                                th:text="${graphicType}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="translationTypes">Hình thức dịch</label>
+                                                <select id="translationTypes" class="form-control">
+                                                    <option th:each="graphicType : ${movie.getTranslationTypes()}"
+                                                            th:text="${graphicType}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="ageRequirement">Giới hạn tuổi</label>
+                                                <input id="ageRequirement" type="text" class="form-control" th:value="${movie.getAgeRequirement()}">
+                                            </div>
+
+
+                                            <div class="form-group mt-3">
+                                                <label for="country">Quốc gia</label>
                                                 <select id="country" class="form-control">
-                                                    <option th:each="country : ${countries}"
-                                                            th:selected="${country==movie.country}"
+                                                    <option th:each="country : ${movie.getCountry()}"
                                                             th:value="${country.id}"
                                                             th:text="${country.name}">
                                                     </option>
                                                 </select>
                                             </div>
 
-                                            <div class="form-group">
+                                            <div class="form-group mt-3">
                                                 <div class="thumbnail-preview-container mb-3">
-                                                    <img th:src="${movie.poster}" alt="" id="poster">
+                                                    <img th:src="${movie.getPoster()}" alt="" id="poster">
                                                 </div>
                                                 <label for="input-poster" class="btn btn-info btn-flat"
                                                        data-toggle="modal" data-target="#modal-xl">
@@ -242,19 +287,19 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form>
-                                                    <div class="form-group">
+                                                    <div class="form-group mt-3">
                                                         <label>Tên tập phim</label>
                                                         <input type="text" class="form-control" id="episode-name"
                                                                placeholder="Tập 1, Tập 2, ..."/>
                                                     </div>
 
-                                                    <div class="form-group">
+                                                    <div class="form-group mt-3">
                                                         <label>Thứ tự tập phim</label>
                                                         <input type="text" class="form-control"
                                                                id="episode-displayOrder" placeholder="1, 2, 3, ..."/>
                                                     </div>
 
-                                                    <div class="form-group">
+                                                    <div class="form-group mt-3">
                                                         <label>Thời lượng tập phim</label>
                                                         <input type="text" class="form-control" id="episode-duration"
                                                                placeholder="45 phút, 120 phút"/>
@@ -279,6 +324,8 @@
 </div>
 
 <th:block id="js">
+    <script src="/plugins/select2/js/select2.full.min.js"></script>
+
     <script th:inline="javascript">
         const movie = [[${movie}]]
     </script>
@@ -454,7 +501,5 @@
         $(".select2").select2();
     </script>
 </th:block>
-
 </body>
-
 </html>

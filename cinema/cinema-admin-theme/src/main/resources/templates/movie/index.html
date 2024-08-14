@@ -10,6 +10,12 @@
     <th:block id="css">
         <!--  Datatable  -->
         <link rel="stylesheet" href="https://cdn.datatables.net/2.1.0/css/dataTables.bootstrap5.min.css">
+        <style>
+            td {
+                text-align: start !important;
+
+            }
+        </style>
     </th:block>
 </head>
 
@@ -46,7 +52,7 @@
                                 <i class="fas fa-plus"></i> Tạo phim
                             </button>
                         </a>
-                        <a href="#">
+                        <a href="/admin/movies">
                             <button type="button" class="btn btn-info">
                                 <i class="fas fa-redo"></i> Refresh
                             </button>
@@ -57,7 +63,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <table class="table table-bordered table-hover" id="table-blog">
+                                <table class="table table-responsive table-striped" id="table-blog">
                                     <thead>
                                     <tr>
                                         <th>Tên phim</th>

@@ -8,19 +8,60 @@
     <title>Admin Movie Create</title>
 
     <th:block id="css">
-        <link rel="stylesheet" href="/plugins/select2/css/select2.min.css"/>
-        <link rel="stylesheet" href="/dist/css/style.css">
+        <style>
+            #sortable { list-style-type: none; margin: 0; padding: 0; margin-bottom: 10px; display: flex}
+            .ui-state-default { margin: 5px; padding: 5px; width: 150px; background-color: red}
+        </style>
+        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+        <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
+        <script>
+            $( function() {
+                $( "#sortable" ).sortable({
+                    revert: true
+                });
+                $( "#draggable" ).draggable({
+                    connectToSortable: "#sortable",
+                    helper: "clone",
+                    revert: "invalid"
+                });
+                $( "ul, li" ).disableSelection();
+            } );
+        </script>
+
     </th:block>
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
     <div class="content-index">
-        <div></div>
+        <ul id="sortable">
+            <li class="ui-state-default">Item 1</li>
+            <li class="ui-state-default">Item 2</li>
+            <li class="ui-state-default">Item 3</li>
+            <li class="ui-state-default">Item 4</li>
+            <li class="ui-state-default">Item 5</li>
+        </ul>
+
     </div>
 </div>
 
+
 <th:block id="js">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( "#sortable" ).sortable({
+                revert: true
+            });
+            $( "#draggable" ).draggable({
+                connectToSortable: "#sortable",
+                helper: "clone",
+                revert: "invalid"
+            });
+            $( "ul, li" ).disableSelection();
+        } );
+    </script>
 </th:block>
 </body>
 

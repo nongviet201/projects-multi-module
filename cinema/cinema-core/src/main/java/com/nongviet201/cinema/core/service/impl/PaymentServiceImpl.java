@@ -39,6 +39,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final BillSeatService billSeatService;
     private final ReservationRepository reservationRepository;
     private final UserStatisticService userStatisticService;
+    private final BarCodeService barCodeService;
 
 
     @Override
@@ -115,6 +116,7 @@ public class PaymentServiceImpl implements PaymentService {
         bill.setStatus(billStatus);
         bill.setUpdatedAt(now());
         bill.setTranslationPayment(translationPayment);
+        bill.setBarcode(barCodeService.generateBarCode(bill.getId()));
         billRepository.save(bill);
     }
 

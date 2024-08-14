@@ -1,6 +1,7 @@
-package com.nongviet201.cinema.admin.theme.controller;
+package com.nongviet201.cinema.admin.sdk.controller.view;
 
 
+import com.nongviet201.cinema.admin.sdk.controller.service.AdminMovieControllerService;
 import com.nongviet201.cinema.core.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin")
 @AllArgsConstructor
-public class AdminController {
+public abstract class AdminController {
     private final ActorService actorService;
     private final MovieService movieService;
     private final DirectorService directorService;
     private final CountryService countryService;
     private final GenreService genreService;
+
+    private final AdminMovieControllerService adminMovieControllerService;
 
     @GetMapping("")
     public String getDashBoardPage() {
@@ -43,11 +46,11 @@ public class AdminController {
     @GetMapping("/movie/{id}")
     public String getAdminInfoMoviePage(
         Model model,
-        @PathVariable
-        int id) {
+        @PathVariable Integer id
+    ) {
         model.addAttribute(
             "movie",
-            movieService.getMovieById(id)
+            adminMovieControllerService.getMovieById(id)
         );
         return "/movie/detail";
     }

@@ -22,6 +22,7 @@ public class Bill {
     private int id;
     private BillStatus status;
     private long totalPrice;
+    private String barcode;
 
     private LocalDateTime paymentAt;
     private LocalDateTime createdAt;
