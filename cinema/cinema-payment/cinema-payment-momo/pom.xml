@@ -7,19 +7,20 @@
         <artifactId>cinema</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>cinema-payment</artifactId>
+    <artifactId>cinema-payment-momo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <name>cinema-payment-momo</name>
+    <description>cinema-payment-momo</description>
     <properties>
         <java.version>22</java.version>
     </properties>
-    <packaging>pom</packaging>
     <dependencies>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.2</version>
+        </dependency>
     </dependencies>
-
-    <modules>
-        <module>cinema-payment-vnpay</module>
-        <module>cinema-payment-momo</module>
-    </modules>
 
     <build>
         <plugins>
@@ -29,6 +30,14 @@
                 <version>3.0.0-M5</version>
                 <configuration>
                     <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>10</source>
+                    <target>10</target>
                 </configuration>
             </plugin>
         </plugins>

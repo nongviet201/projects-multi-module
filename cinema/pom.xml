@@ -28,7 +28,6 @@
         <module>cinema-admin-theme</module>
         <module>cinema-admin-sdk</module>
         <module>cinema-payment</module>
-        <module>cinema-payment/cinema-payment-vnpay</module>
     </modules>
 
     <properties>
@@ -97,11 +96,11 @@
             <artifactId>googleauth</artifactId>
             <version>1.5.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+        <!-- đọc file env -->
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.12.6</version>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>java-dotenv</artifactId>
+            <version>5.2.2</version>
         </dependency>
 
     </dependencies>
