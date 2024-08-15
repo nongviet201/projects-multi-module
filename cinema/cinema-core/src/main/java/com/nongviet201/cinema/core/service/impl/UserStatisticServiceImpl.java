@@ -39,23 +39,28 @@ public class UserStatisticServiceImpl implements UserStatisticService {
         UserStatistic userStatistic = userStatisticRepository.findByUserId(user.getId())
             .orElse(null);
 
+        int points;
+
         if (userStatistic == null) {
+            points = calculatePoints(UserRank.NORMAL, totalSpending);
             userStatisticRepository.save(
                 UserStatistic.builder()
                     .userRank(UserRank.NORMAL)
-                    .points(calculatePoints(UserRank.NORMAL, totalSpending))
+                    .points(points)
                     .totalSpending(totalSpending)
                     .user(user)
                     .build()
             );
-            return calculatePoints(UserRank.NORMAL, totalSpending);
+            return points;
         } else {
+            points = calculatePoints(userStatistic.getUserRank(), totalSpending);
+
             userStatistic.setPoints(userStatistic.getPoints() + calculatePoints(userStatistic.getUserRank(), totalSpending));
             userStatistic.setTotalSpending(userStatistic.getTotalSpending() + totalSpending);
             userStatistic.setUserRank(setUserRank(userStatistic.getTotalSpending()));
             userStatisticRepository.save(userStatistic);
         }
-        return userStatistic.getPoints();
+        return points;
     }
 
     @Override

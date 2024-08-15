@@ -391,8 +391,10 @@
                     </div>
                 </div>
                 <div style="border-top: 5px dashed gray;"></div>
-                <div class="my-2 pb-5 text-center">
-                    <div class="barcode"></div>
+                <div class="my-2 p-2 text-center">
+                    <div class="barcode w-100" style="height: 90px">
+                        <img class="w-100 h-100" src="${bill.barCode}" alt="${bill.transactionNo}">
+                    </div>
                     <strong class="billId fs-14px">${bill.transactionNo}</strong>
                 </div>
             `;

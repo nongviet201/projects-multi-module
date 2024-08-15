@@ -111,6 +111,7 @@ public class PaymentServiceImpl implements PaymentService {
         bill.setStatus(billStatus);
         bill.setUpdatedAt(now());
         bill.setTranslationPayment(translationPayment);
+        bill.setBarcode("https://quickchart.io/barcode?type=code128&text=" + translationPayment.getTransactionNo() + "&width=600&height=200");
         billRepository.save(bill);
     }
 

@@ -54,13 +54,14 @@ public class WebUserBillProfileDecorator {
             .collect(Collectors.joining(", "));
 
         String combos = billComboService.getBIllComboByBillId(bill.getId()).stream()
+            .filter(combo -> combo.getQuantity() > 0)
             .map(combo -> combo.getCombo().getName() + " x " + combo.getQuantity())
             .collect(Collectors.joining(", "));
 
         // Format and return response
         return billDetailConverter.convert(
             movie.getName(),
-            movie.getAgeRequirement(),
+            movie.getAgeRequirement().toString(),
             showtime.getGraphicsType() + " " + showtime.getAuditoriumType(),
             movie.getDuration(),
             showtime.getAuditorium().getCinema().getName(),
@@ -72,6 +73,7 @@ public class WebUserBillProfileDecorator {
             bill.getTranslationPayment().getPaymentMethod().toString(),
             webFormatter.formatMoney((int) bill.getTotalPrice()),
             bill.getPoints(),
+            bill.getBarcode(),
             bill.getTranslationPayment().getTransactionNo()
         );
     }

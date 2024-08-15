@@ -11,7 +11,7 @@ public class WebShowtimeResponse {
     private String startTime;
     private String movieName;
     private String moviePoster;
-    private Integer ageRequirement;
+    private String ageRequirement;
     private Integer auditoriumId;
     private String auditoriumName;
     private String auditoriumType;

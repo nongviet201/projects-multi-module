@@ -7,7 +7,7 @@ import lombok.Getter;
 @Builder
 public class WebBillDetailResponse {
     private String movieName;
-    private Integer ageRequirement;
+    private String ageRequirement;
     private String graphicAndTranslateType;
     private Integer duration;
     private String cinemaName;
@@ -18,7 +18,8 @@ public class WebBillDetailResponse {
     private String combo;
     private String paymentMethod;
     private String amount;
-    private Integer point;
+    private Integer points;
+    private String barCode;
     private String transactionNo;
 
 }

@@ -22,7 +22,7 @@ public class WebShowtimeDecorator {
                 dateTimeFormatter.formatTimeToHHmm(showtime.getStartTime()),
                 showtime.getMovie().getName(),
                 showtime.getMovie().getPoster(),
-                showtime.getMovie().getAgeRequirement(),
+                showtime.getMovie().getAgeRequirement().toString(),
                 showtime.getAuditorium().getId(),
                 showtime.getAuditorium().getName(),
                 showtime.getAuditorium().getAuditoriumType().toString(),

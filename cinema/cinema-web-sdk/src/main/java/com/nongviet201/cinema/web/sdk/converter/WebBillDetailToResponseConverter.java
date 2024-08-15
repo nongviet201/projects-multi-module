@@ -8,7 +8,7 @@ public class WebBillDetailToResponseConverter {
 
     public WebBillDetailResponse convert(
         String movieName,
-        Integer ageRequirement,
+        String ageRequirement,
         String graphicAndTranslateType,
         Integer duration,
         String cinemaName,
@@ -19,7 +19,8 @@ public class WebBillDetailToResponseConverter {
         String combo,
         String paymentMethod,
         String amount,
-        Integer point,
+        Integer points,
+        String barCode,
         String transactionNo
     ){
         return WebBillDetailResponse.builder()
@@ -35,7 +36,8 @@ public class WebBillDetailToResponseConverter {
             .combo(combo)
             .paymentMethod(paymentMethod)
             .amount(amount)
-            .point(point)
+            .points(points)
+            .barCode(barCode)
             .transactionNo(transactionNo)
             .build();
     }

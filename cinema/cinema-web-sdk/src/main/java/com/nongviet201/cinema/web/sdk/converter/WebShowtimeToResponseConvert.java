@@ -12,7 +12,7 @@ public class WebShowtimeToResponseConvert {
             String startTime,
             String movieName,
             String moviePoster,
-            int ageRequirement,
+            String ageRequirement,
             int auditoriumId,
             String auditoriumName,
             String auditoriumType,
