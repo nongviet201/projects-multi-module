@@ -7,7 +7,7 @@ import com.nongviet201.cinema.core.model.enums.UserRank;
 public interface UserStatisticService {
     UserStatistic getUserStatisticByUserId(int userId);
     UserStatistic getCurrentUserStatistic();
-    void UpdateUserStatistic(Long totalSpending);
+    Integer UpdateUserStatistic(Long totalSpending);
 
     void createStatistic(User newUser);
 }

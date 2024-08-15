@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/reservations")
-public class ReservationsApi {
+public class ReservationsAPI {
     private final WebReservationControllerService webReservationControllerService;
 
     @GetMapping("/get/{showtimeId}")

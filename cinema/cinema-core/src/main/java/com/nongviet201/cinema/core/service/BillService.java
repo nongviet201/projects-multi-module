@@ -10,4 +10,5 @@ public interface BillService {
     Bill getBillById(Integer bill);
 
     List<Bill> clientGetBillUserProfile();
+    Bill clientGetBillDetailById(Integer id);
 }

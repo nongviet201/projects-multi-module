@@ -3,17 +3,13 @@ package com.nongviet201.cinema.core.service.impl;
 import com.nongviet201.cinema.core.entity.bill.Bill;
 import com.nongviet201.cinema.core.entity.bill.Reservation;
 import com.nongviet201.cinema.core.entity.bill.TranslationPayment;
-import com.nongviet201.cinema.core.entity.user.User;
-import com.nongviet201.cinema.core.entity.user.UserStatistic;
 import com.nongviet201.cinema.core.exception.BadRequestException;
 import com.nongviet201.cinema.core.model.enums.BillStatus;
 import com.nongviet201.cinema.core.model.enums.PaymentMethod;
 import com.nongviet201.cinema.core.model.enums.ReservationType;
-import com.nongviet201.cinema.core.model.enums.UserRank;
 import com.nongviet201.cinema.core.repository.BillRepository;
 import com.nongviet201.cinema.core.repository.ReservationRepository;
 import com.nongviet201.cinema.core.repository.TranslationPaymentRepository;
-import com.nongviet201.cinema.core.repository.UserStatisticRepository;
 import com.nongviet201.cinema.core.request.ToPaymentRequest;
 import com.nongviet201.cinema.core.request.VnPayReturnRequest;
 import com.nongviet201.cinema.core.service.*;
@@ -39,7 +35,6 @@ public class PaymentServiceImpl implements PaymentService {
     private final BillSeatService billSeatService;
     private final ReservationRepository reservationRepository;
     private final UserStatisticService userStatisticService;
-    private final BarCodeService barCodeService;
 
 
     @Override
@@ -116,16 +111,15 @@ public class PaymentServiceImpl implements PaymentService {
         bill.setStatus(billStatus);
         bill.setUpdatedAt(now());
         bill.setTranslationPayment(translationPayment);
-        bill.setBarcode(barCodeService.generateBarCode(bill.getId()));
         billRepository.save(bill);
     }
 
     private void billSuccess(
-        int billId,
+        Bill bill,
         int userId,
         int showtimeId
     ) {
-        billSeatService.getBillSeatByBillId(billId).forEach(
+        billSeatService.getBillSeatByBillId(bill.getId()).forEach(
             billSeat -> {
                 updateReservation(
                     userId,
@@ -133,6 +127,8 @@ public class PaymentServiceImpl implements PaymentService {
                     billSeat.getSeat().getId()
                 );
             });
+        bill.setPoints(userStatisticService.UpdateUserStatistic(bill.getTotalPrice()));
+        billRepository.save(bill);
     }
 
     private void updateReservation(
@@ -171,12 +167,10 @@ public class PaymentServiceImpl implements PaymentService {
             // nếu không có lỗi gì thì cho bill thành công
             else {
                 updateBill(bill, translationPayment, responseCode, true, BillStatus.PAID);
-                billSuccess(bill.getId(), bill.getUser().getId(), bill.getShowtime().getId());
-                userStatisticService.UpdateUserStatistic(bill.getTotalPrice());
+                billSuccess(bill, bill.getUser().getId(), bill.getShowtime().getId());
             }
         }
     }
-
 
 }
 

@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/seat")
-public class SeatApi {
+public class SeatAPI {
 
     private final WebSeatControllerService seatControllerService;
 

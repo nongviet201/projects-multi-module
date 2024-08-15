@@ -11,6 +11,8 @@ import com.nongviet201.cinema.core.service.BillComboService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class BillComboServiceImpl implements BillComboService {
@@ -37,5 +39,10 @@ public class BillComboServiceImpl implements BillComboService {
         );
 
         return combo.getPrice() * quantity;
+    }
+
+    @Override
+    public List<BillCombo> getBIllComboByBillId(int billId) {
+        return billComboRepository.findByBillId(billId);
     }
 }

@@ -31,7 +31,9 @@ public class UserStatisticServiceImpl implements UserStatisticService {
     }
 
     @Override
-    public void UpdateUserStatistic(Long totalSpending) {
+    public Integer UpdateUserStatistic(
+        Long totalSpending
+    ) {
         User user = userService.getCurrentUser();
 
         UserStatistic userStatistic = userStatisticRepository.findByUserId(user.getId())
@@ -46,12 +48,14 @@ public class UserStatisticServiceImpl implements UserStatisticService {
                     .user(user)
                     .build()
             );
+            return calculatePoints(UserRank.NORMAL, totalSpending);
         } else {
-            userStatistic.setPoints(calculatePoints(userStatistic.getUserRank(), totalSpending));
+            userStatistic.setPoints(userStatistic.getPoints() + calculatePoints(userStatistic.getUserRank(), totalSpending));
             userStatistic.setTotalSpending(userStatistic.getTotalSpending() + totalSpending);
             userStatistic.setUserRank(setUserRank(userStatistic.getTotalSpending()));
             userStatisticRepository.save(userStatistic);
         }
+        return userStatistic.getPoints();
     }
 
     @Override

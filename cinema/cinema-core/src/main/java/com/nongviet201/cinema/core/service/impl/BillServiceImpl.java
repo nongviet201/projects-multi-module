@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 import static java.time.LocalDateTime.*;
 
@@ -122,5 +123,18 @@ public class BillServiceImpl implements BillService {
                 userService.getCurrentUser().getId(),
                 BillStatus.PAID
         );
+    }
+
+    @Override
+    public Bill clientGetBillDetailById(
+        Integer id
+    ) {
+        Bill bill = getBillById(id);
+
+        if (!Objects.equals(bill.getUser().getId(), userService.getCurrentUser().getId())){
+            throw new BadRequestException("Tài khoản yêu cầu không khớp với thông tin tài khoản trên hóa đơn");
+        }
+
+        return bill;
     }
 }

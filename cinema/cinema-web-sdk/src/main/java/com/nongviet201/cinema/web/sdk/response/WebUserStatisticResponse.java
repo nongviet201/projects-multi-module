@@ -7,7 +7,7 @@ import lombok.Getter;
 @Builder
 public class WebUserStatisticResponse {
     private int points;
-    private long totalSpending;
+    private String totalSpending;
     private String userRank;
     private double rankPercent;
 }

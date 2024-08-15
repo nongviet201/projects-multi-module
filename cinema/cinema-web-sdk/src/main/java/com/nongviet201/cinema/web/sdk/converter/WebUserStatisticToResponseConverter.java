@@ -9,7 +9,7 @@ public class WebUserStatisticToResponseConverter {
     public WebUserStatisticResponse converter(
         int points,
         double rankPercent,
-        int totalSpending
+        String totalSpending
     ) {
         return WebUserStatisticResponse.builder()
             .points(points)

@@ -13,7 +13,7 @@ public class WebReservationDecorator {
 
     private final WebReservationToResponseConverter converter;
     private final UserService userService;
-    private final WebDateTimeFormatter dateTimeFormatter;
+    private final WebFormatter dateTimeFormatter;
 
     public WebReservationResponse decorate(
         Reservation reservation

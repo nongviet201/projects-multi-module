@@ -26,7 +26,8 @@
                         </strong>
                     </div>
                     <div>
-                        <p class="m-0 fs-14px fw-700 text-orange line-gray-bottom" data-bs-toggle="modal" data-bs-target="#modal-bill">Chi tiết</p>
+                        <p class="m-0 fs-14px fw-700 text-orange line-gray-bottom cursor-pointer"
+                           th:onclick="'openBillModal(' + ${bill.getBillId()} + ')'">Chi tiết</p>
                     </div>
                 </div>
 
@@ -39,77 +40,38 @@
         <div class="modal-dialog modal-dialog modal-dialog-centered">
             <div class="modal-content mx-5 border-0" style="background: none;">
                 <div class="modal-header border-0 d-flex justify-content-center">
-                    <button type="button" class="btn-close p-0 m-0" style="color: white;" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body px-4 border-1 rounded" style="background: white;">
-                    <div class="text-center" style="border-bottom: 1px solid gray;">
-                        <h3>Movie Name</h3>
-                        <p class="fs-14px text-black-50">
-                            <span>T18</span>
-                            <span> | </span>
-                            <span>2D Phụ Đề</span>
-                            <span> | </span>
-                            <span>127 Phút</span>
-                        </p>
+                    <div id="bill-content">
+
                     </div>
-                    <div class="row" style="margin: 0 !important;">
-                        <div class="col-4 text-start">
-                            <p class="fs-14px mb-1 text-black-50">Rạp chiếu</p>
-                            <p class="fs-14px mb-1 text-black-50">Ngày chiếu</p>
-                            <p class="fs-14px mb-1 text-black-50">Giờ chiếu</p>
-                            <p class="fs-14px mb-1 text-black-50">Phòng chiếu</p>
-                            <p class="fs-14px mb-1 text-black-50">Ghế</p>
-                            <p class="fs-14px mb-1 text-black-50">Combo</p>
-                        </div>
-                        <div class="col-8 text-start">
-                            <p class="fs-16px mb-1 ">VCinema</p>
-                            <p class="fs-16px mb-1 ">04/08/2024</p>
-                            <p class="fs-16px mb-1 ">17:15</p>
-                            <p class="fs-16px mb-1 ">Room 1</p>
-                            <p class="fs-16px mb-1 ">G7, G10</p>
-                            <p class="fs-16px mb-1 ">Combo Fa</p>
-                        </div>
-                    </div>
-                    <div class="row h-100" style="border-top: 1px solid gray; margin: 0 !important;">
-                        <div class="col-6 d-flex align-items-center">
-                            <p class="fs-14px text-black-50 mb-0">ATM <span class="ms-4">130.000đ</span></p>
-                        </div>
-                        <div class="col-6 text-center py-2" style="border-left: 1px solid gray;">
-                            <p class="fs-14px mb-0 text-black-50">Tổng tiền</p>
-                            <strong>130.000đ</strong>
-                            <p class="fs-14px mb-0 text-black-50">Điểm tích lũy</p>
-                            <strong>19</strong>
-                        </div>
-                    </div>
-                    <div style="border-top: 5px dashed gray;"></div>
-                    <div class="my-2 text-center">
-                        <div class="barcode"></div>
-                        <strong class="billId fs-14px">123456789</strong>
-                    </div>
+                    <button class="border-0 px-3 py-2 w-100 fw-700 fs-16px text-white m-0 bg-orange"
+                            data-bs-dismiss="modal" aria-label="Close">Đóng
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-<!--    <div>
-        <p class="text-center fs-14px fw-600 text-black-50 mt-3">Tháng <span>04/2024</span></p>
-        <div class="card-history d-flex align-items-center bg-white px-4 py-2 mb-4">
-            <div style="width: 65px; height: 70px; border-radius: 10px; overflow: hidden">
-                <img src="https://cdn.galaxycine.vn/media/2024/5/21/doraemon-movie-43-nobitas-earth-symphony-1-1_1716273120350.jpg"
-                     alt="">
+    <!--    <div>
+            <p class="text-center fs-14px fw-600 text-black-50 mt-3">Tháng <span>04/2024</span></p>
+            <div class="card-history d-flex align-items-center bg-white px-4 py-2 mb-4">
+                <div style="width: 65px; height: 70px; border-radius: 10px; overflow: hidden">
+                    <img src="https://cdn.galaxycine.vn/media/2024/5/21/doraemon-movie-43-nobitas-earth-symphony-1-1_1716273120350.jpg"
+                         alt="">
+                </div>
+                <div class="ms-4 d-flex align-items-center justify-content-between">
+                    <div class="w-50">
+                        <p class="lh-base m-0 fw-700">Phim Điện Ảnh Doraemon: Nobita Và Bản Giao Hưởng Địa Cầu</p>
+                        <span class="fs-14px">2D Lồng Tiếng</span>
+                    </div>
+                    <div class="ms-3">
+                        <p class="fs-14px m-0">Cinema Long Biên <strong class="14px"> - <span>RAP 6</span></strong></p>
+                        <strong class="fs-14px">20:00 <span> - </span> <span>Thứ Năm, 02/07/2024</span></strong>
+                    </div>
+                    <div>
+                        <p class="m-0 fs-14px fw-700 text-orange line-gray-bottom">Chi tiết</p>
+                    </div>
+                </div>
             </div>
-            <div class="ms-4 d-flex align-items-center justify-content-between">
-                <div class="w-50">
-                    <p class="lh-base m-0 fw-700">Phim Điện Ảnh Doraemon: Nobita Và Bản Giao Hưởng Địa Cầu</p>
-                    <span class="fs-14px">2D Lồng Tiếng</span>
-                </div>
-                <div class="ms-3">
-                    <p class="fs-14px m-0">Cinema Long Biên <strong class="14px"> - <span>RAP 6</span></strong></p>
-                    <strong class="fs-14px">20:00 <span> - </span> <span>Thứ Năm, 02/07/2024</span></strong>
-                </div>
-                <div>
-                    <p class="m-0 fs-14px fw-700 text-orange line-gray-bottom">Chi tiết</p>
-                </div>
-            </div>
-        </div>
-    </div>-->
+        </div>-->
 </div>

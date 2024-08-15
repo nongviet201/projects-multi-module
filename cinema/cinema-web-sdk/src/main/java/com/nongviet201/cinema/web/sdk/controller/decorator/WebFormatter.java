@@ -2,6 +2,7 @@ package com.nongviet201.cinema.web.sdk.controller.decorator;
 
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 @Service
-public class WebDateTimeFormatter {
+public class WebFormatter {
 
     public String formatFullDate(
         LocalDate date
@@ -83,4 +84,10 @@ public class WebDateTimeFormatter {
         return Math.max(remainingMillis, 0);
     }
 
+    public String formatMoney(
+        long totalSpending
+    ) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        return decimalFormat.format(totalSpending);
+    }
 }

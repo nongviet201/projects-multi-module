@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class WebBillDecorator {
     private final WebBillToResponseConverter converter;
-    private final WebDateTimeFormatter dateTimeFormatter;
+    private final WebFormatter dateTimeFormatter;
 
     public WebBillResponse decorate(
         Bill bill

@@ -9,13 +9,15 @@ import com.nongviet201.cinema.web.sdk.response.WebUserStatisticResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+
 @Service
 @AllArgsConstructor
 public class WebUserDecorator {
 
     private final WebUserToResponseConverter userToResponseConverter;
     private final WebUserStatisticToResponseConverter userStatisticToResponseConverter;
-    private final WebDateTimeFormatter timeFormatter;
+    private final WebFormatter webFormatter;
 
     public WebUserResponse decorate(
         User user
@@ -26,7 +28,7 @@ public class WebUserDecorator {
             user.getPhoneNumber(),
             user.getAvatar(),
             user.getGender(),
-            timeFormatter.formatDateToDDmmYYYY(user.getBirthday())
+            webFormatter.formatDateToDDmmYYYY(user.getBirthday())
         );
     }
 
@@ -36,15 +38,16 @@ public class WebUserDecorator {
         double currentPercent = calculatePercentage(Math.toIntExact((userStatistic.getTotalSpending())));
 
         return userStatisticToResponseConverter.converter(
-                userStatistic.getPoints(),
-                currentPercent,
-                Math.toIntExact(userStatistic.getTotalSpending())
-            );
+            userStatistic.getPoints(),
+            currentPercent,
+            webFormatter.formatMoney(userStatistic.getTotalSpending())
+        );
     }
 
-    private double calculatePercentage(int currentValue) {
+    public double calculatePercentage(int currentValue) {
         int maxValue = 4000000;
         double maxPercentage = 90.0;
         return (currentValue / (double) maxValue) * maxPercentage;
     }
+
 }

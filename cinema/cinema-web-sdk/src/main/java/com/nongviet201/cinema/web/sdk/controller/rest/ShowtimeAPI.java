@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/showtime")
-public class ShowtimeApi {
+public class ShowtimeAPI {
 
     private final WebShowtimeControllerService showtimeControllerService;
 

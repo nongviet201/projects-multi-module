@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class WebShowtimeDecorator {
 
     private final WebShowtimeToResponseConvert showtimeConvert;
-    private final WebDateTimeFormatter dateTimeFormatter;
+    private final WebFormatter dateTimeFormatter;
 
     public WebShowtimeResponse decorate (
             Showtime showtime

@@ -116,7 +116,7 @@
                             <div class="py-4 line-gray-bottom">
                                 <div class="d-flex justify-content-between fs-18px fw-600">
                                     <p class="">Tổng chi tiêu <span id="currentYear">Year</span></p>
-                                    <p class="text-orange">[[${userStatistic.getTotalSpending()}]]<span> ₫</span></p>
+                                    <p class="text-orange">[[${userStatistic.getTotalSpending()}]]<span>₫</span></p>
                                 </div>
                                 <div class="progress"
                                      role="progressbar"
@@ -330,6 +330,72 @@
                     $(element).removeClass('is-invalid');
                 }
             });
+        }
+
+        async function openBillModal(btn) {
+            const billId = btn;
+            let billData;
+
+            try {
+                const res = await axios.post("/api/v1/web-bill/get/" + billId);
+                billData = res.data;
+                console.log(res)
+                insertBill(billData);
+                $('#modal-bill').modal('show');
+            } catch (e) {
+                console.log(e);
+                toastShowFail(e.response.data.message);
+            }
+
+        }
+
+        function insertBill(bill) {
+            document.getElementById('bill-content').innerHTML =`
+                <div class="text-center" style="border-bottom: 1px solid gray;">
+                    <p class="fs-24px mb-1 fw-700">${bill.movieName}</p>
+                    <p class="fs-14px text-black-50">
+                        <span class="text-blue">T${bill.ageRequirement}</span>
+                        <span> | </span>
+                        <span class="text-blue">${bill.graphicAndTranslateType}</span>
+                        <span> | </span>
+                        <span class="text-blue">${bill.duration} phút</span>
+                    </p>
+                </div>
+                <div class="row py-3" style="margin: 0 !important;">
+                    <div class="col-4 text-start">
+                        <p class="fs-16px mb-1 text-black-50">Rạp chiếu </p>
+                        <p class="fs-16px mb-1 text-black-50">Ngày chiếu</p>
+                        <p class="fs-16px mb-1 text-black-50">Giờ chiếu</p>
+                        <p class="fs-16px mb-1 text-black-50">Phòng chiếu</p>
+                        <p class="fs-16px mb-1 text-black-50">Ghế</p>
+                        <p class="fs-16px mb-1 text-black-50">Combo</p>
+                    </div>
+                    <div class="col-8 text-start">
+                        <p class="fs-16px fw-700 text-blue mb-1 ">${bill.cinemaName}</p>
+                        <p class="fs-16px fw-700 text-blue mb-1 ">${bill.screeningDate}</p>
+                        <p class="fs-16px fw-700 text-blue mb-1 ">${bill.startTime}</p>
+                        <p class="fs-16px fw-700 text-blue mb-1 ">${bill.auditoriumName}</p>
+                        <p class="fs-16px fw-700 text-blue mb-1 ">${bill.seatName}</p>
+                        <p class="fs-14px fw-700 text-blue mb-1 ">${bill.combo}</p>
+                    </div>
+                </div>
+                <div class="row h-100" style="border-top: 1px solid gray; margin: 0 !important;">
+                    <div class="col-6 d-flex align-items-center">
+                        <p class="fs-14px text-black-50 mb-0">${bill.paymentMethod} <span class="ms-5">${bill.amount}đ</span></p>
+                    </div>
+                    <div class="col-6 text-center py-2" style="border-left: 1px solid gray;">
+                        <p class="fs-14px mb-0 text-black-50">Tổng tiền</p>
+                        <strong class="text-orange">${bill.amount}đ</strong>
+                        <p class="fs-14px mb-0 text-black-50">Điểm tích lũy</p>
+                        <strong class="text-blue">${bill.points}</strong>
+                    </div>
+                </div>
+                <div style="border-top: 5px dashed gray;"></div>
+                <div class="my-2 pb-5 text-center">
+                    <div class="barcode"></div>
+                    <strong class="billId fs-14px">${bill.transactionNo}</strong>
+                </div>
+            `;
         }
     </script>
 </th:block>
