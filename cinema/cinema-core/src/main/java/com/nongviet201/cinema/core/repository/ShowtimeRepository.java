@@ -2,7 +2,7 @@
 package com.nongviet201.cinema.core.repository;
 
 import com.nongviet201.cinema.core.entity.cinema.Showtime;
-import com.nongviet201.cinema.core.model.enums.AuditoriumType;
+import com.nongviet201.cinema.core.model.enums.cinema.AuditoriumType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

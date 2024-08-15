@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.entity.bill;
 
-import com.nongviet201.cinema.core.model.enums.PaymentMethod;
+import com.nongviet201.cinema.core.model.enums.bill.PaymentMethod;
 import com.nongviet201.cinema.payment.vnpay.code.ResponseCodeVNPAY;
 import jakarta.persistence.*;
 import lombok.*;

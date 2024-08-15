@@ -2,7 +2,6 @@ package com.nongviet201.cinema.core.entity.movie;
 
 import com.nongviet201.cinema.core.converter.GenericConverter;
 import com.nongviet201.cinema.core.model.enums.GraphicsType;
-import com.nongviet201.cinema.core.model.enums.MovieAge;
 import com.nongviet201.cinema.core.model.enums.TranslationType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,8 +39,7 @@ public class Movie {
 
     private String trailer;
 
-    @Enumerated(EnumType.STRING)
-    private MovieAge ageRequirement;
+    private Integer ageRequirement;
 
     private int duration;
 

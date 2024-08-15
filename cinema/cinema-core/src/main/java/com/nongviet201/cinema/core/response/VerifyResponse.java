@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.response;
 
-import com.nongviet201.cinema.core.model.enums.VerifyResponseType;
+import com.nongviet201.cinema.core.model.enums.bill.VerifyResponseType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

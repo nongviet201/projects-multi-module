@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.core.model.enums;
+package com.nongviet201.cinema.core.model.enums.cinema;
 
 public enum SeatType {
     NORMAL,

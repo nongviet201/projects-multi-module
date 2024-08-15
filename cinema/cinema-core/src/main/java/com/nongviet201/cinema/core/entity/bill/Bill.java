@@ -2,7 +2,7 @@ package com.nongviet201.cinema.core.entity.bill;
 
 import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.entity.cinema.Showtime;
-import com.nongviet201.cinema.core.model.enums.BillStatus;
+import com.nongviet201.cinema.core.model.enums.bill.BillStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

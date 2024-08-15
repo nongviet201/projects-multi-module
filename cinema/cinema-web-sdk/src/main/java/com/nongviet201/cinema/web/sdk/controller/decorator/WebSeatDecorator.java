@@ -2,7 +2,7 @@ package com.nongviet201.cinema.web.sdk.controller.decorator;
 
 import com.nongviet201.cinema.core.entity.cinema.Seat;
 import com.nongviet201.cinema.core.entity.cinema.Showtime;
-import com.nongviet201.cinema.core.model.enums.DayType;
+import com.nongviet201.cinema.core.model.enums.showtime.DayType;
 import com.nongviet201.cinema.core.service.BaseTicketPriceService;
 import com.nongviet201.cinema.web.sdk.converter.WebSeatToResponseConverter;
 import com.nongviet201.cinema.web.sdk.response.WebSeatResponse;

@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.core.entity.bill;
 
+import com.nongviet201.cinema.core.entity.bill.coupon.Coupon;
 import com.nongviet201.cinema.core.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;

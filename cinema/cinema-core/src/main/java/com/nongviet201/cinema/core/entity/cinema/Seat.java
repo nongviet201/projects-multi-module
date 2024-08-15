@@ -1,7 +1,7 @@
 package com.nongviet201.cinema.core.entity.cinema;
 
 
-import com.nongviet201.cinema.core.model.enums.SeatType;
+import com.nongviet201.cinema.core.model.enums.cinema.SeatType;
 import jakarta.persistence.*;
 import lombok.*;
 

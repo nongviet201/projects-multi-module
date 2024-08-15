@@ -1,7 +1,11 @@
 package com.nongviet201.cinema.core.entity.bill;
 
 import com.nongviet201.cinema.core.entity.cinema.Cinema;
-import com.nongviet201.cinema.core.model.enums.*;
+import com.nongviet201.cinema.core.model.enums.cinema.AuditoriumType;
+import com.nongviet201.cinema.core.model.enums.cinema.SeatType;
+import com.nongviet201.cinema.core.model.enums.movie.GraphicsType;
+import com.nongviet201.cinema.core.model.enums.showtime.DayType;
+import com.nongviet201.cinema.core.model.enums.showtime.ScreeningTimeType;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

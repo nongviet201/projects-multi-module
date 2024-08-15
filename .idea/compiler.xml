@@ -8,17 +8,22 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cinema-web-sdk" />
-        <module name="cinema-admin-theme" />
         <module name="cinema-web-theme" />
         <module name="cinema-admin-sdk" />
+        <module name="cinema-payment-momo" />
+        <module name="cinema-payment-vnpay" />
+        <module name="cinema-admin-theme" />
         <module name="cinema-core" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="cinema-admin-sdk" options="" />
-      <module name="cinema-web-sdk" options="" />
+      <module name="cinema-admin-sdk" options="-parameters" />
+      <module name="cinema-admin-theme" options="-parameters" />
+      <module name="cinema-core" options="-parameters" />
+      <module name="cinema-web-sdk" options="-parameters" />
+      <module name="cinema-web-theme" options="-parameters" />
     </option>
   </component>
 </project>

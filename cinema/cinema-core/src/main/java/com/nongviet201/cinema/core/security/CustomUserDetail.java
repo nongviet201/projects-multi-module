@@ -1,7 +1,6 @@
 package com.nongviet201.cinema.core.security;
 
-import com.nongviet201.cinema.core.entity.user.User;
-import com.nongviet201.cinema.core.model.enums.UserRole;
+import com.nongviet201.cinema.core.model.enums.user.UserRole;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.entity.user;
 
-import com.nongviet201.cinema.core.model.enums.TokenType;
+import com.nongviet201.cinema.core.model.enums.user.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

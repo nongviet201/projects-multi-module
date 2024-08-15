@@ -1,10 +1,10 @@
 package com.nongviet201.cinema.core.entity.cinema;
 
 import com.nongviet201.cinema.core.entity.movie.Movie;
-import com.nongviet201.cinema.core.model.enums.AuditoriumType;
-import com.nongviet201.cinema.core.model.enums.GraphicsType;
-import com.nongviet201.cinema.core.model.enums.ScreeningTimeType;
-import com.nongviet201.cinema.core.model.enums.TranslationType;
+import com.nongviet201.cinema.core.model.enums.cinema.AuditoriumType;
+import com.nongviet201.cinema.core.model.enums.movie.GraphicsType;
+import com.nongviet201.cinema.core.model.enums.showtime.ScreeningTimeType;
+import com.nongviet201.cinema.core.model.enums.movie.TranslationType;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,4 +1,4 @@
-    package com.nongviet201.cinema.core.model.enums;
+    package com.nongviet201.cinema.core.model.enums.user;
 
     import lombok.Getter;
 

@@ -5,7 +5,7 @@ import com.nongviet201.cinema.core.entity.bill.BillSeat;
 import com.nongviet201.cinema.core.entity.cinema.Seat;
 import com.nongviet201.cinema.core.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.exception.BadRequestException;
-import com.nongviet201.cinema.core.model.enums.DayType;
+import com.nongviet201.cinema.core.model.enums.showtime.DayType;
 import com.nongviet201.cinema.core.repository.BillRepository;
 import com.nongviet201.cinema.core.repository.BillSeatRepository;
 import com.nongviet201.cinema.core.repository.SeatRepository;

@@ -1,6 +1,6 @@
 package com.nongviet201.cinema.core.entity.user;
 
-import com.nongviet201.cinema.core.model.enums.UserRank;
+import com.nongviet201.cinema.core.model.enums.user.UserRank;
 import jakarta.persistence.*;
 import lombok.*;
 

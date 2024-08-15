@@ -1,10 +1,8 @@
 package com.nongviet201.cinema.core.request;
 
-import com.nongviet201.cinema.core.model.enums.PaymentMethod;
-import lombok.AccessLevel;
+import com.nongviet201.cinema.core.model.enums.bill.PaymentMethod;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.experimental.FieldDefaults;
 
 @Getter
 @Builder

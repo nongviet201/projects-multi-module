@@ -3,7 +3,7 @@ package com.nongviet201.cinema.core.service.impl;
 import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.entity.user.UserStatistic;
 import com.nongviet201.cinema.core.exception.BadRequestException;
-import com.nongviet201.cinema.core.model.enums.UserRank;
+import com.nongviet201.cinema.core.model.enums.user.UserRank;
 import com.nongviet201.cinema.core.repository.UserStatisticRepository;
 import com.nongviet201.cinema.core.service.UserService;
 import com.nongviet201.cinema.core.service.UserStatisticService;
