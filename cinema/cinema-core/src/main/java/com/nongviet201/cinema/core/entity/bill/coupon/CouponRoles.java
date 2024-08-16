@@ -1,7 +1,9 @@
 package com.nongviet201.cinema.core.entity.bill.coupon;
 
+import com.nongviet201.cinema.core.entity.bill.Combo;
 import com.nongviet201.cinema.core.entity.cinema.Cinema;
 import com.nongviet201.cinema.core.entity.movie.Genre;
+import com.nongviet201.cinema.core.entity.movie.Movie;
 import com.nongviet201.cinema.core.model.enums.cinema.AuditoriumType;
 import com.nongviet201.cinema.core.model.enums.cinema.SeatType;
 import com.nongviet201.cinema.core.model.enums.coupon.OfferCategory;
@@ -14,21 +16,20 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
-@ToString
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "base_coupon_rule")
-public class BaseCouponRule {
+@Table(name = "coupon_roles")
+public class CouponRoles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String ruleName;
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -52,6 +53,9 @@ public class BaseCouponRule {
     @Enumerated(EnumType.STRING)
     private SeatType seatType;
 
+    @Enumerated(EnumType.STRING)
+    private UserType userType; // dựa trên kiểu người dùng
+
     private boolean status;
     private LocalDate createdAt;
     private LocalDate updatedAt;
@@ -63,5 +67,13 @@ public class BaseCouponRule {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;
+
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private Movie movie; // nếu sử dụng sẽ chỉ định tới 1 movie cố định
+
+    @ManyToOne
+    @JoinColumn(name = "combo_id")
+    private Combo combo; // nếu sử dụng sẽ chỉ định tới 1 movie cố định
 
 }

@@ -2,20 +2,30 @@ package com.nongviet201.cinema.core.entity.bill.coupon;
 
 import com.nongviet201.cinema.core.model.enums.coupon.DiscountCouponType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
+@Setter
 @MappedSuperclass
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class BaseCoupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String description;
+    private String imageUrl;
     private String code;
     private Integer limitAmount;
     private Integer usedAmount;
@@ -23,10 +33,6 @@ public abstract class BaseCoupon {
     @Enumerated(EnumType.STRING)
     private DiscountCouponType discountCouponType;
     private Integer discount;
-
-    // Ngày bắt đầu và kết thúc
-    private LocalDate startDate;
-    private LocalDate endDate;
 
     // số lượng vé hoặc combo tối thiểu hoặc tối đa dành cho coupon
     private Integer minQuantity;
@@ -51,9 +57,14 @@ public abstract class BaseCoupon {
     private LocalDate createdAt;
     private LocalDate updatedAt;
 
-    public boolean isExpired() {
-        return LocalDate.now().isAfter(this.getEndDate());
-    }
+
+    @ManyToMany
+    @JoinTable(
+        name = "coupon_roles_mapping", // Bảng trung gian
+        joinColumns = @JoinColumn(name = "coupon_id"), // Cột khóa ngoại tới bảng BaseCoupon
+        inverseJoinColumns = @JoinColumn(name = "coupon_roles_id") // Cột khóa ngoại tới bảng CouponRoles
+    )
+    private List<CouponRoles> couponRoles;
 
     public void createCoupon() {
         this.status = true;

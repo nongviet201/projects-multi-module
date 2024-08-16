@@ -1,15 +1,14 @@
 package com.nongviet201.cinema.core.entity.movie;
 
-import com.nongviet201.cinema.core.converter.GenericConverter;
-import com.nongviet201.cinema.core.model.enums.GraphicsType;
-import com.nongviet201.cinema.core.model.enums.TranslationType;
+import com.nongviet201.cinema.core.model.enums.movie.GraphicsType;
+import com.nongviet201.cinema.core.model.enums.movie.MovieAge;
+import com.nongviet201.cinema.core.model.enums.movie.TranslationType;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@ToString
 @Getter
 @Setter
 @AllArgsConstructor
@@ -39,7 +38,7 @@ public class Movie {
 
     private String trailer;
 
-    private Integer ageRequirement;
+    private MovieAge ageRequirement;
 
     private int duration;
 
@@ -60,10 +59,18 @@ public class Movie {
 
     private String producer;
 
-    @Convert(converter = GraphicsTypeConverter.class)
+    // Sử dụng @ElementCollection để lưu trữ danh sách GraphicsType
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "movie_graphics_types", joinColumns = @JoinColumn(name = "movie_id"))
+    @Column(name = "graphics_type")
+    @Enumerated(EnumType.STRING)
     private List<GraphicsType> graphicsTypes;
 
-    @Convert(converter = TranslationTypeConverter.class)
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "movie_translation_types", joinColumns = @JoinColumn(name = "movie_id"))
+    @Column(name = "translation_type")
+    @Enumerated(EnumType.STRING) // Lưu enum dưới dạng chuỗi
     private List<TranslationType> translationTypes;
 
     @ManyToOne
@@ -72,39 +79,25 @@ public class Movie {
 
     @ManyToMany
     @JoinTable(
-            name = "movie_genres",
-            joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id")
+        name = "movie_genres",
+        joinColumns = @JoinColumn(name = "movie_id"),
+        inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private List<Genre> genres;
 
     @ManyToMany
     @JoinTable(
-            name = "movie_director",
-            joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "director_id")
+        name = "movie_director",
+        joinColumns = @JoinColumn(name = "movie_id"),
+        inverseJoinColumns = @JoinColumn(name = "director_id")
     )
     private List<Director> directors;
 
     @ManyToMany
     @JoinTable(
-            name = "movie_actor",
-            joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "actor_id")
+        name = "movie_actor",
+        joinColumns = @JoinColumn(name = "movie_id"),
+        inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
     private List<Actor> actors;
-
-    @Converter(autoApply = true)
-    public static class GraphicsTypeConverter extends GenericConverter<GraphicsType> {
-        public GraphicsTypeConverter() {
-            super(GraphicsType.class);
-        }
-    }
-
-    @Converter(autoApply = true)
-    public static class TranslationTypeConverter extends GenericConverter<TranslationType> {
-        public TranslationTypeConverter() {
-            super(TranslationType.class);
-        }
-    }
 }
