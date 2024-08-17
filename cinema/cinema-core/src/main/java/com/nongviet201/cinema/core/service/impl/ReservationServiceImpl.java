@@ -41,6 +41,11 @@ public class ReservationServiceImpl implements ReservationService {
 
         User user = userService.getCurrentUser();
         Seat seat = seatService.getSeatById(request.getSeatId());
+
+        if (!seat.isStatus()) {
+            throw new BadRequestException("Ghế không khả dụng");
+        }
+
         Showtime showtime = showtimeService.getShowtimeById(request.getShowtimeId());
 
         Reservation reservation = Reservation.builder()
