@@ -40,7 +40,7 @@ function showtimeDetailMovieShow(poster, name, movieAgeRequirement) {
             <div class="mt-2">
             <span class="ticket-movie-auditorium-type fs-14px"></span>
             <span class="fw-700"> - </span>
-            <span class="bg-orange fw-700 fs-14px text-white py-1 px-2" style="border-radius: 3px">T${movieAgeRequirement}</span>
+            <span class="bg-orange fw-700 fs-14px text-white py-1 px-2" style="border-radius: 3px">${movieAgeRequirement}</span>
             </div> 
         </div>
     `
