@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.web.sdk.controller.rest;
+package com.nongviet201.cinema.web.sdk.rest;
 
 import com.nongviet201.cinema.web.sdk.controller.service.WebSeatControllerService;
 import com.nongviet201.cinema.web.sdk.response.WebSeatResponse;

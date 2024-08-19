@@ -21,6 +21,7 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private BillStatus status;
+    private long discount;
     private long totalPrice;
     private String barcode;
     private int points;

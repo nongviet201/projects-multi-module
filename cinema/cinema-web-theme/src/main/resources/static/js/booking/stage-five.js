@@ -36,7 +36,7 @@ function showStatus(status) {
                                 </div>
                             </div>
                         </div>
-                        <button style="background-color: rgb(37 99 235)">
+                        <button class="bg-orange">
                             <a class="text-white fs-16px" href="/">Trang Chủ</a>
                         </button>
                     </div>
@@ -74,7 +74,7 @@ function showStatus(status) {
                                 </div>
                             </div>
                     </div>
-                    <button style="background-color: rgb(37 99 235)">
+                    <button class="bg-orange">
                         <a class="text-white fs-16px" href="/">Trang Chủ</a>
                     </button>
                 </div>

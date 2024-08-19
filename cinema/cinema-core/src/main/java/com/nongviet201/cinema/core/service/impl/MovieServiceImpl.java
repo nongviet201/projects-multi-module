@@ -6,6 +6,8 @@ import com.nongviet201.cinema.core.service.MovieService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -52,5 +54,23 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie getPublishMovieById(int id) {
         return movieRepository.findByIdAndStatus(id, true);
+    }
+
+
+    @Override
+    public double updateRating(int movieId, int rating) {
+        Movie movie = findById(movieId);
+        movie.setRatingCount(movie.getRatingCount() + 1);
+        movie.setTotalRatings(movie.getTotalRatings() + rating);
+
+        // Tính toán rating
+        double newRating = movie.getTotalRatings() / (double) movie.getRatingCount();
+
+        // Làm tròn đến 1 chữ số thập phân
+        BigDecimal bd = new BigDecimal(newRating).setScale(1, RoundingMode.HALF_UP);
+        movie.setRating(bd.doubleValue());
+
+        movieRepository.save(movie);
+        return movie.getRating();
     }
 }

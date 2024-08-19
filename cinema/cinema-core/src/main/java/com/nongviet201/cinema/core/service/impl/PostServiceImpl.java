@@ -40,4 +40,11 @@ public class PostServiceImpl implements PostService {
         );
     }
 
+    @Override
+    public void updateViewCount(int postId) {
+        Post post = getPostById(postId);
+        post.setView(post.getView() + 1);
+        postRepository.save(post);
+    }
+
 }

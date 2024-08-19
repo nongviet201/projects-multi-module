@@ -66,18 +66,18 @@ public class ReservationScheduleTask {
         }
     }
 
-    @Scheduled(fixedRate = 60000) // 60000 ms = 1 phút
-    @Transactional
-    public void tokenExpiredReservations() {
-        List<TokenConfirm> expiredToken =
-            tokenConfirmRepository.findByConfirmedAt(null);
-
-        System.out.println("Expired reservations: " + expiredToken.size() + " " + expiredToken);
-
-        expiredToken.forEach(e ->{
-                if(e.getExpiresAt().isBefore(now())) {
-                    tokenConfirmRepository.delete(e);
-                }
-            });
-    }
+//    @Scheduled(fixedRate = 60000) // 60000 ms = 1 phút
+//    @Transactional
+//    public void tokenExpiredReservations() {
+//        List<TokenConfirm> expiredToken =
+//            tokenConfirmRepository.findByConfirmedAt(null);
+//
+//        System.out.println("Expired reservations: " + expiredToken.size() + " " + expiredToken);
+//
+//        expiredToken.forEach(e ->{
+//                if(e.getExpiresAt().isBefore(now())) {
+//                    tokenConfirmRepository.delete(e);
+//                }
+//            });
+//    }
 }

@@ -12,4 +12,6 @@ public interface PostService {
     Post getPostById(Integer id);
 
     Page<Post> getAllPublishPostsByTypeOrderByReleaseDate(PostType type, int page, int size);
+
+    void updateViewCount(int postId);
 }

@@ -72,6 +72,7 @@ public class UserStatisticServiceImpl implements UserStatisticService {
                 .userRank(UserRank.NORMAL)
                 .points(0)
                 .totalSpending(0L)
+                .user(newUser)
                 .build()
         );
     }

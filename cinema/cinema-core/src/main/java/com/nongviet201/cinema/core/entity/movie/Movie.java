@@ -43,6 +43,8 @@ public class Movie {
     private int duration;
 
     private double rating;
+    private int ratingCount;
+    private double totalRatings;
 
     private boolean status;
 

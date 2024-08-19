@@ -4,6 +4,8 @@ const nextBtn = document.getElementById("next-page");
 const prevBtn = document.getElementById("prev-page");
 
 let totalPrice = 0;
+let oldTotalPrice = 0;
+let points = 0;
 let totalComboPrice = 0;
 let totalTicketPrice = 0;
 

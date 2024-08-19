@@ -25,6 +25,7 @@ public class BillRequestDTO {
         Integer showtimeId;
         List<ComboRequest> comboRequest;
         List<Integer> seatRequest;
+        Integer Points;
         Integer paymentMethod;
     }
 }

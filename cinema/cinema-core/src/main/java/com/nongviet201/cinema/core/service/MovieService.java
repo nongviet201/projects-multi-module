@@ -13,4 +13,6 @@ public interface MovieService {
     Movie getMovieById(int id);
 
     Movie getPublishMovieById(int id);
+
+    double updateRating(int movieId, int ratting);
 }

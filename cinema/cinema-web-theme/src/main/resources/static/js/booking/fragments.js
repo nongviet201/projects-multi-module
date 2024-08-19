@@ -142,6 +142,24 @@ function ticketTotalPriceShow() {
     }
 }
 
+function ticketDiscountPrice() {
+    if (points > 0) {
+        const discount = points * 1000;
+        oldTotalPrice = totalTicketPrice + totalComboPrice;
+        
+        const oldPriceEl = document.getElementById('old-price');
+        oldPriceEl.innerText = formatPrice(oldTotalPrice);
+        oldPriceEl.parentElement.classList.remove('d-none');
+
+        const discountPriceEl = document.getElementById('discount-price');
+        discountPriceEl.innerHTML = `- ${formatPrice(discount)}` ;
+        discountPriceEl.parentElement.classList.remove('d-none')
+        
+        totalPrice = (totalComboPrice + totalTicketPrice) - discount;
+        document.getElementById("total-price").innerText = formatPrice(totalPrice);
+    }
+}
+
 function getSeatTypeText(type) {
     switch (type) {
         case 'VIP':

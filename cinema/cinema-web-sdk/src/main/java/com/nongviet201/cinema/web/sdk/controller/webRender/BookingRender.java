@@ -3,6 +3,7 @@ package com.nongviet201.cinema.web.sdk.controller.webRender;
 import com.nongviet201.cinema.core.service.CityService;
 import com.nongviet201.cinema.core.service.ComboService;
 import com.nongviet201.cinema.core.service.MovieService;
+import com.nongviet201.cinema.web.sdk.controller.service.WebPromotionControllerService;
 import com.nongviet201.cinema.web.sdk.controller.service.WebShowtimeControllerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ public class BookingRender {
     private final MovieService movieService;
     private final CityService cityService;
     private final WebShowtimeControllerService showtimeControllerService;
+    private final WebPromotionControllerService promotionControllerService;
     private final ComboService comboService;
 
     @GetMapping("/stage-one")
@@ -58,7 +60,12 @@ public class BookingRender {
 
     @GetMapping("/stage-four")
     public String getStageFourFragments(
+        Model model
     ) {
+        model.addAttribute(
+            "promotion",
+            promotionControllerService.getCurrentUserPromotion()
+        );
         return "booking/stage/stage-four";
     }
 }

@@ -13,7 +13,7 @@
                 <div id="promotion-collapseOne" class="accordion-collapse collapse show">
                     <input id="coupon-code" type="text" >
                     <button class="bg-orange text-white">Áp dụng</button>
-                    <p>Lưu ý: Có thể áp dụng nhiều vouchers vào 1 lần thanh toán</p>
+                    <p class="fs-12px mb-1 text-black-50">Lưu ý: Có thể áp dụng nhiều vouchers vào 1 lần thanh toán</p>
                 </div>
             </div>
             <div class="accordion-item">
@@ -37,8 +37,8 @@
                 <div id="promotion-collapseThree" class="accordion-collapse collapse">
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                         <input id="points" type="text" >
-                        <button class="bg-orange text-white">Áp dụng</button>
-                        <p class="fs-12px mb-1 text-black-50">Bạn đang có 0 điểm Stars</p>
+                        <button class="bg-orange text-white" onclick="usePoints()">Áp dụng</button>
+                        <p class="fs-12px mb-1 text-black-50">Bạn đang có <span th:if="${promotion.getPoints() != null}">[[${promotion.getPoints()}]]</span> điểm Stars</p>
                         <div class="fs-14px mt-2">
                             <p class="fs-16px fw-700 mb-0">Lưu ý</p>
                             <p class="mb-0">Điểm Points có thể quy đổi thành tiền để mua vé hoặc bắp/nước tại các cụm rạp VCinema.</p>
@@ -109,6 +109,7 @@
                     <strong class="col-2 pt-2 fs-14px">Tổng</strong>
                     <div class="col-10 px-3 py-2 bg-blue">
                         <div id="bill-total-price" class="text-white fs-16px fw-600">200.000Đ</div>
+                        <span id="old-total-price" class="text-white-50 text-decoration-line-through fs-16px fw-600 d-none"></span>
                     </div>
                 </div>
                 <div class="">

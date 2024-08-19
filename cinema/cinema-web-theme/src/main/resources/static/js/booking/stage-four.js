@@ -12,10 +12,33 @@ function stageFour() {
         },
         error: function (xhr, status, error) {
             console.error(`Đã xảy ra lỗi: ${error}`);
-            console.error('Status:', status);
-            console.error('Error:', error);
         }
     });
+}
+
+function usePoints() {
+    points = document.getElementById('points').value;
+    if (points === '') {
+        toastShow("Vui lòng nhập số điểm")
+        return false;
+    } else if (points < 20 || points > 100) {
+        toastShowFail("Điểm số sử dụng phải đạt từ 20 đến 100");
+    } else {
+        $.ajax({
+            url: '/api/v1/promotion/check/' + points,
+            type: 'GET',
+            success: function (htmlResponse) {
+                if (htmlResponse === true) {
+                    ticketDiscountPrice()
+                } else {
+                    toastShowFail("Bạn không có đủ điểm để sử dụng")
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(`Đã xảy ra lỗi: ${error}`);
+            }
+        });
+    }
 }
 
 function getSelectedPayment() {
@@ -64,7 +87,13 @@ function updateTicketBill() {
         ${formatComboList()}
     `);
 
-    updateElement('bill-total-price', `${formatPrice(totalPrice)} <span>đ</span>`);
+    if (points !== 0) {
+        updateElement('old-total-price', `${formatPrice((totalTicketPrice + totalComboPrice))}<span>đ</span>`);
+        updateElement('bill-total-price', `${formatPrice((totalTicketPrice + totalComboPrice) - (points * 1000))}<span>đ</span>`);
+    } else {
+        updateElement('bill-total-price', `${formatPrice(totalTicketPrice + totalComboPrice)}<span>đ</span>`);
+    }
+
 
     billSubmit(
         billAccept = document.getElementById("submit-check"),
@@ -104,6 +133,7 @@ async function createBill() {
         showtimeId: showtime.id,
         comboRequest: comboRequest,
         seatRequest: seatRequest,
+        points : points,
         paymentMethod: paymentMethod
     };
 

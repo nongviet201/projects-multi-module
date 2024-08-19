@@ -1,34 +1,34 @@
 let isLogin = false;
 
 document.getElementById('form-login').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!$('#form-login').valid()) {
-            return;
-        }
+    e.preventDefault();
+    if (!$('#form-login').valid()) {
+        return;
+    }
 
-        const data = {
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value
-        }
+    const data = {
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+    }
 
-        const btn = document.getElementById("btn-login");
-        const context = btn.textContent;
+    const btn = document.getElementById("btn-login");
+    const context = btn.textContent;
 
-        try {
-            btnLoadingInClick(btn)
-            const res = await axios.post("/api/v1/auth/login", data);
-            btnLoadingFinish(btn, context);
-            toastShowSuccess("Đăng nhập thành công!");
-            setHeaderUserInfo(res.data);
-            hideModal(document.getElementById('auth-login-modal'));
-        } catch (e) {
-            btnLoadingFinish(btn, context);
-            modalErrorLog(
-                document.getElementById("auth-login-modal"),
-                document.querySelector(".error-login"),
-                e.response.data.message
-            )
-        }
+    try {
+        btnLoadingInClick(btn)
+        const res = await axios.post("/api/v1/auth/login", data);
+        btnLoadingFinish(btn, context);
+        toastShowSuccess("Đăng nhập thành công!");
+        setHeaderUserInfo(res.data);
+        hideModal(document.getElementById('auth-login-modal'));
+    } catch (e) {
+        btnLoadingFinish(btn, context);
+        modalErrorLog(
+            document.getElementById("auth-login-modal"),
+            document.querySelector(".error-login"),
+            e.response.data.message
+        )
+    }
 })
 
 document.getElementById('form-register').addEventListener('submit', async (e) => {
@@ -299,17 +299,11 @@ function modalErrorLog(modalEl, errorEl, message) {
 function setHeaderUserInfo(user) {
     document.querySelector('.login-btn').innerHTML = `
     <div class="dropdown">
-        <div class="d-flex" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="text-center" data-bs-toggle="dropdown" aria-expanded="false">
             <img style="width: 50px; height: 50px" src="${user.avatar}">
-            <div class="d-flex text-center flex-column fs-14px ms-3">
-                <strong class="mb-2">
-                    <span>${user.fullName}</span>
-                </strong>
-                <div class="d-flex justify-content-center align-items-center text-center gap-1">
-                    <i class="fa-solid text-orange fa-circle-dollar-to-slot"></i>
-                    <p class="mb-0">0 <span>Points</span></p>
-                </div>
-            </div>
+            <p class="my-2 fw-700">
+                <span>${user.fullName}</span>
+            </p>
         </div>
         <ul class="dropdown-menu mt-2">
             <li><a class="dropdown-item fs-14px" href="/user"><i class="me-3 fa-regular fa-id-card"></i>Tài khoản</a></li>
