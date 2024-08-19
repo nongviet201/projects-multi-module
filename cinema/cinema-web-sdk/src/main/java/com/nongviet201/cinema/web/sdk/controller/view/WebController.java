@@ -134,4 +134,15 @@ public abstract class WebController {
         );
         return "user/user";
     }
+
+    @GetMapping("/events")
+    public String getEventPage(
+        Model model
+    ) {
+        model.addAttribute(
+            "movies",
+            movieService.getAllPublishMoviesOrderByReleaseDate()
+        );
+        return "pages/events";
+    }
 }

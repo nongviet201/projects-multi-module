@@ -1,0 +1,24 @@
+<div>
+    <span class="line-blue me-2"></span>
+    <p class="d-inline-block align-content-center fs-20px fw-600 text-uppercase">
+        sự kiện
+    </p>
+</div>
+<div class="row h-100 justify-content-between">
+    <div class="card-events position-relative col-lg-4 col-6" th:each="post : ${posts}">
+        <div class="movie-content">
+            <div class="movie-img">
+                <a th:href="'/posts?id=' + ${post.getId()}">
+                    <img th:src="${post.getPoster()}"
+                         th:alt="${post.getName()}">
+                    <div class="overlay"></div>
+                </a>
+                <div class="movie-content-hover">
+                    <a th:href="'/posts?id=' + ${post.getId()}">
+                        <p class="m-0 fs-16px ms-2">[[${post.getName()}]]</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

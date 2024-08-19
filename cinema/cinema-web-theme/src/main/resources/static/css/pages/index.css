@@ -39,7 +39,8 @@
 }
 
 /* Hover content styles */
-.movie-content-hover {
+.movie-content-hover,
+.event-content-hover{
     opacity: 0;
     display: flex;
     position: absolute;
@@ -138,7 +139,7 @@
 }
 
 .line {
-    margin: 48px 0;
+    margin: 24px 0;
 }
 
 /* Sub-blog styles */
@@ -190,6 +191,10 @@
     }
     .card-movie {
         padding: 0 17px;
+    }
+    .card-events {
+        width: 270px;
+        height: 360px;
     }
     .movie-img {
         max-height: 418px;
