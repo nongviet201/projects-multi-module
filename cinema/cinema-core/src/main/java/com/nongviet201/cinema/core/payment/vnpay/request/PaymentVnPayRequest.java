@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.payment.vnpay.request;
+package com.nongviet201.cinema.core.payment.vnpay.request;
 
 import lombok.Getter;
 import lombok.Setter;

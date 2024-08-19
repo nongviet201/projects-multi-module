@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.payment.vnpay.code;
+package com.nongviet201.cinema.core.payment.vnpay.code;
 
 import lombok.Getter;
 

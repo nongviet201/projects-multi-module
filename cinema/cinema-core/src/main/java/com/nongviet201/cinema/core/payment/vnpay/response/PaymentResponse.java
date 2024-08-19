@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.payment.vnpay.response;
+package com.nongviet201.cinema.core.payment.vnpay.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

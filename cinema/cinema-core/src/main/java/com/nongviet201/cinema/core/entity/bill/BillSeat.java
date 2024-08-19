@@ -1,7 +1,6 @@
 package com.nongviet201.cinema.core.entity.bill;
 
 import com.nongviet201.cinema.core.entity.cinema.Seat;
-import com.nongviet201.cinema.payment.vnpay.code.ResponseCodeVNPAY;
 import jakarta.persistence.*;
 import lombok.*;
 

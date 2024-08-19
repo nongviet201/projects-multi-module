@@ -7,14 +7,15 @@ import com.nongviet201.cinema.core.exception.BadRequestException;
 import com.nongviet201.cinema.core.model.enums.bill.BillStatus;
 import com.nongviet201.cinema.core.model.enums.bill.PaymentMethod;
 import com.nongviet201.cinema.core.model.enums.showtime.ReservationType;
+import com.nongviet201.cinema.core.payment.vnpay.code.ResponseCodeVNPAY;
+import com.nongviet201.cinema.core.payment.vnpay.service.VnPayService;
 import com.nongviet201.cinema.core.repository.BillRepository;
 import com.nongviet201.cinema.core.repository.ReservationRepository;
 import com.nongviet201.cinema.core.repository.TranslationPaymentRepository;
 import com.nongviet201.cinema.core.request.ToPaymentRequest;
 import com.nongviet201.cinema.core.request.VnPayReturnRequest;
+
 import com.nongviet201.cinema.core.service.*;
-import com.nongviet201.cinema.payment.vnpay.code.ResponseCodeVNPAY;
-import com.nongviet201.cinema.payment.vnpay.service.VnPayService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -47,12 +48,7 @@ public class PaymentServiceImpl implements PaymentService {
                 request.getAmount(),
                 request.getTimeRemain()
             );
-        } else if (request.getPaymentMethod() == PaymentMethod.MOMO) {
-            return null;
-        } else if (request.getPaymentMethod() == PaymentMethod.ZALOPAY) {
-            return null;
         }
-
         throw new BadRequestException("Người dùng chưa chọn phuơng thức thanh toán");
     }
 

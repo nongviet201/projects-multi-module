@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service @AllArgsConstructor public class ActorServiceImpl implements ActorService {
+@Service
+@AllArgsConstructor
+public class ActorServiceImpl implements ActorService {
     private final ActorRepository actorRepository;
-
     @Override
     public List<Actor> getAllActors() {
         return actorRepository.findAll();

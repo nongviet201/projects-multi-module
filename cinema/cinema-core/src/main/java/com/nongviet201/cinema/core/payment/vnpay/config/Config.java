@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.payment.vnpay.config;
+package com.nongviet201.cinema.core.payment.vnpay.config;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

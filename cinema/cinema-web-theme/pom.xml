@@ -14,8 +14,6 @@
     <description>cinema-web-theme</description>
     <properties>
         <java.version>22</java.version>
-    <maven.compiler.source>10</maven.compiler.source>
-    <maven.compiler.target>10</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>

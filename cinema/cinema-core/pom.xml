@@ -12,16 +12,9 @@
     <packaging>jar</packaging>
     <properties>
         <java.version>22</java.version>
-    <maven.compiler.source>10</maven.compiler.source>
-    <maven.compiler.target>10</maven.compiler.target>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.nongviet201</groupId>
-            <artifactId>cinema-payment-vnpay</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
@@ -47,8 +40,8 @@
                     <compilerArgs>
                         <arg>-parameters</arg>
                     </compilerArgs>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>22</source>
+                    <target>22</target>
                 </configuration>
             </plugin>
         </plugins>
