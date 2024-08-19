@@ -16,8 +16,8 @@ public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
 
     @Override
-    public List<Movie> getAllPublishMoviesOrderByReleaseDate() {
-        return movieRepository.findAllByStatusOrderByReleaseDateDesc(true   );
+    public List<Movie> getAllPublishMoviesOrderByRating() {
+        return movieRepository.findAllByStatusOrderByRatingDesc(true);
     }
 
     public List<Movie> getAll() {

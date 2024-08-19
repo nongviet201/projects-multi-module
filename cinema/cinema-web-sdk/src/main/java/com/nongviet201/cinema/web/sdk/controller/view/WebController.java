@@ -2,7 +2,6 @@ package com.nongviet201.cinema.web.sdk.controller.view;
 
 import com.nongviet201.cinema.core.model.enums.PostType;
 import com.nongviet201.cinema.core.service.MovieService;
-import com.nongviet201.cinema.core.service.PostService;
 import com.nongviet201.cinema.web.sdk.controller.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public abstract class WebController {
@@ -27,7 +25,7 @@ public abstract class WebController {
     public String index(Model model) {
         model.addAttribute(
             "movies",
-            movieService.getAllPublishMoviesOrderByReleaseDate()
+            movieService.getAllPublishMoviesOrderByRating()
         );
         model.addAttribute(
             "posts",

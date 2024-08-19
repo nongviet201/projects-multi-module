@@ -1,12 +1,11 @@
 package com.nongviet201.cinema.core.service;
 
-
 import com.nongviet201.cinema.core.entity.movie.Movie;
 
 import java.util.List;
 
 public interface MovieService {
-    List<Movie> getAllPublishMoviesOrderByReleaseDate();
+    List<Movie> getAllPublishMoviesOrderByRating();
     Movie getPublishMovieBySlug(String slug);
     Movie findById(int id);
     List<Movie> getAllMoviesOderByReleaseDate();

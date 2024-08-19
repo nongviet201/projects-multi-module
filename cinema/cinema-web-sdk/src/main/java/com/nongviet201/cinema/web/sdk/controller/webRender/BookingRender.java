@@ -30,7 +30,7 @@ public class BookingRender {
         );
         model.addAttribute(
             "movies",
-            movieService.getAllPublishMoviesOrderByReleaseDate()
+            movieService.getAllPublishMoviesOrderByRating()
         );
         return "booking/stage/stage-one";
     }

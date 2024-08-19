@@ -20,7 +20,7 @@ public class NewMoviesRender {
     ) {
         model.addAttribute(
             "newMovies",
-            movieService.getAllPublishMoviesOrderByReleaseDate()
+            movieService.getAllPublishMoviesOrderByRating()
                 .stream()
                 .limit(4)
                 .collect(Collectors.toList())
