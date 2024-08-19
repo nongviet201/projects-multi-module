@@ -1,11 +1,9 @@
 package com.nongviet201.cinema.web.sdk.controller.view;
 
+import com.nongviet201.cinema.core.model.enums.PostType;
 import com.nongviet201.cinema.core.service.MovieService;
 import com.nongviet201.cinema.core.service.PostService;
-import com.nongviet201.cinema.web.sdk.controller.service.WebBillControllerService;
-import com.nongviet201.cinema.web.sdk.controller.service.WebShowtimeControllerService;
-import com.nongviet201.cinema.web.sdk.controller.service.WebUserControllerService;
-import com.nongviet201.cinema.web.sdk.controller.service.WebVerifyService;
+import com.nongviet201.cinema.web.sdk.controller.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +20,7 @@ public abstract class WebController {
     private final WebBillControllerService webBillControllerService;
     private final WebUserControllerService webUserControllerService;
     private final WebVerifyService verifyService;
-    private final PostService postService;
+    private final WebPostsControllerService webPostsControllerService;
 
 
     @GetMapping("/")
@@ -33,10 +31,11 @@ public abstract class WebController {
         );
         model.addAttribute(
             "posts",
-            postService.getAllPublishPostsOrderByUpdatedAt()
-                .stream()
-                .limit(4)
-                .collect(Collectors.toList())
+            webPostsControllerService.getPostsByTypePage(
+                PostType.REVIEW,
+                0,
+                4
+            )
         );
         return "index";
     }
@@ -81,18 +80,22 @@ public abstract class WebController {
     @GetMapping("/posts")
     public String getBlogsPage(
         @RequestParam(value = "id", required = false) Integer id,
+        @RequestParam(value = "type", required = false, defaultValue = "review") String type,
         Model model
     ) {
-        model.addAttribute(
-            "posts",
-            postService.getAllPublishPostsOrderByUpdatedAt()
-        );
         if (id!= null) {
             model.addAttribute(
                 "post",
-                postService.getPostById(id)
+                webPostsControllerService.getPostsById(id)
             );
             return "post/detail";
+        }
+        if (type != null) {
+            model.addAttribute(
+                "type",
+                type
+            );
+            return "post/index";
         }
         return "post/index";
     }
@@ -133,16 +136,5 @@ public abstract class WebController {
             webUserControllerService.getUserStatistic()
         );
         return "user/user";
-    }
-
-    @GetMapping("/events")
-    public String getEventPage(
-        Model model
-    ) {
-        model.addAttribute(
-            "movies",
-            movieService.getAllPublishMoviesOrderByReleaseDate()
-        );
-        return "pages/events";
     }
 }

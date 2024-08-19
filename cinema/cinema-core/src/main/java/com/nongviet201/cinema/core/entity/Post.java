@@ -25,10 +25,14 @@ public class Post {
     private String slug;
     @Column(columnDefinition = "TEXT")
     private String content;
+    @Column(columnDefinition = "TEXT")
+    private String description;
     private String thumbnail;
     private boolean status;
     private PostType type;
     private Integer view;
+
+    private LocalDate publishedAt;
     private LocalDate createdAt;
     private LocalDate updatedAt;
 

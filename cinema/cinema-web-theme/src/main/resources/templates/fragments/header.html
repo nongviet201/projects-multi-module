@@ -10,15 +10,29 @@
                 </a>
             </div>
             <nav class="menu-item d-none d-xl-block">
-                <ul>
+                <ul class="nav-items">
                     <li>
                         <a href="/booking">
                             <img class="ticket-logo" src="https://www.galaxycine.vn/_next/static/media/btn-ticket.42d72c96.webp"
                                  alt="ticket">
                         </a>
                     </li>
-                    <li><a href="/posts">Góc Điện Ảnh</a></li>
-                    <li><a href="/events">Sự Kiện</a></li>
+                    <li>
+                        <div class="dropdown">
+                            <div class="d-flex" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="d-flex text-center flex-column fs-14px ms-3">Góc Điện Ảnh</div>
+                            </div>
+                            <ul class="dropdown-menu mt-2">
+                                <li class="m-0 my-2 text-center">
+                                    <a class=" px-0 fs-14px" href="/posts?type=review">Bình Luận Phim</a>
+                                </li>
+                                <li class="m-0 my-2 text-center">
+                                    <a class=" px-0 fs-14px" href="/posts?type=blog">Blog Điện Ảnh</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="/posts?type=events">Sự Kiện</a></li>
                     <li><a href="#">Rạp/Giá Vé</a></li>
                 </ul>
             </nav>
@@ -71,8 +85,8 @@
                     <div class="sub-menu-item">
                         <ul>
                             <li><a href="#">Phim</a></li>
-                            <li><a href="#">Góc Điện Ảnh</a></li>
-                            <li><a href="#">Sự Kiện</a></li>
+                            <li><a>Góc Điện Ảnh</a></li>
+                            <li><a href="/posts?type=events">Sự Kiện</a></li>
                             <li><a href="#">Rạp/Giá Vé</a></li>
                         </ul>
                     </div>

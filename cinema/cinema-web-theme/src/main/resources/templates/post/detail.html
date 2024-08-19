@@ -15,7 +15,17 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb fs-14px">
                             <li class="breadcrumb-item "><a href="/">Trang Chủ</a></li>
-                            <li class="breadcrumb-item "><a href="/posts">Góc Điện Ảnh</a></li>
+                            <li class="breadcrumb-item ">
+                                <th:block th:if="${post.getType() == 'REVIEW'}">
+                                    <a href="/posts?type=review">Bình Luận Phim</a>
+                                </th:block>
+                                <th:block th:if="${post.getType() == 'BLOG'}">
+                                    <a href="/posts?type=blog">Blog Điện Ảnh</a>
+                                </th:block>
+                                <th:block th:if="${post.getType() == 'EVENTS'}">
+                                    <a href="/posts?type=events">Sự kiện</a>
+                                </th:block>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page" th:text="${post.getTitle()}"></li>
                         </ol>
                     </nav>
@@ -41,7 +51,8 @@
     </th:block>
 </main>
 <th:block id ="js">
-    <script src="/js/fragments/new-movies.js"></script>
+    <script th:inline="javascript">
+    </script>
 </th:block>
 </body>
 </html>

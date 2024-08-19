@@ -28,7 +28,7 @@
 <main>
     <th:block id="content">
         <section class="banner">
-            <div class="center">
+            <div class="center mb-0">
                 <div class="item ">
                     <img src="https://cdn.galaxycine.vn/media/2024/6/13/io2-2048_1718251991479.jpg" alt="">
                 </div>
@@ -110,7 +110,7 @@
                     </div>
                 </section>
 
-                <div class="line"></div>
+                <div class="line py-2"></div>
 
                 <section>
                     <div class="body-sub-menu">
@@ -127,55 +127,57 @@
                     </div>
                     <div class="post">
                         <div class="row">
-                            <th:block th:if="${posts[0]} != null">
+                            <!-- Hiển thị bài viết đầu tiên nếu tồn tại -->
+                            <th:block th:if="${posts.content.size() > 0}">
                                 <div class="col-lg-6">
-                                        <div class="main-blog p-2 main-post">
-                                            <div class="main-post-img post-img">
-                                                <a th:href="@{'/posts?id=' + ${posts[0].getId()}}">
-                                                    <img th:src="${posts[0].getThumbnail()}"
-                                                         th:alt="${posts[0].getTitle()}">
-                                                </a>
-                                            </div>
-                                            <a class="fs-18px mt-4 fw-700 fs-18px"
-                                               th:href="@{'/posts?id=' + ${posts[0].getId()}}" th:text="${posts[0].getTitle()}">
+                                    <div class="main-blog p-2 main-post">
+                                        <div class="main-post-img post-img">
+                                            <a th:href="@{'/posts?id=' + ${posts.content[0].id}}">
+                                                <img th:src="${posts.content[0].thumbnail}"
+                                                     th:alt="${posts.content[0].title}">
                                             </a>
-                                            <div class="mt-2">
-                                                <button class="like-btn">
-                                                    <i class="fa-solid fa-thumbs-up"></i><span class="ps-1">Thích</span>
-                                                </button>
-                                                <button class=" view-btn">
-                                                    <i class="fa-solid fa-eye"></i>
-                                                    <span th:text="${posts[0].getView()}">400</span>
-                                                </button>
-                                            </div>
+                                        </div>
+                                        <a class="fs-18px mt-4 fw-700 fs-18px"
+                                           th:href="@{'/posts?id=' + ${posts.content[0].id}}" th:text="${posts.content[0].title}">
+                                        </a>
+                                        <div class="mt-2">
+                                            <button class="like-btn">
+                                                <i class="fa-solid fa-thumbs-up"></i><span class="ps-1">Thích</span>
+                                            </button>
+                                            <button class="view-btn">
+                                                <i class="fa-solid fa-eye"></i>
+                                                <span th:text="${posts.content[0].view}">400</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </th:block>
+
+                            <!-- Hiển thị các bài viết còn lại -->
                             <div class="col-lg-6">
                                 <div class="sub-blog">
                                     <div class="d-flex flex-column mb-3 ms-2">
-                                        <div class="p-2 row" th:each="post, iterStat : ${posts}" th:if="${iterStat.index != 0}" >
+                                        <div class="p-2 row" th:each="post, iterStat : ${posts.content}" th:if="${iterStat.index != 0}">
                                             <div class="post-img col-lg-5">
-                                                <a th:href="@{'/posts?id=' + ${post.getId()}}">
-                                                    <img th:src="${post.getThumbnail()}"
-                                                         th:alt="${post.getTitle()}">
+                                                <a th:href="@{'/posts?id=' + ${post.id}}">
+                                                    <img th:src="${post.thumbnail}"
+                                                         th:alt="${post.title}">
                                                 </a>
                                             </div>
                                             <div class="fs-18px fw-700 col-lg-7 ms-3">
-                                                <a class="fs-18px fw-600" th:href="@{'/posts?id=' + ${post.getId()}}"
-                                                   th:text="${post.getTitle()}"></a>
+                                                <a class="fs-18px fw-600" th:href="@{'/posts?id=' + ${post.id}}"
+                                                   th:text="${post.title}"></a>
                                                 <div class="mt-2">
                                                     <button class="like-btn">
                                                         <i class="fa-solid fa-thumbs-up"></i><span class="ps-1">Thích</span>
                                                     </button>
-                                                    <button class=" view-btn">
+                                                    <button class="view-btn">
                                                         <i class="fa-solid fa-eye"></i>
-                                                        <span th:text="${post.getView()}">400</span>
+                                                        <span th:text="${post.view}">400</span>
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>

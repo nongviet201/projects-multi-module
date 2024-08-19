@@ -9,13 +9,13 @@
         <div class="movie-content">
             <div class="movie-img">
                 <a th:href="'/posts?id=' + ${post.getId()}">
-                    <img th:src="${post.getPoster()}"
-                         th:alt="${post.getName()}">
+                    <img th:src="${post.getThumbnail()}"
+                         th:alt="${post.getTitle()()}">
                     <div class="overlay"></div>
                 </a>
                 <div class="movie-content-hover">
                     <a th:href="'/posts?id=' + ${post.getId()}">
-                        <p class="m-0 fs-16px ms-2">[[${post.getName()}]]</p>
+                        <p class="m-0 fs-16px ms-2">[[${post.getTitle()}]]</p>
                     </a>
                 </div>
             </div>
