@@ -177,12 +177,18 @@
     color: #4A4A4A;
 }
 .body-sub-menu ul li a {
-    color: #333333;
     font-weight: 700;
     opacity: .5;
+    cursor: pointer;
 }
-.body-sub-menu ul li a:hover {
-    color: #1a87f6;
+.body-sub-menu ul li a:hover{
+    color: #034EA2FF !important;
+    opacity: 1;
+}
+.body-sub-menu ul li a.active {
+    color: #034EA2FF !important;
+    opacity: 1;
+    border-bottom: 2px solid #034EA2FF !important;
 }
 
 @media only screen and (min-width: 1024px) {

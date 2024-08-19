@@ -24,7 +24,7 @@ function getSelectedPayment() {
         nextBtn.classList.remove("disabled");
         paymentMethod = selectedInput.value;
     } else {
-        nextBtn.classList.add("disabled");;
+        nextBtn.classList.add("disabled");
     }
 }
 

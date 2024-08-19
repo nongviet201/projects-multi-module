@@ -22,7 +22,7 @@ public class NewMoviesRender {
             "newMovies",
             movieService.getAllPublishMoviesOrderByReleaseDate()
                 .stream()
-                .limit(3)
+                .limit(4)
                 .collect(Collectors.toList())
         );
         return "fragments/new-movies";

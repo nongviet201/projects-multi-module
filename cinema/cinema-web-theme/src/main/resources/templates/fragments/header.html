@@ -33,7 +33,18 @@
                         </div>
                     </li>
                     <li><a href="/posts?type=events">Sự Kiện</a></li>
-                    <li><a href="#">Rạp/Giá Vé</a></li>
+                    <li>
+                        <div class="dropdown">
+                            <div class="d-flex" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="d-flex text-center flex-column fs-14px">Rạp/Giá Vé</div>
+                            </div>
+                            <ul class="dropdown-menu mt-2">
+                                <li class="m-0 my-2 text-center">
+                                    <a class=" px-0 fs-14px" href="/posts?type=review">Bình Luận Phim</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </nav>
             <div class="menu-right">
@@ -43,17 +54,11 @@
                     </th:block>
                     <th:block sec:authorize="isAuthenticated()">
                         <div class="dropdown">
-                            <div class="d-flex" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img style="width: 50px; height: 50px" th:src="${#authentication.principal.getAvatar()}">
-                                <div class="d-flex text-center flex-column fs-14px ms-3">
-                                    <strong class="mb-2" th:text="${#authentication.principal.getFullName()}">
-                                        <span>star</span>
-                                    </strong>
-                                    <div class="d-flex justify-content-center align-items-center text-center gap-1">
-                                        <i class="fa-solid text-orange fa-circle-dollar-to-slot"></i>
-                                        <p class="mb-0">0 <span>Points</span></p>
-                                    </div>
-                                </div>
+                                <p class="mb-2 fw-700" th:text="${#authentication.principal.getFullName()}">
+                                    <span>star</span>
+                                </p>
                             </div>
                             <ul class="dropdown-menu mt-2">
                                 <li><a class="dropdown-item fs-14px" href="/user"><i class="me-3 fa-regular fa-id-card"></i>Tài khoản</a></li>

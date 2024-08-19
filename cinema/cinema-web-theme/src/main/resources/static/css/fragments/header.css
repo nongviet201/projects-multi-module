@@ -13,6 +13,9 @@ header .header-menu {
     width: 112px;
     height: 36px;
 }
+.dropdown-menu {
+    left: -2.4rem !important;
+}
 .nav-items {
     display: flex;
     justify-content: space-between;

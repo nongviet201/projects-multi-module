@@ -1,23 +1,73 @@
-<div id="stage-four" class="row bg-white px-4 py-4">
-    <div class="fs-18px fw-600">
-        Phương thức thanh toán
+<div id="stage-four" class="row">
+    <div class="mb-4 bg-white px-4 py-2">
+        <div class="fs-18px fw-700">
+            Khuyến mãi
+        </div>
+        <div class="border-0" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <div class="fs-14px cursor-pointer fw-700 mt-2 mb-3" data-bs-toggle="collapse" data-bs-target="#promotion-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        Mã khuyến mãi
+                    </div>
+                </h2>
+                <div id="promotion-collapseOne" class="accordion-collapse collapse show">
+                    <input id="coupon-code" type="text" >
+                    <button class="bg-orange text-white">Áp dụng</button>
+                    <p>Lưu ý: Có thể áp dụng nhiều vouchers vào 1 lần thanh toán</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <div class="fs-14px cursor-pointer fw-700 mb-3" data-bs-toggle="collapse" data-bs-target="#promotion-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                        Mã khuyến mãi của bạn <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </h2>
+                <div id="promotion-collapseTwo" class="accordion-collapse collapse mb-4">
+                    <div>
+                        coupon-list
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <div class="fs-14px cursor-pointer fw-700 mb-3" data-bs-toggle="collapse" data-bs-target="#promotion-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                        Áp dụng points <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </h2>
+                <div id="promotion-collapseThree" class="accordion-collapse collapse">
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                        <input id="points" type="text" >
+                        <button class="bg-orange text-white">Áp dụng</button>
+                        <p class="fs-12px mb-1 text-black-50">Bạn đang có 0 điểm Stars</p>
+                        <div class="fs-14px mt-2">
+                            <p class="fs-16px fw-700 mb-0">Lưu ý</p>
+                            <p class="mb-0">Điểm Points có thể quy đổi thành tiền để mua vé hoặc bắp/nước tại các cụm rạp VCinema.</p>
+                            <ul class="mb-2">
+                                <li class="ms-3">1 Points = 1,000 VNĐ</li>
+                                <li>Points quy định trên 1 giao dịch: tối thiểu là 20 điểm và tối đa là 100 điểm.</li>
+                            </ul>
+                            <p class="mb-0">Points là điểm tích lũy dựa trên giá trị giao dịch bởi thành viên giao dịch tại VCinema. Cơ chế tích lũy points, như sau:</p>
+                            <ul class="mb-2">
+                                <li class="ms-3">Thành viên Normal: 3% trên tổng giá trị/ số tiền giao dịch.</li>
+                                <li class="ms-3">Thành viên VIP: 5% trên tổng giá trị/ số tiền giao dịch.</li>
+                                <li class="ms-3">Thành viên PRENIUM: 10% trên tổng giá trị/ số tiền giao dịch.</li>
+                            </ul>
+                            <p>Ví dụ: hóa đơn giao dịch của khách hàng là 100,000 VNĐ, hạng thành viên Normal. Số points tích được sẽ là 5 points, tương đương với 5,000 VNĐ.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
+    <div class="bg-white px-4 py-2">
+        <div class="fs-18px fw-700">
+            Phương thức thanh toán
+        </div>
         <ul class="payment mt-3">
             <li class="d-flex align-items-center mb-4 gap-1">
                 <input type="radio" id="payment-vnpay" name="payment" value="1" onclick="getSelectedPayment()">
                 <img class="payment-logo" src="https://cdn.galaxycine.vn/media/2021/12/2/download_1638460623615.png" alt="VNPay">
                 <label for="payment-vnPay">VNPay</label>
-            </li>
-             <li class="d-flex align-items-center mb-4 gap-1">
-                <input type="radio" id="payment-momo" name="payment" value="2" onclick="getSelectedPayment()">
-                <img class="payment-logo" src="https://cdn.galaxycine.vn/media/2020/10/20/momo-icon_1603203874499.png" alt="Momo">
-                <label for="payment-momo">Momo</label>
-            </li>
-            <li class="d-flex align-items-center mb-4 gap-1">
-                <input type="radio" id="payment-zalopay" name="payment" value="3" onclick="getSelectedPayment()">
-                <img class="payment-logo" src="https://cdn.galaxycine.vn/media/2024/7/10/zalopay_1720600308412.png" alt="ZaloPay">
-                <label for="payment-momo">ZaloPay</label>
             </li>
         </ul>
     </div>
