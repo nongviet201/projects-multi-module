@@ -11,6 +11,8 @@
     <version>0.0.1-SNAPSHOT</version>
     <properties>
         <java.version>22</java.version>
+    <maven.compiler.source>10</maven.compiler.source>
+    <maven.compiler.target>10</maven.compiler.target>
     </properties>
     <packaging>pom</packaging>
     <dependencies>
@@ -18,7 +20,6 @@
 
     <modules>
         <module>cinema-payment-vnpay</module>
-        <module>cinema-payment-momo</module>
     </modules>
 
     <build>
