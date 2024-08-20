@@ -28,6 +28,12 @@
         .star.selected {
             color: #e8ae3e;
         }
+
+        button:hover {
+            transform: scale(1.1);
+            border: 1px solid #034EA2 !important;
+            color: #034EA2!important;
+        }
     </style>
 </th:block>
 <body>
@@ -300,7 +306,6 @@
                     const cinemaKey = showtime.cinemaName;
 
                     // Kiểm tra xem rạp có phù hợp với bộ lọc không
-                    // Nếu selectedCinema là 'ALL', bỏ qua việc lọc rạp
                     if (selectedCinema !== 'ALL' && cinemaKey !== selectedCinema) {
                         return; // Bỏ qua nếu rạp không khớp với bộ lọc
                     }
@@ -313,7 +318,7 @@
                     if (!cinemas.get(cinemaKey).has(audKey)) {
                         cinemas.get(cinemaKey).set(audKey, []);
                     }
-                    cinemas.get(cinemaKey).get(audKey).push(showtime.startTime);
+                    cinemas.get(cinemaKey).get(audKey).push(showtime);
                 });
 
                 // Render cinemas and showtimes
@@ -322,11 +327,11 @@
                     cinemaDiv.className = 'cinema px-3';
 
                     let html = `<div class="border-bottom py-3"> <strong>${cinemaName}</strong>`;
-                    auditoriums.forEach((times, auditoriumType) => {
+                    auditoriums.forEach((showtimes, auditoriumType) => {
                         html += `<div class="showtime-group row align-items-center mt-2"><div class="fs-14px col-2 mb-0 ps-2">${auditoriumType}</div><br>`;
                         let timesHtml = `<div class="col-10">`
-                        times.forEach(time => {
-                            timesHtml += `<button class="px-3 py-2 ms-2 mb-2">${time}</button>`;
+                        showtimes.forEach(showtime => {
+                            timesHtml += `<button class="px-3 py-2 ms-2 mb-2 btn-start-time" data-id="${showtime.id}">${showtime.startTime}</button>`;
                         });
                         timesHtml += `</div>`;
                         html += timesHtml + `</div>`;
@@ -334,6 +339,22 @@
 
                     cinemaDiv.innerHTML = html;
                     showtimeContainer.appendChild(cinemaDiv);
+                });
+
+                // Event listener cho các button startTime
+                document.querySelectorAll('.btn-start-time').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const selectedId = e.target.getAttribute('data-id');
+                        loggedIn(selectedId);
+
+                        // Xóa class active từ tất cả các nút
+                        document.querySelectorAll('.btn-start-time').forEach(button => {
+                            button.classList.remove('active');
+                        });
+
+                        // Thêm class active vào nút vừa click
+                        e.target.classList.add('active');
+                    });
                 });
             }
 
@@ -363,6 +384,12 @@
                 const selectedCinema = e.target.value;
                 renderShowtimesForDate(selectedDate, selectedCinema);
             });
+        }
+
+        async function loggedIn(selectedId) {
+            if (await checkLogin()) {
+                window.location.href = `/booking?showtime=${selectedId}`;
+            }
         }
     </script>
 

@@ -1,5 +1,3 @@
-
-
 function stageOne() {
     $.ajax({
         url: '/booking/get/stage-one', type: 'GET', success: function (htmlResponse) {

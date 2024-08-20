@@ -22,7 +22,7 @@ public class WebSeatControllerService {
 
     public List<WebSeatResponse> getSeatsByShowtimeId(int ShowtimeId) {
         Showtime showtime = showtimeService.getShowtimeById(ShowtimeId);
-        List<Seat> seats = seatService.getAllByAuditoriumIdOrderBySeatRowAscSeatColumnAsc(showtime.getAuditorium().getId());
+        List<Seat> seats = seatService.getAllSeatsByAuditoriumIdOrderBySeatRowAsc(showtime.getAuditorium().getId());
 
         List<WebSeatResponse> webSeats = new ArrayList<>();
         for (Seat seat : seats) {
