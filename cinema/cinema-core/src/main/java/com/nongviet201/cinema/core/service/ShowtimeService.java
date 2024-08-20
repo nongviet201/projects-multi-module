@@ -16,4 +16,6 @@ public interface ShowtimeService {
     List<Showtime> getAllShowtimesOnTheSameDayById(Integer showtimeId);
 
     List<Showtime> getAllShowtimesByMovieIdAnDate(int movieId, LocalDate date);
+
+    List<Showtime> getAllShowtimeByMovieId(int movieId);
 }

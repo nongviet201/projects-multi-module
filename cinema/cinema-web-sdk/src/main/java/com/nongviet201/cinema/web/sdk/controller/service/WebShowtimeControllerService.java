@@ -44,6 +44,15 @@ public class WebShowtimeControllerService {
                 .collect(Collectors.toList());
     }
 
+    public List<WebShowtimeResponse> getAllShowtimeByMovieId(
+        int movieId
+    ) {
+        List<Showtime> showTimes = showtimeService.getAllShowtimeByMovieId(movieId);
+        return showTimes.stream()
+            .map(showtimeDecorator::decorate)
+            .collect(Collectors.toList());
+    }
+
     public List<WebShowtimeResponse> getAllShowtimesOnTheSameDayById(
             Integer showtimeId
     ) {

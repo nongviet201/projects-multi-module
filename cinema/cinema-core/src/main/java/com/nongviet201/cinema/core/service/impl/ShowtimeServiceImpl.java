@@ -46,6 +46,11 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     }
 
     @Override
+    public List<Showtime> getAllShowtimeByMovieId(int movieId) {
+        return showtimeRepository.findAllByMovie_IdOrderByScreeningDateAsc(movieId);
+    }
+
+    @Override
     public List<Showtime> getShowtimeByMovieIdAndAuditoriumId(Integer movieId, Integer auditoriumId) {
         return showtimeRepository.findAllByMovie_IdAndAuditorium_IdOrderByStartTimeDesc(movieId, auditoriumId);
     }

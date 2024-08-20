@@ -135,6 +135,19 @@ button.disabled {
     pointer-events: none;
     opacity: 0.5;
 }
+select {
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #4A4A4A;
+    opacity: 1;
+    padding: .5rem;
+    background: none;
+}
+select:focus,
+select:hover {
+    border: 1px solid #034EA2 !important;
+}
 input {
     border: 1px solid #e5e7eb;
     border-radius: 5px;

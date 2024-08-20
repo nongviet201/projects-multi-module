@@ -37,12 +37,12 @@ public class ShowtimeAPI {
         );
     }
 
-    @RequestMapping("/get/{movieId}")
+    @RequestMapping("/get/movieId/{movieId}")
     public ResponseEntity<?> getShowtimeByMovieId(
         @PathVariable int movieId
     ) {
         return ResponseEntity.ok(
-            showtimeControllerService.getShowtimeById(showtimeId)
+            showtimeControllerService.getAllShowtimeByMovieId(movieId)
         );
     }
 
