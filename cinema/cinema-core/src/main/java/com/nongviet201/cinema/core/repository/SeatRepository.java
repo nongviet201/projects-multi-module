@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Integer> {
-    List<Seat> findAllByAuditoriumIdOrderBySeatColumnDesc(int auditoriumId);
+    List<Seat> findAllByAuditoriumIdOrderBySeatRowAscSeatColumnAsc(int auditoriumId);
 }

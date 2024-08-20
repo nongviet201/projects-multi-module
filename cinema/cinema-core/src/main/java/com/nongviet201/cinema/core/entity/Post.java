@@ -29,6 +29,7 @@ public class Post {
     private String description;
     private String thumbnail;
     private boolean status;
+    @Enumerated(EnumType.STRING)
     private PostType type;
     private Integer view;
 

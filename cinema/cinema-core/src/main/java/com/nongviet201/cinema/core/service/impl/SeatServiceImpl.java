@@ -14,8 +14,8 @@ import java.util.List;
 public class SeatServiceImpl implements SeatService {
     private final SeatRepository seatRepository;
     @Override
-    public List<Seat> getAllSeatsByAuditoriumIdOrderBySeatColumnDesc(int auditoriumId) {
-        return seatRepository.findAllByAuditoriumIdOrderBySeatColumnDesc(auditoriumId)  ;
+    public List<Seat> getAllByAuditoriumIdOrderBySeatRowAscSeatColumnAsc(int auditoriumId) {
+        return seatRepository.findAllByAuditoriumIdOrderBySeatRowAscSeatColumnAsc(auditoriumId)  ;
     }
 
     @Override

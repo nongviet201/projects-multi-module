@@ -5,7 +5,7 @@ import com.nongviet201.cinema.core.entity.cinema.Seat;
 import java.util.List;
 
 public interface SeatService {
-    List<Seat> getAllSeatsByAuditoriumIdOrderBySeatColumnDesc(int auditoriumId);
+    List<Seat> getAllByAuditoriumIdOrderBySeatRowAscSeatColumnAsc(int auditoriumId);
 
     Seat getSeatById(int seatId);
     

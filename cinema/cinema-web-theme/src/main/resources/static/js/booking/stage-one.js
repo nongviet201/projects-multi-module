@@ -16,6 +16,7 @@ let cityId;
 function getCityFunc(button) {
     cityBtns = document.querySelectorAll(".city-btn");
     cityId = btnFunc(button, cityBtns)
+    document.getElementById('city-name').innerHTML = `- ${button.textContent}`;
     showtime = null;
     showtimeCheck();
     openNextAccordion(1);
@@ -26,6 +27,7 @@ function getMovieFunc(div) {
     const movieName = div.querySelector('h5').innerText;
     const moviePoster = div.querySelector('img').getAttribute('src');
     const movieAgeRequirement = div.getAttribute('data-movie-age');
+    document.getElementById('movie-name').innerHTML = `- ${movieName}`;
 
     showtimeDetailMovieShow(moviePoster, movieName, movieAgeRequirement);
     showtimeDetailCinemaHide();
@@ -110,12 +112,15 @@ function getDateFunc(button) {
             const timeBtnDiv = document.createElement('div');
             timeBtnDiv.classList.add('col-10');
 
-            showtimes.forEach(showtime => {
+            showtimes.forEach(e => {
                 const btn = document.createElement('button');
                 btn.classList.add('time-btn', 'py-2', 'px-3', 'ms-2', 'mb-2');
                 btn.onclick = function() { getShowtimeFuncBtn(btn); };
-                btn.value = showtime.id;
-                btn.innerText = showtime.startTime;
+                btn.value = e.id;
+                if (showtime != null && e.id === showtime.id) {
+                    btn.classList.add('active');
+                }
+                btn.innerText = e.startTime;
                 timeBtnDiv.appendChild(btn);
             });
 
