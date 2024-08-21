@@ -11,7 +11,7 @@ function stageFour() {
             nextBtn.classList.add("disabled");
         },
         error: function (xhr, status, error) {
-            console.error(`Đã xảy ra lỗi: ${error}`);
+            console.log(error);
         }
     });
 }
@@ -29,7 +29,8 @@ function usePoints() {
             type: 'GET',
             success: function (htmlResponse) {
                 if (htmlResponse === true) {
-                    ticketDiscountPrice()
+                    ticketTotalPriceShow();
+                    updateTicketBill();
                 } else {
                     toastShowFail("Bạn không có đủ điểm để sử dụng")
                 }
@@ -58,7 +59,7 @@ function updateTicketBill() {
         <p class="fs-16px fw-600 text-blue">${showtime.movieName}</p>
         <p class="fs-14px">${showtime.auditoriumType} 
         <span> - </span> 
-        <span class="fs-14px px-2 py-1 fw-700 bg-orange text-white" style="border-radius: 5px">T${showtime.ageRequirement}</span>
+        <span class="fs-14px px-2 py-1 fw-700 bg-orange text-white" style="border-radius: 5px">${showtime.ageRequirement}</span>
         </p>
     `);
 
@@ -87,13 +88,16 @@ function updateTicketBill() {
         ${formatComboList()}
     `);
 
-    if (points !== 0) {
-        updateElement('old-total-price', `${formatPrice((totalTicketPrice + totalComboPrice))}<span>đ</span>`);
+    if (points > 0) {
+        const oldPrice = document.createElement('span');
+        oldPrice.classList.add('text-decoration-line-through', 'ms-1', 'fs-12px');
+        oldPrice.innerHTML = `${formatPrice((totalTicketPrice + totalComboPrice))}đ`
         updateElement('bill-total-price', `${formatPrice((totalTicketPrice + totalComboPrice) - (points * 1000))}<span>đ</span>`);
+        document.getElementById('bill-total-price').appendChild(oldPrice);
     } else {
         updateElement('bill-total-price', `${formatPrice(totalTicketPrice + totalComboPrice)}<span>đ</span>`);
-    }
 
+    }
 
     billSubmit(
         billAccept = document.getElementById("submit-check"),

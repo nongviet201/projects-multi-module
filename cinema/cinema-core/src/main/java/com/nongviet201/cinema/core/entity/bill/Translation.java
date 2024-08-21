@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "translation_payment")
-public class TranslationPayment {
+@Table(name = "translation")
+public class Translation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -31,6 +31,10 @@ public class TranslationPayment {
     private PaymentMethod paymentMethod;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "response_codevnpay", length = 50)
+    @Column(name = "response_codevnpay", length = 100)
     private ResponseCodeVNPAY responseCodeVNPAY;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bill_id")
+    private Bill bill;
 }

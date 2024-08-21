@@ -54,7 +54,7 @@
                                         <h1 class="mt-1 mb-3">14.212</h1>
                                         <div class="mb-0">
 													<span class="text-success"> <i
-                                                        class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
+                                                            class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
                                             <span class="text-muted">So với tuần trước</span>
                                         </div>
                                     </div>
@@ -77,7 +77,7 @@
                                         <h1 class="mt-1 mb-3">2.000.000đ</h1>
                                         <div class="mb-0">
 													<span class="text-success"> <i
-                                                        class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
+                                                            class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
                                             <span class="text-muted">So với tuần trước</span>
                                         </div>
                                     </div>
@@ -114,7 +114,7 @@
 
                             <h5 class="card-title mb-0">Biểu đồ doanh thu theo tháng</h5>
                         </div>
-                        <div class="card-body py-3">
+                        <div class="card-body py-3 px-2">
                             <div class="chart chart-sm">
                                 <canvas id="chartjs-dashboard-line"></canvas>
                             </div>
@@ -188,42 +188,42 @@
 
             <div class="row">
                 <div class="col-12 col-lg-8 col-xxl-9 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-header">
-
+                    <div class="card px-4 flex-fill">
+                        <div class="card-header px-0">
                             <h5 class="card-title mb-0">Doanh số trong tuần theo từng rạp</h5>
                         </div>
-                        <table class="table table-hover my-0">
+                        <table id="index-cinema" class="table table-hover my-0">
                             <thead>
                             <tr>
                                 <th>Tên rạp</th>
                                 <th class="d-none d-xl-table-cell">Tổng vé bán ra</th>
                                 <th class="d-none d-xl-table-cell">Tổng doanh thu</th>
-                                <th>Lượng khách hàng mới</th>
+                                <th class="d-none d-xl-table-cell">KPI</th>
                                 <th class="d-none d-md-table-cell">Quản lý</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>Project Apollo</td>
+                                <td>cinema.name</td>
                                 <td class="d-none d-xl-table-cell">01/01/2021</td>
                                 <td class="d-none d-xl-table-cell">31/06/2021</td>
-                                <td><span class="badge bg-success">Done</span></td>
+                                <td>
+                                    <div class="d-flex flex-column w-100">
+                                        <span class="me-2 mb-1 text-muted">65%</span>
+                                        <div class="progress progress-sm bg-success-light w-100">
+                                            <div class="progress-bar bg-success" role="progressbar"
+                                                 style="width: 65%;"></div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="d-none d-md-table-cell">Vanessa Tucker</td>
-                            </tr>
-                            <tr>
-                                <td>Project Fireball</td>
-                                <td class="d-none d-xl-table-cell">01/01/2021</td>
-                                <td class="d-none d-xl-table-cell">31/06/2021</td>
-                                <td><span class="badge bg-danger">Cancelled</span></td>
-                                <td class="d-none d-md-table-cell">William Harris</td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="col-12 col-lg-4 col-xxl-3 d-flex">
-                    <div class="card flex-fill w-100">
+                    <div class="card flex-fill w-100" style="max-height: 460px">
                         <div class="card-header">
 
                             <h5 class="card-title mb-0">Lượng khách hàng mới theo từng tháng</h5>
@@ -236,14 +236,16 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 </div>
 
 <th:block id="js">
-    <script src="/dist/js/index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWTx7bREpM5B6JKdbzOvMW-RRlhkukmVE&callback=initMaps"
+            async="" defer=""></script>
+    <script src="/dist/js/index.js"></script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
@@ -287,7 +289,7 @@
                     tooltips: {
                         intersect: false,
                         callbacks: {
-                            label: function(tooltipItem) {
+                            label: function (tooltipItem) {
                                 return `Doanh thu: ${tooltipItem.yLabel.toLocaleString()} VND`;
                             }
                         }
@@ -314,9 +316,9 @@
                         }],
                         yAxes: [{
                             ticks: {
-                                // Định dạng nhãn trục Y với dấu phân cách hàng nghìn
-                                callback: function(value) {
-                                    return value.toLocaleString();
+                                // Định dạng nhãn trục Y theo dạng triệu
+                                callback: function (value) {
+                                    return (value / 1000000) + ' triệu';
                                 },
                                 // Bước nhảy của các mốc trên trục Y
                                 stepSize: 1000000,
@@ -330,7 +332,6 @@
                             },
                             scaleLabel: {
                                 display: true,
-                                labelString: "VND",
                                 fontColor: "#333"
                             }
                         }]
@@ -421,80 +422,65 @@
         });
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWTx7bREpM5B6JKdbzOvMW-RRlhkukmVE&callback=initMaps" async="" defer=""></script>
     <script>
-        function initMaps() {
-            var defaultMap = {
-                zoom: 7,
-                center: {
-                    lat: 21,
-                    lng: 105.86103641748585
+        $(document).ready(function () {
+            $('#index-cinema').DataTable({
+                "ajax": {
+                    "url": "admin/api/v1/cinema/get/all-data", // Địa chỉ API để lấy dữ liệu
+                    "type": "GET",
+                    "dataSrc": function (json) {
+                        return json.data;
+                    }
                 },
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
+                "columns": [
+                    {"data": "name"},         // Tên rạp
+                    {"data": "total_tickets"}, // Tổng vé bán ra
+                    {"data": "total_revenue"}, // Tổng doanh thu
+                    {
+                        "data": "kpi",             // KPI
+                        "render": function (data, type, row) {
+                            return `
+                            <div class="d-flex flex-column w-100">
+                                <span class="me-2 mb-1 text-muted">${data}%</span>
+                                <div class="progress progress-sm bg-success-light w-100">
+                                    <div class="progress-bar bg-success" role="progressbar"
+                                         style="width: ${data}%;"></div>
+                                </div>
+                            </div>
+                        `;
+                        }
+                    },
+                    {"data": "manager"}       // Quản lý
+                ]
+            });
+        });
 
-            var map = new google.maps.Map(document.getElementById("map"), defaultMap);
 
-            // Các tọa độ và thông tin cho các markers
-            var locations = [
-                {
-                    lat: 21.028511,
-                    lng: 105.854167,
-                    info: `
-                <div>
-                    <strong>Khu Phố Cổ Hà Nội</strong><br>
-                    P. Hàng Ngang<br>
-                    Hàng Đào<br>
-                    Hoàn Kiếm<br>
-                    Hà Nội 100000, Việt Nam<br>
-                    <a href="https://www.google.com/maps/search/?api=1&query=21.028511,105.854167" target="_blank">Xem trên Google Maps</a>
-                </div>
-            `,
-                    title: "Hồ Gươm",
-                    label: "A",
-                    draggable: true,
-                    zIndex: 1
+        $('#index-cinema').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true,
+            "responsive": true,
+            "language": {
+                "sProcessing": "Đang xử lý...",
+                "sLengthMenu": "Hiển thị _MENU_ mục",
+                "sZeroRecords": "Không tìm thấy kết quả",
+                "sInfo": "Đang hiển thị _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                "sInfoEmpty": "Đang hiển thị 0 đến 0 trong tổng số 0 mục",
+                "sInfoFiltered": "(lọc từ _MAX_ mục)",
+                "sInfoPostFix": "",
+                "sSearch": "Tìm kiếm:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Đang tải...",
+                "oAria": {
+                    "sSortAscending": ": kích hoạt để sắp xếp cột theo thứ tự tăng dần",
+                    "sSortDescending": ": kích hoạt để sắp xếp cột theo thứ tự giảm dần"
                 }
-            ];
-
-            // Thêm các markers vào bản đồ
-            locations.forEach(function(location) {
-                var marker = new google.maps.Marker({
-                    position: {lat: location.lat, lng: location.lng},
-                    map: map,
-                    title: location.title,
-                    animation: location.animation,
-                    label: location.label,
-                    draggable: location.draggable,
-                    zIndex: location.zIndex
-                });
-
-                // Tạo InfoWindow cho mỗi marker
-                var infoWindow = new google.maps.InfoWindow({
-                    content: location.info
-                });
-
-                // Mở InfoWindow khi click vào marker
-                marker.addListener('click', function() {
-                    infoWindow.open(map, marker);
-                });
-
-                // Đóng InfoWindow khi click ra ngoài (không bắt buộc)
-                map.addListener('click', function() {
-                    infoWindow.close();
-                });
-            });
-        }
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("datetimepicker-dashboard").flatpickr({
-                locale: "vn",
-                inline: true,
-                prevArrow: "<span title=\"Tháng trước\">&laquo;</span>",
-                nextArrow: "<span title=\"Tháng sau\">&raquo;</span>",
-                defaultDate: Date.now()
-            });
+            },
         });
     </script>
 </th:block>

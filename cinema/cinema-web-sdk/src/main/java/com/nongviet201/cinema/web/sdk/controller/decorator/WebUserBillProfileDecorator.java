@@ -3,6 +3,7 @@ package com.nongviet201.cinema.web.sdk.controller.decorator;
 import com.nongviet201.cinema.core.entity.bill.Bill;
 import com.nongviet201.cinema.core.entity.bill.BillCombo;
 import com.nongviet201.cinema.core.entity.bill.BillSeat;
+import com.nongviet201.cinema.core.entity.bill.Translation;
 import com.nongviet201.cinema.core.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.entity.movie.Movie;
 import com.nongviet201.cinema.core.service.BillComboService;
@@ -45,7 +46,11 @@ public class WebUserBillProfileDecorator {
             );
     }
 
-    public WebBillDetailResponse billDetailDecorator(Bill bill) {
+    public WebBillDetailResponse billDetailDecorator(
+        Translation translation
+    ) {
+        Bill bill = translation.getBill();
+
         Showtime showtime = bill.getShowtime();
         Movie movie = showtime.getMovie();
 
@@ -70,11 +75,11 @@ public class WebUserBillProfileDecorator {
             showtime.getAuditorium().getName(),
             seats,
             combos,
-            bill.getTranslationPayment().getPaymentMethod().toString(),
+            translation.getPaymentMethod().toString(),
             webFormatter.formatMoney((int) bill.getTotalPrice()),
             bill.getPoints(),
             bill.getBarcode(),
-            bill.getTranslationPayment().getTransactionNo()
+            translation.getTransactionNo()
         );
     }
 

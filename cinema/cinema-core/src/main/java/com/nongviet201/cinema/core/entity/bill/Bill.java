@@ -37,8 +37,4 @@ public class Bill {
     @ManyToOne
     @JoinColumn(name = "showtime_id")
     private Showtime showtime;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "translation_payment_id")
-    private TranslationPayment translationPayment;
 }

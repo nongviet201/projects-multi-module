@@ -135,18 +135,10 @@ function showtimeDetailSeatShow() {
 }
 
 function ticketTotalPriceShow() {
-    const ticketTotalPrice = document.getElementById("total-price");
-    totalPrice = totalComboPrice + totalTicketPrice;
-    if (ticketTotalPrice) {
-        ticketTotalPrice.innerText = formatPrice(totalPrice);
-    }
-}
-
-function ticketDiscountPrice() {
     if (points > 0) {
         const discount = points * 1000;
         oldTotalPrice = totalTicketPrice + totalComboPrice;
-        
+
         const oldPriceEl = document.getElementById('old-price');
         oldPriceEl.innerText = formatPrice(oldTotalPrice);
         oldPriceEl.parentElement.classList.remove('d-none');
@@ -154,9 +146,17 @@ function ticketDiscountPrice() {
         const discountPriceEl = document.getElementById('discount-price');
         discountPriceEl.innerHTML = `- ${formatPrice(discount)}` ;
         discountPriceEl.parentElement.classList.remove('d-none')
-        
+
         totalPrice = (totalComboPrice + totalTicketPrice) - discount;
         document.getElementById("total-price").innerText = formatPrice(totalPrice);
+    } if (points === 0) {
+        document.getElementById('old-price').parentElement.classList.add('d-none');
+        document.getElementById('discount-price').parentElement.classList.add('d-none');
+        const ticketTotalPrice = document.getElementById("total-price");
+        totalPrice = totalComboPrice + totalTicketPrice;
+        if (ticketTotalPrice) {
+            ticketTotalPrice.innerText = formatPrice(totalPrice);
+        }
     }
 }
 

@@ -27,7 +27,7 @@ public class PaymentReturnAPI {
     ){
         Integer id = paymentService.PaymentVnPayReturnCheck(
             VnPayReturnRequest.builder()
-                .billId(billId)
+                .transitionId(billId)
                 .responseCode(responseCode)
                 .transactionNo(transactionNo)
                 .transactionStatus(transactionStatus)

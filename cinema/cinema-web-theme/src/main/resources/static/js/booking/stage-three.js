@@ -4,6 +4,8 @@ function stageThree() {
         url: '/booking/get/stage-three', type: 'GET', success: function (htmlResponse) {
             divStage.innerHTML = htmlResponse;
             ticketDetailComboHide();
+            points = 0;
+            ticketTotalPriceShow()
             getCombo()
         }, error: function (xhr) {
             console.error('Đã xảy ra lỗi: ' + xhr);

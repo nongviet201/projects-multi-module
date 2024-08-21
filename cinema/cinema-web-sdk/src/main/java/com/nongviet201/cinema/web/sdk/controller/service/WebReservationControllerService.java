@@ -1,6 +1,5 @@
 package com.nongviet201.cinema.web.sdk.controller.service;
 
-import com.nongviet201.cinema.core.entity.bill.Reservation;
 import com.nongviet201.cinema.core.request.ReservationRequest;
 import com.nongviet201.cinema.core.service.ReservationService;
 import com.nongviet201.cinema.web.sdk.controller.decorator.WebReservationDecorator;
@@ -21,8 +20,7 @@ public class WebReservationControllerService {
     public List<WebReservationResponse> getAllReservationsShowtimeId(
             int id
     ) {
-        List<Reservation> reservations = reservationService.getAllReservationByShowtimeId(id);
-        return reservations.stream()
+        return reservationService.getAllReservationByShowtimeId(id).stream()
                 .map(reservationDecorator::decorate)
                 .collect(Collectors.toList());
     }

@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VnPayReturnRequest {
-    private Integer billId;
+    private Integer transitionId;
     private String responseCode;
     private String transactionNo;
     private String transactionStatus;

@@ -2,7 +2,7 @@ package com.nongviet201.cinema.core.service.impl;
 
 import com.nongviet201.cinema.core.entity.bill.Bill;
 import com.nongviet201.cinema.core.entity.bill.Reservation;
-import com.nongviet201.cinema.core.entity.bill.TranslationPayment;
+import com.nongviet201.cinema.core.entity.bill.Translation;
 import com.nongviet201.cinema.core.exception.BadRequestException;
 import com.nongviet201.cinema.core.model.enums.bill.BillStatus;
 import com.nongviet201.cinema.core.model.enums.bill.PaymentMethod;
@@ -11,7 +11,7 @@ import com.nongviet201.cinema.core.payment.vnpay.code.ResponseCodeVNPAY;
 import com.nongviet201.cinema.core.payment.vnpay.service.VnPayService;
 import com.nongviet201.cinema.core.repository.BillRepository;
 import com.nongviet201.cinema.core.repository.ReservationRepository;
-import com.nongviet201.cinema.core.repository.TranslationPaymentRepository;
+import com.nongviet201.cinema.core.repository.TranslationRepository;
 import com.nongviet201.cinema.core.request.ToPaymentRequest;
 import com.nongviet201.cinema.core.request.VnPayReturnRequest;
 
@@ -30,7 +30,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final VnPayService vnPayService;
     private final BillRepository billRepository;
-    private final TranslationPaymentRepository translationPaymentRepository;
+    private final TranslationRepository translationRepository;
     private final UserService userService;
     private final ReservationService reservationService;
     private final BillSeatService billSeatService;
@@ -56,8 +56,10 @@ public class PaymentServiceImpl implements PaymentService {
     public Integer PaymentVnPayReturnCheck(
         VnPayReturnRequest request
     ) {
-        Bill bill = billRepository.findById(request.getBillId())
+        Translation translation = translationRepository.findById(request.getTransitionId())
             .orElseThrow(() -> new BadRequestException("Không tìm thấy thông tin hóa đơn"));
+
+        Bill bill = translation.getBill();
 
         checkBill(bill);
 
@@ -65,14 +67,13 @@ public class PaymentServiceImpl implements PaymentService {
 
         bill.setPaymentAt(LocalDateTime.parse(request.getPayDate(), formatter));
 
-        TranslationPayment translationPayment = bill.getTranslationPayment();
-        translationPayment.setBankCode(request.getBankCode());
-        translationPayment.setTransactionNo(request.getTransactionNo());
-        translationPayment.setPayDate(LocalDateTime.parse(request.getPayDate(), formatter));
+        translation.setBankCode(request.getBankCode());
+        translation.setTransactionNo(request.getTransactionNo());
+        translation.setPayDate(LocalDateTime.parse(request.getPayDate(), formatter));
 
         checkVnPayResponseCode(
             bill,
-            translationPayment,
+            translation,
             request.getAmount(),
             ResponseCodeVNPAY.fromCode(request.getResponseCode())
         );
@@ -94,20 +95,19 @@ public class PaymentServiceImpl implements PaymentService {
 
     private void updateBill(
         Bill bill,
-        TranslationPayment translationPayment,
+        Translation translation,
         ResponseCodeVNPAY responseCode,
         boolean status,
         BillStatus billStatus
     ) {
-        translationPayment.setResponseCodeVNPAY(responseCode);
-        translationPayment.setStatus(status);
-        translationPayment.setUpdatedAt(now());
-        translationPaymentRepository.save(translationPayment);
+        translation.setResponseCodeVNPAY(responseCode);
+        translation.setStatus(status);
+        translation.setUpdatedAt(now());
+        translationRepository.save(translation);
 
         bill.setStatus(billStatus);
         bill.setUpdatedAt(now());
-        bill.setTranslationPayment(translationPayment);
-        bill.setBarcode("https://quickchart.io/barcode?type=code128&text=" + translationPayment.getTransactionNo() + "&width=600&height=200");
+        bill.setBarcode("https://quickchart.io/barcode?type=code128&text=" + translation.getTransactionNo() + "&width=600&height=200");
         billRepository.save(bill);
     }
 
@@ -141,29 +141,29 @@ public class PaymentServiceImpl implements PaymentService {
 
     private void checkVnPayResponseCode(
         Bill bill,
-        TranslationPayment translationPayment,
+        Translation translation,
         long requestAmount,
         ResponseCodeVNPAY responseCode
     ) {
         if (responseCode == ResponseCodeVNPAY.PAYMENT_CANCEL) {
-            updateBill(bill, translationPayment, responseCode, false, BillStatus.CANCEL);
+            updateBill(bill, translation, responseCode, false, BillStatus.CANCEL);
         }
         if (responseCode != ResponseCodeVNPAY.PAYMENT_SUCCESS) {
-            updateBill(bill, translationPayment, responseCode, false, BillStatus.FAILED);
+            updateBill(bill, translation, responseCode, false, BillStatus.FAILED);
         } else {
             // kiểm tra nếu thanh toán thành công nhưng số tiền không khớp nhau thì gán lỗi
             if ((requestAmount / 100) != bill.getTotalPrice()) {
-                translationPayment.setResponseCodeVNPAY(ResponseCodeVNPAY.PAYMENT_ERROR_AMOUNT);
-                updateBill(bill, translationPayment, responseCode, false, BillStatus.PENDING_PROCESSING);
+                translation.setResponseCodeVNPAY(ResponseCodeVNPAY.PAYMENT_ERROR_AMOUNT);
+                updateBill(bill, translation, responseCode, false, BillStatus.PENDING_PROCESSING);
             }
             // kiểm tra nếu thanh toán thành công nhưng user thanh toán không phải user hiện tại thì gán lỗi
             else if (!bill.getUser().getId().equals(userService.getCurrentUser().getId())) {
-                translationPayment.setResponseCodeVNPAY(ResponseCodeVNPAY.PAYMENT_ERROR_USER);
-                updateBill(bill, translationPayment, responseCode, false, BillStatus.PENDING_PROCESSING);
+                translation.setResponseCodeVNPAY(ResponseCodeVNPAY.PAYMENT_ERROR_USER);
+                updateBill(bill, translation, responseCode, false, BillStatus.PENDING_PROCESSING);
             }
             // nếu không có lỗi gì thì cho bill thành công
             else {
-                updateBill(bill, translationPayment, responseCode, true, BillStatus.PAID);
+                updateBill(bill, translation, responseCode, true, BillStatus.PAID);
                 billSuccess(bill, bill.getUser().getId(), bill.getShowtime().getId());
             }
         }

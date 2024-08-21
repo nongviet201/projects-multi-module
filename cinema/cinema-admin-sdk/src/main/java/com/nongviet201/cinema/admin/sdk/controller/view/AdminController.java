@@ -1,6 +1,8 @@
 package com.nongviet201.cinema.admin.sdk.controller.view;
 
 
+import com.nongviet201.cinema.admin.sdk.controller.service.AdminCinemaControllerService;
+import com.nongviet201.cinema.admin.sdk.controller.service.AdminDashboardControllerService;
 import com.nongviet201.cinema.admin.sdk.controller.service.AdminMovieControllerService;
 import com.nongviet201.cinema.core.service.*;
 import lombok.AllArgsConstructor;
@@ -21,9 +23,13 @@ public abstract class AdminController {
     private final GenreService genreService;
 
     private final AdminMovieControllerService adminMovieControllerService;
+    private final AdminCinemaControllerService adminCinemaControllerService;
+    private final AdminDashboardControllerService adminDashboardControllerService;
 
     @GetMapping("")
-    public String getDashBoardPage() {
+    public String getDashBoardPage(
+        Model model
+    ) {
         return "index";
     }
 
