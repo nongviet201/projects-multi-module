@@ -18,6 +18,7 @@ public class Cinema {
     private String name;
     @Column(columnDefinition = "TEXT")
     private String address;
+    private double let;
 
     @ManyToOne
     @JoinColumn(name = "city_id")
