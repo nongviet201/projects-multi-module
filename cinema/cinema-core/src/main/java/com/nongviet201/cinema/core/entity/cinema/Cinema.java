@@ -1,7 +1,10 @@
 package com.nongviet201.cinema.core.entity.cinema;
 
+import com.nongviet201.cinema.core.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @ToString
 @Getter
@@ -24,4 +27,9 @@ public class Cinema {
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<User> manager;
+
 }

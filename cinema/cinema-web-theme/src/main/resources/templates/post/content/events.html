@@ -10,7 +10,7 @@
             <div class="movie-img">
                 <a th:href="'/posts?id=' + ${post.getId()}">
                     <img th:src="${post.getThumbnail()}"
-                         th:alt="${post.getTitle()()}">
+                         th:alt="${post.getTitle()}">
                     <div class="overlay"></div>
                 </a>
                 <div class="movie-content-hover">

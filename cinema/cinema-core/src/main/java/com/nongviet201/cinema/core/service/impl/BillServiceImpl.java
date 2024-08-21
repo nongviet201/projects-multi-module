@@ -66,7 +66,7 @@ public class BillServiceImpl implements BillService {
             .showtime(showtime)
             .discount(paymentRequest.getPoints() * 1000)
             .totalPrice(0)
-            .status(BillStatus.PENDING_PROCESSING)
+            .status(BillStatus.PENDING_PAYMENT)
             .createdAt(now())
             .updatedAt(now())
             .cinema(showtime.getAuditorium().getCinema())
@@ -114,7 +114,7 @@ public class BillServiceImpl implements BillService {
 
         return paymentMethodService.transitionToPaymentMethod(
             ToPaymentRequest.builder()
-                .billId(bill.getId())
+                .translationId(translation.getId())
                 .amount(totalPrice)
                 .timeRemain(timeRemain)
                 .paymentMethod(translation.getPaymentMethod())

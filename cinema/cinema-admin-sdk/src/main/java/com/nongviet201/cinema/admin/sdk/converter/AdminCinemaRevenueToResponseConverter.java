@@ -12,8 +12,7 @@ public class AdminCinemaRevenueToResponseConverter {
         Integer totalTickets,
         Long totalRevenue,
         Integer kpiPercent,
-        Long totalKpi,
-        String manager
+        Long totalKpi
     ) {
         return AdminCinemaRevenueResponse.builder()
             .name(name)
@@ -21,7 +20,6 @@ public class AdminCinemaRevenueToResponseConverter {
             .totalRevenue(totalRevenue)
             .kpiPercent(kpiPercent)
             .totalKpi(totalKpi)
-            .manager(manager)
             .build();
     }
 }

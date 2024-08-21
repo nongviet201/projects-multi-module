@@ -44,7 +44,7 @@ public class PaymentServiceImpl implements PaymentService {
     ) {
         if (request.getPaymentMethod() == PaymentMethod.VNPAY) {
             return vnPayService.createPayment(
-                request.getBillId(),
+                request.getTranslationId(),
                 request.getAmount(),
                 request.getTimeRemain()
             );

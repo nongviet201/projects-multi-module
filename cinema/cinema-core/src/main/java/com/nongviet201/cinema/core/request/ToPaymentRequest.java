@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class ToPaymentRequest {
-    private Integer billId;
+    private Integer translationId;
     private Long amount;
     private Integer timeRemain;
     private PaymentMethod paymentMethod;
