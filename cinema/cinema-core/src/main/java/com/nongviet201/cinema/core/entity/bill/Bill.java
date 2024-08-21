@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.core.entity.bill;
 
+import com.nongviet201.cinema.core.entity.cinema.Cinema;
 import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.model.enums.bill.BillStatus;
@@ -20,6 +21,7 @@ public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Enumerated(EnumType.STRING)
     private BillStatus status;
     private long discount;
     private long totalPrice;
@@ -37,4 +39,9 @@ public class Bill {
     @ManyToOne
     @JoinColumn(name = "showtime_id")
     private Showtime showtime;
+
+    @ManyToOne
+    @JoinColumn(name = "cinema_id")
+    private Cinema cinema;
+
 }

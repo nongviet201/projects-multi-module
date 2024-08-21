@@ -66,9 +66,10 @@ public class BillServiceImpl implements BillService {
             .showtime(showtime)
             .discount(paymentRequest.getPoints() * 1000)
             .totalPrice(0)
-            .status(BillStatus.PENDING_PAYMENT)
+            .status(BillStatus.PENDING_PROCESSING)
             .createdAt(now())
             .updatedAt(now())
+            .cinema(showtime.getAuditorium().getCinema())
             .build();
         billRepository.save(bill);
 
@@ -95,6 +96,7 @@ public class BillServiceImpl implements BillService {
             .createdAt(now())
             .updatedAt(now())
             .paymentMethod(PaymentMethod.values()[paymentRequest.getPaymentMethod()-1])
+            .cinema(showtime.getAuditorium().getCinema())
             .build();
         translationRepository.save(translation);
 
@@ -105,7 +107,7 @@ public class BillServiceImpl implements BillService {
         Reservation reservation = reservationService.getReservationByUserIdAndShowtimeIdAndSeatId(
             user.getId(),
             showtime.getId(),
-            paymentRequest.getSeatRequest().get(0)
+            paymentRequest.getSeatRequest().getFirst()
         );
 
         Integer timeRemain = reservation.getStartOrderTime().plusMinutes(10).minusMinutes(now().getMinute()).getMinute();

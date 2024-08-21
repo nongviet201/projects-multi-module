@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.core.entity.bill;
 
+import com.nongviet201.cinema.core.entity.cinema.Cinema;
 import com.nongviet201.cinema.core.model.enums.bill.PaymentMethod;
 import com.nongviet201.cinema.core.payment.vnpay.code.ResponseCodeVNPAY;
 import jakarta.persistence.*;
@@ -37,4 +38,8 @@ public class Translation {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bill_id")
     private Bill bill;
+
+    @ManyToOne
+    @JoinColumn(name = "cinema_id")
+    private Cinema cinema;
 }

@@ -57,7 +57,7 @@ public class PaymentServiceImpl implements PaymentService {
         VnPayReturnRequest request
     ) {
         Translation translation = translationRepository.findById(request.getTransitionId())
-            .orElseThrow(() -> new BadRequestException("Không tìm thấy thông tin hóa đơn"));
+            .orElseThrow(() -> new BadRequestException("Không tìm thấy thông tin giao dich"));
 
         Bill bill = translation.getBill();
 
