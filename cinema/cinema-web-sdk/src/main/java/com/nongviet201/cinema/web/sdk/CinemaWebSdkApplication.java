@@ -9,8 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
     basePackages = {
         "com.nongviet201.cinema.core.repository",
         "com.nongviet201.cinema.core.service",
-        "com.nongviet201.cinema.web.sdk",
-        "com.nongviet201.cinema.core"
+        "com.nongviet201.cinema.web.sdk"
     })
 public class CinemaWebSdkApplication {
 

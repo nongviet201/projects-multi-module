@@ -243,7 +243,6 @@
 
 <th:block id="js">
     <script src="/dist/js/index.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWTx7bREpM5B6JKdbzOvMW-RRlhkukmVE&callback=initMaps" async="" defer=""></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -421,6 +420,8 @@
             });
         });
     </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWTx7bREpM5B6JKdbzOvMW-RRlhkukmVE&callback=initMaps" async="" defer=""></script>
     <script>
         function initMaps() {
             var defaultMap = {
@@ -436,16 +437,36 @@
 
             // Các tọa độ và thông tin cho các markers
             var locations = [
-                {lat: 21.028511, lng: 105.854167, info: "Hồ Gươm"},
-                {lat: 21.022736, lng: 105.851618, info: "Nhà Thờ Lớn Hà Nội"},
-                {lat: 21.033707, lng: 105.847176, info: "Lăng Chủ tịch Hồ Chí Minh"}
+                {
+                    lat: 21.028511,
+                    lng: 105.854167,
+                    info: `
+                <div>
+                    <strong>Khu Phố Cổ Hà Nội</strong><br>
+                    P. Hàng Ngang<br>
+                    Hàng Đào<br>
+                    Hoàn Kiếm<br>
+                    Hà Nội 100000, Việt Nam<br>
+                    <a href="https://www.google.com/maps/search/?api=1&query=21.028511,105.854167" target="_blank">Xem trên Google Maps</a>
+                </div>
+            `,
+                    title: "Hồ Gươm",
+                    label: "A",
+                    draggable: true,
+                    zIndex: 1
+                }
             ];
 
             // Thêm các markers vào bản đồ
             locations.forEach(function(location) {
                 var marker = new google.maps.Marker({
                     position: {lat: location.lat, lng: location.lng},
-                    map: map
+                    map: map,
+                    title: location.title,
+                    animation: location.animation,
+                    label: location.label,
+                    draggable: location.draggable,
+                    zIndex: location.zIndex
                 });
 
                 // Tạo InfoWindow cho mỗi marker
@@ -465,76 +486,8 @@
             });
         }
     </script>
-    <!--<script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var markers = [{
-                coords: [31.230391, 121.473701],
-                name: "Shanghai"
-            },
-                {
-                    coords: [28.704060, 77.102493],
-                    name: "Delhi"
-                },
-                {
-                    coords: [6.524379, 3.379206],
-                    name: "Lagos"
-                },
-                {
-                    coords: [35.689487, 139.691711],
-                    name: "Tokyo"
-                },
-                {
-                    coords: [23.129110, 113.264381],
-                    name: "Guangzhou"
-                },
-                {
-                    coords: [40.7127837, -74.0059413],
-                    name: "New York"
-                },
-                {
-                    coords: [34.052235, -118.243683],
-                    name: "Los Angeles"
-                },
-                {
-                    coords: [41.878113, -87.629799],
-                    name: "Chicago"
-                },
-                {
-                    coords: [51.507351, -0.127758],
-                    name: "London"
-                },
-                {
-                    coords: [40.416775, -3.703790],
-                    name: "Madrid "
-                }
-            ];
-            var map = new jsVectorMap({
-                map: "world",
-                selector: "#map",
-                zoomButtons: true,
-                markers: markers,
-                markerStyle: {
-                    initial: {
-                        r: 9,
-                        strokeWidth: 7,
-                        stokeOpacity: .4,
-                        fill: window.theme.primary
-                    },
-                    hover: {
-                        fill: window.theme.primary,
-                        stroke: window.theme.primary
-                    }
-                },
-                zoomOnScroll: false
-            });
-            window.addEventListener("resize", () => {
-                map.updateSize();
-            });
-        });
-    </script>-->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const date = new Date();
             document.getElementById("datetimepicker-dashboard").flatpickr({
                 locale: "vn",
                 inline: true,
