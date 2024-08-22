@@ -13,8 +13,6 @@ public class AdminCinemaRevenueResponse {
     private Integer cinemaId;
     private Integer totalTickets;
     private Long totalRevenue;
-    private Integer kpiPercent;
-    private Long totalKpi;
     private List<Manager> managers;
 
     @Getter

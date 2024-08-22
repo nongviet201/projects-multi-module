@@ -25,4 +25,13 @@ public interface TranslationRepository extends JpaRepository<Translation, Intege
         Boolean status,
         ResponseCodeVNPAY responseCodeVNPAY
     );
+
+    List<Translation> findAllByPayDateBetweenAndStatusAndResponseCodeVNPAY(
+        LocalDateTime startDate,
+        LocalDateTime endDate,
+        Boolean status,
+        ResponseCodeVNPAY responseCodeVNPAY
+    );
+
+
 }

@@ -48,7 +48,7 @@ function renderMap(marker) {
                 <div>
                     <strong>${cinema.name}</strong>
                     <br>${cinema.address}<br>
-                <a class="text-primary" href="https://www.google.com/maps/search/?api=1&query=${cinema.lat},${cinema.lng}" target="_blank">Xem trên Google Maps</a>
+                    <a class="text-primary" href="https://www.google.com/maps/search/?api=1&query=${cinema.lat},${cinema.lng}" target="_blank">Xem trên Google Maps</a>
                 </div>
             `,
         });
@@ -80,7 +80,7 @@ function getAllCinemaRevenue(time) {
 
     $('#index-cinema').DataTable({
         "ajax": {
-            "url": `admin/api/v1/cinema/get/all-revenue?time=${time}`, // Địa chỉ API để lấy dữ liệu
+            "url": `admin/api/v1/cinema/get/all-revenue?time=${time}`,
             "type": "GET",
             "dataSrc": ""
         },
@@ -99,14 +99,14 @@ function getAllCinemaRevenue(time) {
                 }
             },
             {
-                "data": "kpiPercent",
+                "data": "65",
                 "render": function (data, type, row) {
                     return `
                     <div class="d-flex flex-column w-100">
-                        <span class="me-2 mb-1 text-muted">${data}%</span>
+                        <span class="me-2 mb-1 text-muted">65%</span>
                         <div class="progress progress-sm bg-success-light w-100">
                             <div class="progress-bar bg-success" role="progressbar"
-                                 style="width: ${data}%;"></div>
+                                 style="width: 65%;"></div>
                         </div>
                     </div>
                     `;

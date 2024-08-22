@@ -2,12 +2,16 @@ package com.nongviet201.cinema.core.service.impl;
 
 import com.nongviet201.cinema.core.exception.ResourceNotFoundException;
 import com.nongviet201.cinema.core.entity.user.User;
+import com.nongviet201.cinema.core.model.enums.user.UserRole;
 import com.nongviet201.cinema.core.repository.UserRepository;
 import com.nongviet201.cinema.core.security.CustomUserDetail;
 import com.nongviet201.cinema.core.security.IAuthenticationFacade;
 import com.nongviet201.cinema.core.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -41,6 +45,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean isCurrentUser(User user) {
         return user == getCurrentUser();
+    }
+
+    @Override
+    public List<User> getNewUsersByTimeRange(LocalDate startDate, LocalDate endDate) {
+        return userRepository.findByRoleAndEnabledAndCreatedAtBetween(
+            UserRole.USER,
+            true,
+            startDate,
+            endDate
+        );
     }
 }
 

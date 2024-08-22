@@ -26,7 +26,7 @@ public class TranslationServiceImpl implements TranslationService {
     }
 
     @Override
-    public List<Translation> getAllTranslationByCinemaIdAndTimeAndBillStatus(
+    public List<Translation> getAllTranslationByCinemaIdAndTimeAndStatusCode(
         int id,
         String time
     ) {
@@ -58,6 +58,21 @@ public class TranslationServiceImpl implements TranslationService {
             endDate,
             true,
             ResponseCodeVNPAY.PAYMENT_SUCCESS
+        );
+    }
+
+    @Override
+    public List<Translation> getAllTranslationByTimeAndStatusAndCode(
+        LocalDateTime startDate,
+        LocalDateTime endDate,
+        boolean status,
+        ResponseCodeVNPAY responseCodeVNPAY
+    ) {
+        return translationRepository.findAllByPayDateBetweenAndStatusAndResponseCodeVNPAY(
+            startDate,
+            endDate,
+            status,
+            responseCodeVNPAY
         );
     }
 }

@@ -18,8 +18,8 @@ public class CinemaKPI {
     private Integer month;
     private Integer year;
     private Integer totalTicketSold;
-    private Long targetRevenue;
     private Long totalRevenue;
+    private Long targetRevenue;
     private boolean achieved;
 
     @ManyToOne

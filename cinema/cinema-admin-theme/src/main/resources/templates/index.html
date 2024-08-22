@@ -12,7 +12,7 @@
 <div class="content-index">
     <main class="content">
         <div class="container-fluid p-0 pt-lg-4">
-            <h1 class="h3 mb-3"><strong>Dashboard</strong></h1>
+            <h1 class="h3 mb-3"><strong>Analytics </strong>Dashboard</h1>
             <div class="row">
                 <div class="col-xl-6 col-xxl-5 d-flex">
                     <div class="w-100">
@@ -22,7 +22,7 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col mt-0">
-                                                <h5 class="card-title">Tổng số vé bán trong tuần</h5>
+                                                <h5 class="card-title">Tổng vé bán tuần</h5>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="stat text-primary">
@@ -32,7 +32,7 @@
                                         </div>
                                         <h1 class="mt-1 mb-3">2.382</h1>
                                         <div class="mb-0">
-													<span class="text-danger"> <i
+													<span class="badge badge-danger-light"> <i
                                                             class="mdi mdi-arrow-bottom-right"></i>-3.65%</span>
                                             <span class="text-muted">So với tuần trước</span>
                                         </div>
@@ -53,7 +53,7 @@
                                         </div>
                                         <h1 class="mt-1 mb-3">14.212</h1>
                                         <div class="mb-0">
-													<span class="text-success"> <i
+													<span class="badge badge-success-light"> <i
                                                             class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
                                             <span class="text-muted">So với tuần trước</span>
                                         </div>
@@ -65,7 +65,7 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col mt-0">
-                                                <h5 class="card-title">Doanh thu trong tuần</h5>
+                                                <h5 class="card-title">Tổng doanh thu tuần</h5>
                                             </div>
 
                                             <div class="col-auto">
@@ -76,8 +76,8 @@
                                         </div>
                                         <h1 class="mt-1 mb-3">2.000.000đ</h1>
                                         <div class="mb-0">
-													<span class="text-success"> <i
-                                                            class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
+                                            <span class="badge badge-success-light">
+                                                <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
                                             <span class="text-muted">So với tuần trước</span>
                                         </div>
                                     </div>
@@ -86,7 +86,7 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col mt-0">
-                                                <h5 class="card-title">Tổng doanh thu trong Tháng</h5>
+                                                <h5 class="card-title">Tổng doanh thu tháng</h5>
                                             </div>
 
                                             <div class="col-auto">
@@ -97,7 +97,7 @@
                                         </div>
                                         <h1 class="mt-1 mb-3">21.300.000đ</h1>
                                         <div class="mb-0">
-													<span class="text-success"> <i
+													<span class="badge badge-success-light"> <i
                                                             class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
                                             <span class="text-muted">So với tháng trước</span>
                                         </div>
@@ -236,53 +236,74 @@
 
 <th:block id="js">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.min.js"></script>
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWTx7bREpM5B6JKdbzOvMW-RRlhkukmVE&callback=initMaps"
             async="" defer=""></script>
+
     <script src="/dist/js/index.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
-            var gradient = ctx.createLinearGradient(0, 0, 0, 225);
+            const ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
+            const currentYear = new Date().getFullYear();
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, 225);
             gradient.addColorStop(0, "rgba(215, 227, 244, 1)");
             gradient.addColorStop(1, "rgba(215, 227, 244, 0)");
 
-            // Dữ liệu gốc
-            var rawData = [
-                2300000,
-                1500000,
-                1600000,
-                1900000,
-                1600000,
-                2000000,
-                2500000,
-                2400000,
-                2800000,
-                3400000,
-                2900000,
-                3300000
-            ];
-
-            // Line chart
-            new Chart(ctx, {
+            // Khởi tạo biểu đồ
+            const chart = new Chart(ctx, {
                 type: "line",
                 data: {
-                    labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+                    labels: ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11", "T12"],
                     datasets: [{
+                        label: `Năm ${currentYear}`,
                         fill: true,
-                        backgroundColor: gradient,
+                        backgroundColor: "transparent",
                         borderColor: window.theme.primary,
-                        data: rawData
+                        data: []
+                    }, {
+                        label: `Năm ${currentYear - 1}`,
+                        fill: true,
+                        backgroundColor: "transparent",
+                        borderColor: "#adb5bd",
+                        borderDash: [4, 4],
+                        data: []
                     }]
                 },
                 options: {
                     maintainAspectRatio: false,
                     legend: {
-                        display: false
+                        display: true,
+                        labels: {
+                            usePointStyle: true,
+                            generateLabels: function(chart) {
+                                return chart.data.datasets.map(function(dataset, i) {
+                                    return {
+                                        text: dataset.label,
+                                        fillStyle: dataset.borderColor,
+                                        hidden: !chart.isDatasetVisible(i),
+                                        lineCap: dataset.borderCapStyle,
+                                        lineDash: dataset.borderDash,
+                                        lineDashOffset: dataset.borderDashOffset,
+                                        lineJoin: dataset.borderJoinStyle,
+                                        strokeStyle: dataset.borderColor,
+                                        pointStyle: 'line',
+                                        datasetIndex: i
+                                    };
+                                });
+                            }
+                        }
                     },
                     tooltips: {
                         intersect: false,
                         callbacks: {
+                            title: function(tooltipItems, data) {
+                                const datasetIndex = tooltipItems[0].datasetIndex;
+                                const year = datasetIndex === 0 ? currentYear : currentYear - 1;
+                                const label = data.labels[tooltipItems[0].index];
+                                return `${label}/${year}`;
+                            },
                             label: function (tooltipItem) {
                                 return `Doanh thu: ${tooltipItem.yLabel.toLocaleString()} VND`;
                             }
@@ -304,19 +325,15 @@
                             },
                             scaleLabel: {
                                 display: true,
-                                labelString: "Tháng",
                                 fontColor: "#333"
                             }
                         }],
                         yAxes: [{
                             ticks: {
-                                // Định dạng nhãn trục Y theo dạng triệu
                                 callback: function (value) {
                                     return (value / 1000000) + ' triệu';
                                 },
-                                // Bước nhảy của các mốc trên trục Y
-                                stepSize: 1000000,
-                                // Bỏ nhãn trục Y trùng lặp
+                                stepSize: 50000000,
                                 beginAtZero: true
                             },
                             display: true,
@@ -332,8 +349,31 @@
                     }
                 }
             });
+
+            // Hàm lấy dữ liệu từ API và cập nhật biểu đồ
+            function fetchRevenueData(year, datasetIndex) {
+                $.ajax({
+                    url: `admin/api/v1/revenue/get/all-total-on-month-for-year?year=${year}`,
+                    type: 'GET',
+                    success: function (response) {
+                        const data = response.map(item => item.totalRevenue);
+
+                        // Cập nhật biểu đồ với dữ liệu mới từ API
+                        chart.data.datasets[datasetIndex].data = data;
+                        chart.update();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(`Đã xảy ra lỗi: ${error}`);
+                    }
+                });
+            }
+
+            // Lấy dữ liệu doanh thu cho cả năm hiện tại và năm trước
+            fetchRevenueData(currentYear, 0);      // Dataset cho năm hiện tại
+            fetchRevenueData(currentYear - 1, 1);  // Dataset cho năm trước
         });
     </script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var dataMap = new Map([
@@ -371,6 +411,7 @@
             });
         });
     </script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Bar chart
@@ -416,9 +457,6 @@
         });
     </script>
 
-    <script>
-
-    </script>
 </th:block>
 
 </body>
