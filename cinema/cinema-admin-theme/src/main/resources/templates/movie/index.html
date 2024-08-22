@@ -8,23 +8,13 @@
     <title>Admin Movie</title>
 
     <th:block id="css">
-        <!--  Datatable  -->
-        <link rel="stylesheet" href="https://cdn.datatables.net/2.1.0/css/dataTables.bootstrap5.min.css">
-        <style>
-            td {
-                text-align: start !important;
-
-            }
-        </style>
     </th:block>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
 
 <div class="wrapper">
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-index">
-        <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -34,7 +24,7 @@
                                 <a href="/admin">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="/admin/movies">Movie</a>
+                                <a href="/admin/movie">Movie</a>
                             </li>
                         </ol>
                     </div>
@@ -52,7 +42,7 @@
                                 <i class="fas fa-plus"></i> Tạo phim
                             </button>
                         </a>
-                        <a href="/admin/movies">
+                        <a href="/admin/movie">
                             <button type="button" class="btn btn-info">
                                 <i class="fas fa-redo"></i> Refresh
                             </button>
@@ -67,11 +57,11 @@
                                     <thead>
                                     <tr>
                                         <th>Tên phim</th>
-                                        <th>Ngày công chiếu</th>
-                                        <th>Thể loại</th>
-                                        <th>Rating</th>
-                                        <th>Trạng thái</th>
-                                        <th>Ngày tạo</th>
+                                        <th class="text-center">Ngày công chiếu</th>
+                                        <th class="text-center">Thể loại</th>
+                                        <th class="text-center">Rating</th>
+                                        <th class="text-center">Trạng thái</th>
+                                        <th class="text-end">Ngày tạo</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -110,12 +100,22 @@
     <script>
         $('#table-movie').DataTable({
             "paging": true,
-            "lengthChange": false,
+            "lengthChange": true,
+            "lengthMenu": [10, 25, 50, 100],
             "searching": true,
             "ordering": true,
             "info": true,
             "autoWidth": false,
             "responsive": true,
+            "language" : languageTable,
+            "createdRow": function(row, data, dataIndex) {
+                $('td', row).eq(0).addClass('text-start');
+                $('td', row).eq(5).addClass('text-end');
+                $('td', row).eq(1).addClass('text-center');
+                $('td', row).eq(2).addClass('text-center');
+                $('td', row).eq(3).addClass('text-center');
+                $('td', row).eq(4).addClass('text-center');
+            },
         });
     </script>
 </th:block>

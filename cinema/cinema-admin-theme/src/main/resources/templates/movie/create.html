@@ -158,8 +158,6 @@
 </div>
 
 <th:block id="js">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <!-- AdminLTE App -->
     <script src="/plugins/select2/js/select2.full.min.js"></script>
 
@@ -257,19 +255,6 @@
         })
     </script>
 
-    <script>
-        $(function() {
-            $('input[name="releaseDate"]').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                minYear: 2000,
-                maxYear: parseInt(moment().format('YYYY'),10)
-            }, function(start, end, label) {
-                var years = moment().diff(start, 'years');
-                alert("You are " + years + " years old!");
-            });
-        });
-    </script>
 </th:block>
 </body>
 

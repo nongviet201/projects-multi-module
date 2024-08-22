@@ -26,14 +26,14 @@
                                             </div>
                                             <div class="col-auto">
                                                 <div class="stat text-primary">
-                                                    <i class="align-middle" data-feather="truck"></i>
+                                                    <i class="align-middle" data-feather="activity"></i>
                                                 </div>
                                             </div>
                                         </div>
-                                        <h1 class="mt-1 mb-3">2.382</h1>
+                                        <h1 id="total-ticket-sold-week" class="mt-1 mb-3">2.382</h1>
                                         <div class="mb-0">
-													<span class="badge badge-danger-light"> <i
-                                                            class="mdi mdi-arrow-bottom-right"></i>-3.65%</span>
+                                            <span id="percent-ticket-sold-last-week" class="badge">
+                                                <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
                                             <span class="text-muted">So với tuần trước</span>
                                         </div>
                                     </div>
@@ -51,10 +51,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <h1 class="mt-1 mb-3">14.212</h1>
+                                        <h1 id="total-new-user-week" class="mt-1 mb-3">14.212</h1>
                                         <div class="mb-0">
-													<span class="badge badge-success-light"> <i
-                                                            class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
+                                            <span id="percent-new-user-last-week" class="badge">
+                                                <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
                                             <span class="text-muted">So với tuần trước</span>
                                         </div>
                                     </div>
@@ -67,16 +67,15 @@
                                             <div class="col mt-0">
                                                 <h5 class="card-title">Tổng doanh thu tuần</h5>
                                             </div>
-
                                             <div class="col-auto">
                                                 <div class="stat text-primary">
                                                     <i class="align-middle" data-feather="dollar-sign"></i>
                                                 </div>
                                             </div>
                                         </div>
-                                        <h1 class="mt-1 mb-3">2.000.000đ</h1>
+                                        <h1 id="total-revenue-week" class="mt-1 mb-3">2.000.000đ</h1>
                                         <div class="mb-0">
-                                            <span class="badge badge-success-light">
+                                            <span id="percent-revenue-last-week" class="badge">
                                                 <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
                                             <span class="text-muted">So với tuần trước</span>
                                         </div>
@@ -95,10 +94,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <h1 class="mt-1 mb-3">21.300.000đ</h1>
+                                        <h1 id="total-revenue-month" class="mt-1 mb-3">21.300.000đ</h1>
                                         <div class="mb-0">
-													<span class="badge badge-success-light"> <i
-                                                            class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
+                                            <span id="percent-revenue-last-month" class="badge">
+                                                <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
                                             <span class="text-muted">So với tháng trước</span>
                                         </div>
                                     </div>
@@ -357,14 +356,10 @@
                     type: 'GET',
                     success: function (response) {
                         const data = response.map(item => item.totalRevenue);
-
-                        // Cập nhật biểu đồ với dữ liệu mới từ API
                         chart.data.datasets[datasetIndex].data = data;
                         chart.update();
                     },
-                    error: function (xhr, status, error) {
-                        console.error(`Đã xảy ra lỗi: ${error}`);
-                    }
+                    error: handleError
                 });
             }
 
@@ -414,7 +409,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Bar chart
             new Chart(document.getElementById("chartjs-dashboard-bar"), {
                 type: "bar",
                 data: {
@@ -457,6 +451,45 @@
         });
     </script>
 
+    <script>
+        function fetchWidgetData() {
+            $.ajax({
+                url: `/admin/api/v1/admin-dashboard/get/widget`,
+                type: 'GET',
+                success: handleWidgetResponse,
+                error: handleError
+            });
+        }
+
+        function handleWidgetResponse(response) {
+            updateElement("total-new-user-week", response.totalNewUsers);
+            updatePercentage("percent-new-user-last-week", response.lastWeekNewUserPercentage);
+
+            updateElement("total-revenue-week", `${formatPrice(response.totalRevenueWeek)}đ`);
+            updatePercentage("percent-revenue-last-week", response.lastWeekRevenuePercentage);
+
+            updateElement("total-revenue-month", `${formatPrice(response.totalRevenueMonth)}đ`);
+            updatePercentage("percent-revenue-last-month", response.lastMonthRevenuePercentage);
+
+            updateElement("total-ticket-sold-week", response.totalTicketsSold);
+            updatePercentage("percent-ticket-sold-last-week", response.lastWeekTicketSoldPercentage);
+        }
+
+        function updateElement(elementId, value) {
+            document.getElementById(elementId).innerHTML = value;
+        }
+
+        function updatePercentage(elementId, percentage) {
+            const element = document.getElementById(elementId);
+            const icon = percentage > 0 ? "mdi-arrow-top-right" : "mdi-arrow-bottom-right";
+            const badgeClass = percentage > 0 ? "badge-success-light" : "badge-danger-light";
+
+            element.classList.add(badgeClass);
+            element.innerHTML = `<i class="mdi ${icon}"></i> ${percentage}%`;
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchWidgetData);
+    </script>
 </th:block>
 
 </body>

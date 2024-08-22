@@ -4,9 +4,11 @@ import com.nongviet201.cinema.admin.sdk.response.AdminTotalMonthlyRevenueRespons
 import com.nongviet201.cinema.core.entity.bill.Translation;
 import com.nongviet201.cinema.core.payment.vnpay.code.ResponseCodeVNPAY;
 import com.nongviet201.cinema.core.service.TranslationService;
+import com.nongviet201.cinema.core.utils.DateTimeUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
@@ -56,4 +58,16 @@ public class AdminRevenueService {
 
         return totalMonthlyRevenueOfAllCinemas;
     }
+
+    public List<Translation> getTotalRevenueByTime(String time) {
+        DateTimeUtils.DateTimeRange timeRange = DateTimeUtils.getTimeRange(time);
+
+        return translationService.getAllTranslationByTimeAndStatusAndCode(
+            timeRange.getStartDate(),
+            timeRange.getEndDate(),
+            true,
+            ResponseCodeVNPAY.PAYMENT_SUCCESS
+        );
+    }
+
 }

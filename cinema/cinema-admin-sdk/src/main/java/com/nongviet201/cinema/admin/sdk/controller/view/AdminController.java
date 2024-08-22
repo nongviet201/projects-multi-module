@@ -16,12 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 @AllArgsConstructor
 public abstract class AdminController {
-    private final ActorService actorService;
-    private final MovieService movieService;
-    private final DirectorService directorService;
-    private final CountryService countryService;
-    private final GenreService genreService;
-
     private final AdminMovieControllerService adminMovieControllerService;
     private final AdminCinemaControllerService adminCinemaControllerService;
     private final AdminDashboardControllerService adminDashboardControllerService;
@@ -38,39 +32,7 @@ public abstract class AdminController {
         return "/user/detail";
     }
 
-    @GetMapping("/movies")
-    public String getAdminMoviePage(
-        Model model
-    ) {
-        model.addAttribute(
-            "movies",
-            movieService.getAllMoviesOderByReleaseDate()
-        );
-        return "/movie/index";
-    }
 
-    @GetMapping("/movie/{id}")
-    public String getAdminInfoMoviePage(
-        Model model,
-        @PathVariable Integer id
-    ) {
-        model.addAttribute(
-            "movie",
-            adminMovieControllerService.getMovieById(id)
-        );
-        return "/movie/detail";
-    }
-
-    @GetMapping("/movie/create")
-    public String getAdminMovieCreatePage(
-        Model model
-    ) {
-        model.addAttribute("countries", countryService.getAllCountries());
-        model.addAttribute("directors", directorService.getAllDirectors());
-        model.addAttribute("actors", actorService.getAllActors());
-        model.addAttribute("genres", genreService.getAllGenres());
-        return "/movie/create";
-    }
 
     @GetMapping("/web/settings/banner")
     public String getAdminWebSettingsBannerPage(
