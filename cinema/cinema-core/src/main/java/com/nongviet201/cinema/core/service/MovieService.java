@@ -14,4 +14,6 @@ public interface MovieService {
     Movie getPublishMovieById(int id);
 
     double updateRating(int movieId, int ratting);
+
+    void deleteMovieById(int id);
 }

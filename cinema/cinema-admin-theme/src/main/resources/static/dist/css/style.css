@@ -9,6 +9,10 @@ img {
     z-index: 1039;
 }
 
+.select2-selection--multiple {
+    border: 1px solid #dee2e6 !important;
+}
+
 @font-face {
     font-family: 'ta-solid';
     src: url(../fonts/fa-solid-900.woff2) format('woff2');

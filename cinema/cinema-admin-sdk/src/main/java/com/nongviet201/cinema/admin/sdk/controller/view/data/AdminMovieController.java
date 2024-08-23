@@ -1,9 +1,6 @@
 package com.nongviet201.cinema.admin.sdk.controller.view.data;
 
 import com.nongviet201.cinema.admin.sdk.controller.service.AdminMovieControllerService;
-import com.nongviet201.cinema.core.model.enums.movie.GraphicsType;
-import com.nongviet201.cinema.core.model.enums.movie.MovieAge;
-import com.nongviet201.cinema.core.model.enums.movie.TranslationType;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

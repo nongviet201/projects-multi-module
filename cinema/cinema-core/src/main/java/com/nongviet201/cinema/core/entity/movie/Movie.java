@@ -1,7 +1,7 @@
 package com.nongviet201.cinema.core.entity.movie;
 
 import com.nongviet201.cinema.core.model.enums.movie.GraphicsType;
-import com.nongviet201.cinema.core.model.enums.movie.MovieAge;
+import com.nongviet201.cinema.core.model.enums.movie.AgeRequirement;
 import com.nongviet201.cinema.core.model.enums.movie.TranslationType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,28 +38,25 @@ public class Movie {
 
     private String trailer;
 
-    private MovieAge ageRequirement;
+    @Enumerated(EnumType.STRING)
+    private AgeRequirement ageRequirement;
 
     private int duration;
+    private String producer;
 
     private double rating;
     private int ratingCount;
     private double totalRatings;
 
     private boolean status;
+    private boolean deleted;
 
     @Column(columnDefinition = "TEXT")
     private LocalDate releaseDate;
 
-    private LocalDate startAt;
-
-    private LocalDate endAt;
-
     private LocalDate createdAt;
 
     private LocalDate updatedAt;
-
-    private String producer;
 
     // Sử dụng @ElementCollection để lưu trữ danh sách GraphicsType
     @ElementCollection(fetch = FetchType.EAGER)

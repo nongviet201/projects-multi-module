@@ -3,7 +3,7 @@ package com.nongviet201.cinema.core.model.enums.movie;
 import lombok.Getter;
 
 @Getter
-public enum MovieAge {
+public enum AgeRequirement {
     P("Phim được phép phổ biến đến người xem ở mọi độ tuổi."),
     K("Phim được phổ biến đến người xem dưới 13 tuổi và có người bảo hộ đi kèm."),
     T13("Phim được phổ biến đến người xem từ đủ 13 tuổi trở lên (13+)."),
@@ -13,7 +13,7 @@ public enum MovieAge {
 
     private final String description;
 
-    MovieAge(String description) {
+    AgeRequirement(String description) {
         this.description = description;
     }
 }

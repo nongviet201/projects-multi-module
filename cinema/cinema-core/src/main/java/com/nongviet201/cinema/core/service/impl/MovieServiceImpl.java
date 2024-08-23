@@ -73,4 +73,10 @@ public class MovieServiceImpl implements MovieService {
         movieRepository.save(movie);
         return movie.getRating();
     }
+
+    @Override
+    public void deleteMovieById(int id) {
+        getMovieById(id);
+        movieRepository.deleteById(id);
+    }
 }

@@ -2,7 +2,7 @@ package com.nongviet201.cinema.admin.sdk.controller.service;
 
 import com.nongviet201.cinema.core.entity.movie.*;
 import com.nongviet201.cinema.core.model.enums.movie.GraphicsType;
-import com.nongviet201.cinema.core.model.enums.movie.MovieAge;
+import com.nongviet201.cinema.core.model.enums.movie.AgeRequirement;
 import com.nongviet201.cinema.core.model.enums.movie.TranslationType;
 import com.nongviet201.cinema.core.service.*;
 import lombok.AllArgsConstructor;
@@ -28,7 +28,7 @@ public class AdminMovieControllerService {
         model.addAttribute("genres", getAllGenres());
         model.addAttribute("graphicTypes", GraphicsType.values());
         model.addAttribute("translationTypes", TranslationType.values());
-        model.addAttribute("movieAges", MovieAge.values());
+        model.addAttribute("movieAges", AgeRequirement.values());
     }
 
     public Movie getMovieById(
