@@ -6,6 +6,27 @@ function handleError(xhr, status, error) {
     console.log(error, xhr.responseText, status);
 }
 
+function jTableSetting(Element) {
+    $(Element).DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "lengthMenu": [10, 25, 50, 100],
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        "language" : languageTable,
+        "createdRow": function(row, data, dataIndex) {
+            $('td', row).eq(0).addClass('text-start');
+            $('td', row).eq(5).addClass('text-end');
+            $('td', row).eq(1).addClass('text-center');
+            $('td', row).eq(2).addClass('text-center');
+            $('td', row).eq(3).addClass('text-center');
+            $('td', row).eq(4).addClass('text-center');
+        },
+    });
+}
 const languageTable = {
     "sProcessing": "Đang xử lý...",
     "sLengthMenu": "Hiển thị _MENU_ mục",

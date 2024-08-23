@@ -26,7 +26,7 @@ public class AdminMovieControllerService {
         model.addAttribute("directors", getAllDirectors());
         model.addAttribute("actors", getAllActors());
         model.addAttribute("genres", getAllGenres());
-        model.addAttribute("graphicTypes", GraphicsType.values());
+        model.addAttribute("graphicsTypes", GraphicsType.values());
         model.addAttribute("translationTypes", TranslationType.values());
         model.addAttribute("movieAges", AgeRequirement.values());
     }
@@ -57,4 +57,5 @@ public class AdminMovieControllerService {
         return countryService.getAllCountries();
     }
 
+    public List<Movie>  getAllMoviesDeleted() {return movieService.getAllDeletedMovie();}
 }

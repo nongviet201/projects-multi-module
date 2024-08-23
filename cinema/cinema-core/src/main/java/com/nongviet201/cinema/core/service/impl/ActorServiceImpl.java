@@ -16,4 +16,38 @@ public class ActorServiceImpl implements ActorService {
     public List<Actor> getAllActors() {
         return actorRepository.findAll();
     }
+
+    @Override
+    public Actor getActorById(Integer id) {
+        return actorRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy diễn viên có id: " + id));
+    }
+
+    @Override
+    public Actor getActorByName(String name) {
+        return actorRepository.findByName(name);
+    }
+
+    @Override
+    public void createActor(String name) {
+        if (getActorByName(name) != null) {
+            throw new RuntimeException("Diễn viên " + name + " đã tồn tại ");
+        }
+
+        actorRepository.save(
+            Actor.builder()
+               .name(name)
+               .build()
+        );
+    }
+
+    @Override
+    public void deleteById(int id) {
+        actorRepository.deleteById(id);
+    }
+
+    @Override
+    public void save(Actor actor) {
+        actorRepository.save(actor);
+    }
 }

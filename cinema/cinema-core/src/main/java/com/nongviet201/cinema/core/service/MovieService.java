@@ -6,14 +6,16 @@ import java.util.List;
 
 public interface MovieService {
     List<Movie> getAllPublishMoviesOrderByRating();
+
     Movie getPublishMovieBySlug(String slug);
-    Movie findById(int id);
+
     List<Movie> getAllMoviesOderByReleaseDate();
+
     Movie getMovieById(int id);
 
     Movie getPublishMovieById(int id);
 
     double updateRating(int movieId, int ratting);
 
-    void deleteMovieById(int id);
+    List<Movie> getAllDeletedMovie();
 }

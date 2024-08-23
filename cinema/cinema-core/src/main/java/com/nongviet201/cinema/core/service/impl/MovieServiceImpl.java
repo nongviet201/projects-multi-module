@@ -17,7 +17,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> getAllPublishMoviesOrderByRating() {
-        return movieRepository.findAllByStatusOrderByRatingDesc(true);
+        return movieRepository.findAllByStatusAndDeletedOrderByRatingDesc(true, false);
     }
 
     public List<Movie> getAll() {
@@ -26,24 +26,18 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie getPublishMovieBySlug(String slug) {
-        return movieRepository.findBySlugAndStatus(slug, true);
-    }
-
-    @Override
-    public Movie findById(int id) {
-        return movieRepository.findById(id).orElse(null);
+        return movieRepository.findBySlugAndStatusAndDeleted(slug, true, false);
     }
 
     public String generateSlug(String title) {
-        String slug = title.trim().toLowerCase()
+        return title.trim().toLowerCase()
                    .replaceAll("\\s+", "-")
                    .replaceAll("[^a-z0-9-]", "");
-        return slug;
     }
 
     @Override
     public List<Movie> getAllMoviesOderByReleaseDate() {
-        return movieRepository.findAllByOrderByReleaseDateDesc();
+        return movieRepository.findAllByDeletedOrderByReleaseDateDesc(false);
     }
 
     @Override
@@ -53,13 +47,13 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie getPublishMovieById(int id) {
-        return movieRepository.findByIdAndStatus(id, true);
+        return movieRepository.findByIdAndStatusAndDeleted(id, true, false);
     }
 
 
     @Override
     public double updateRating(int movieId, int rating) {
-        Movie movie = findById(movieId);
+        Movie movie = getMovieById(movieId);
         movie.setRatingCount(movie.getRatingCount() + 1);
         movie.setTotalRatings(movie.getTotalRatings() + rating);
 
@@ -75,8 +69,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void deleteMovieById(int id) {
-        getMovieById(id);
-        movieRepository.deleteById(id);
+    public List<Movie> getAllDeletedMovie() {
+        return movieRepository.findAllByDeletedOrderByReleaseDateDesc(true);
     }
+
 }

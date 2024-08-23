@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.core.model.request;
+package com.nongviet201.cinema.admin.sdk.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -13,12 +13,22 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpsertMovieRequest {
-    String movieName;
+    String name;
+    String slug;
     String description;
-    boolean status;
+    String poster;
+    String bannerImg;
     String trailer;
-    Integer countryId;
+    String AgeRequirement;
+    Integer duration;
+    String producer;
+    Double rating;
+    Integer ratingCount;
     LocalDate releaseDate;
+    boolean status;
+    List<String> graphicTypes;
+    List<String> translationTypes;
+    List<Integer> countryIds;
     List<Integer> genreIds;
     List<Integer> actorIds;
     List<Integer> directorIds;

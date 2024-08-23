@@ -72,9 +72,13 @@ public class Movie {
     @Enumerated(EnumType.STRING) // Lưu enum dưới dạng chuỗi
     private List<TranslationType> translationTypes;
 
-    @ManyToOne
-    @JoinColumn(name = "countries_id")
-    private Country country;
+    @ManyToMany
+    @JoinTable(
+        name = "movie_countries",
+        joinColumns = @JoinColumn(name = "movie_id"),
+        inverseJoinColumns = @JoinColumn(name = "countries_id")
+    )
+    private List<Country> country;
 
     @ManyToMany
     @JoinTable(

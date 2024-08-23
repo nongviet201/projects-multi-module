@@ -20,8 +20,7 @@ public class Image {
     private String name;
     private String description;
     private String type;
+    private String path;
     private LocalDate createdAt;
     private LocalDate updatedAt;
-    @Lob
-    private byte[] data;
 }

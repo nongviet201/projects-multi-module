@@ -19,7 +19,9 @@ public class FileStorageService {
 
     private final Path fileStorageLocation = Path.of("cinema-core/src/main/resources/static/media");
 
-    public String storeFile(MultipartFile file) {
+    public String storeFile(
+        MultipartFile file
+    ) {
         // Chuẩn hóa tên file
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 

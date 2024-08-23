@@ -8,11 +8,11 @@ import java.util.List;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
-    List<Movie> findAllByStatusOrderByRatingDesc(boolean status);
+    List<Movie> findAllByStatusAndDeletedOrderByRatingDesc(boolean status, boolean deleted);
 
-    Movie findBySlugAndStatus(String slug, boolean status);
+    Movie findBySlugAndStatusAndDeleted(String slug, boolean status, boolean deleted);
 
-    List<Movie> findAllByOrderByReleaseDateDesc();
+    List<Movie> findAllByDeletedOrderByReleaseDateDesc(boolean deleted);
 
-    Movie findByIdAndStatus(int id, boolean b);
+    Movie findByIdAndStatusAndDeleted(int id, boolean status, boolean deleted);
 }

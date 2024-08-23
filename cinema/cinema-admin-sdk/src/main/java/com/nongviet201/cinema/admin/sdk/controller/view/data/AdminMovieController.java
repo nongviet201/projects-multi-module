@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/admin/movie")
@@ -17,12 +18,24 @@ public class AdminMovieController {
 
     @GetMapping("")
     public String getAdminMoviePage(
+        @RequestParam(
+            value = "data",
+            defaultValue = "all"
+        ) String data,
         Model model
     ) {
-        model.addAttribute(
-            "movies",
-            adminMovieControllerService.getAllMovies()
-        );
+        if (data.equals("delete")) {
+            model.addAttribute(
+                "movies",
+                adminMovieControllerService.getAllMoviesDeleted()
+            );
+            return "/movie/index";
+        } else {
+            model.addAttribute(
+                "movies",
+                adminMovieControllerService.getAllMovies()
+            );
+        }
         return "/movie/index";
     }
 
@@ -47,4 +60,11 @@ public class AdminMovieController {
         return "/movie/create";
     }
 
+    @GetMapping("/meta-data")
+    public String getAdminMovieMetaDataPage(
+        Model model
+    ) {
+        adminMovieControllerService.commonMovieAttributes(model);
+        return "/movie/meta-data";
+    }
 }
