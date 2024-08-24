@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,6 +23,10 @@ public class FileStorageService {
     public String storeFile(
         MultipartFile file
     ) {
+        if (!isImageFile((File) file)) {
+            throw new RuntimeException("File không phải là hình ảnh");
+        }
+
         // Chuẩn hóa tên file
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
@@ -34,7 +39,6 @@ public class FileStorageService {
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-            // Trả về đường dẫn tương đối của file để hiển thị
             return "/api/v1/files/media/" + fileName;
 
         } catch (IOException ex) {
@@ -44,5 +48,12 @@ public class FileStorageService {
 
     public Path loadFileAsResource(String fileName) {
         return this.fileStorageLocation.resolve(fileName).normalize();
+    }
+
+    public static boolean isImageFile(File file) {
+        String fileName = file.getName().toLowerCase();
+        return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") ||
+            fileName.endsWith(".png") || fileName.endsWith(".gif") ||
+            fileName.endsWith(".bmp") || fileName.endsWith(".tiff");
     }
 }

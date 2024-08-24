@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.core.entity.media;
 
+import com.nongviet201.cinema.core.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,13 @@ public class Image {
     private String description;
     private String type;
     private String path;
+
+    private boolean status;
+
     private LocalDate createdAt;
     private LocalDate updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.core.rest;
 
+import com.nongviet201.cinema.core.service.ImageService;
 import com.nongviet201.cinema.core.utils.FileStorageService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -20,13 +21,13 @@ import java.nio.file.Paths;
 public class FileAPI {
 
     private final FileStorageService fileStorageService;
+    private final ImageService imageService;
 
     @PostMapping("/uploadFile")
     public ResponseEntity<String> uploadFile(
         @RequestParam("file") MultipartFile file
     ) {
-        String filePath = fileStorageService.storeFile(file);
-        return ResponseEntity.ok(filePath);
+        return ResponseEntity.ok(imageService.uploadImage(file));
     }
 
 
