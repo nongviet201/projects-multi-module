@@ -15,4 +15,11 @@ public class CityServiceImpl implements CityService {
     public List<City> getAllCities() {
         return cityRepository.findAll();
     }
+
+    @Override
+    public City getCityById(Integer id) {
+        return cityRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy thành phố với id: " + id))
+            ;
+    }
 }

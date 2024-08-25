@@ -4,6 +4,7 @@ import com.nongviet201.cinema.core.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @ToString
@@ -21,8 +22,15 @@ public class Cinema {
     private String name;
     @Column(columnDefinition = "TEXT")
     private String address;
+
     private double lat;
     private double lng;
+
+    private boolean enabled;
+    private boolean deleted;
+
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "city_id")

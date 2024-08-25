@@ -21,7 +21,20 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     @Override
-    public List<Cinema> getAllCinemas() {
-        return cinemaRepository.findAll();
+    public List<Cinema> getAllCinemaByDeleted(boolean deleted) {
+        return cinemaRepository.findAllByDeletedOrderByCreatedAt(deleted);
     }
+
+    @Override
+    public void updateDeletedCinema(int id, boolean deleted) {
+        Cinema updatedCinema = getCinemaById(id);
+        updatedCinema.setDeleted(deleted);
+        cinemaRepository.save(updatedCinema);
+    }
+
+    @Override
+    public void save(Cinema cinema) {
+        cinemaRepository.save(cinema);
+    }
+
 }

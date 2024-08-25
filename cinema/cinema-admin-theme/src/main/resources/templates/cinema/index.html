@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: .content-index}, ~{:: #js})}">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Cinema</title>
+
+    <th:block id="css">
+    </th:block>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+
+<div class="wrapper">
+    <div class="content-index">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/admin">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/admin/cinema">Cinema</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-12">
+                        <a href="/admin/cinema/create">
+                            <button type="button" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Tạo rạp
+                            </button>
+                        </a>
+                        <a href="/admin/cinema">
+                            <button type="button" class="btn btn-info">
+                                <i class="fas fa-redo"></i> Refresh
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-responsive table-striped" id="table-movie">
+                                    <thead>
+                                    <tr>
+                                        <th>Tên Rạp</th>
+                                        <th class="text-center">Địa chỉ</th>
+                                        <th class="text-center">Ngày tạo</th>
+                                        <th class="text-center">Trạng thái</th>
+                                        <th class="text-center">Quản lý</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="item : ${cinemas}">
+                                        <td>
+                                            <a th:href="@{/admin/cinema/{id} (id=${item.id})}" th:text="${item.name}">Tên</a>
+                                        </td>
+                                        <td th:text="${item.getAddress()}">
+                                        </td>
+                                        <td th:text="${item.getCreatedAt()}">06-07-2022</td>
+                                        <td>
+                                            <span class=""
+                                                  th:class="${item.enabled ? 'text-success' : 'text-warning'}"
+                                                  th:text="${item.enabled ? 'Công khai' : 'Nháp'}">
+                                            </span>
+                                        </td>
+                                        <td th:each="manager:  ${item.manager}" th:text="${manager.getFullName()}">Công khai</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<th:block id="js">
+    <script>
+        $('#table-movie').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "lengthMenu": [10, 25, 50, 100],
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language" : languageTable,
+            "createdRow": function(row, data, dataIndex) {
+                $('td', row).eq(0).addClass('text-start');
+                $('td', row).eq(5).addClass('text-end');
+                $('td', row).eq(1).addClass('text-center');
+                $('td', row).eq(2).addClass('text-center');
+                $('td', row).eq(3).addClass('text-center');
+                $('td', row).eq(4).addClass('text-center');
+            },
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

@@ -11,4 +11,6 @@ public interface CinemaRepository extends JpaRepository<Cinema, Integer> {
     Cinema findById(int id);
 
     List<Cinema> findAllByCity_Id(int cityId);
+
+    List<Cinema> findAllByDeletedOrderByCreatedAt(boolean deleted);
 }

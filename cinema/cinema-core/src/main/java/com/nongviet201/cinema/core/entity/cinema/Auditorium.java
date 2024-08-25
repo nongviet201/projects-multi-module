@@ -19,6 +19,7 @@ public class Auditorium {
     String name;
     private int totalRowChair;
     private int totalColumnChair;
+    private boolean enabled;
     @Enumerated(EnumType.STRING)
     private AuditoriumType auditoriumType;
 

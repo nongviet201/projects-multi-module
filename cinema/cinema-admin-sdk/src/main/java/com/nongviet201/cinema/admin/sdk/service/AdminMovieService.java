@@ -9,6 +9,7 @@ import com.nongviet201.cinema.core.model.enums.movie.GraphicsType;
 import com.nongviet201.cinema.core.model.enums.movie.TranslationType;
 import com.nongviet201.cinema.core.repository.MovieRepository;
 import com.nongviet201.cinema.core.service.*;
+import com.nongviet201.cinema.core.utils.EnumService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class AdminMovieService {
 
     private final MovieService movieService;
+    private final EnumService enumService;
     private final CountryService countryService;
     private final GenreService genreService;
     private final ActorService actorService;
@@ -43,73 +45,6 @@ public class AdminMovieService {
         Movie movie = movieService.getMovieById(id);
         updateMovieFromRequest(movie, request);
         movieRepository.save(movie);
-    }
-
-    private Movie buildMovieFromRequest(UpsertMovieRequest request) {
-        return Movie.builder()
-            .name(request.getName())
-            .slug(request.getSlug())
-            .description(request.getDescription())
-            .poster(request.getPoster())
-            .bannerImg(request.getBannerImg())
-            .trailer(request.getTrailer())
-            .ageRequirement(getEnumValueByName(AgeRequirement::valueOf, request.getAgeRequirement(), "AgeRequirement"))
-            .duration(request.getDuration())
-            .producer(request.getProducer())
-            .rating(request.getRating())
-            .ratingCount(request.getRatingCount())
-            .releaseDate(request.getReleaseDate())
-            .status(request.isStatus())
-            .graphicsTypes(getEnumListByNames(GraphicsType::valueOf, request.getGraphicTypes(), "GraphicsType"))
-            .translationTypes(getEnumListByNames(TranslationType::valueOf, request.getTranslationTypes(), "TranslationType"))
-            .country(getEntitiesByIds(countryService::getCountryById, request.getCountryIds()))
-            .genres(getEntitiesByIds(genreService::getGenreById, request.getGenreIds()))
-            .actors(getEntitiesByIds(actorService::getActorById, request.getActorIds()))
-            .directors(getEntitiesByIds(directorService::getDirectorById, request.getDirectorIds()))
-            .build();
-    }
-
-    private void updateMovieFromRequest(Movie movie, UpsertMovieRequest request) {
-        movie.setName(request.getName());
-        movie.setSlug(request.getSlug());
-        movie.setDescription(request.getDescription());
-        movie.setPoster(request.getPoster());
-        movie.setBannerImg(request.getBannerImg());
-        movie.setTrailer(request.getTrailer());
-        movie.setAgeRequirement(getEnumValueByName(AgeRequirement::valueOf, request.getAgeRequirement(), "AgeRequirement"));
-        movie.setDuration(request.getDuration());
-        movie.setProducer(request.getProducer());
-        movie.setRating(request.getRating());
-        movie.setRatingCount(request.getRatingCount());
-        movie.setReleaseDate(request.getReleaseDate());
-        movie.setStatus(request.isStatus());
-        movie.setGraphicsTypes(getEnumListByNames(GraphicsType::valueOf, request.getGraphicTypes(), "GraphicsType"));
-        movie.setTranslationTypes(getEnumListByNames(TranslationType::valueOf, request.getTranslationTypes(), "TranslationType"));
-        movie.setCountry(getEntitiesByIds(countryService::getCountryById, request.getCountryIds()));
-        movie.setGenres(getEntitiesByIds(genreService::getGenreById, request.getGenreIds()));
-        movie.setActors(getEntitiesByIds(actorService::getActorById, request.getActorIds()));
-        movie.setDirectors(getEntitiesByIds(directorService::getDirectorById, request.getDirectorIds()));
-    }
-
-    private <E extends Enum<E>> E getEnumValueByName(
-        Function<String, E> valueOfFunction,
-        String name,
-        String paramName
-    ) {
-        try {
-            return valueOfFunction.apply(name);
-        } catch (IllegalArgumentException e) {
-            throw new BadRequestException("Có lỗi xảy ra với tham số '" + paramName + "': " + name);
-        }
-    }
-
-    private <E extends Enum<E>> List<E> getEnumListByNames(
-        Function<String, E> valueOfFunction,
-        List<String> names, String paramName
-    ) {
-        return names.stream()
-            .map(name -> getEnumValueByName(valueOfFunction, name, paramName))
-            .collect(Collectors.toList());
     }
 
     private <T> List<T> getEntitiesByIds(
@@ -196,5 +131,56 @@ public class AdminMovieService {
             default:
                 throw new BadRequestException("Loại dữ liệu '" + request.getType() + "' không hợp lệ");
         }
+    }
+
+
+    private Movie buildMovieFromRequest(
+        UpsertMovieRequest request
+    ) {
+        return Movie.builder()
+            .name(request.getName())
+            .slug(request.getSlug())
+            .description(request.getDescription())
+            .poster(request.getPoster())
+            .bannerImg(request.getBannerImg())
+            .trailer(request.getTrailer())
+            .ageRequirement(enumService.getEnumValueByName(AgeRequirement::valueOf, request.getAgeRequirement(), "AgeRequirement"))
+            .duration(request.getDuration())
+            .producer(request.getProducer())
+            .rating(request.getRating())
+            .ratingCount(request.getRatingCount())
+            .releaseDate(request.getReleaseDate())
+            .status(request.isStatus())
+            .graphicsTypes(enumService.getEnumListByNames(GraphicsType::valueOf, request.getGraphicTypes(), "GraphicsType"))
+            .translationTypes(enumService.getEnumListByNames(TranslationType::valueOf, request.getTranslationTypes(), "TranslationType"))
+            .country(getEntitiesByIds(countryService::getCountryById, request.getCountryIds()))
+            .genres(getEntitiesByIds(genreService::getGenreById, request.getGenreIds()))
+            .actors(getEntitiesByIds(actorService::getActorById, request.getActorIds()))
+            .directors(getEntitiesByIds(directorService::getDirectorById, request.getDirectorIds()))
+            .build();
+    }
+
+    private void updateMovieFromRequest(
+        Movie movie, UpsertMovieRequest request
+    ) {
+        movie.setName(request.getName());
+        movie.setSlug(request.getSlug());
+        movie.setDescription(request.getDescription());
+        movie.setPoster(request.getPoster());
+        movie.setBannerImg(request.getBannerImg());
+        movie.setTrailer(request.getTrailer());
+        movie.setAgeRequirement(enumService.getEnumValueByName(AgeRequirement::valueOf, request.getAgeRequirement(), "AgeRequirement"));
+        movie.setDuration(request.getDuration());
+        movie.setProducer(request.getProducer());
+        movie.setRating(request.getRating());
+        movie.setRatingCount(request.getRatingCount());
+        movie.setReleaseDate(request.getReleaseDate());
+        movie.setStatus(request.isStatus());
+        movie.setGraphicsTypes(enumService.getEnumListByNames(GraphicsType::valueOf, request.getGraphicTypes(), "GraphicsType"));
+        movie.setTranslationTypes(enumService.getEnumListByNames(TranslationType::valueOf, request.getTranslationTypes(), "TranslationType"));
+        movie.setCountry(getEntitiesByIds(countryService::getCountryById, request.getCountryIds()));
+        movie.setGenres(getEntitiesByIds(genreService::getGenreById, request.getGenreIds()));
+        movie.setActors(getEntitiesByIds(actorService::getActorById, request.getActorIds()));
+        movie.setDirectors(getEntitiesByIds(directorService::getDirectorById, request.getDirectorIds()));
     }
 }

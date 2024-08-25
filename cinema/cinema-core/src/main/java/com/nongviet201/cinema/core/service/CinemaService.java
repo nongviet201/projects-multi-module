@@ -7,5 +7,9 @@ import java.util.List;
 public interface CinemaService {
     Cinema getCinemaById(Integer id);
 
-    List<Cinema> getAllCinemas();
+    List<Cinema> getAllCinemaByDeleted(boolean deleted);
+
+    void updateDeletedCinema(int id, boolean deleted);
+
+    void save(Cinema cinema);
 }
