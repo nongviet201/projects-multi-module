@@ -1,0 +1,88 @@
+
+main {
+    background-color: #F9F9F9;
+}
+
+.seat,
+.seat-demo{
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    background: none;
+    margin: 5px;
+    display: inline-block;
+    text-align: center;
+    padding: .2rem 0;
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
+}
+.div-seat-double,
+.div-seat-double-demo{
+    border: 1px solid plum;
+    border-radius: 5px;
+    margin: 5px;
+    width: 100%;
+    height: 25px;
+    overflow: hidden;
+}
+
+.seat:hover,
+.div-seat-double:hover{
+    border-color: #034EA2 !important;
+    transform: scale(1.1);
+}
+#seat-map button.active,
+.div-seat-double.active{
+    background-color: #034EA2 !important;
+    pointer-events: auto!important;
+    color: white !important;
+}
+
+.div-seat-double.active button {
+    color: white;
+}
+
+.seat-list {
+    display: flex;
+    justify-content: center;
+}
+
+.seat-row {
+    display: flex;
+    margin-bottom: 5px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.seat-vip {
+    border-color: #f58a20 !important;
+}
+
+.seat-sold {
+    background-color: gray;
+    cursor: none!important;
+    pointer-events: none!important;
+}
+
+.seat-double {
+    background-color: white !important;
+    border: none;
+    margin: 0;
+    padding: 0 !important;
+    height: 25px;
+    width: 25px;
+}
+
+.seat-hover {
+    border-color: gold !important;
+    background-color: gold;
+    pointer-events: none;
+}
+.seat-hover,
+.seat-hover button {
+    color: white;
+}
+
+a:hover {
+    color: #034EA2 !important;
+}
