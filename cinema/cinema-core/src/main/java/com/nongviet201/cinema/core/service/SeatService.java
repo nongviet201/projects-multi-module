@@ -8,5 +8,6 @@ public interface SeatService {
     List<Seat> getAllSeatsByAuditoriumIdOrderBySeatRowAsc(int auditoriumId);
 
     Seat getSeatById(int seatId);
-    
+
+    void save(Seat seat);
 }

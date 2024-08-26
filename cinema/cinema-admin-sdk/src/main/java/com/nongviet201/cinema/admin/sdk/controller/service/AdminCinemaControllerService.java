@@ -3,7 +3,9 @@ package com.nongviet201.cinema.admin.sdk.controller.service;
 import com.nongviet201.cinema.admin.sdk.controller.decorator.AdminCinemaMarkerDecorator;
 import com.nongviet201.cinema.admin.sdk.response.AdminCinemaMarkerResponse;
 import com.nongviet201.cinema.admin.sdk.response.AdminCinemaRevenueResponse;
+import com.nongviet201.cinema.admin.sdk.service.AdminAuditoriumService;
 import com.nongviet201.cinema.admin.sdk.service.AdminCinemaService;
+import com.nongviet201.cinema.core.entity.cinema.Auditorium;
 import com.nongviet201.cinema.core.entity.cinema.Cinema;
 import com.nongviet201.cinema.core.service.CinemaService;
 import lombok.AllArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class AdminCinemaControllerService {
 
     private final AdminCinemaService adminCinemaService;
+    private final AdminAuditoriumService adminAuditoriumService;
     private final AdminCinemaMarkerDecorator markerDecorator;
 
     public List<Cinema> getAllCinema() {
@@ -33,8 +36,9 @@ public class AdminCinemaControllerService {
         Model model
     ) {
         model.addAttribute("cinema", adminCinemaService.getCinemaById(id));
-        model.addAttribute("auditoriums", adminCinemaService.getAllAuditoriumByCinemaId(id));
+        model.addAttribute("auditoriums", adminAuditoriumService.getAllAuditoriumByCinemaId(id));
         model.addAttribute("cities", adminCinemaService.getAllCities());
+        model.addAttribute("audType", adminAuditoriumService.getAllAuditoriumTypes());
     }
 
     public List<AdminCinemaMarkerResponse> getAllCinemaMarker() {
@@ -52,4 +56,7 @@ public class AdminCinemaControllerService {
     }
 
 
+    public List<Auditorium> getAllAuditoriumDeleted() {
+        return adminAuditoriumService.getAllDeletedAuditorium();
+    }
 }

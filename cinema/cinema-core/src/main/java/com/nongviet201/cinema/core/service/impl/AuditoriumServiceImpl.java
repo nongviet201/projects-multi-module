@@ -15,7 +15,28 @@ public class AuditoriumServiceImpl implements AuditoriumService {
     final AuditoriumRepository auditRepository;
 
     @Override
+    public Auditorium getAuditoriumById(int id) {
+        return auditRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy phòng chiếu có id: " + id))  ;
+    }
+
+    @Override
     public List<Auditorium> getAllAuditoriumByCinemaId(int id) {
-        return auditRepository.findAllByCinema_Id(id);
+        return auditRepository.findAllByCinema_IdAndDeleted(id, false);
+    }
+
+    @Override
+    public List<Auditorium> getAllAuditoriumByDeleted(boolean deleted) {
+        return auditRepository.findAllByDeleted(deleted);
+    }
+
+    @Override
+    public void save(Auditorium auditorium) {
+        auditRepository.save(auditorium);
+    }
+
+    @Override
+    public void delete(Auditorium auditorium) {
+        auditRepository.delete(auditorium);
     }
 }

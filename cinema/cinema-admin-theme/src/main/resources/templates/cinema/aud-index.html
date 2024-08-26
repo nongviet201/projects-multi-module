@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: .content-index}, ~{:: #js})}">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Auditorium Deleted</title>
+
+    <th:block id="css">
+    </th:block>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+
+<div class="wrapper">
+    <div class="content-index">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/admin">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/admin/cinema/aud-deleted">Auditorium Deleted</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-12">
+                        <a href="/admin/cinema/aud-deleted">
+                            <button type="button" class="btn btn-info">
+                                <i class="fas fa-redo"></i> Refresh
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-responsive table-striped" id="table-index">
+                                    <thead>
+                                    <tr>
+                                        <th>Rạp</th>
+                                        <th class="text-center">Tên Phòng Chiếu</th>
+                                        <th class="text-center">Loại phòng chiếu</th>
+                                        <th class="text-center">Trạng thái</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="item : ${auditoriumsDeleted}">
+                                        <td th:text="${item.cinema.name}"></td>
+                                        <td th:text="${item.name}">
+                                        </td>
+                                        <td th:text="${item.auditoriumType}">
+                                        </td>
+                                        <td>
+                                            <span class=""
+                                                  th:class="${item.enabled ? 'text-success' : 'text-warning'}"
+                                                  th:text="${item.enabled ? 'Công khai' : 'Nháp'}">
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button type="button"
+                                                    class="btn btn-primary"
+                                                    th:value="${item.id}" onclick="restoreAud(this)">
+                                                khôi phục
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div aria-hidden="true" class="modal fade" id="centeredModalPrimary" style="display: none;"
+                                 tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered px-5" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 id="restore-title" class="modal-title text-center">Xác nhận khôi phục</h5>
+                                            <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                                    type="button"></button>
+                                        </div>
+                                        <div class="modal-body m-3 text-center">
+                                            <h4 class="mb-0">Bạn chắc chắn muốn khôi phục phòng chiếu này?</h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Hủy</button>
+                                            <button class="btn btn-primary" id="restore-aud" type="button">Khôi phục</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<th:block id="js">
+
+    <script th:inline="javascript">
+        const auditoriums = [[${auditoriumsDeleted}]];
+        console.log(auditoriums);
+
+        function restoreAud(btn) {
+            const audId = btn.value;
+            const aud = auditoriums.filter(e => e.id.toString() === audId.toString());
+
+            document.getElementById('restore-title').innerHTML = `Khôi phục <strong> ${aud[0].name} </strong> rạp <strong> ${aud[0].cinema.name} </strong>`
+            $('#centeredModalPrimary').modal('show');
+
+            document.getElementById("restore-aud").addEventListener("click", async () => {
+                try {
+                    const res = await axios.put(`/admin/api/v1/aud/restore/${aud[0].id}`)
+                    toastShow(`Đã khôi phục phim ${cinema.name}`, "success")
+                    setTimeout(() => {
+                        window.location.href = "/admin/cinema?data=delete";
+                    }, 1000)
+                } catch (error) {
+                    console.log(error)
+                    toastShow(error.response.data.message, "error");
+                }
+            })
+        }
+    </script>
+    <script>
+        $('#table-index').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "lengthMenu": [10, 25, 50, 100],
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language" : languageTable,
+            "createdRow": function(row, data, dataIndex) {
+                $('td', row).eq(0).addClass('text-start');
+                $('td', row).eq(5).addClass('text-end');
+                $('td', row).eq(1).addClass('text-center');
+                $('td', row).eq(2).addClass('text-center');
+                $('td', row).eq(3).addClass('text-center');
+                $('td', row).eq(4).addClass('text-center');
+            },
+        });
+    </script>
+</th:block>
+
+</body>
+</html>

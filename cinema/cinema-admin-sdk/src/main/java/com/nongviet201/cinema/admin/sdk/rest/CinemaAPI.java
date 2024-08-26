@@ -1,6 +1,7 @@
 package com.nongviet201.cinema.admin.sdk.rest;
 
 import com.nongviet201.cinema.admin.sdk.controller.service.AdminCinemaControllerService;
+import com.nongviet201.cinema.admin.sdk.request.UpsertAuditoriumRequest;
 import com.nongviet201.cinema.admin.sdk.request.UpsertCinemaRequest;
 import com.nongviet201.cinema.admin.sdk.response.AdminCinemaMarkerResponse;
 import com.nongviet201.cinema.admin.sdk.response.AdminCinemaRevenueResponse;
@@ -34,11 +35,12 @@ public class CinemaAPI {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateItem(
         @PathVariable int id,
-        @RequestBody UpsertCinemaRequest request
+        @RequestBody UpsertCinemaRequest.Cinema request
     ) {
         adminCinemaService.updateCinema(id, request);
         return ResponseEntity.ok(request);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteItem(

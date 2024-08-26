@@ -23,4 +23,9 @@ public class SeatServiceImpl implements SeatService {
         return seatRepository.findById(seatId)
                 .orElseThrow(() -> new BadRequestException("không tìm thấy ghế với id: " + seatId));
     }
+
+    @Override
+    public void save(Seat seat) {
+        seatRepository.save(seat);
+    }
 }

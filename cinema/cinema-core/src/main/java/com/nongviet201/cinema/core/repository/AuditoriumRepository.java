@@ -9,9 +9,10 @@ import java.util.Optional;
 
 @Repository
 public interface AuditoriumRepository extends JpaRepository<Auditorium, Integer> {
-    Auditorium findById(int id);
 
     List<Auditorium> findAllByCinema_IdIn(List<Integer> cinemaIds);
 
-    List<Auditorium> findAllByCinema_Id(Integer cinemaId);
+    List<Auditorium> findAllByCinema_IdAndDeleted(Integer cinemaId, boolean deleted);
+
+    List<Auditorium> findAllByDeleted(boolean deleted);
 }

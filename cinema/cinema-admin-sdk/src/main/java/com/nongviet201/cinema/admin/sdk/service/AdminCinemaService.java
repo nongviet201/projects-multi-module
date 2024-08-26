@@ -1,16 +1,19 @@
 package com.nongviet201.cinema.admin.sdk.service;
 
 import com.nongviet201.cinema.admin.sdk.converter.AdminCinemaRevenueToResponseConverter;
+import com.nongviet201.cinema.admin.sdk.request.UpsertAuditoriumRequest;
 import com.nongviet201.cinema.admin.sdk.request.UpsertCinemaRequest;
 import com.nongviet201.cinema.admin.sdk.response.AdminCinemaRevenueResponse;
 import com.nongviet201.cinema.core.entity.bill.Translation;
 import com.nongviet201.cinema.core.entity.cinema.Auditorium;
 import com.nongviet201.cinema.core.entity.cinema.Cinema;
 import com.nongviet201.cinema.core.entity.cinema.City;
+import com.nongviet201.cinema.core.model.enums.cinema.AuditoriumType;
 import com.nongviet201.cinema.core.service.AuditoriumService;
 import com.nongviet201.cinema.core.service.CinemaService;
 import com.nongviet201.cinema.core.service.CityService;
 import com.nongviet201.cinema.core.service.TranslationService;
+import com.nongviet201.cinema.core.utils.EnumService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +29,9 @@ public class AdminCinemaService {
 
     private final CityService cityService;
     private final CinemaService cinemaService;
-    private final AuditoriumService auditoriumService;
     private final TranslationService translationService;
     private final AdminCinemaRevenueToResponseConverter cinemaRevenueToResponseConverter;
+    private final EnumService enumService;
 
     public List<Cinema> getAllCinema() {
         return cinemaService.getAllCinemaByDeleted(false);
@@ -42,14 +45,6 @@ public class AdminCinemaService {
 
     public List<Cinema> getAllDeletedCinema() {
         return cinemaService.getAllCinemaByDeleted(true);
-    }
-
-    public List<Auditorium> getAllAuditoriumByCinemaId(
-        int cinemaId
-    ) {
-        return auditoriumService.getAllAuditoriumByCinemaId(
-            cinemaId
-        );
     }
 
     public void updateDeletedCinema(
@@ -105,7 +100,7 @@ public class AdminCinemaService {
 
     public void updateCinema(
         int id,
-        UpsertCinemaRequest request
+        UpsertCinemaRequest.Cinema request
     ) {
         Cinema cinema = cinemaService.getCinemaById(id);
 
@@ -122,4 +117,5 @@ public class AdminCinemaService {
     public List<City> getAllCities() {
         return cityService.getAllCities();
     }
+
 }

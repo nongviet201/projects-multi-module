@@ -30,4 +30,5 @@ public class EnumService {
             throw new BadRequestException("Có lỗi xảy ra với tham số '" + paramName + "': " + name);
         }
     }
+
 }

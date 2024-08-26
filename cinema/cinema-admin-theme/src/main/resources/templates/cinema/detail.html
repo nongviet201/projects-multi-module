@@ -47,18 +47,21 @@
                         <a class="btn btn-default" href="/admin/cinema">
                             <i class="fas fa-chevron-left"></i> Quay lại
                         </a>
-                        <button class="btn btn-info px-4" id="btn-update" type="button">
+                        <button class="btn btn-info px-3" id="btn-update" type="button">
+                            <i class="fa-regular fa-floppy-disk me-1"></i>
                             Lưu
                         </button>
                     </div>
                     <div class="col-6 d-flex justify-content-end">
-                        <button class="btn btn-danger px-4" data-bs-target="#centeredModalDanger" data-bs-toggle="modal"
+                        <button class="btn btn-danger px-3" data-bs-target="#centeredModalDanger" data-bs-toggle="modal"
                                 th:if="${cinema.deleted == false}" type="button">
+                            <i class="fa-regular fa-trash-can me-1"></i>
                             Xóa
                         </button>
-                        <button class="btn btn-primary px-4" data-bs-target="#centeredModalPrimary"
+                        <button class="btn btn-primary px-3" data-bs-target="#centeredModalPrimary"
                                 data-bs-toggle="modal"
                                 th:if="${cinema.deleted == true}" type="button">
+                            <i class="fa-solid fa-arrow-rotate-right me-1"></i>
                             Khôi phục
                         </button>
                     </div>
@@ -170,8 +173,11 @@
 
                 <div class="col-12 col-xxl-8">
                     <div class="card">
-                        <div class="card-header pb-0">
+                        <div class="card-header d-flex justify-content-between pb-0">
                             <h5 class="card-title">Danh sách phòng chiếu</h5>
+                            <a data-bs-toggle="modal" data-bs-target="#createAudModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus align-middle me-2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </a>
                         </div>
                         <div class="card-body pt-0">
                             <table class="table table-hover">
@@ -180,7 +186,7 @@
                                     <th style="width:40%;">Tên Phòng</th>
                                     <th style="width:25%">Loại Phòng Chiếu</th>
                                     <th class="d-none d-md-table-cell" style="width:25%">Trạng thái</th>
-                                    <th>Edit</th>
+                                    <th >Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -189,47 +195,128 @@
                                     <td th:text="${item.auditoriumType}"></td>
                                     <td th:text="${item.enabled ? 'Công khai' : 'Nháp'}">Công khai</td>
                                     <td class="table-action text-center">
-                                        <a  th:attr="data-aud-id=${item.id}" onclick="editAud(this)">
+                                        <a class="me-1" th:attr="data-aud-id=${item.id}" onclick="editAud(this)">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
-                                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
+                                        <a th:attr="data-aud-id=${item.id}" onclick="removeAud(this)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="modal fade" id="auditoriumModal" tabindex="-1" aria-hidden="true" style="display: none;">
-                        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class=" modal-title">Thông tin rạp </h4>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body m-3">
-                                    <form id="form-aud">
-                                        <div class="form-group">
-                                            <label for="aud-name">Tên Rạp</label>
-                                            <input class="form-control" id="aud-name"
-                                                   name="aud-name"
-                                                   type="text"/>
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <label for="adu-status">Trạng Thái</label>
-                                            <select class="form-control" id="adu-status" name="adu-status">
-                                                <option value="0">
-                                                    Nháp
-                                                </option>
-                                                <option value="1">
-                                                    Công khai
-                                                </option>
-                                            </select>
-                                        </div>
+                    <div class="aud-modal">
+                        <div class="modal fade" id="createAudModal" tabindex="-1" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class=" modal-title">Thông tin rạp </h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body m-3">
+                                        <form id="form-create-aud">
+                                            <div class="form-group">
+                                                <label for="create-aud-name">Tên Rạp</label>
+                                                <input class="form-control" id="create-aud-name"
+                                                       name="name"
+                                                       type="text"/>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <label for="create-aud-type">Loại phòng chiếu</label>
+                                                <select class="form-control" id="create-aud-type" name="create-aud-type">
+                                                    <option th:each="type : ${audType}"
+                                                            th:value="${type}"
+                                                            th:text="${type}">
 
-                                    </form>
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <label for="create-aud-status">Trạng Thái</label>
+                                                <select class="form-control" id="create-aud-status" name="create-aud-status">
+                                                    <option value="0">
+                                                        Nháp
+                                                    </option>
+                                                    <option value="1">
+                                                        Công khai
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <label for="create-aud-total-row-chair">Tổng số hàng ghế</label>
+                                                <input class="form-control" id="create-aud-total-row-chair"
+                                                       name="name"
+                                                       type="number"/>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <label for="create-aud-total-column-chair">Tổng số cột ghế</label>
+                                                <input class="form-control" id="create-aud-total-column-chair"
+                                                       name="name"
+                                                       type="number"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                        <button type="button" id="aud-create" class="btn btn-success">Tạo mới</button>
+                                    </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                    <button type="button" class="btn btn-primary">Lưu Thay Đổi</button>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="auditoriumModal" tabindex="-1" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class=" modal-title">Thông tin rạp </h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body m-3">
+                                        <form id="form-aud">
+                                            <div class="form-group">
+                                                <label for="aud-name">Tên Rạp</label>
+                                                <input class="form-control" id="aud-name"
+                                                       name="name"
+                                                       type="text"/>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <label for="aud-type">Loại phòng chiếu</label>
+                                                <select class="form-control" id="aud-type" name="aud-type">
+
+                                                </select>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <label for="aud-status">Trạng Thái</label>
+                                                <select class="form-control" id="aud-status" name="aud-status">
+                                                    <option value="0">
+                                                        Nháp
+                                                    </option>
+                                                    <option value="1">
+                                                        Công khai
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                        <button type="button" id="aud-update" class="btn btn-primary">Lưu Thay Đổi</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="removeAuditoriumModal" tabindex="-1" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class=" modal-title">Thông tin rạp </h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div id="aud-remove-message" class="modal-body m-3">
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                        <button type="button" id="aud-remove" class="btn btn-danger">Xác nhận xóa</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -287,92 +374,12 @@
     <script th:inline="javascript">
         const cinema = [[${cinema}]];
         const auditoriums = [[${auditoriums}]];
-
-        document.getElementById('btn-update').addEventListener("click", async (e) => {
-            if (!$('#form-cinema').valid()) return;
-            try {
-                await axios.put(`/admin/api/v1/cinema/${cinema.id}`, getData());
-                toastShow("Cập nhật thông tin rạp thành công", "success");
-            } catch (error) {
-                toastShow(error.response.data.message, "error");
-                console.error(error);
-            }
-        });
-
-        function getData() {
-            return data = {
-                name: $('#name').val(),
-                address: $('#address').val(),
-                enabled: parseInt($('#status').val(), 10) === 1,
-                city: $('#city').val(),
-                lng: parseFloat($('#lng').val()),
-                lat: parseFloat($('#lat').val()),
-            }
-        }
+        const audType = [[${audType}]];
     </script>
-    <script type="text/javascript">
-        function editAud(button) {
-            const id = button.getAttribute('data-aud-id')
-            const aud = auditoriums.filter(e => e.id.toString() === id.toString());
 
-            $('#auditoriumModal').modal('show');
-        }
-    </script>
-    <script type="text/javascript">
-        $('#form-cinema').validate({
-            rules: {
-                name: { required: true },
-                address: { required: true},
-                lng: { required: true},
-                lat: { required: true},
-            },
-            messages: {
-                name: { required: "Vui lòng nhập tên phim" },
-                address: { required: "Vui lòng nhập địa chỉ"},
-                lng: { required: "Vui lòng nhập vị trí theo kinh độ" },
-                lat: { required: "Vui lòng nhập vị trí theo vĩ độ" },
-            },
-            errorElement: 'span',
-            errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-            },
-            highlight: function (element) {
-                $(element).addClass('is-invalid');
-            },
-            unhighlight: function (element) {
-                $(element).removeClass('is-invalid');
-            }
-        });
-
-        // delete
-        document.getElementById("delete-cinema").addEventListener("click", async () => {
-            try {
-                const res = await axios.delete(`/admin/api/v1/cinema/${cinema.id}`)
-                toastShow(`Đã xóa phim ${cinema.name}`, "success")
-                setTimeout(() => {
-                    window.location.href = "/admin/cinema";
-                }, 1500)
-            } catch (error) {
-                console.log(error)
-                toastShow(error.response.data.message, "error");
-            }
-        })
-
-        // restore
-        document.getElementById("restore-cinema").addEventListener("click", async () => {
-            try {
-                const res = await axios.put(`/admin/api/v1/cinema/restore/${cinema.id}`)
-                toastShow(`Đã khôi phục phim ${cinema.name}`, "success")
-                setTimeout(() => {
-                    window.location.href = "/admin/cinema?data=delete";
-                }, 1000)
-            } catch (error) {
-                console.log(error)
-                toastShow(error.response.data.message, "error");
-            }
-        })
-    </script>
+    <script src="/dist/js/page/cinema.js"></script>
+    <script src="/dist/js/data/cinemaClientService.js"></script>
+    <script src="/dist/js/data/audClientService.js"></script>
 </th:block>
 </body>
 

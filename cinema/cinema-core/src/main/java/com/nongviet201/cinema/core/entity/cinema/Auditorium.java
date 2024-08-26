@@ -20,6 +20,7 @@ public class Auditorium {
     private int totalRowChair;
     private int totalColumnChair;
     private boolean enabled;
+    private boolean deleted;
     @Enumerated(EnumType.STRING)
     private AuditoriumType auditoriumType;
 

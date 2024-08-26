@@ -53,4 +53,15 @@ public class AdminCinemaController {
     ) {
         return "/cinema/create";
     }
+
+    @GetMapping("/aud-deleted")
+    public String getAuditoriumDeletedPage(
+        Model model
+    ) {
+        model.addAttribute(
+            "auditoriumsDeleted",
+            adminCinemaControllerService.getAllAuditoriumDeleted()
+        );
+        return "/cinema/aud-index";
+    }
 }
