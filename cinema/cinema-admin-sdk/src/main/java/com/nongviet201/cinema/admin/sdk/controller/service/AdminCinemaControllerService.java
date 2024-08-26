@@ -5,6 +5,7 @@ import com.nongviet201.cinema.admin.sdk.response.AdminCinemaMarkerResponse;
 import com.nongviet201.cinema.admin.sdk.response.AdminCinemaRevenueResponse;
 import com.nongviet201.cinema.admin.sdk.service.AdminAuditoriumService;
 import com.nongviet201.cinema.admin.sdk.service.AdminCinemaService;
+import com.nongviet201.cinema.admin.sdk.service.AdminSeatService;
 import com.nongviet201.cinema.core.entity.cinema.Auditorium;
 import com.nongviet201.cinema.core.entity.cinema.Cinema;
 import com.nongviet201.cinema.core.service.CinemaService;
@@ -22,6 +23,7 @@ public class AdminCinemaControllerService {
     private final AdminCinemaService adminCinemaService;
     private final AdminAuditoriumService adminAuditoriumService;
     private final AdminCinemaMarkerDecorator markerDecorator;
+    private final AdminSeatService adminSeatService;
 
     public List<Cinema> getAllCinema() {
         return adminCinemaService.getAllCinema();
@@ -39,6 +41,7 @@ public class AdminCinemaControllerService {
         model.addAttribute("auditoriums", adminAuditoriumService.getAllAuditoriumByCinemaId(id));
         model.addAttribute("cities", adminCinemaService.getAllCities());
         model.addAttribute("audType", adminAuditoriumService.getAllAuditoriumTypes());
+        model.addAttribute("seatTypes", adminSeatService.getAllSeatTypes());
     }
 
     public List<AdminCinemaMarkerResponse> getAllCinemaMarker() {

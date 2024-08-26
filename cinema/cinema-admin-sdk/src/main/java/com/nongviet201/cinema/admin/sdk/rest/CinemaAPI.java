@@ -38,7 +38,7 @@ public class CinemaAPI {
         @RequestBody UpsertCinemaRequest.Cinema request
     ) {
         adminCinemaService.updateCinema(id, request);
-        return ResponseEntity.ok(request);
+        return ResponseEntity.noContent().build();
     }
 
 

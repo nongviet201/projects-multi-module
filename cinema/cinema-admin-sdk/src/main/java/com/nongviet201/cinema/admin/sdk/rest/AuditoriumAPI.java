@@ -19,7 +19,7 @@ public class AuditoriumAPI {
         @RequestBody UpsertAuditoriumRequest.AudCreate request
     ) {
         adminAuditoriumService.createAud(request);
-        return ResponseEntity.ok(request);
+        return ResponseEntity.noContent().build();
     }
     
     @PutMapping("/{id}")
@@ -28,7 +28,7 @@ public class AuditoriumAPI {
         @RequestBody UpsertAuditoriumRequest.AudUpdate request
     ) {
         adminAuditoriumService.updateAud(id, request);
-        return ResponseEntity.ok(request);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")

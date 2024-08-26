@@ -7,6 +7,8 @@ import java.util.List;
 public interface SeatService {
     List<Seat> getAllSeatsByAuditoriumIdOrderBySeatRowAsc(int auditoriumId);
 
+    List<Seat> getAllSeatDeletedByAuditoriumIdOrderBySeatRowAsc(int audId);
+
     Seat getSeatById(int seatId);
 
     void save(Seat seat);

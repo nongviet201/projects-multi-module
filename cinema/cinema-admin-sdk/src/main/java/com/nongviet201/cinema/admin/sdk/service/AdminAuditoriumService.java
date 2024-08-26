@@ -31,7 +31,6 @@ public class AdminAuditoriumService {
         );
     }
 
-
     public void updateAud(
         int id,
         UpsertAuditoriumRequest.AudUpdate request

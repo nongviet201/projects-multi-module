@@ -15,7 +15,18 @@ public class SeatServiceImpl implements SeatService {
     private final SeatRepository seatRepository;
     @Override
     public List<Seat> getAllSeatsByAuditoriumIdOrderBySeatRowAsc(int auditoriumId) {
-        return seatRepository.findAllByAuditoriumIdOrderBySeatRowAscSeatColumnAsc(auditoriumId)  ;
+        return seatRepository.findAllByAuditoriumIdAndDeletedOrderBySeatRowAscSeatColumnAsc(
+            auditoriumId,
+            false
+        );
+    }
+
+    @Override
+    public List<Seat> getAllSeatDeletedByAuditoriumIdOrderBySeatRowAsc(int audId) {
+        return seatRepository.findAllByAuditoriumIdAndDeletedOrderBySeatRowAscSeatColumnAsc(
+            audId,
+            true
+        );
     }
 
     @Override

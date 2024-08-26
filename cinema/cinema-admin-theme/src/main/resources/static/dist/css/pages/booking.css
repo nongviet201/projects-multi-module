@@ -3,6 +3,10 @@ main {
     background-color: #F9F9F9;
 }
 
+.screen-line {
+    border: 2px solid rgb(245 128 32);
+}
+
 .seat,
 .seat-demo{
     border: 1px solid #e5e7eb;
@@ -16,6 +20,7 @@ main {
     height: 25px;
     font-size: 12px;
 }
+
 .div-seat-double,
 .div-seat-double-demo{
     border: 1px solid plum;

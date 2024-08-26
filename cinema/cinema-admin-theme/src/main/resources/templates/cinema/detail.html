@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: .content-index}, ~{:: #js})}"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8"/>
@@ -296,6 +296,7 @@
                                                     </option>
                                                 </select>
                                             </div>
+
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -346,7 +347,7 @@
                                     </td>
                                     <td class="text-center">[[${item.totalColumnChair}]]</td>
                                     <td class="table-action text-center">
-                                        <a class="me-1" data-bs-target="#seatModal" data-bs-toggle="modal">
+                                        <a class="me-1" onclick="seatShowBtn(this)" th:attr="data-aud-id=${item.id}">
                                             <svg class="feather feather-edit-2 align-middle" fill="none" height="24"
                                                  stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                  viewBox="0 0 24 24" width="24"
@@ -371,458 +372,40 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="bg-white p-4" id="seat-container">
-                                                <div class="" id="seat-map">
-                                                    <div class="seat-row">
-                                                        <div>A</div>
-                                                        <div class="seat-list">
-                                                            <div class="form div-seat-double">
-                                                                <button class="seat-double" id="seat-1" value="1">1
-                                                                </button>
-                                                                <button class="seat-double" id="seat-2" value="2">2
-                                                                </button>
-
-                                                            </div>
-                                                            <div class="div-seat-double">
-                                                                <button class="seat-double" id="seat-3" value="3">3
-                                                                </button>
-                                                                <button class="seat-double" id="seat-4" value="4">4
-                                                                </button>
-                                                            </div>
-                                                            <div class="div-seat-double">
-                                                                <button class="seat-double" id="seat-5" value="5">5
-                                                                </button>
-                                                                <button class="seat-double" id="seat-6" value="6">6
-                                                                </button>
-                                                            </div>
-                                                            <div class="div-seat-double">
-                                                                <button class="seat-double" id="seat-7" value="7">7
-                                                                </button>
-                                                                <button class="seat-double" id="seat-8" value="8">8
-                                                                </button>
-                                                            </div>
-                                                            <div class="div-seat-double">
-                                                                <button class="seat-double" id="seat-9" value="9">9
-                                                                </button>
-                                                                <button class="seat-double" id="seat-10" value="10">10
-                                                                </button>
-                                                            </div>
-                                                            <div class="div-seat-double">
-                                                                <button class="seat-double" id="seat-11" value="11">11
-                                                                </button>
-                                                                <button class="seat-double" id="seat-12" value="12">12
-                                                                </button>
-                                                            </div>
-                                                            <div class="div-seat-double">
-                                                                <button class="seat-double" id="seat-13" value="13">13
-                                                                </button>
-                                                                <button class="seat-double" id="seat-14" value="14">14
-                                                                </button>
-                                                            </div>
-                                                            <div class="div-seat-double">
-                                                                <button class="seat-double" id="seat-15" value="15">15
-                                                                </button>
-                                                                <button class="seat-double" id="seat-16" value="16">16
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        <div>A</div>
+                                                <div class="" id="seat-map"></div>
+                                            </div>
+                                            <p class="text-black-50 mt-5 text-center fs-12px">Màn Hình</p>
+                                            <div class="screen-line"></div>
+                                            <div class="my-4 d-flex justify-content-between">
+                                                <div class="d-flex" style="gap: 0.25rem">
+                                                    <div>
+                                                        <button class="seat-demo seat-off">
+                                                            <i class="fa-solid fa-xmark fa-2xl"></i>
+                                                        </button>
+                                                        <span class="fs-14px text-black-50">Ghế đã tắt</span>
                                                     </div>
-                                                    <div class="seat-row">
-                                                        <div>B</div>
-                                                        <div class="seat-list">
-                                                            <button class="seat seat-vip" id="seat-17" value="17">1
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-18" value="18">2
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-19" value="19">3
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-20" value="20">4
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-21" value="21">5
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-22" value="22">6
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-23" value="23">7
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-24" value="24">8
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-25" value="25">9
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-26" value="26">10
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-27" value="27">11
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-28" value="28">12
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-29" value="29">13
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-30" value="30">14
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-31" value="31">15
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-32" value="32">16
-                                                            </button>
-                                                        </div>
-                                                        <div>B</div>
-                                                    </div>
-                                                    <div class="seat-row">
-                                                        <div>C</div>
-                                                        <div class="seat-list">
-                                                            <button class="seat seat-vip" id="seat-33" value="33">1
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-34" value="34">2
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-35" value="35">3
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-36" value="36">4
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-37" value="37">5
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-38" value="38">6
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-39" value="39">7
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-40" value="40">8
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-41" value="41">9
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-42" value="42">10
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-43" value="43">11
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-44" value="44">12
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-45" value="45">13
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-46" value="46">14
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-47" value="47">15
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-48" value="48">16
-                                                            </button>
-                                                        </div>
-                                                        <div>C</div>
-                                                    </div>
-                                                    <div class="seat-row">
-                                                        <div>D</div>
-                                                        <div class="seat-list">
-                                                            <button class="seat seat-vip" id="seat-49" value="49">1
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-50" value="50">2
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-51" value="51">3
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-52" value="52">4
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-53" value="53">5
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-54" value="54">6
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-55" value="55">7
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-56" value="56">8
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-57" value="57">9
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-58" value="58">10
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-59" value="59">11
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-60" value="60">12
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-61" value="61">13
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-62" value="62">14
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-63" value="63">15
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-64" value="64">16
-                                                            </button>
-                                                        </div>
-                                                        <div>D</div>
-                                                    </div>
-                                                    <div class="seat-row">
-                                                        <div>E</div>
-                                                        <div class="seat-list">
-                                                            <button class="seat seat-vip" id="seat-65" value="65">1
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-66" value="66">2
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-67" value="67">3
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-68" value="68">4
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-69" value="69">5
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-70" value="70">6
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-71" value="71">7
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-72" value="72">8
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-73" value="73">9
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-74" value="74">10
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-75" value="75">11
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-76" value="76">12
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-77" value="77">13
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-78" value="78">14
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-79" value="79">15
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-80" value="80">16
-                                                            </button>
-                                                        </div>
-                                                        <div>E</div>
-                                                    </div>
-                                                    <div class="seat-row">
-                                                        <div>F</div>
-                                                        <div class="seat-list">
-                                                            <button class="seat seat-vip" id="seat-81" value="81">1
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-82" value="82">2
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-83" value="83">3
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-84" value="84">4
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-85" value="85">5
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-86" value="86">6
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-87" value="87">7
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-88" value="88">8
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-89" value="89">9
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-90" value="90">10
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-91" value="91">11
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-92" value="92">12
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-93" value="93">13
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-94" value="94">14
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-95" value="95">15
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-96" value="96">16
-                                                            </button>
-                                                        </div>
-                                                        <div>F</div>
-                                                    </div>
-                                                    <div class="seat-row">
-                                                        <div>G</div>
-                                                        <div class="seat-list">
-                                                            <button class="seat seat-vip" id="seat-97" value="97">1
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-98" value="98">2
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-99" value="99">3
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-100" value="100">4
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-101" value="101">5
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-102" value="102">6
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-103" value="103">7
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-104" value="104">8
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-105" value="105">9
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-106" value="106">10
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-107" value="107">11
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-108" value="108">12
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-109" value="109">13
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-110" value="110">14
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-111" value="111">15
-                                                            </button>
-                                                            <button class="seat seat-vip" id="seat-112" value="112">16
-                                                            </button>
-                                                        </div>
-                                                        <div>G</div>
-                                                    </div>
-                                                    <div class="seat-row">
-                                                        <div>H</div>
-                                                        <div class="seat-list">
-                                                            <button class="seat" id="seat-113" value="113">1</button>
-                                                            <button class="seat" id="seat-114" value="114">2</button>
-                                                            <button class="seat" id="seat-115" value="115">3</button>
-                                                            <button class="seat" id="seat-116" value="116">4</button>
-                                                            <button class="seat" id="seat-117" value="117">5</button>
-                                                            <button class="seat" id="seat-118" value="118">6</button>
-                                                            <button class="seat" id="seat-119" value="119">7</button>
-                                                            <button class="seat" id="seat-120" value="120">8</button>
-                                                            <button class="seat" id="seat-121" value="121">9</button>
-                                                            <button class="seat" id="seat-122" value="122">10</button>
-                                                            <button class="seat" id="seat-123" value="123">11</button>
-                                                            <button class="seat" id="seat-124" value="124">12</button>
-                                                            <button class="seat" id="seat-125" value="125">13</button>
-                                                            <button class="seat" id="seat-126" value="126">14</button>
-                                                            <button class="seat" id="seat-127" value="127">15</button>
-                                                            <button class="seat" id="seat-128" value="128">16</button>
-                                                        </div>
-                                                        <div>H</div>
-                                                    </div>
-                                                    <div class="seat-row">
-                                                        <div>I</div>
-                                                        <div class="seat-list">
-                                                            <button class="seat" id="seat-129" value="129">1</button>
-                                                            <button class="seat" id="seat-130" value="130">2</button>
-                                                            <button class="seat" id="seat-131" value="131">3</button>
-                                                            <button class="seat" id="seat-132" value="132">4</button>
-                                                            <button class="seat" id="seat-133" value="133">5</button>
-                                                            <button class="seat" id="seat-134" value="134">6</button>
-                                                            <button class="seat" id="seat-135" value="135">7</button>
-                                                            <button class="seat" id="seat-136" value="136">8</button>
-                                                            <button class="seat" id="seat-137" value="137">9</button>
-                                                            <button class="seat" id="seat-138" value="138">10</button>
-                                                            <button class="seat" id="seat-139" value="139">11</button>
-                                                            <button class="seat" id="seat-140" value="140">12</button>
-                                                            <button class="seat" id="seat-141" value="141">13</button>
-                                                            <button class="seat" id="seat-142" value="142">14</button>
-                                                            <button class="seat" id="seat-143" value="143">15</button>
-                                                            <button class="seat" id="seat-144" value="144">16</button>
-                                                        </div>
-                                                        <div>I</div>
-                                                    </div>
-                                                    <div class="seat-row">
-                                                        <div>J</div>
-                                                        <div class="seat-list">
-                                                            <button class="seat" id="seat-145" value="145">1</button>
-                                                            <button class="seat" id="seat-146" value="146">2</button>
-                                                            <button class="seat" id="seat-147" value="147">3</button>
-                                                            <button class="seat" id="seat-148" value="148">4</button>
-                                                            <button class="seat" id="seat-149" value="149">5</button>
-                                                            <button class="seat" id="seat-150" value="150">6</button>
-                                                            <button class="seat" id="seat-151" value="151">7</button>
-                                                            <button class="seat" id="seat-152" value="152">8</button>
-                                                            <button class="seat" id="seat-153" value="153">9</button>
-                                                            <button class="seat" id="seat-154" value="154">10</button>
-                                                            <button class="seat" id="seat-155" value="155">11</button>
-                                                            <button class="seat" id="seat-156" value="156">12</button>
-                                                            <button class="seat" id="seat-157" value="157">13</button>
-                                                            <button class="seat" id="seat-158" value="158">14</button>
-                                                            <button class="seat" id="seat-159" value="159">15</button>
-                                                            <button class="seat" id="seat-160" value="160">16</button>
-                                                        </div>
-                                                        <div>J</div>
-                                                    </div>
-                                                    <div class="seat-row">
-                                                        <div>K</div>
-                                                        <div class="seat-list">
-                                                            <button class="seat" id="seat-161" value="161">1</button>
-                                                            <button class="seat" id="seat-162" value="162">2</button>
-                                                            <button class="seat" id="seat-163" value="163">3</button>
-                                                            <button class="seat" id="seat-164" value="164">4</button>
-                                                            <button class="seat" id="seat-165" value="165">5</button>
-                                                            <button class="seat" id="seat-166" value="166">6</button>
-                                                            <button class="seat" id="seat-167" value="167">7</button>
-                                                            <button class="seat" id="seat-168" value="168">8</button>
-                                                            <button class="seat" id="seat-169" value="169">9</button>
-                                                            <button class="seat" id="seat-170" value="170">10</button>
-                                                            <button class="seat" id="seat-171" value="171">11</button>
-                                                            <button class="seat" id="seat-172" value="172">12</button>
-                                                            <button class="seat" id="seat-173" value="173">13</button>
-                                                            <button class="seat" id="seat-174" value="174">14</button>
-                                                            <button class="seat" id="seat-175" value="175">15</button>
-                                                            <button class="seat" id="seat-176" value="176">16</button>
-                                                        </div>
-                                                        <div>K</div>
-                                                    </div>
-                                                    <div class="seat-row">
-                                                        <div>L</div>
-                                                        <div class="seat-list">
-                                                            <button class="seat" id="seat-177" value="177">1</button>
-                                                            <button class="seat" id="seat-178" value="178">2</button>
-                                                            <button class="seat" id="seat-179" value="179">3</button>
-                                                            <button class="seat" id="seat-180" value="180">4</button>
-                                                            <button class="seat" id="seat-181" value="181">5</button>
-                                                            <button class="seat" id="seat-182" value="182">6</button>
-                                                            <button class="seat" id="seat-183" value="183">7</button>
-                                                            <button class="seat" id="seat-184" value="184">8</button>
-                                                            <button class="seat" id="seat-185" value="185">9</button>
-                                                            <button class="seat" id="seat-186" value="186">10</button>
-                                                            <button class="seat" id="seat-187" value="187">11</button>
-                                                            <button class="seat" id="seat-188" value="188">12</button>
-                                                            <button class="seat" id="seat-189" value="189">13</button>
-                                                            <button class="seat" id="seat-190" value="190">14</button>
-                                                            <button class="seat" id="seat-191" value="191">15</button>
-                                                            <button class="seat" id="seat-192" value="192">16</button>
-                                                        </div>
-                                                        <div>L</div>
-                                                    </div>
-                                                    <div class="seat-row">
-                                                        <div>M</div>
-                                                        <div class="seat-list">
-                                                            <button class="seat" id="seat-193" value="193">1</button>
-                                                            <button class="seat" id="seat-194" value="194">2</button>
-                                                            <button class="seat" id="seat-195" value="195">3</button>
-                                                            <button class="seat" id="seat-196" value="196">4</button>
-                                                            <button class="seat" id="seat-197" value="197">5</button>
-                                                            <button class="seat" id="seat-198" value="198">6</button>
-                                                            <button class="seat" id="seat-199" value="199">7</button>
-                                                            <button class="seat" id="seat-200" value="200">8</button>
-                                                            <button class="seat" id="seat-201" value="201">9</button>
-                                                            <button class="seat" id="seat-202" value="202">10</button>
-                                                            <button class="seat" id="seat-203" value="203">11</button>
-                                                            <button class="seat" id="seat-204" value="204">12</button>
-                                                            <button class="seat" id="seat-205" value="205">13</button>
-                                                            <button class="seat" id="seat-206" value="206">14</button>
-                                                            <button class="seat" id="seat-207" value="207">15</button>
-                                                            <button class="seat" id="seat-208" value="208">16</button>
-                                                        </div>
-                                                        <div>M</div>
+                                                    <div>
+                                                        <button class="seat-demo block"
+                                                                style="background-color: #034EA2 "></button>
+                                                        <span class="fs-14px text-black-50">Khối</span>
                                                     </div>
                                                 </div>
-                                                <p class="text-black-50 mt-5 text-center fs-12px">Màn Hình</p>
-                                                <div class="screen-line"></div>
-                                                <div class="my-4 d-flex justify-content-between">
-                                                    <div class="d-flex" style="gap: 0.25rem">
-                                                        <div>
-                                                            <button class="seat-demo seat-sold"></button>
-                                                            <span class="fs-14px text-black-50">Ghế đã bán</span>
+                                                <div class="d-flex" style="gap: 0.25rem">
+                                                    <div class="d-flex align-items-end">
+                                                        <div class="div-seat-double-demo">
+                                                            <button class="seat-demo m-0 border-0 seat-double"></button>
+                                                            <button class="seat-demo m-0 border-0 seat-double"></button>
                                                         </div>
-                                                        <div>
-                                                            <button class="seat-demo active"
-                                                                    style="background-color: #034EA2 "></button>
-                                                            <span class="fs-14px text-black-50">Ghế đang chọn</span>
-                                                        </div>
-                                                        <div>
-                                                            <button class="seat-demo seat-hover"></button>
-                                                            <span class="fs-14px text-black-50">Ghế đang được giữ</span>
-                                                        </div>
+                                                        <span class="ms-2 w-100 fs-14px text-black-50"
+                                                              style="margin-bottom: 3px">Ghế Đôi</span>
                                                     </div>
-                                                    <div class="d-flex" style="gap: 0.25rem">
-                                                        <div class="d-flex align-items-end">
-                                                            <div class="div-seat-double-demo">
-                                                                <button class="seat-demo m-0 border-0 seat-double"></button>
-                                                                <button class="seat-demo m-0 border-0 seat-double"></button>
-                                                            </div>
-                                                            <span class="ms-2 w-100 fs-14px text-black-50"
-                                                                  style="margin-bottom: 3px">Ghế Đôi</span>
-                                                        </div>
-                                                        <div>
-                                                            <button class="seat-demo seat-vip"></button>
-                                                            <span class="fs-14px text-black-50">Ghế VIP</span>
-                                                        </div>
-                                                        <div>
-                                                            <button class="seat-demo"></button>
-                                                            <span class="fs-14px text-black-50">Ghế Thường</span>
-                                                        </div>
+                                                    <div>
+                                                        <button class="seat-demo seat-vip"></button>
+                                                        <span class="fs-14px text-black-50">Ghế VIP</span>
+                                                    </div>
+                                                    <div>
+                                                        <button class="seat-demo"></button>
+                                                        <span class="fs-14px text-black-50">Ghế Thường</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -831,7 +414,89 @@
                                             <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">
                                                 Đóng
                                             </button>
-                                            <button class="btn btn-success" type="button">Hoàn Thành</button>
+                                            <button id="seat-bin-btn" class="btn btn-warning" onclick="seatBin()">Thùng rác</button>
+                                            <button id="seat-map-btn" class="btn btn-success d-none" onclick="seatShow()">Quay Lại</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div aria-hidden="true" class="modal fade" id="editSeatModal" style="display: none;"
+                                 tabindex="-1">
+                                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="edit-seat-title">Centered modal</h4>
+                                            <button class="btn-close" data-bs-target="#seatModal" data-bs-toggle="modal"
+                                                    type="button"></button>
+                                        </div>
+                                        <div class="modal-body m-3" id="edit-seat-body">
+                                            <form id="form-seat">
+                                                <div class="form-group">
+                                                    <label for="seat-status">Trạng thái</label>
+                                                    <select class="form-control" id="seat-status"
+                                                            name="status">
+                                                        <option value="0">
+                                                            Tắt
+                                                        </option>
+                                                        <option value="1">
+                                                            Bật
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mt-3">
+                                                    <label for="seat-type">Loại ghế</label>
+                                                    <select class="form-control" id="seat-type"
+                                                            name="type">
+                                                        <option th:each="type : ${seatTypes}"
+                                                                th:text="${type}"
+                                                                th:value="${type}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mt-3">
+                                                    <label for="seat-block">Chế độ</label>
+                                                    <select class="form-control" id="seat-block"
+                                                            name="block">
+                                                        <option value="0">
+                                                            Ghế Ngồi
+                                                        </option>
+                                                        <option value="1">
+                                                            Khối
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" data-bs-target="#seatModal"
+                                                    data-bs-toggle="modal" type="button">
+                                                Đóng
+                                            </button>
+                                            <button class="btn btn-primary" id="seat-update" type="button">Lưu thay
+                                                đổi
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="deleteSeatModal" tabindex="-1" style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 id="remove-seat-title" class="modal-title">Centered modal</h4>
+                                            <button class="btn-close" data-bs-target="#seatModal" data-bs-toggle="modal"
+                                                    type="button"></button>
+                                        </div>
+                                        <div class="modal-body m-3">
+                                            <div id="remove-seat-message">Bạn có xác nhận xóa thông tin tất cả ghế?</div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" data-bs-target="#seatModal"
+                                                    data-bs-toggle="modal" type="button">
+                                                Đóng
+                                            </button>
+                                            <button id="seat-delete" type="button" class="btn btn-danger">Xác nhận xóa</button>
+                                            <button id="seat-restore" type="button" class="btn btn-primary">Khôi phục</button>
                                         </div>
                                     </div>
                                 </div>
@@ -848,6 +513,8 @@
     <!-- AdminLTE App -->
     <script src="/plugins/select2/js/select2.full.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.js"></script>
+
     <!-- Validation -->
     <script crossorigin="anonymous"
             integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
@@ -862,6 +529,224 @@
         const cinema = [[${cinema}]];
         const auditoriums = [[${auditoriums}]];
         const audType = [[${audType}]];
+    </script>
+
+    <script type="text/javascript">
+        let seatData;
+        let audId;
+        let bin = false;
+
+        function seatShowBtn(btn) {
+            audId = btn.getAttribute('data-aud-id');
+            seatShow();
+        }
+
+        async function seatBin() {
+            document.getElementById('seat-bin-btn').classList.add('d-none');
+            document.getElementById('seat-map-btn').classList.remove('d-none');
+            try {
+                const res = await axios.get(`/admin/api/v1/seat/aud-bin/${audId}`);
+                seatData = res.data;
+                bin = true;
+                renderSeat(seatData);
+            } catch (error) {
+                toastShow(error.response.data.message, "error");
+                console.error(error);
+            }
+        }
+
+        async function seatShow() {
+            document.getElementById('seat-bin-btn').classList.remove('d-none');
+            document.getElementById('seat-map-btn').classList.add('d-none');
+            try {
+                const res = await axios.get(`/admin/api/v1/seat/aud/${audId}`);
+                seatData = res.data;
+                bin = false;
+                renderSeat(seatData);
+            } catch (error) {
+                toastShow(error.response.data.message, "error");
+                console.error(error);
+            }
+        }
+
+        function renderSeat(data) {
+            $('#seatModal').modal('show');
+
+            const seatMap = document.getElementById('seat-map');
+            seatMap.innerHTML = "";
+            let rows = {};
+            data.forEach(seat => {
+                const row = seat.seatRow;
+                if (!rows[row]) {
+                    rows[row] = [];
+                }
+                rows[row].push(seat);
+            });
+
+
+            for (const row in rows) {
+                const rowDiv = document.createElement('div');
+                const rowNameS = document.createElement('button');
+                const rowNameE = document.createElement('button');
+                const rowList = document.createElement('div');
+
+                rowNameS.className = 'seat';
+                rowNameE.className = 'seat';
+
+                rowDiv.className = 'seat-row';
+                rowNameS.innerText = row;
+
+                if (bin) {
+                    rowNameE.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rotate-ccw align-middle"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                        `;
+                    rowNameE.onclick = function () {
+                        const seatIds = rows[row].map(seat => seat.id);
+                        rowBtnRestore(row, seatIds);
+                    };
+                } else {
+                    rowNameE.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    `;
+                    rowNameS.onclick = function () {
+                        const seatIds = rows[row].map(seat => seat.id);
+                        rowBtnClick(row, seatIds);
+                    };
+                    rowNameE.onclick = function () {
+                        const seatIds = rows[row].map(seat => seat.id);
+                        rowBtnDelete(row, seatIds);
+                    };
+                }
+
+                rowDiv.appendChild(rowNameS);
+
+                rowList.className = 'seat-list';
+                let coupleDiv = null;
+                let coupleCounter = 0;
+
+                rows[row].forEach((seat) => {
+                    if (seat.status === true) {
+                        const seatBtn = document.createElement('button');
+
+                        seatBtn.className = 'seat';
+                        seatBtn.value = seat.id;
+                        seatBtn.id = `seat-${seat.id}`;
+                        seatBtn.innerText = `${seat.seatColumn}`;
+                        seatBtn.onclick = () => seatBtnFunc(seat.id);
+
+                        if (seat.type === 'COUPLE') {
+                            if (coupleCounter % 2 === 0) {
+                                coupleDiv = document.createElement('div');
+                                coupleDiv.className = 'div-seat-double';
+                                coupleDiv.onclick = function () {
+                                    seatCoupleBtnFunc(this);
+                                };
+                                rowList.appendChild(coupleDiv);
+                            }
+                            seatBtn.classList.remove('seat');
+                            seatBtn.classList.add('seat-double');
+                            seatBtn.onclick = null;
+                            coupleDiv.appendChild(seatBtn);
+                            coupleCounter++;
+                        } else {
+                            rowList.appendChild(seatBtn);
+                        }
+
+                        if (seat.type === 'VIP') {
+                            seatBtn.classList.add('seat-vip');
+                        }
+                    }
+                    if (seat.status === false) {
+                        const seatBtn = document.createElement('button');
+                        seatBtn.classList.add('seat');
+                        seatBtn.innerHTML = `<i class="fa-solid fa-xmark "></i>`;
+                        rowList.appendChild(seatBtn);
+                    }
+                });
+
+                rowDiv.appendChild(rowList);
+                rowDiv.appendChild(rowNameE);
+                seatMap.appendChild(rowDiv);
+            }
+        }
+
+        function rowBtnClick(row, seatIds) {
+            document.getElementById('edit-seat-title').innerHTML = `Chỉnh sửa thông tin hàng ghế <strong class="ms-1">${row}</strong> `;
+            $('#seatModal').modal('hide');
+
+            const seats = seatData.filter(seat => seatIds.includes(seat.id));
+
+            $('#seat-status').val(seats[0].status ? '1' : '0');
+            $('#seat-type').val(seats[0].type.toString());
+            $('#seat-block').val(seats[0].block ? '1' : '0');
+
+            $('#editSeatModal').modal('show');
+
+            document.getElementById('seat-update').onclick = async () => {
+                try {
+                    const data = {
+                        seatIds: seatIds,
+                        status: parseInt($('#seat-status').val(), 10) === 1,
+                        block: parseInt($('#seat-block').val(), 10) === 1,
+                        type: $('#seat-type').val(),
+                    };
+
+                    await axios.put('/admin/api/v1/seat', data);
+                    toastShow('Cập nhật thông tin ghế thành công!', 'success');
+                    $('#editSeatModal').modal('hide');
+                    await seatShow();
+                } catch (error) {
+                    toastShow(error.response.data.message, 'error');
+                    console.error(error);
+                }
+            }
+        }
+
+        function rowBtnDelete(row, seatIds) {
+            document.getElementById('remove-seat-title').innerHTML = `Xóa tất cả ghế thuộc hàng <strong class="ms-1">${row}</strong>`;
+            document.getElementById('remove-seat-message').innerHTML = `Bạn có xác nhận <strong class="text-danger">Xóa</strong> thông tin tất cả ghế?`;
+
+            document.getElementById('seat-delete').classList.remove('d-none');
+            document.getElementById('seat-restore').classList.add('d-none');
+
+            $('#seatModal').modal('hide');
+            $('#deleteSeatModal').modal('show');
+
+            document.getElementById('seat-delete').onclick = async () => {
+                try {
+                    await axios.put('/admin/api/v1/seat/delete', seatIds);
+                    toastShow('Xóa thông tin ghế thành công!', 'success');
+                    $('#deleteSeatModal').modal('hide');
+                    await seatShow();
+                } catch (error) {
+                    toastShow(error.response.data.message, 'error');
+                    console.error(error);
+                }
+            }
+        }
+
+        function rowBtnRestore(row, seatIds) {
+            document.getElementById('remove-seat-title').innerHTML = `Khôi phục tất cả ghế thuộc hàng <strong class="ms-1">${row}</strong>`;
+            document.getElementById('remove-seat-message').innerHTML = `Bạn có xác nhận <strong class="text-primary">Khôi phục</strong> thông tin tất cả ghế?`;
+
+            document.getElementById('seat-delete').classList.add('d-none');
+            document.getElementById('seat-restore').classList.remove('d-none');
+
+            $('#seatModal').modal('hide');
+            $('#deleteSeatModal').modal('show');
+
+            document.getElementById('seat-restore').onclick = async () => {
+                try {
+                    await axios.put('/admin/api/v1/seat/restore', seatIds);
+                    toastShow('Khôi phục thông tin ghế thành công!', 'success');
+                    $('#deleteSeatModal').modal('hide');
+                    await seatShow();
+                } catch (error) {
+                    toastShow(error.response.data.message, 'error');
+                    console.error(error);
+                }
+            }
+        }
     </script>
 
     <script src="/dist/js/page/cinema.js"></script>

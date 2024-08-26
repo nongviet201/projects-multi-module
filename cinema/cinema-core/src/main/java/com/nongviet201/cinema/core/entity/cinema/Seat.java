@@ -17,11 +17,14 @@ public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private boolean status;
     private String seatRow;
     private int seatColumn;
     @Enumerated(EnumType.STRING)
     private SeatType type;
+
+    private boolean status;
+    private boolean block;
+    private boolean deleted;
 
     @ManyToOne
     @JoinColumn(name= "auditorium_id")
