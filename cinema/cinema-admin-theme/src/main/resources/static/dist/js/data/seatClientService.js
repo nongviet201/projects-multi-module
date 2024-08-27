@@ -85,7 +85,7 @@ function renderSeat(data) {
 
         rowDiv.appendChild(rowNameS);
 
-        rowList.className = 'seat-list';
+        rowList.className = 'seat-list filtered';
         let coupleDiv = null;
         let coupleCounter = 0;
 
@@ -120,6 +120,7 @@ function renderSeat(data) {
                 if (seat.type === 'VIP') {
                     seatBtn.classList.add('seat-vip');
                 }
+
             }
             if (seat.status === false) {
                 const seatBtn = document.createElement('button');
@@ -128,11 +129,20 @@ function renderSeat(data) {
                 rowList.appendChild(seatBtn);
                 seatBtn.onclick = () => seatBtnFunc(seat.id);
             }
+            new Sortable(rowList, {
+                group: 'shared',
+                multiDrag: true,
+                selectedClass: 'selected',
+                fallbackTolerance: 3,
+                filter: '.filtered',
+                animation: 150
+            });
         });
 
         rowDiv.appendChild(rowList);
         rowDiv.appendChild(rowNameE);
         seatMap.appendChild(rowDiv);
+
     }
 }
 

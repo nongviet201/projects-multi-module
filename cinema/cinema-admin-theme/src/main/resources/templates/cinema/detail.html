@@ -11,7 +11,7 @@
         <link href="/plugins/select2/css/select2.min.css" rel="stylesheet"/>
         <link href="/dist/css/style.css" rel="stylesheet">
         <link href="/dist/css/pages/booking.css" rel="stylesheet">
-
+        <style></style>
     </th:block>
 
 </head>
@@ -360,145 +360,170 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="modal-seat">
-                            <div aria-hidden="true" class="modal fade" id="seatModal" style="display: none;"
-                                 tabindex="-1">
-                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
+                    </div>
+                    <div class="modal-seat">
+                        <div aria-hidden="true" class="modal fade" id="seatModal" style="display: none;"
+                             tabindex="-1">
+                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div>
                                             <h4 class="modal-title">Thông tin ghế</h4>
-                                            <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
-                                                    type="button"></button>
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="bg-white p-4" id="seat-container">
-                                                <div class="" id="seat-map"></div>
-                                            </div>
-                                            <p class="text-black-50 mt-5 text-center fs-12px">Màn Hình</p>
-                                            <div class="screen-line"></div>
-                                            <div class="my-4 d-flex justify-content-between">
-                                                <div class="d-flex" style="gap: 0.25rem">
-                                                    <div>
-                                                        <button class="seat-demo seat-off">
-                                                            <i class="fa-solid fa-xmark fa-2xl"></i>
-                                                        </button>
-                                                        <span class="fs-14px text-black-50">Ghế đã tắt</span>
-                                                    </div>
-                                                    <div>
-                                                        <button class="seat-demo block"></button>
-                                                        <span class="fs-14px text-black-50">Khối</span>
-                                                    </div>
+                                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                                type="button"></button>
+                                    </div>
+                                    <div class="modal-header">
+                                        <div id="toolbar" class="d-flex align-items-center">
+                                            <strong class="fs-14px">Toolbar</strong>
+                                            <div class="ms-3 d-flex align-items-center">
+                                                <button id="move" class="seat">
+                                                    <i class="fa-solid fa-lg fa-arrows-up-down-left-right"></i>
+                                                </button>
+                                                <div id="addAction" class="ms-1 d-flex align-items-center">
+                                                    <button id="block" class="seat">
+                                                    </button>
+                                                    <button id="newSeat" class="seat">
+                                                        <i class="fa-solid fa-plus fa-lg"></i>
+                                                    </button>
                                                 </div>
-                                                <div class="d-flex" style="gap: 0.25rem">
-                                                    <div class="d-flex align-items-end">
-                                                        <div class="div-seat-double-demo d-flex">
-                                                            <button class="seat-demo m-0 border-0 seat-double"></button>
-                                                            <button class="seat-demo m-0 border-0 seat-double"></button>
-                                                        </div>
-                                                        <span class="ms-2 w-100 fs-14px text-black-50"
-                                                              style="margin-bottom: 3px">Ghế Đôi</span>
-                                                    </div>
-                                                    <div>
-                                                        <button class="seat-demo seat-vip"></button>
-                                                        <span class="fs-14px text-black-50">Ghế VIP</span>
-                                                    </div>
-                                                    <div>
-                                                        <button class="seat-demo">N</button>
-                                                        <span class="fs-14px text-black-50">Ghế Thường</span>
-                                                    </div>
-                                                </div>
+                                                <button id="save" class="seat">
+                                                    <i class="fa-regular fa-lg fa-floppy-disk"></i>
+                                                </button>
+                                                <button id="return" class="seat">
+                                                    <i class="fa-solid fa-arrow-rotate-left"></i>
+                                                </button>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">
-                                                Đóng
-                                            </button>
-                                            <button id="seat-bin-btn" class="btn btn-warning" onclick="seatBin()">Thùng rác</button>
-                                            <button id="seat-map-btn" class="btn btn-success d-none" onclick="seatShow()">Quay Lại</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="bg-white p-4" id="seat-container">
+                                            <div class="" id="seat-map"></div>
                                         </div>
+                                        <p class="text-black-50 mt-5 text-center fs-12px">Màn Hình</p>
+                                        <div class="screen-line"></div>
+                                        <div class="my-4 d-flex justify-content-between">
+                                            <div class="d-flex" style="gap: 0.25rem">
+                                                <div>
+                                                    <button class="seat-demo seat-off">
+                                                        <i class="fa-solid fa-xmark fa-2xl"></i>
+                                                    </button>
+                                                    <span class="fs-14px text-black-50">Ghế đã tắt</span>
+                                                </div>
+                                                <div>
+                                                    <button class="seat-demo block"></button>
+                                                    <span class="fs-14px text-black-50">Khối</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex" style="gap: 0.25rem">
+                                                <div class="d-flex align-items-end">
+                                                    <div class="div-seat-double-demo d-flex">
+                                                        <button class="seat-demo m-0 border-0 seat-double"></button>
+                                                        <button class="seat-demo m-0 border-0 seat-double"></button>
+                                                    </div>
+                                                    <span class="ms-2 w-100 fs-14px text-black-50"
+                                                          style="margin-bottom: 3px">Ghế Đôi</span>
+                                                </div>
+                                                <div>
+                                                    <button class="seat-demo seat-vip"></button>
+                                                    <span class="fs-14px text-black-50">Ghế VIP</span>
+                                                </div>
+                                                <div>
+                                                    <button class="seat-demo">N</button>
+                                                    <span class="fs-14px text-black-50">Ghế Thường</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">
+                                            Đóng
+                                        </button>
+                                        <button id="seat-bin-btn" class="btn btn-warning" onclick="seatBin()">Thùng rác</button>
+                                        <button id="seat-map-btn" class="btn btn-success d-none" onclick="seatShow()">Quay Lại</button>
                                     </div>
                                 </div>
                             </div>
-                            <div aria-hidden="true" class="modal fade" id="editSeatModal" style="display: none;"
-                                 tabindex="-1">
-                                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" id="edit-seat-title">Centered modal</h4>
-                                            <button class="btn-close" data-bs-target="#seatModal" data-bs-toggle="modal"
-                                                    type="button"></button>
-                                        </div>
-                                        <div class="modal-body m-3" id="edit-seat-body">
-                                            <form id="form-seat">
-                                                <div class="form-group">
-                                                    <label for="seat-status">Trạng thái</label>
-                                                    <select class="form-control" id="seat-status"
-                                                            name="status">
-                                                        <option value="0">
-                                                            Tắt
-                                                        </option>
-                                                        <option value="1">
-                                                            Bật
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group mt-3">
-                                                    <label for="seat-type">Loại ghế</label>
-                                                    <select class="form-control" id="seat-type"
-                                                            name="type">
-                                                        <option th:each="type : ${seatTypes}"
-                                                                th:text="${type}"
-                                                                th:value="${type}">
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group mt-3">
-                                                    <label for="seat-block">Chế độ</label>
-                                                    <select class="form-control" id="seat-block"
-                                                            name="block">
-                                                        <option value="0">
-                                                            Ghế Ngồi
-                                                        </option>
-                                                        <option value="1">
-                                                            Khối
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button id="edit-seat-close" class="btn btn-secondary" data-bs-target="#seatModal"
-                                                    data-bs-toggle="modal" type="button">
-                                                Đóng
-                                            </button>
-                                            <button class="btn btn-danger d-none" id="seat-single-delete" type="button">Xóa ghế</button>
-                                            <button class="btn btn-success d-none" id="seat-single-restore" type="button">Khôi phục</button>
-                                            <button class="btn btn-primary" id="seat-update" type="button">Lưu thay
-                                                đổi
-                                            </button>
-                                        </div>
+                        </div>
+                        <div aria-hidden="true" class="modal fade" id="editSeatModal" style="display: none;"
+                             tabindex="-1">
+                            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="edit-seat-title">Centered modal</h4>
+                                        <button class="btn-close" data-bs-target="#seatModal" data-bs-toggle="modal"
+                                                type="button"></button>
+                                    </div>
+                                    <div class="modal-body m-3" id="edit-seat-body">
+                                        <form id="form-seat">
+                                            <div class="form-group">
+                                                <label for="seat-status">Trạng thái</label>
+                                                <select class="form-control" id="seat-status"
+                                                        name="status">
+                                                    <option value="0">
+                                                        Tắt
+                                                    </option>
+                                                    <option value="1">
+                                                        Bật
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="seat-type">Loại ghế</label>
+                                                <select class="form-control" id="seat-type"
+                                                        name="type">
+                                                    <option th:each="type : ${seatTypes}"
+                                                            th:text="${type}"
+                                                            th:value="${type}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label for="seat-block">Chế độ</label>
+                                                <select class="form-control" id="seat-block"
+                                                        name="block">
+                                                    <option value="0">
+                                                        Ghế Ngồi
+                                                    </option>
+                                                    <option value="1">
+                                                        Khối
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button id="edit-seat-close" class="btn btn-secondary" data-bs-target="#seatModal"
+                                                data-bs-toggle="modal" type="button">
+                                            Đóng
+                                        </button>
+                                        <button class="btn btn-danger d-none" id="seat-single-delete" type="button">Xóa ghế</button>
+                                        <button class="btn btn-success d-none" id="seat-single-restore" type="button">Khôi phục</button>
+                                        <button class="btn btn-primary" id="seat-update" type="button">Lưu thay
+                                            đổi
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="modal fade" id="deleteSeatModal" tabindex="-1" style="display: none;" aria-hidden="true">
-                                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 id="remove-seat-title" class="modal-title">Centered modal</h4>
-                                            <button class="btn-close" data-bs-target="#seatModal" data-bs-toggle="modal"
-                                                    type="button"></button>
-                                        </div>
-                                        <div class="modal-body m-3">
-                                            <div id="remove-seat-message">Bạn có xác nhận xóa thông tin tất cả ghế?</div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button class="btn btn-secondary" data-bs-target="#seatModal"
-                                                    data-bs-toggle="modal" type="button">
-                                                Đóng
-                                            </button>
-                                            <button id="seat-delete" type="button" class="btn btn-danger">Xác nhận xóa</button>
-                                            <button id="seat-restore" type="button" class="btn btn-primary">Khôi phục</button>
-                                        </div>
+                        </div>
+                        <div class="modal fade" id="deleteSeatModal" tabindex="-1" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 id="remove-seat-title" class="modal-title">Centered modal</h4>
+                                        <button class="btn-close" data-bs-target="#seatModal" data-bs-toggle="modal"
+                                                type="button"></button>
+                                    </div>
+                                    <div class="modal-body m-3">
+                                        <div id="remove-seat-message">Bạn có xác nhận xóa thông tin tất cả ghế?</div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-bs-target="#seatModal"
+                                                data-bs-toggle="modal" type="button">
+                                            Đóng
+                                        </button>
+                                        <button id="seat-delete" type="button" class="btn btn-danger">Xác nhận xóa</button>
+                                        <button id="seat-restore" type="button" class="btn btn-primary">Khôi phục</button>
                                     </div>
                                 </div>
                             </div>
@@ -515,7 +540,6 @@
     <script src="/plugins/select2/js/select2.full.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
-
     <!-- Validation -->
     <script crossorigin="anonymous"
             integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
@@ -530,6 +554,33 @@
         const cinema = [[${cinema}]];
         const auditoriums = [[${auditoriums}]];
         const audType = [[${audType}]];
+    </script>
+
+    <script>
+        const moveButton = document.getElementById('move');
+        const blockButton = document.getElementById('block');
+        const newSeatButton = document.getElementById('newSeat');
+
+        moveButton.addEventListener('click', () => {
+            const rowLists = document.querySelectorAll('.seat-list');
+            const isActive = moveButton.classList.toggle('active');
+
+            if (isActive) {
+                rowLists.forEach(row => row.classList.remove('filtered'));
+            } else {
+                rowLists.forEach(row => row.classList.add('filtered'));
+            }
+        });
+
+        new Sortable(document.getElementById("addAction"), {
+            group: {
+                name: 'shared',
+                pull: 'clone',
+                put: false // Do not allow items to be put into this list
+            },
+            animation: 150,
+            sort: false // To disable sorting: set sort to false
+        });
     </script>
 
     <script src="/dist/js/page/cinema.js"></script>
