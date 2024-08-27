@@ -98,6 +98,7 @@ function renderSeat(data) {
                 seatBtn.id = `seat-${seat.id}`;
                 seatBtn.innerText = `${seat.seatColumn}`;
                 seatBtn.onclick = () => seatBtnFunc(seat.id);
+                seatBtn.dataset.column = seat.seatColumn;
 
                 if (seat.type === 'COUPLE') {
                     if (coupleCounter % 2 === 0) {
@@ -129,6 +130,7 @@ function renderSeat(data) {
                 rowList.appendChild(seatBtn);
                 seatBtn.onclick = () => seatBtnFunc(seat.id);
             }
+            rowList.dataset.row = row;
             new Sortable(rowList, {
                 group: 'shared',
                 multiDrag: true,
@@ -178,7 +180,6 @@ async function seatBtnHandler(btn, isCouple = false) {
             const data = {
                 seatIds: seatIds,
                 status: parseInt($('#seat-status').val(), 10) === 1,
-                block: parseInt($('#seat-block').val(), 10) === 1,
                 type: $('#seat-type').val(),
             };
             await updateSeatAction(data);
@@ -222,7 +223,6 @@ function rowBtnClick(row, seatIds) {
         const data = {
             seatIds: seatIds,
             status: parseInt($('#seat-status').val(), 10) === 1,
-            block: parseInt($('#seat-block').val(), 10) === 1,
             type: $('#seat-type').val(),
         };
         await updateSeatAction(data);

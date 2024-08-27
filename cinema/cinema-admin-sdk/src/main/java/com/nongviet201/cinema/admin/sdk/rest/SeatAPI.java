@@ -36,7 +36,7 @@ public class SeatAPI {
 
     @PutMapping("")
     public ResponseEntity<?> updateSeat(
-       @RequestBody UpsertSeatRequest.seatUpdate request
+       @RequestBody UpsertSeatRequest request
     ) {
         adminSeatService.seatUpdate(request);
         return ResponseEntity.noContent().build();

@@ -35,7 +35,7 @@ public class CinemaAPI {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateItem(
         @PathVariable int id,
-        @RequestBody UpsertCinemaRequest.Cinema request
+        @RequestBody UpsertCinemaRequest request
     ) {
         adminCinemaService.updateCinema(id, request);
         return ResponseEntity.noContent().build();

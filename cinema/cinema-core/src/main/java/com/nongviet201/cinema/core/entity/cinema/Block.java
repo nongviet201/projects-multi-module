@@ -1,7 +1,5 @@
 package com.nongviet201.cinema.core.entity.cinema;
 
-
-import com.nongviet201.cinema.core.model.enums.cinema.SeatType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,18 +10,15 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "seat")
-public class Seat {
+@Table(name = "block")
+public class Block {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String seatRow;
-    private int seatColumn;
-    @Enumerated(EnumType.STRING)
-    private SeatType type;
-
-    private boolean status;
-    private boolean deleted;
+    private int startColumn;
+    private int endColumn;
+    private int positions;
 
     @ManyToOne
     @JoinColumn(name= "auditorium_id")

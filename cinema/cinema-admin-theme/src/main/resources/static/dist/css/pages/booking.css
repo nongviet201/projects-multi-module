@@ -7,6 +7,14 @@ main {
     border: 2px solid rgb(245 128 32);
 }
 
+
+.seat-double {
+    background-color: white !important;
+    border: none;
+    padding: 0 !important;
+    height: 25px;
+    width: 25px;
+}
 .seat,
 .seat-demo{
     border: 1px solid #e5e7eb;
@@ -25,6 +33,7 @@ main {
     border: 1px solid plum;
     border-radius: 5px;
     margin: 5px;
+    padding: 0 4px;
     height: 25px;
     overflow: hidden;
 }
@@ -74,14 +83,6 @@ main {
     pointer-events: none!important;
 }
 
-.seat-double {
-    background-color: white !important;
-    border: none;
-    margin: 0;
-    padding: 0 !important;
-    height: 25px;
-    width: 25px;
-}
 
 .seat-hover {
     border-color: gold !important;

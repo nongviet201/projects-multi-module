@@ -117,13 +117,14 @@ main {
     height: 25px;
     font-size: 12px;
 }
-.div-seat-double {
+
+.div-seat-double{
     border: 1px solid plum;
     border-radius: 5px;
     margin: 5px;
-    width: 100%;
+    padding: 0 4px;
     height: 25px;
-    display: flex;
+    overflow: hidden;
 }
 
 .seat:hover,

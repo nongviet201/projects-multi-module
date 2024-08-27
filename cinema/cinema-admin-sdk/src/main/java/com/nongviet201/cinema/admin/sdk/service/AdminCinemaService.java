@@ -100,7 +100,7 @@ public class AdminCinemaService {
 
     public void updateCinema(
         int id,
-        UpsertCinemaRequest.Cinema request
+        UpsertCinemaRequest request
     ) {
         Cinema cinema = cinemaService.getCinemaById(id);
 

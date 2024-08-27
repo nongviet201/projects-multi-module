@@ -381,12 +381,15 @@
                                                     <i class="fa-solid fa-lg fa-arrows-up-down-left-right"></i>
                                                 </button>
                                                 <div id="addAction" class="ms-1 d-flex align-items-center">
-                                                    <button id="block" class="seat">
+                                                    <button class="newBlock seat">
                                                     </button>
-                                                    <button id="newSeat" class="seat">
+                                                    <button class="newSeat seat">
                                                         <i class="fa-solid fa-plus fa-lg"></i>
                                                     </button>
                                                 </div>
+                                                <button id="remove" class="seat">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
                                                 <button id="save" class="seat">
                                                     <i class="fa-regular fa-lg fa-floppy-disk"></i>
                                                 </button>
@@ -558,8 +561,6 @@
 
     <script>
         const moveButton = document.getElementById('move');
-        const blockButton = document.getElementById('block');
-        const newSeatButton = document.getElementById('newSeat');
 
         moveButton.addEventListener('click', () => {
             const rowLists = document.querySelectorAll('.seat-list');
@@ -576,11 +577,94 @@
             group: {
                 name: 'shared',
                 pull: 'clone',
-                put: false // Do not allow items to be put into this list
+                put: false
             },
             animation: 150,
-            sort: false // To disable sorting: set sort to false
+            sort: false,
+            onStart: function(evt) {
+                evt.item.classList.add('clone-item');
+            }
         });
+
+        const removeBtn = document.getElementById('remove');
+        const returnBtn = document.getElementById('return');
+
+        removeBtn.addEventListener('click', () => {
+            const isActive = removeBtn.classList.toggle('active');
+
+            const cloneItems = document.querySelectorAll('.clone-item');
+
+            if (isActive) {
+                cloneItems.forEach(item => {
+                    item.addEventListener('click', removeItem);
+                });
+            } else {
+                cloneItems.forEach(item => {
+                    item.removeEventListener('click', removeItem);
+                });
+            }
+        });
+
+        returnBtn.addEventListener('click', () => {
+            seatShow();
+        });
+
+        function removeItem(e) {
+            e.target.remove();
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        document.getElementById('save').addEventListener('click', function() {
+            let data = [];
+            const newBlocks = document.querySelectorAll('#seat-map .newBlock');
+
+            newBlocks.forEach(function(block) {
+                let startColumn;
+                let positions = 1;
+
+                let prev = block.previousElementSibling;
+
+                while (prev != null && prev.classList.contains('newBlock')) {
+                    positions++;
+                    prev = prev.previousElementSibling;
+                }
+
+                if (prev == null) {
+                    startColumn = 0;
+                } else if (prev.classList.contains('div-seat-double')) {
+                    let dataColumn = prev.lastElementChild.getAttribute('data-column');
+                    startColumn = parseInt(dataColumn, 10);
+                } else {
+                    let dataColumn = prev.getAttribute('data-column');
+
+                    if (dataColumn !== null) {
+                        startColumn = parseInt(dataColumn, 10);
+                    }
+                }
+
+                data.push({
+                    audId: audId,
+                    seatRow: block.parentElement.getAttribute('data-row'),
+                    startColumn: startColumn,  // Cột bắt đầu
+                    endColumn: startColumn + 1,  // Cột kết thúc
+                    positions: positions  // Số vị trí
+                });
+            });
+            createBlock(data);
+        });
+
+        async function createBlock(data) {
+            try {
+                await axios.post(`/admin/api/v1/block`, data);
+                toastShow('Cập nhật thông tin ghế thành công!', 'success');
+                await seatShow();
+            } catch (error) {
+                toastShow(error.response.data.message, 'error');
+                console.error(error);
+            }
+        }
     </script>
 
     <script src="/dist/js/page/cinema.js"></script>

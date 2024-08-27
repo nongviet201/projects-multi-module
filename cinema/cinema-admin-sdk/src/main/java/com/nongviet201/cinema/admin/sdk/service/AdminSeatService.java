@@ -2,8 +2,10 @@ package com.nongviet201.cinema.admin.sdk.service;
 
 import com.nongviet201.cinema.admin.sdk.request.UpsertSeatRequest;
 import com.nongviet201.cinema.core.entity.cinema.Auditorium;
+import com.nongviet201.cinema.core.entity.cinema.Block;
 import com.nongviet201.cinema.core.entity.cinema.Seat;
 import com.nongviet201.cinema.core.model.enums.cinema.SeatType;
+import com.nongviet201.cinema.core.service.BlockService;
 import com.nongviet201.cinema.core.service.SeatService;
 import com.nongviet201.cinema.core.utils.EnumService;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.List;
 public class AdminSeatService {
 
     private final SeatService seatService;
+    private final BlockService blockService;
     private final EnumService enumService;
 
     public List<Seat> getAllSeatByAuditoriumId(
@@ -23,7 +26,6 @@ public class AdminSeatService {
     ) {
         return seatService.getAllSeatsByAuditoriumIdOrderBySeatRowAsc(audId);
     }
-
 
     public List<Seat> getAllSeatDeletedByAuditoriumId(
         int audId
@@ -36,13 +38,12 @@ public class AdminSeatService {
     }
 
     public void seatUpdate(
-        UpsertSeatRequest.seatUpdate request
+        UpsertSeatRequest request
     ) {
         for (Integer id : request.getSeatIds()) {
             Seat seat = seatService.getSeatById(id);
             seat.setStatus(request.isStatus());
             seat.setType(enumService.getEnumValueByName(SeatType::valueOf, request.getType(), "SeatType"));
-            seat.setBlock(request.isBlock());
             seatService.save(seat);
         }
     }
