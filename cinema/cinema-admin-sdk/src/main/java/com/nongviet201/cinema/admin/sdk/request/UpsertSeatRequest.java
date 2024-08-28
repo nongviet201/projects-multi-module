@@ -4,14 +4,33 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
-@ToString
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+
 public class UpsertSeatRequest {
-    Integer[] seatIds;
-    boolean status;
-    String type;
+
+    @ToString
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class SeatUpdate {
+        Integer[] seatIds;
+        boolean status;
+        String type;
+    }
+
+    @ToString
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class SeatCreate {
+        Integer seatId;
+        Integer audId;
+        String seatRow;
+        Integer startColumn;
+        Integer endColumn;
+        Integer positions;
+    }
 }

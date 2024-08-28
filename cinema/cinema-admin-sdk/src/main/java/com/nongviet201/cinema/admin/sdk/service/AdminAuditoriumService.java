@@ -4,7 +4,6 @@ import com.nongviet201.cinema.admin.sdk.request.UpsertAuditoriumRequest;
 import com.nongviet201.cinema.core.entity.cinema.Auditorium;
 import com.nongviet201.cinema.core.model.enums.cinema.AuditoriumType;
 import com.nongviet201.cinema.core.service.AuditoriumService;
-import com.nongviet201.cinema.core.service.SeatService;
 import com.nongviet201.cinema.core.utils.EnumService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -71,7 +70,7 @@ public class AdminAuditoriumService {
             .cinema(adminCinemaService.getCinemaById(request.getCinemaId()))
             .build();
         auditoriumService.save(auditorium);
-        adminSeatService.seatCreate(
+        adminSeatService.seatCreateForAuditorium(
             auditorium
         );
     }

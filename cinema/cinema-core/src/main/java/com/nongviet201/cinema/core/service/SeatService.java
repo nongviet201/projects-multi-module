@@ -12,4 +12,6 @@ public interface SeatService {
     Seat getSeatById(int seatId);
 
     void save(Seat seat);
+
+    void delete(int id);
 }

@@ -28,7 +28,7 @@ public class BlockServiceImpl implements BlockService {
     }
 
     @Override
-    public void saveBlock(Block block) {
+    public void save(Block block) {
         blockRepository.save(block);
     }
 

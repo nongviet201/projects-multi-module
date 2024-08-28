@@ -44,7 +44,7 @@ public class AdminBlockService {
         List<UpsertBlockRequest> request
     ) {
         request.forEach(e -> {
-            blockService.saveBlock(
+            blockService.save(
                 Block.builder()
                     .auditorium(auditoriumService.getAuditoriumById(e.getAudId()))
                     .seatRow(e.getSeatRow())
@@ -66,7 +66,7 @@ public class AdminBlockService {
            block.setStartColumn(e.getStartColumn());
            block.setEndColumn(e.getEndColumn());
            block.setPositions(e.getPositions());
-           blockService.saveBlock(block);
+           blockService.save(block);
         });
     }
 }

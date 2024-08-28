@@ -387,6 +387,10 @@
                                                         <i class="fa-solid fa-plus fa-lg"></i>
                                                     </button>
                                                 </div>
+                                                <button id="orderConsistencyCheck" class="position-relative seat">
+                                                    <i class="fa-solid fa-arrow-up-9-1 "></i>
+                                                    <i class="position-absolute fa-regular fa-circle-check" style="bottom: -5px; right: -6px"></i>
+                                                </button>
                                                 <button id="remove" class="seat">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </button>
@@ -396,6 +400,7 @@
                                                 <button id="return" class="seat">
                                                     <i class="fa-solid fa-arrow-rotate-left"></i>
                                                 </button>
+
                                             </div>
                                             <div class="me-3">
                                                 <span class="text-sm cursor-pointer">docs</span>
@@ -552,6 +557,13 @@
 
     <script>
         const moveButton = document.getElementById('move');
+        const removeBtn = document.getElementById('remove');
+        const returnBtn = document.getElementById('return');
+        const saveBtn = document.getElementById('save');
+        const orderConsistencyCheckBtn = document.getElementById('orderConsistencyCheck');
+
+
+        let blockIds = [];
 
         moveButton.addEventListener('click', () => {
             const rowLists = document.querySelectorAll('.seat-list');
@@ -563,24 +575,6 @@
                 rowLists.forEach(row => row.classList.add('filtered'));
             }
         });
-
-        new Sortable(document.getElementById("addAction"), {
-            group: {
-                name: 'shared',
-                pull: 'clone',
-                put: false
-            },
-            animation: 150,
-            sort: false,
-            onStart: function(evt) {
-                evt.item.classList.add('clone-item');
-            }
-        });
-
-        const removeBtn = document.getElementById('remove');
-        const returnBtn = document.getElementById('return');
-
-        let blockIds = [];
 
         removeBtn.addEventListener('click', () => {
             const isActive = removeBtn.classList.toggle('active');
@@ -611,31 +605,24 @@
             toolbarReset();
         });
 
-        function removeItem(e) {
-            if (e.target.classList.contains('no-delete')) {
-                toastShow('Không thể xóa phần tử này', 'error');
-                return;
+        orderConsistencyCheckBtn.addEventListener('click', async () => {
+            try {
+                await axios.put(`/admin/api/v1/seat/order-verification/${audId}`);
+                await seatShow();
+                toastShow('Đã sắp xếp lại thứ tự ghế thành công!','success');
+            } catch (error) {
+                console.error(error);
             }
-            e.target.remove();
-        }
+        })
 
-        function removeBlockEl(e) {
-            blockIds.push(parseInt(e.target.getAttribute('data-block-id'), 10));
+        saveBtn.addEventListener('click', async () => {
+            let dataNewBlock = getBlockData('#seat-map .newBlock', false);
+            let dataMovedBlock = getBlockData('#seat-map .block.moved', true);
+            let dataNewSeat = getNewSeatData('#seat-map .newSeat', false);
 
-            console.log(blockIds);
-            e.target.remove();
-        }
-
-        function toolbarReset() {
-            moveButton.classList.remove('active');
-            removeBtn.classList.remove('active');
-        }
-    </script>
-
-    <script type="text/javascript">
-        document.getElementById('save').addEventListener('click', async function() {
-            let dataNewBlock = getDataNewBlock();
-            let dataMovedBlock = getDataMovedBlock();
+            if (dataNewSeat.length > 0) {
+                await createSeat(dataNewSeat);
+            }
 
             if (dataNewBlock.length > 0) {
                 await createBlock(dataNewBlock);
@@ -654,35 +641,50 @@
             toastShow('Đã lưu thay đổi!', 'success');
         });
 
-        function getDataNewBlock() {
-            const newBlocks = document.querySelectorAll('#seat-map .newBlock');
+        function removeItem(e) {
+            if (e.target.parentElement.classList.contains('no-delete')) {
+                toastShow('Không thể xóa phần tử này', 'error');
+                return;
+            }
+            e.target.remove();
+        }
+
+        function removeBlockEl(e) {
+            blockIds.push(parseInt(e.target.getAttribute('data-block-id'), 10));
+
+            console.log(blockIds);
+            e.target.remove();
+        }
+
+        function toolbarReset() {
+            moveButton.classList.remove('active');
+            removeBtn.classList.remove('active');
+        }
+
+        new Sortable(document.getElementById("addAction"), {
+            group: {
+                name: 'shared',
+                pull: 'clone',
+                put: false
+            },
+            animation: 150,
+            sort: false,
+            onStart: function(evt) {
+                evt.item.classList.add('clone-item');
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        function getNewSeatData(selector, isMovedBlock) {
+            const seats = document.querySelectorAll(selector);
             let data = [];
 
-            newBlocks.forEach(function(block) {
-                let startColumn;
-                let positions = 1;
-
-                let prev = block.previousElementSibling;
-
-                while (prev != null && prev.classList.contains('newBlock')) {
-                    positions++;
-                    prev = prev.previousElementSibling;
-                }
-
-                if (prev == null) {
-                    startColumn = 0;
-                } else if (prev.classList.contains('div-seat-double')) {
-                    let dataColumn = prev.lastElementChild.getAttribute('data-column');
-                    startColumn = parseInt(dataColumn, 10);
-                } else {
-                    let dataColumn = prev.getAttribute('data-column');
-
-                    if (dataColumn !== null) {
-                        startColumn = parseInt(dataColumn, 10);
-                    }
-                }
+            seats.forEach(function(block) {
+                const { startColumn, positions } = calculateSeatPosition(block);
 
                 data.push({
+                    seatId: isMovedBlock ? block.getAttribute('data-block-id') : undefined, // Chỉ có khi là block moved
                     audId: audId,
                     seatRow: block.parentElement.getAttribute('data-row'),
                     startColumn: startColumn,  // Cột bắt đầu
@@ -694,73 +696,41 @@
             return data;
         }
 
-        function getDataMovedBlock() {
-            const movedBlocks = document.querySelectorAll('#seat-map .block.moved');
-            let dataMovedBlock = [];
-
-            movedBlocks.forEach(function(block) {
-                let startColumn;
-                let positions = 1;
-
-                let prev = block.previousElementSibling;
-
-                if (prev == null) {
-                    startColumn = 0;
-                }  else {
-                    while (prev != null && prev.classList.contains('newBlock') || prev.classList.contains('block')) {
-                        positions++;
-                        prev = prev.previousElementSibling;
-                    }
-                }
-
-                 if (prev != null && prev.classList.contains('div-seat-double')) {
-                    let dataColumn = prev.lastElementChild.getAttribute('data-column');
-                    startColumn = parseInt(dataColumn, 10);
-                } else {
-                    let dataColumn = prev.getAttribute('data-column');
-
-                    if (dataColumn !== null) {
-                        startColumn = parseInt(dataColumn, 10);
-                    }
-                }
-
-                dataMovedBlock.push({
-                    blockId: block.getAttribute('data-block-id'),
-                    audId: audId,
-                    seatRow: block.parentElement.getAttribute('data-row'),
-                    startColumn: startColumn,  // Cột bắt đầu
-                    endColumn: startColumn + 1,  // Cột kết thúc
-                    positions: positions  // Số vị trí
+        async function createSeat(data) {
+            try {
+                await axios.post(`/admin/api/v1/seat/create`, data).then(() => {
                 });
-            });
-            return dataMovedBlock;
-        }
-
-        async function deleteBlock(ids) {
-            try {
-                await axios.delete(`/admin/api/v1/block/${ids}`);
             } catch (error) {
-                toastShow(error.response.data.message, 'error');
                 console.error(error);
             }
         }
 
-        async function createBlock(data) {
-            try {
-                await axios.post(`/admin/api/v1/block/create`, data);
-            } catch (error) {
-                toastShow(error.response.data.message, 'error');
-                console.error(error);
-            }
-        }
+        function calculateSeatPosition(block) {
+            let startColumn;
+            let positions = 1;
 
-        async function updateMovedBlock(data) {
-            try {
-                await axios.put(`/admin/api/v1/block/update`, data);
-            } catch (error) {
-                toastShow(error.response.data.message, 'error');
-                console.error(error);
+            let prev = block.previousElementSibling;
+
+            while (prev != null && prev.classList.contains('newBlock')) {
+                prev = prev.previousElementSibling;
             }
+
+            while (prev != null && prev.classList.contains('newBlock')) {
+                positions++;
+                prev = prev.previousElementSibling;
+            }
+
+            if (prev == null) {
+                startColumn = 0;
+            } else if (prev.classList.contains('div-seat-double')) {
+                let dataColumn = prev.lastElementChild.getAttribute('data-column');
+                startColumn = dataColumn !== null ? parseInt(dataColumn, 10) : 0;
+            } else {
+                let dataColumn = prev.getAttribute('data-column');
+                startColumn = dataColumn !== null ? parseInt(dataColumn, 10) : 0;
+            }
+
+            return { startColumn, positions };
         }
     </script>
 
@@ -768,6 +738,7 @@
     <script src="/dist/js/data/cinemaClientService.js"></script>
     <script src="/dist/js/data/audClientService.js"></script>
     <script src="/dist/js/data/seatClientService.js"></script>
+    <script src="/dist/js/data/blockClientService.js"></script>
 </th:block>
 </body>
 

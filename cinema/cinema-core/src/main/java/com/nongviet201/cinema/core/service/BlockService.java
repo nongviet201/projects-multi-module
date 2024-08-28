@@ -9,7 +9,7 @@ public interface BlockService {
 
     Block getBlockById(int id);
 
-    void saveBlock(Block block);
+    void save(Block block);
 
     void deleteById(int blockId);
 }

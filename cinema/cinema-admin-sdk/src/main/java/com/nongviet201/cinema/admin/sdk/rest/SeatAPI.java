@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/admin/api/v1/seat")
@@ -34,9 +36,26 @@ public class SeatAPI {
         );
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<?> createSeat(
+        @RequestBody List<UpsertSeatRequest.SeatCreate> request
+    ) {
+        adminSeatService.createSeat(request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/order-verification/{audId}")
+    public ResponseEntity<?> seatOrderVerification(
+        @PathVariable Integer audId
+    ) {
+        adminSeatService.seatOrderVerification(audId);
+        return ResponseEntity.noContent().build();
+    }
+
+
     @PutMapping("")
     public ResponseEntity<?> updateSeat(
-       @RequestBody UpsertSeatRequest request
+       @RequestBody UpsertSeatRequest.SeatUpdate request
     ) {
         adminSeatService.seatUpdate(request);
         return ResponseEntity.noContent().build();

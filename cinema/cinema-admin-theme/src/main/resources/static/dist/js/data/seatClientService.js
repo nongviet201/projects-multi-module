@@ -166,14 +166,20 @@ function renderBlock(blockData) {
         blockEl.dataset.blockId = block.id;
 
         const row = document.querySelector(`div[data-row=${block.seatRow}]`);
-        const column = row.querySelector(`button[data-column="${block.startColumn}"]`);
+        const startColumn = row.querySelector(`button[data-column="${block.startColumn}"]`);
+        const endColumn = row.querySelector(`button[data-column="${block.endColumn}"]`);
 
-        if (column.classList.contains('seat')) {
-            column.insertAdjacentElement('afterend', blockEl);
-        } else if (column.classList.contains('seat-double')) {
-            column.parentElement.insertAdjacentElement('afterend', blockEl);
+        if (startColumn != null && startColumn.classList.contains('seat')) {
+            startColumn.insertAdjacentElement('afterend', blockEl);
+        } else if (startColumn != null && startColumn.classList.contains('seat-double')) {
+            startColumn.parentElement.insertAdjacentElement('afterend', blockEl);
+        } else
+
+        if (startColumn == null && endColumn.classList.contains('seat')) {
+            endColumn.insertAdjacentElement('beforebegin', blockEl);
+        } else if (startColumn == null && endColumn.classList.contains('seat-double')) {
+            endColumn.parentElement.insertAdjacentElement('beforebegin', blockEl);
         }
-
     })
 }
 
