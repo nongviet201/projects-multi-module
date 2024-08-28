@@ -26,7 +26,7 @@ public class BlockAPI {
         );
     }
 
-    @PostMapping("")
+    @PostMapping("/create")
     public ResponseEntity<?> createBlock(
         @RequestBody List<UpsertBlockRequest> request
         ) {
@@ -34,11 +34,19 @@ public class BlockAPI {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<?> deleteBlock(
-        @PathVariable Integer id
+    @PutMapping("/update")
+    public ResponseEntity<?> updateBlock(
+        @RequestBody List<UpsertBlockRequest> request
     ) {
-        adminBlockService.deleteBlockById(id);
+        adminBlockService.updateBlock(request);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{ids}")
+    public ResponseEntity<?> deleteBlock(
+        @PathVariable List<Integer> ids
+    ) {
+        adminBlockService.deleteBlockByListId(ids);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

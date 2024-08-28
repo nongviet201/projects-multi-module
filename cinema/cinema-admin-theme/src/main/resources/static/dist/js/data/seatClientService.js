@@ -4,7 +4,7 @@ let bin = false;
 
 function seatShowBtn(btn) {
     audId = btn.getAttribute('data-aud-id');
-    toggleSeatView(false);
+    seatShow();
 }
 
 async function toggleSeatView(isBinView) {
@@ -26,12 +26,14 @@ async function toggleSeatView(isBinView) {
     }
 }
 
-async function seatBin() {
-    await toggleSeatView(true);
+function seatBin() {
+    toggleSeatView(true);
 }
 
 async function seatShow() {
     await toggleSeatView(false);
+    await getBlock();
+    toolbarReset();
 }
 
 function renderSeat(data) {
@@ -90,54 +92,53 @@ function renderSeat(data) {
         let coupleCounter = 0;
 
         rows[row].forEach((seat) => {
+            const seatBtn = document.createElement('button');
             if (seat.status === true) {
-                const seatBtn = document.createElement('button');
-
-                seatBtn.className = 'seat';
-                seatBtn.value = seat.id;
-                seatBtn.id = `seat-${seat.id}`;
                 seatBtn.innerText = `${seat.seatColumn}`;
-                seatBtn.onclick = () => seatBtnFunc(seat.id);
-                seatBtn.dataset.column = seat.seatColumn;
-
-                if (seat.type === 'COUPLE') {
-                    if (coupleCounter % 2 === 0) {
-                        coupleDiv = document.createElement('div');
-                        coupleDiv.className = 'div-seat-double';
-                        coupleDiv.onclick = function () {
-                            seatCoupleBtnFunc(this);
-                        };
-                        rowList.appendChild(coupleDiv);
-                    }
-                    seatBtn.classList.remove('seat');
-                    seatBtn.classList.add('seat-double');
-                    seatBtn.onclick = null;
-                    coupleDiv.appendChild(seatBtn);
-                    coupleCounter++;
-                } else {
-                    rowList.appendChild(seatBtn);
-                }
-
-                if (seat.type === 'VIP') {
-                    seatBtn.classList.add('seat-vip');
-                }
-
             }
             if (seat.status === false) {
-                const seatBtn = document.createElement('button');
-                seatBtn.classList.add('seat');
-                seatBtn.innerHTML = `<i class="fa-solid fa-xmark "></i>`;
+                seatBtn.innerHTML = `<i class="fa-solid fa-ban"></i>`;
+            }
+            seatBtn.className = 'seat';
+            seatBtn.value = seat.id;
+            seatBtn.id = `seat-${seat.id}`;
+            seatBtn.onclick = () => seatBtnFunc(seat.id);
+            seatBtn.dataset.column = seat.seatColumn;
+
+            if (seat.type === 'COUPLE') {
+                if (coupleCounter % 2 === 0) {
+                    coupleDiv = document.createElement('div');
+                    coupleDiv.className = 'div-seat-double';
+                    coupleDiv.onclick = function () {
+                        seatCoupleBtnFunc(this);
+                    };
+                    rowList.appendChild(coupleDiv);
+                }
+                seatBtn.classList.remove('seat');
+                seatBtn.classList.add('seat-double');
+                seatBtn.onclick = null;
+                coupleDiv.appendChild(seatBtn);
+                coupleCounter++;
+            } else {
                 rowList.appendChild(seatBtn);
-                seatBtn.onclick = () => seatBtnFunc(seat.id);
+            }
+
+            if (seat.type === 'VIP') {
+                seatBtn.classList.add('seat-vip');
             }
             rowList.dataset.row = row;
+
             new Sortable(rowList, {
                 group: 'shared',
                 multiDrag: true,
                 selectedClass: 'selected',
                 fallbackTolerance: 3,
                 filter: '.filtered',
-                animation: 150
+                animation: 150,
+                onStart: function (evt) {
+                    const movedElement = evt.item;
+                    movedElement.classList.add('moved');
+                }
             });
         });
 
@@ -146,6 +147,34 @@ function renderSeat(data) {
         seatMap.appendChild(rowDiv);
 
     }
+}
+
+async function getBlock() {
+    try {
+        const res = await axios.get(`/admin/api/v1/block/aud/${audId}`);
+        renderBlock(res.data);
+    } catch (e) {
+        console.error(e.response.data.message);
+    }
+}
+
+function renderBlock(blockData) {
+    blockData.forEach(block => {
+        const blockEl = document.createElement('button');
+        blockEl.classList.add('seat', 'block');
+        blockEl.dataset.column = block.startColumn;
+        blockEl.dataset.blockId = block.id;
+
+        const row = document.querySelector(`div[data-row=${block.seatRow}]`);
+        const column = row.querySelector(`button[data-column="${block.startColumn}"]`);
+
+        if (column.classList.contains('seat')) {
+            column.insertAdjacentElement('afterend', blockEl);
+        } else if (column.classList.contains('seat-double')) {
+            column.parentElement.insertAdjacentElement('afterend', blockEl);
+        }
+
+    })
 }
 
 async function seatBtnHandler(btn, isCouple = false) {

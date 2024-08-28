@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UpsertBlockRequest {
+    Integer blockId;
     Integer audId;
     String seatRow;
     Integer startColumn;

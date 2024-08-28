@@ -28,10 +28,16 @@ public class AdminBlockService {
         return blockService.getBlockById(id);
     }
 
-    public void deleteBlockById(
-        int blockId
+    public void deleteBlockByListId(
+        List<Integer> ids
     ) {
-        blockService.deleteById(blockId);
+        ids.forEach(this::deleteById);
+    }
+
+    private void deleteById(
+        Integer id
+    ) {
+        blockService.deleteById(id);
     }
 
     public void createBlock(
@@ -47,6 +53,20 @@ public class AdminBlockService {
                     .positions(e.getPositions())
                     .build()
             );
+        });
+    }
+
+    public void updateBlock(
+        List<UpsertBlockRequest> request
+    ) {
+        request.forEach(e -> {
+           Block block = findById(e.getBlockId());
+           block.setAuditorium(auditoriumService.getAuditoriumById(e.getAudId()));
+           block.setSeatRow(e.getSeatRow());
+           block.setStartColumn(e.getStartColumn());
+           block.setEndColumn(e.getEndColumn());
+           block.setPositions(e.getPositions());
+           blockService.saveBlock(block);
         });
     }
 }

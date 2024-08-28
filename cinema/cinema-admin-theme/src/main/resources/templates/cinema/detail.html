@@ -335,8 +335,8 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th class="text-center">Tổng số cột ghế</th>
                                     <th class="text-center">Tổng số hàng ghế</th>
+                                    <th class="text-center">Tổng số cột ghế</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                                 </thead>
@@ -374,14 +374,14 @@
                                                 type="button"></button>
                                     </div>
                                     <div class="modal-header">
-                                        <div id="toolbar" class="d-flex align-items-center">
-                                            <strong class="fs-14px">Toolbar</strong>
+                                        <div id="toolbar" class="d-flex w-100 justify-content-between align-items-center">
                                             <div class="ms-3 d-flex align-items-center">
+                                                <strong class="fs-14px">Toolbar</strong>
                                                 <button id="move" class="seat">
                                                     <i class="fa-solid fa-lg fa-arrows-up-down-left-right"></i>
                                                 </button>
                                                 <div id="addAction" class="ms-1 d-flex align-items-center">
-                                                    <button class="newBlock seat">
+                                                    <button class="newBlock no-delete seat">
                                                     </button>
                                                     <button class="newSeat seat">
                                                         <i class="fa-solid fa-plus fa-lg"></i>
@@ -397,6 +397,9 @@
                                                     <i class="fa-solid fa-arrow-rotate-left"></i>
                                                 </button>
                                             </div>
+                                            <div class="me-3">
+                                                <span class="text-sm cursor-pointer">docs</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="modal-body">
@@ -409,7 +412,7 @@
                                             <div class="d-flex" style="gap: 0.25rem">
                                                 <div>
                                                     <button class="seat-demo seat-off">
-                                                        <i class="fa-solid fa-xmark fa-2xl"></i>
+                                                        <i class="fa-solid fa-ban"></i>
                                                     </button>
                                                     <span class="fs-14px text-black-50">Ghế đã tắt</span>
                                                 </div>
@@ -478,18 +481,6 @@
                                                     <option th:each="type : ${seatTypes}"
                                                             th:text="${type}"
                                                             th:value="${type}">
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label for="seat-block">Chế độ</label>
-                                                <select class="form-control" id="seat-block"
-                                                        name="block">
-                                                    <option value="0">
-                                                        Ghế Ngồi
-                                                    </option>
-                                                    <option value="1">
-                                                        Khối
                                                     </option>
                                                 </select>
                                             </div>
@@ -589,36 +580,83 @@
         const removeBtn = document.getElementById('remove');
         const returnBtn = document.getElementById('return');
 
+        let blockIds = [];
+
         removeBtn.addEventListener('click', () => {
             const isActive = removeBtn.classList.toggle('active');
 
             const cloneItems = document.querySelectorAll('.clone-item');
+            const blockItems = document.querySelectorAll('.block');
 
             if (isActive) {
                 cloneItems.forEach(item => {
                     item.addEventListener('click', removeItem);
                 });
+                blockItems.forEach(item => {
+                    item.addEventListener('click', removeBlockEl);
+                });
             } else {
                 cloneItems.forEach(item => {
                     item.removeEventListener('click', removeItem);
+                });
+                blockItems.forEach(item => {
+                    item.removeEventListener('click', removeBlockEl);
                 });
             }
         });
 
         returnBtn.addEventListener('click', () => {
+            blockIds = [];
             seatShow();
+            toolbarReset();
         });
 
         function removeItem(e) {
+            if (e.target.classList.contains('no-delete')) {
+                toastShow('Không thể xóa phần tử này', 'error');
+                return;
+            }
             e.target.remove();
         }
 
+        function removeBlockEl(e) {
+            blockIds.push(parseInt(e.target.getAttribute('data-block-id'), 10));
+
+            console.log(blockIds);
+            e.target.remove();
+        }
+
+        function toolbarReset() {
+            moveButton.classList.remove('active');
+            removeBtn.classList.remove('active');
+        }
     </script>
 
     <script type="text/javascript">
-        document.getElementById('save').addEventListener('click', function() {
-            let data = [];
+        document.getElementById('save').addEventListener('click', async function() {
+            let dataNewBlock = getDataNewBlock();
+            let dataMovedBlock = getDataMovedBlock();
+
+            if (dataNewBlock.length > 0) {
+                await createBlock(dataNewBlock);
+            }
+
+            if (blockIds.length > 0) {
+                await deleteBlock(blockIds);
+            }
+
+            if (dataMovedBlock.length > 0) {
+                await updateMovedBlock(dataMovedBlock);
+            }
+
+            await seatShow();
+            toolbarReset();
+            toastShow('Đã lưu thay đổi!', 'success');
+        });
+
+        function getDataNewBlock() {
             const newBlocks = document.querySelectorAll('#seat-map .newBlock');
+            let data = [];
 
             newBlocks.forEach(function(block) {
                 let startColumn;
@@ -652,14 +690,73 @@
                     positions: positions  // Số vị trí
                 });
             });
-            createBlock(data);
-        });
+
+            return data;
+        }
+
+        function getDataMovedBlock() {
+            const movedBlocks = document.querySelectorAll('#seat-map .block.moved');
+            let dataMovedBlock = [];
+
+            movedBlocks.forEach(function(block) {
+                let startColumn;
+                let positions = 1;
+
+                let prev = block.previousElementSibling;
+
+                if (prev == null) {
+                    startColumn = 0;
+                }  else {
+                    while (prev != null && prev.classList.contains('newBlock') || prev.classList.contains('block')) {
+                        positions++;
+                        prev = prev.previousElementSibling;
+                    }
+                }
+
+                 if (prev != null && prev.classList.contains('div-seat-double')) {
+                    let dataColumn = prev.lastElementChild.getAttribute('data-column');
+                    startColumn = parseInt(dataColumn, 10);
+                } else {
+                    let dataColumn = prev.getAttribute('data-column');
+
+                    if (dataColumn !== null) {
+                        startColumn = parseInt(dataColumn, 10);
+                    }
+                }
+
+                dataMovedBlock.push({
+                    blockId: block.getAttribute('data-block-id'),
+                    audId: audId,
+                    seatRow: block.parentElement.getAttribute('data-row'),
+                    startColumn: startColumn,  // Cột bắt đầu
+                    endColumn: startColumn + 1,  // Cột kết thúc
+                    positions: positions  // Số vị trí
+                });
+            });
+            return dataMovedBlock;
+        }
+
+        async function deleteBlock(ids) {
+            try {
+                await axios.delete(`/admin/api/v1/block/${ids}`);
+            } catch (error) {
+                toastShow(error.response.data.message, 'error');
+                console.error(error);
+            }
+        }
 
         async function createBlock(data) {
             try {
-                await axios.post(`/admin/api/v1/block`, data);
-                toastShow('Cập nhật thông tin ghế thành công!', 'success');
-                await seatShow();
+                await axios.post(`/admin/api/v1/block/create`, data);
+            } catch (error) {
+                toastShow(error.response.data.message, 'error');
+                console.error(error);
+            }
+        }
+
+        async function updateMovedBlock(data) {
+            try {
+                await axios.put(`/admin/api/v1/block/update`, data);
             } catch (error) {
                 toastShow(error.response.data.message, 'error');
                 console.error(error);
