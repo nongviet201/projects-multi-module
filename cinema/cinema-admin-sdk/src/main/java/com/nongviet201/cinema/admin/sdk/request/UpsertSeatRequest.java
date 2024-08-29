@@ -33,4 +33,16 @@ public class UpsertSeatRequest {
         Integer endColumn;
         Integer positions;
     }
+
+    @ToString
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class CreateRowAndColumn {
+        Integer audId;
+        Integer newRow;
+        Integer newColumn;
+    }
 }

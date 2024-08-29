@@ -44,6 +44,14 @@ public class SeatAPI {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/create-row-and-column")
+    public ResponseEntity<?> createRowAndColumn(
+        @RequestBody UpsertSeatRequest.CreateRowAndColumn request
+    ) {
+        adminSeatService.createNewRowAndColumn(request);
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("/order-verification/{audId}")
     public ResponseEntity<?> seatOrderVerification(
         @PathVariable Integer audId

@@ -8,6 +8,12 @@
  * Copyright 2011-2023 The Bootstrap Authors
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 :root,[data-bs-theme=light] {
     --bs-blue: #3b7ddd;
     --bs-indigo: #0a0a0a;

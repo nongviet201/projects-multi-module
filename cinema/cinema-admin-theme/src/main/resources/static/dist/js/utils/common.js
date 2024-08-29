@@ -56,7 +56,7 @@ async function uploadFile(file, el) {
 
 function toastShow(message, type) {
     const notyf = new Notyf({
-        duration: 1000,
+        duration: 3000,
         position: {
             x: 'right',
             y: 'top',
@@ -74,7 +74,7 @@ function toastShow(message, type) {
             {
                 type: 'error',
                 background: 'indianred',
-                duration: 2000,
+                duration: 3000,
                 dismissible: false
             }
         ]

@@ -112,21 +112,31 @@ function renderSeats(seats) {
         let coupleCounter = 0;
 
         rows[row].forEach((seat) => {
+            const seatBtn = document.createElement('button');
+
             if (seat.status === true) {
-                const seatBtn = document.createElement('button');
+                seatBtn.innerText = `${seat.seatColumn}`;
+                seatBtn.onclick = () => seatBtnFunc(seat.id);
+            }
+
+            if (seat.status === false) {
+                seatBtn.innerHTML = `<i class="fa-solid fa-ban"></i>`;
+                seatBtn.disabled = true;
+            }
 
                 seatBtn.className = 'seat';
                 seatBtn.value = seat.id;
                 seatBtn.id = `seat-${seat.id}`;
-                seatBtn.innerText = `${seat.seatColumn}`;
-                seatBtn.onclick = () => seatBtnFunc(seat.id);
 
                 if (seat.type === 'COUPLE') {
                     if (coupleCounter % 2 === 0) {
                         coupleDiv = document.createElement('div');
                         coupleDiv.className = 'div-seat-double';
-                        coupleDiv.onclick = function () { seatCoupleBtnFunc(this); };
                         rowList.appendChild(coupleDiv);
+
+                        if (seat.status === true) {
+                            coupleDiv.onclick = function () { seatCoupleBtnFunc(this); };
+                        }
                     }
                     seatBtn.classList.remove('seat');
                     seatBtn.classList.add('seat-double');
@@ -140,14 +150,15 @@ function renderSeats(seats) {
                 if (seat.type === 'VIP') {
                     seatBtn.classList.add('seat-vip');
                 }
-            }
+
         });
 
         rowDiv.appendChild(rowList);
         rowDiv.appendChild(rowNameE);
         seatMap.appendChild(rowDiv);
     }
-    getReservation(showtime.id)
+    getReservation(showtime.id);
+    getBlock(showtime.auditoriumId)
 }
 
 function seatCoupleBtnFunc(coupleDivEl) {
@@ -247,6 +258,20 @@ async function getReservation(showtimeId) {
                     }
                 }
             }
+        });
+
+        checkNextBtn();
+        showtimeDetailSeatShow();
+    } catch (error) {
+        console.error(`Đã xảy ra lỗi: ${error}`);
+    }
+}
+
+async function getBlock(auditoriumId) {
+    try {
+        let block = await $.ajax({
+            url: `/api/v1/block/get/${auditoriumId}`,
+            type: 'GET',
         });
 
         checkNextBtn();

@@ -118,6 +118,19 @@ main {
     font-size: 12px;
 }
 
+
+.block {
+    margin: 5px;
+    display: inline-block;
+    text-align: center;
+    padding: .2rem 0;
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    font-size: 12px;
+    pointer-events: none;
+}
+
 .div-seat-double{
     border: 1px solid plum;
     border-radius: 5px;

@@ -11,7 +11,8 @@
         <link href="/plugins/select2/css/select2.min.css" rel="stylesheet"/>
         <link href="/dist/css/style.css" rel="stylesheet">
         <link href="/dist/css/pages/booking.css" rel="stylesheet">
-        <style></style>
+        <style>
+        </style>
     </th:block>
 
 </head>
@@ -377,30 +378,70 @@
                                         <div id="toolbar" class="d-flex w-100 justify-content-between align-items-center">
                                             <div class="ms-3 d-flex align-items-center">
                                                 <strong class="fs-14px">Toolbar</strong>
-                                                <button id="move" class="seat">
-                                                    <i class="fa-solid fa-lg fa-arrows-up-down-left-right"></i>
-                                                </button>
-                                                <div id="addAction" class="ms-1 d-flex align-items-center">
-                                                    <button class="newBlock no-delete seat">
+                                                <div class="tool-action ms-5 d-flex align-items-center">
+                                                    <button class="seat" data-bs-placement="top"
+                                                            data-bs-title="Sử dụng để di chuyển khối"
+                                                            data-bs-toggle="tooltip"
+                                                            id="move">
+                                                        <i class="fa-solid fa-lg fa-arrows-up-down-left-right"></i>
                                                     </button>
-                                                    <button class="newSeat seat">
-                                                        <i class="fa-solid fa-plus fa-lg"></i>
+                                                    <div class="ms-1 d-flex align-items-center" id="addAction">
+                                                        <button class="newBlock no-delete seat" data-bs-placement="top"
+                                                                data-bs-title="Giữ và di chuyển tới vị trí mong muốn để tạo khối"
+                                                                data-bs-toggle="tooltip">
+                                                        </button>
+                                                        <button class="newSeat seat" data-bs-placement="top"
+                                                                data-bs-title="Giữ và di chuyển tới vị trí mong muốn để tạo ghế mới"
+                                                                data-bs-toggle="tooltip">
+                                                            <i class="fa-solid fa-plus fa-lg"></i>
+                                                        </button>
+                                                    </div>
+                                                    <button class="position-relative seat" data-bs-placement="top"
+                                                            data-bs-title="Sử dụng để kiểm tra và sắp xếp lại số thứ tự của hàng ghế"
+                                                            data-bs-toggle="tooltip"
+                                                            id="orderConsistencyCheck">
+                                                        <i class="fa-solid fa-arrow-up-9-1 "></i>
+                                                    </button>
+                                                    <button class="seat" data-bs-placement="top" data-bs-title="Click vào khối mà bạn muốn xóa để xóa khối đó"
+                                                            data-bs-toggle="tooltip"
+                                                            id="remove">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                    <button class="seat" data-bs-placement="top" data-bs-title="Lưu các thay đổi đã thực hiện"
+                                                            data-bs-toggle="tooltip"
+                                                            id="save">
+                                                        <i class="fa-regular fa-lg fa-floppy-disk"></i>
+                                                    </button>
+                                                    <button class="seat" data-bs-placement="top" data-bs-title="Sử dụng để hoàn tác các thay đổi"
+                                                            data-bs-toggle="tooltip"
+                                                            id="return">
+                                                        <i class="fa-solid fa-arrow-rotate-left"></i>
                                                     </button>
                                                 </div>
-                                                <button id="orderConsistencyCheck" class="position-relative seat">
-                                                    <i class="fa-solid fa-arrow-up-9-1 "></i>
-                                                    <i class="position-absolute fa-regular fa-circle-check" style="bottom: -5px; right: -6px"></i>
-                                                </button>
-                                                <button id="remove" class="seat">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
-                                                <button id="save" class="seat">
-                                                    <i class="fa-regular fa-lg fa-floppy-disk"></i>
-                                                </button>
-                                                <button id="return" class="seat">
-                                                    <i class="fa-solid fa-arrow-rotate-left"></i>
-                                                </button>
-
+                                                <div class="ms-5">
+                                                    <form class="d-flex align-items-center" id="form-newRow-newColumn">
+                                                        <div class=" position-relative">
+                                                            <label class="fs-12px position-absolute start-0 text-black-50"
+                                                                   for="newRow" style="top: -10px">Hàng</label>
+                                                            <input class="form-control p-0 ps-2" id="newRow"
+                                                                   name="row" style="width: 40px; height: 25px; margin: 5px 0"
+                                                                   type="number">
+                                                        </div>
+                                                        <div class="ms-2 position-relative">
+                                                            <label class="fs-12px position-absolute start-0 text-black-50"
+                                                                   for="newColumn" style="top: -10px">Cột</label>
+                                                            <input class="form-control p-0 ps-2" id="newColumn"
+                                                                   name="column" style="width: 40px; height: 25px; margin: 5px 0"
+                                                                   type="number">
+                                                        </div>
+                                                        <button class="ms-2 btn btn-primary btn-sm"
+                                                                data-bs-placement="top"
+                                                                data-bs-title="Lưu ý: dữ liệu được thêm vào sẽ là dữ liệu thật. Không thể hoàn tác"
+                                                                data-bs-toggle="tooltip"
+                                                                id="insert-newRow-and-newColumn">Thêm
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
                                             <div class="me-3">
                                                 <span class="text-sm cursor-pointer">docs</span>
@@ -553,6 +594,16 @@
         const cinema = [[${cinema}]];
         const auditoriums = [[${auditoriums}]];
         const audType = [[${audType}]];
+        document.addEventListener('DOMContentLoaded', function () {
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+                new bootstrap.Tooltip(tooltipTriggerEl, {
+                    trigger: 'hover',
+                    delay: {show: 0, hide: 100}
+                });
+            });
+        });
+
     </script>
 
     <script>
@@ -638,7 +689,7 @@
 
             await seatShow();
             toolbarReset();
-            toastShow('Đã lưu thay đổi!', 'success');
+            toastShow('Đã lưu các thay đổi!', 'success');
         });
 
         function removeItem(e) {
@@ -732,6 +783,26 @@
 
             return { startColumn, positions };
         }
+
+        document.getElementById('insert-newRow-and-newColumn').addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            let data = {
+                audId: audId,
+                newRow: document.getElementById('newRow').value,
+                newColumn: document.getElementById('newColumn').value
+            }
+
+            try {
+                await axios.post(`/admin/api/v1/seat/create-row-and-column`, data).then(() => {
+                    toastShow('Thêm hàng mới và cột mới thành công!', 'success');
+                    seatShow();
+                });
+            } catch (e) {
+                toastShow('e.response.data.message', "error");
+                console.error(e);
+            }
+        });
     </script>
 
     <script src="/dist/js/page/cinema.js"></script>
