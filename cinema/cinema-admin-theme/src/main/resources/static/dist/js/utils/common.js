@@ -49,7 +49,9 @@ async function uploadFile(file, el) {
     try {
         const res = await axios.post(`/api/v1/files/uploadFile`, file);
         el.src = res.data;
+        toastShow("Cập nhật ảnh mới thành công!", "success")
     } catch (error) {
+        toastShow("Đã sảy ra lỗi khi cập nhật ảnh!", "error")
         console.log(error)
     }
 }

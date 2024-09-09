@@ -15,4 +15,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Post> findAllByStatusOrderByCreatedAt(boolean status);
 
     Page<Post> findByTypeAndStatusOrderByPublishedAt(PostType type, Boolean status, Pageable pageable);
+
+    List<Post> findByUser_IdOrderByCreatedAt(Integer user_id);
+
 }

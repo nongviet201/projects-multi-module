@@ -14,4 +14,12 @@ public interface PostService {
     Page<Post> getAllPublishPostsByTypeOrderByReleaseDate(PostType type, int page, int size);
 
     void updateViewCount(int postId);
+
+    List<Post> getAllOwnPostOrderByCreatedAt();
+
+    List<Post> getAllPosts();
+
+    void save(Post post);
+
+    void deleteById(Integer id);
 }

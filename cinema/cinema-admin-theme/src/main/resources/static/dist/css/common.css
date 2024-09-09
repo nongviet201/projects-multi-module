@@ -124,6 +124,9 @@
     padding: 3px 12px;
     font-size: 12px;
 }
+table {
+    table-layout: auto;
+}
 select {
     border: 1px solid #e5e7eb;
     border-radius: 5px;

@@ -9,6 +9,7 @@ import com.nongviet201.cinema.core.model.enums.movie.GraphicsType;
 import com.nongviet201.cinema.core.model.enums.movie.TranslationType;
 import com.nongviet201.cinema.core.repository.MovieRepository;
 import com.nongviet201.cinema.core.service.*;
+import com.nongviet201.cinema.core.utils.EntityService;
 import com.nongviet201.cinema.core.utils.EnumService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class AdminMovieService {
     private final ActorService actorService;
     private final DirectorService directorService;
     private final MovieRepository movieRepository;
+    private final EntityService entityService;
 
     public void updateDeletedMovie(int id, boolean deleted) {
         Movie movie = movieService.getMovieById(id);
@@ -45,15 +47,6 @@ public class AdminMovieService {
         Movie movie = movieService.getMovieById(id);
         updateMovieFromRequest(movie, request);
         movieRepository.save(movie);
-    }
-
-    private <T> List<T> getEntitiesByIds(
-        Function<Integer, T> serviceMethod,
-        List<Integer> ids
-    ) {
-        return ids.stream()
-            .map(serviceMethod)
-            .collect(Collectors.toList());
     }
 
     public void createMetaData(
@@ -153,10 +146,10 @@ public class AdminMovieService {
             .status(request.isStatus())
             .graphicsTypes(enumService.getEnumListByNames(GraphicsType::valueOf, request.getGraphicTypes(), "GraphicsType"))
             .translationTypes(enumService.getEnumListByNames(TranslationType::valueOf, request.getTranslationTypes(), "TranslationType"))
-            .country(getEntitiesByIds(countryService::getCountryById, request.getCountryIds()))
-            .genres(getEntitiesByIds(genreService::getGenreById, request.getGenreIds()))
-            .actors(getEntitiesByIds(actorService::getActorById, request.getActorIds()))
-            .directors(getEntitiesByIds(directorService::getDirectorById, request.getDirectorIds()))
+            .country(entityService.getEntitiesByIds(countryService::getCountryById, request.getCountryIds()))
+            .genres(entityService.getEntitiesByIds(genreService::getGenreById, request.getGenreIds()))
+            .actors(entityService.getEntitiesByIds(actorService::getActorById, request.getActorIds()))
+            .directors(entityService.getEntitiesByIds(directorService::getDirectorById, request.getDirectorIds()))
             .build();
     }
 
@@ -178,9 +171,10 @@ public class AdminMovieService {
         movie.setStatus(request.isStatus());
         movie.setGraphicsTypes(enumService.getEnumListByNames(GraphicsType::valueOf, request.getGraphicTypes(), "GraphicsType"));
         movie.setTranslationTypes(enumService.getEnumListByNames(TranslationType::valueOf, request.getTranslationTypes(), "TranslationType"));
-        movie.setCountry(getEntitiesByIds(countryService::getCountryById, request.getCountryIds()));
-        movie.setGenres(getEntitiesByIds(genreService::getGenreById, request.getGenreIds()));
-        movie.setActors(getEntitiesByIds(actorService::getActorById, request.getActorIds()));
-        movie.setDirectors(getEntitiesByIds(directorService::getDirectorById, request.getDirectorIds()));
+        movie.setCountry(entityService.getEntitiesByIds(countryService::getCountryById, request.getCountryIds()));
+        movie.setGenres(entityService.getEntitiesByIds(genreService::getGenreById, request.getGenreIds()));
+        movie.setActors(entityService.getEntitiesByIds(actorService::getActorById, request.getActorIds()));
+        movie.setDirectors(entityService.getEntitiesByIds(directorService::getDirectorById, request.getDirectorIds()));
     }
+
 }

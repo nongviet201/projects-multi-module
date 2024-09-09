@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Admin Posts</title>
+    <title>Admin Schedule</title>
 
     <th:block id="css">
     </th:block>
@@ -24,7 +24,7 @@
                                 <a href="/admin">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="/admin/post">Danh sách bài viết</a>
+                                <a href="/admin/schedule">Danh sách lịch chiếu</a>
                             </li>
                         </ol>
                     </div>
@@ -51,22 +51,13 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="card-header d-flex px-0">
-                                    <label class="card-title mb-0 me-2" for="index-post-select">Danh sách</label>
-                                    <select name="index-cinema_time" class="form-select form-select-sm w-auto" id="index-post-select">
-                                        <option value="all">Tất cả bài viết</option>
-                                        <option value="own">Bài viết của tôi</option>
-                                    </select>
-                                </div>
                                 <table class="table table-responsive table-striped" id="table-post">
                                     <thead>
                                     <tr>
-                                        <th class="text-center" style="width: 40%">Tên bài viết</th>
-                                        <th class="text-center">Loại bài viết</th>
-                                        <th class="text-center">Lượt xem</th>
+                                        <th class="text-center" style="width: 40%">Tên phim</th>
+                                        <th class="text-center">Lịch chiếu</th>
                                         <th class="text-center">Trạng thái</th>
-                                        <th class="text-center">Ngày tạo</th>
-                                        <th class="text-center">Tác giả</th>
+                                        <th class="text-center">Ngày cập nhật</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -83,21 +74,29 @@
 </div>
 <th:block id="js">
     <script>
+        $('#table-post').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "lengthMenu": [10, 25, 50, 100],
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language" : languageTable,
+        });
+
         window.addEventListener('load',async  function() {
             await getData()
         });
 
-        $('#btn-refresh').on('click', async function (){
-            window.location.reload();
-        });
 
         $('#index-post-select').change(async function () {
-            await getData();
+            await getData()
         });
 
         async function getData () {
             try {
-                const res = await axios.get(`/admin/api/v1/post/${$('#index-post-select').val()}`);
                 insertDateTable(res.data);
             } catch (e) {
                 console.error('Error:', e);
@@ -119,33 +118,11 @@
                 <td class="text-center">${post.type}</td>
                 <td class="text-center">${post.view}</td>
                 <td class="text-center">${post.status ? 'Công khai' : 'Nháp'}</td>
-                <td class="text-center">${post.createdAt}</td>
-                <td class="text-center">${post.user.fullName}</td>
             </tr>
         `;
             });
 
             tbody.innerHTML = html;
-
-            $('#table-post').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "lengthMenu": [10, 25, 50, 100],
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-                "language" : languageTable,
-                "createdRow": function(row, data, dataIndex) {
-                    $('td', row).eq(0).addClass('text-start');
-                    $('td', row).eq(5).addClass('text-end');
-                    $('td', row).eq(1).addClass('text-center');
-                    $('td', row).eq(2).addClass('text-center');
-                    $('td', row).eq(3).addClass('text-center');
-                    $('td', row).eq(4).addClass('text-center');
-                },
-            });
         }
     </script>
 </th:block>

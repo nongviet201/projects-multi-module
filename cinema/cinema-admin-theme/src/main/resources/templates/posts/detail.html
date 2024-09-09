@@ -5,10 +5,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Admin Posts</title>
     <th:block id="css">
         <!-- Summernote -->
-        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote.min.css" rel="stylesheet">
 
         <!--  Toastr  -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
@@ -17,6 +17,18 @@
 
         <link rel="stylesheet" href="/plugins/select2/css/select2.min.css" />
         <link rel="stylesheet" href="/dist/css/style.css">
+        <style>
+            .note-editor {
+                z-index: 1000;
+                background-color: white;
+            }
+            .note-toolbar {
+                border-bottom: 1px solid #F1F2F4;
+            }
+            .modal-backdrop {
+                position: unset !important;
+            }
+        </style>
     </th:block>
 </head>
 
@@ -31,15 +43,12 @@
                     <div class="col-sm-12">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="#">Dashboard</a>
+                                <a href="/">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="#">Blog</a>
+                                <a href="/admin/post">Danh sách bài viết</a>
                             </li>
-                            <li class="breadcrumb-item active" th:text="${blog.title}">
-                                Thực hành làm ứng dụng Meal Finder API
-                                với Javascript (Phần 2)
-                            </li>
+                            <li class="breadcrumb-item active" th:text="${post.title}"></li>
                         </ol>
                     </div>
                 </div>
@@ -51,9 +60,9 @@
             <div class="container-fluid">
                 <div class="row py-2">
                     <div class="col-6">
-                        <button type="button" class="btn btn-default">
+                        <a href="/admin/post" class="btn btn-default">
                             <i class="fas fa-chevron-left"></i> Quay lại
-                        </button>
+                        </a>
                         <button type="button" class="btn btn-info px-4" id="btn-update">
                             Lưu
                         </button>
@@ -72,40 +81,53 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <form id="form-blog">
+                                <form id="form-post">
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label>Tiêu đề</label>
-                                                <input type="text" class="form-control" name="title" id="title" th:value="${blog.getTitle()}"/>
+                                            <div class="form-group mb-3">
+                                                <label for="title">Tiêu đề</label>
+                                                <input type="text" class="form-control" name="title" id="title" th:value="${post.getTitle()}"/>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label>Nội dung</label>
-                                                <textarea id="content" name="content" th:text="${blog.content}"></textarea>
+                                            <div class="form-group mb-3">
+                                                <label for="content">Nội dung</label>
+                                                <textarea id="content" name="content" th:text="${post.content}"></textarea>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label>Mô tả ngắn</label>
-                                                <textarea id="description" class="form-control" rows="3" name="description" th:text="${blog.description}"></textarea>
+                                            <div class="form-group mb-3">
+                                                <label for="description">Mô tả ngắn</label>
+                                                <textarea id="description" class="form-control" rows="3" name="description" th:text="${post.description}"></textarea>
                                             </div>
                                         </div>
 
                                         <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Trạng thái</label>
-                                                <select id="status" class="form-control" th:value="${blog.status}? '1':'0'">
-                                                    <option value="0" th:selected="${!blog.status}">
+                                            <div class="form-group mb-3">
+                                                <label for="status">Trạng thái</label>
+                                                <select id="status" class="form-control" th:value="${post.status}? '1':'0'">
+                                                    <option value="0" th:selected="${!post.status}">
                                                         Nháp
                                                     </option>
-                                                    <option value="1" th:selected="${blog.status}">
+                                                    <option value="1" th:selected="${post.status}">
                                                         Công khai
                                                     </option>
                                                 </select>
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group mb-3">
+                                                <label for="type">Loại bài viết</label>
+                                                <select id="type" class="form-control">
+                                                    <option th:each="type : ${types}" th:value="${type}"  th:selected="${post.type == type}">
+                                                        [[${type}]]
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label for="slug">Slug</label>
+                                                <input id="slug" class="form-control" th:value="${post.slug}"></input>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label for="input-thumbnail">Poster</label>
                                                 <div class="thumbnail-preview-container mb-3">
-                                                    <img th:src="${blog.thumbnail}" alt="" id="thumbnail" />
+                                                    <img th:src="${post.thumbnail}" alt="" id="thumbnail" />
                                                 </div>
                                                 <label for="input-thumbnail" class="btn btn-info btn-flat">
                                                     Chọn hình ảnh
@@ -149,25 +171,15 @@
 </div>
 
 <th:block id="js">
-    <!-- AdminLTE App -->
-    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
-    <script src="/plugins/select2/js/select2.full.min.js"></script>
-
-    <!-- Summernote -->
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-
-    <!-- Validation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
             integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js"
             integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script src="/js/main.js"></script>
     <script th:inline="javascript">
-        const blog = [[${blog}]]
+        const post = [[${post}]]
     </script>
 
     <script >
@@ -175,7 +187,7 @@
             let content = $('#content').data('content');
             $('#content').summernote({
                 placeholder: 'Enter Content',
-                height: 300,                 // set editor height
+                height: 305,                 // set editor height
                 minHeight: null,             // set minimum height of editor
                 maxHeight: null,             // set maximum height of editor
                 focus: false                  // set focus to editable area after initializing summernote
@@ -183,7 +195,7 @@
         });
 
         // validation
-        $('#form-blog').validate({
+        $('#form-post').validate({
             rules: {
                 title: {
                     required: true,
@@ -192,6 +204,9 @@
                     required: true,
                 },
                 description: {
+                    required: true,
+                },
+                slug: {
                     required: true,
                 }
             },
@@ -204,12 +219,15 @@
                 },
                 description: {
                     required: "Vui lòng nhập mô tả bài viết"
+                },
+                slug: {
+                    required: "Vui lòng không để trống slug",
                 }
             },
             errorElement: 'span',
             errorPlacement: function (error, element) {
                 error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
+                element.closest('.form-group mb-3').append(error);
             },
             highlight: function (element, errorClass, validClass) {
                 $(element).addClass('is-invalid');
@@ -219,54 +237,60 @@
             }
         });
 
-        const titleEl = document.getElementById("title")
-        let contentEl = document.getElementById("content")
-        const statusEl = document.getElementById("status")
-        const descriptionEl = document.getElementById("description")
         const btnUpdate = document.getElementById("btn-update")
         const btnDelete = document.getElementById("btn-delete")
 
         btnUpdate.addEventListener("click", async (e) => {
             e.preventDefault()
 
-            if (!$('#form-blog').valid()){
+            if (!$('#form-post').valid()){
                 return;
             }
 
             const data = {
-                title: titleEl.value,
-                content: contentEl.value,
-                description: descriptionEl.value,
-                status : statusEl.value === "1"
+                title: $('#title').val(),
+                content: $('#content').val(),
+                description: $('#description').val(),
+                type: $('#type').val(),
+                slug: $('#slug').val(),
+                thumbnail: $('#thumbnail').attr('src') || '',
+                status: parseInt($('#status').val(), 10) === 1,
             }
 
             try {
-                const res = await axios.put(`/api/admin/blogs/${blog.id}`, data);
-                toastr.success("Cập nhật blog thành công")
-                setTimeout(() => {
-                    window.location.href = "/admin/blogs/own-blogs";
-                }, 1000)
+                const res = await axios.put(`/admin/api/v1/post/${post.id}`, data);
+                toastShow("Cập nhật bài viết thành công", "success",)
             } catch (error) {
                 console.log(error)
-                toastr.error(error.response.data.message)
+                toastShow(error.response.data.message, "error")
             }
         })
 
         btnDelete.addEventListener("click", async (e) => {
-            const confirm = window.confirm("Bạn có chắc muốn xóa không?")
+            const confirm = window.confirm("Bạn có chắc muốn xóa bài viết không?")
             if (!confirm)
                 return;
             try {
-                const res = await await axios.delete(`/api/admin/blogs/${blog.id}`)
-                console.log(res)
-                toastr.success("Xóa blog thành công ")
+                const res = await axios.delete(`/admin/api/v1/post/${post.id}`)
+                toastShow(res.data, "success")
                 setTimeout(() => {
-                    window.location.href = "/admin/blogs/own-blogs";
+                    window.location.href = "/admin/post";
                 }, 1000)
             } catch (error) {
                 console.log(error)
-                toastr.error(error.data.message)
+                toastShow(error.data.message, "error")
             }
+        })
+
+        const btnUploadThumbnail = document.getElementById("input-thumbnail");
+        const posterEl = document.getElementById("thumbnail");
+        btnUploadThumbnail.addEventListener("change", async (e) => {
+            const files = e.target.files
+
+            const formData = new FormData()
+            formData.append("file", files[0])
+
+            await uploadFile(formData, posterEl)
         })
 
     </script>

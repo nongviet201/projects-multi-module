@@ -7,13 +7,11 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-@ToString
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Builder
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "posts")
 public class Post {
     @Id
@@ -28,10 +26,11 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String description;
     private String thumbnail;
-    private boolean status;
     @Enumerated(EnumType.STRING)
     private PostType type;
     private Integer view;
+
+    private boolean status;
 
     private LocalDate publishedAt;
     private LocalDate createdAt;

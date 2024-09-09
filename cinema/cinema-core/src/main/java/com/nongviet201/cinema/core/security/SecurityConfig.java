@@ -51,8 +51,13 @@ public class SecurityConfig {
             "/user"
         };
 
+        String[] admin = {
+          "/admin"
+        };
+
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers(web).authenticated();
+            auth.requestMatchers(web).hasRole("ADMIN");
             auth.anyRequest().permitAll();
         });
 
@@ -64,6 +69,7 @@ public class SecurityConfig {
             logout.clearAuthentication(true);
             logout.permitAll();
         });
+
 
         // Cấu hình xác thực
         http.authenticationProvider(authenticationProvider());

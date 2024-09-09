@@ -2,7 +2,6 @@ package com.nongviet201.cinema.admin.sdk.rest;
 
 import com.nongviet201.cinema.admin.sdk.request.UpsertAuditoriumRequest;
 import com.nongviet201.cinema.admin.sdk.service.AdminAuditoriumService;
-import com.nongviet201.cinema.admin.sdk.service.AdminCinemaService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
