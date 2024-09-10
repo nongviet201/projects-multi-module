@@ -22,7 +22,7 @@ public class MovieSchedule {
     private LocalDate endAt;
 
     @Enumerated(EnumType.STRING)
-    private MovieScheduleStatus movieScheduleStatus;
+    private MovieScheduleStatus status;
 
     private LocalDate createdAt;
     private LocalDate updatedAt;

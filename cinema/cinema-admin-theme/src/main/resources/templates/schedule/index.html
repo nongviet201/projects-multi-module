@@ -37,27 +37,28 @@
             <div class="container-fluid">
                 <div class="row py-2">
                     <div class="col-12">
-                        <a href="/admin/post/create">
-                            <button type="button" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Tạo mới
+                        <button type="button" class="btn btn-primary" id="btn-create" data-bs-toggle="modal" data-bs-target="#createSchedule">
+                            <i class="fas fa-plus"></i> Tạo mới
+                        </button>
+                        <a href="/admin/schedule">
+                            <button type="button" id="btn-refresh" class="btn btn-info">
+                                <i class="fas fa-redo"></i> Refresh
                             </button>
                         </a>
-                        <button type="button" id="btn-refresh" class="btn btn-info">
-                            <i class="fas fa-redo"></i> Refresh
-                        </button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <table class="table table-responsive table-striped" id="table-post">
+                                <table class="table table-responsive table-striped" id="table-schedule">
                                     <thead>
                                     <tr>
                                         <th class="text-center" style="width: 40%">Tên phim</th>
                                         <th class="text-center">Lịch chiếu</th>
                                         <th class="text-center">Trạng thái</th>
-                                        <th class="text-center">Ngày cập nhật</th>
+                                        <th class="text-center">Ngày tạo</th>
+                                        <th class="text-center">Thao tác</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -70,60 +71,263 @@
                 </div>
             </div>
         </section>
+
+        <!-- modal -->
+        <div class="modal fade" id="createSchedule" tabindex="-1" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <strong class="fs-20px modal-title">Tạo lịch chiếu phim mới</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body m-3">
+                        <form id="form-schedule">
+                            <div class="form-group mb-3">
+                                <label for="schedule-movie">Phim khả dụng</label>
+                                <select class="form-control" name="movie" id="schedule-movie">
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="schedule-startDate">Ngày bắt đầu</label>
+                                <input class="form-control" name="startDate" id="schedule-startDate" type="date"/>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="schedule-endDate">Ngày kết thúc</label>
+                                <input class="form-control" name="endDate" id="schedule-endDate" type="date"/>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="schedule-status">Trạng thái</label>
+                                <select class="form-control" name="status" id="schedule-status">
+                                    <option th:each="s : ${status}" th:text="${s}" th:value="${s}"></option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="button" id="btn-create-schedule" class="btn btn-primary">Tạo mới</button>
+                        <button type="button" id="btn-edit-schedule" class="btn d-none btn-success">Cập nhật</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 <th:block id="js">
+    <!-- Validation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"
+            integrity="sha512-WMEKGZ7L5LWgaPeJtw9MBM4i5w5OSBlSjTjCtSnvFJGSVD26gE5+Td12qN5pvWXhuWaWcVwF++F7aqu9cvqP0A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/additional-methods.min.js"
+            integrity="sha512-TiQST7x/0aMjgVTcep29gi+q5Lk5gVTUPE9XgN0g96rwtjEjLpod4mlBRKWHeBcvGBAEvJBmfDqh2hfMMmg+5A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
-        $('#table-post').DataTable({
-            "paging": true,
-            "lengthChange": true,
-            "lengthMenu": [10, 25, 50, 100],
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-            "language" : languageTable,
-        });
 
-        window.addEventListener('load',async  function() {
-            await getData()
-        });
+        let scheduleData = {};
 
-
-        $('#index-post-select').change(async function () {
+        window.addEventListener('load',async function() {
             await getData()
         });
 
         async function getData () {
+            if ($.fn.DataTable.isDataTable('#table-schedule')) {
+                $('#table-schedule').DataTable().clear().destroy();
+            }
+
             try {
+                const res = await axios.get(`/admin/api/v1/schedule/getAll`);
+                scheduleData = res.data;
                 insertDateTable(res.data);
+
+                $('#table-schedule').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "lengthMenu": [10, 25, 50, 100],
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                    "language" : languageTable,
+                });
+
             } catch (e) {
-                console.error('Error:', e);
+                console.log(e);
                 toastShow("Có lỗi sảy ra khi thực hiện thao tác", "error")
             }
         }
 
-        function insertDateTable(posts) {
-            const tbody = document.getElementById('table-post').getElementsByTagName('tbody')[0];
+        function insertDateTable(schedules) {
+            const tbody = document.getElementById('table-schedule').getElementsByTagName('tbody')[0];
+            tbody.innerHTML = '';
 
-            let html = '';
+            if (schedules.length !== 0) {
+                let html = '';
+                schedules.forEach(data => {
+                    html += `
+                                <tr>
+                                    <td class="text-start">
+                                        <a>${data.movie.name}</a>
+                                    </td>
+                                    <td class="text-center">${data.startAt} - ${data.endAt}</td>
+                                    <td class="text-center">${data.status}</td>
+                                    <td class="text-center">${data.createdAt}</td>
+                                    <td class="table-action d-flex justify-content-center align-items-center">
+                                        <a class="me-1" onclick="editSchedule(${data.id})" data-aud-id="13">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
+                                        <a onclick="deleteSchedule(${data.id})"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
+                                    </td>
+                                </tr>
+                            `;
+                });
 
-            posts.forEach(post => {
-                html += `
-            <tr>
-                <td class="text-start">
-                    <a href="/admin/post/${post.id}">${post.title}</a>
-                </td>
-                <td class="text-center">${post.type}</td>
-                <td class="text-center">${post.view}</td>
-                <td class="text-center">${post.status ? 'Công khai' : 'Nháp'}</td>
-            </tr>
-        `;
-            });
+                tbody.innerHTML = html;
+            }
 
-            tbody.innerHTML = html;
         }
+
+        async function deleteSchedule(scheduleId) {
+            const id = parseInt(scheduleId, 10);
+            try {
+                await axios.delete(`/admin/api/v1/schedule/${id}`);
+                toastShow("Xóa lịch chiếu thành công", "success");
+                getData().then(r => {});
+            } catch (error) {
+                console.log(error)
+                toastShow(error.response.data.message, "error")
+            }
+        }
+    </script>
+
+    <script>
+        function editSchedule(idSchedule) {
+            const id = parseInt(idSchedule, 10);
+
+            const schedule = scheduleData.find(e => e.id === id);
+
+            $('#schedule-movie').html(`<option value="${schedule.movie.id}">${schedule.movie.name}</option>`);
+
+            $('#schedule-startDate').val(schedule.startAt.split('T')[0]);
+            $('#schedule-endDate').val(schedule.endAt.split('T')[0]);
+            $('#schedule-status').val(schedule.status);
+
+            $('#btn-create-schedule').addClass('d-none');
+            $('#btn-edit-schedule').removeClass('d-none').val(id);
+
+            $('#createSchedule').modal('show');
+        }
+
+        $('#btn-edit-schedule').click(async function (e) {
+            e.preventDefault();
+
+            if (!$('#form-schedule').valid()) {
+                return;
+            }
+
+            const id = parseInt($(this).val(), 10);
+
+            const data = {
+                movieId: parseInt($('#schedule-movie').val(), 10),
+                startDate: $('#schedule-startDate').val(),
+                endDate: $('#schedule-endDate').val(),
+                status: $('#schedule-status').val(),
+            };
+
+            try {
+                await axios.put(`/admin/api/v1/schedule/${id}`, data);
+                toastShow("Cập nhật thông tin lịch chiếu thành công", "success");
+                getData().then(() => {
+                    $('#createSchedule').modal('hide');
+                });
+            } catch (error) {
+                console.log(error);
+                toastShow("Có lỗi xảy ra khi thực hiện thay đổi", "error");
+            }
+        });
+
+        $('#btn-create').click(async function (e) {
+
+            $('#schedule-startDate').val('');
+            $('#schedule-endDate').val('');
+
+            try {
+                const response = await axios.get(`/admin/api/v1/schedule/getMovieAvailable`);
+                let html = '';
+                if (response.data && response.data.length > 0) {
+                    response.data.forEach(movie => {
+                        html += `<option value="${movie.id}">${movie.name}</option>`;
+                    });
+                } else {
+                    html = '<option>Không có phim khả dụng để tạo lịch chiếu</option>';
+                }
+                $('#schedule-movie').html(html);
+            } catch (error) {
+                console.log(error);
+                toastShow("Có lỗi xảy ra khi lấy danh sách phim khả dụng", "error");
+            }
+        });
+
+        $('#btn-create-schedule').click(async function (e) {
+            e.preventDefault()
+
+            $('#btn-create-schedule').removeClass('d-none');
+            $('#btn-edit-schedule').addClass('d-none');
+
+            if (!$('#form-schedule').valid()){
+                return;
+            }
+
+            const data = {
+                movieId: parseInt($('#schedule-movie').val(), 10),
+                startDate: $('#schedule-startDate').val(),
+                endDate: $('#schedule-endDate').val(),
+                status: $('#schedule-status').val(),
+            }
+
+            try {
+                let res = await axios.post("/admin/api/v1/schedule/create", data);
+                toastShow("Tạo lịch chiếu thành công", "success");
+                getData().then(r => {
+                    $('#createSchedule').modal('hide');
+                });
+
+            } catch (error) {
+                console.log(error)
+                toastShow(error.response.data.message, "error")
+            }
+        });
+
+        $('#form-schedule').validate({
+            rules: {
+                startDate: {
+                    required: true,
+                },
+                endDate: {
+                    required: true,
+                },
+            },
+            messages: {
+                startDate: {
+                    required: "Vui lòng chọn ngày bắt đầu"
+                },
+                endDate: {
+                    required: "Vui lòng chọn ngày kết thúc"
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group mb-3').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
     </script>
 </th:block>
 
