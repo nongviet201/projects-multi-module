@@ -1,6 +1,7 @@
 package com.nongviet201.cinema.core.entity.cinema;
 
 import com.nongviet201.cinema.core.entity.movie.Movie;
+import com.nongviet201.cinema.core.entity.movie.MovieSchedule;
 import com.nongviet201.cinema.core.model.enums.cinema.AuditoriumType;
 import com.nongviet201.cinema.core.model.enums.movie.GraphicsType;
 import com.nongviet201.cinema.core.model.enums.showtime.ScreeningTimeType;
@@ -36,9 +37,11 @@ public class Showtime {
     private LocalTime startTime;
     private LocalTime endTime;
 
+    private boolean deleted;
+
     @ManyToOne
-    @JoinColumn(name = "movies_id")
-    private Movie movie;
+    @JoinColumn(name = "movie_schedule_id")
+    private MovieSchedule movieSchedule;
 
     @ManyToOne
     @JoinColumn(name= "auditorium_id")

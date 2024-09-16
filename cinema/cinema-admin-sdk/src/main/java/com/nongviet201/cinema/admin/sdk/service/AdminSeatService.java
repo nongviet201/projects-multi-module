@@ -82,7 +82,6 @@ public class AdminSeatService {
 
                 // Kiểm tra nếu startColumn bằng 0
                 if (e.getStartColumn() == 0) {
-                    e.setStartColumn(1); // Chuyển startColumn thành 1
 
                     // Tăng giá trị seatColumn của tất cả ghế có seatColumn >= 1 lên 1
                     for (Seat seat : currentRowSeats) {

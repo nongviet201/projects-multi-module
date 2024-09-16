@@ -1,28 +1,17 @@
 package com.nongviet201.cinema.admin.sdk.request;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import lombok.Value;
 
 public class UpsertAuditoriumRequest {
 
-    @ToString
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @Value
     public static class AudUpdate {
         String name;
         String type;
         boolean enabled;
     }
 
-    @ToString
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @Value
     public static class AudCreate {
         Integer cinemaId;
         String name;

@@ -24,7 +24,7 @@
                                 <a href="/admin">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="/admin/showtime">Danh sách suất chiếu</a>
+                                <a href="/admin/showtime">Quản lý suất chiếu</a>
                             </li>
                         </ol>
                     </div>
@@ -37,25 +37,170 @@
             <div class="container-fluid">
                 <div class="row py-2">
                     <div class="col-12">
-                        <button type="button" class="btn btn-primary">
+                        <button class="btn btn-primary" data-bs-target="#create-showtime" data-bs-toggle="modal"
+                                type="button">
                             <i class="fas fa-plus"></i> Tạo mới
                         </button>
                         <button type="button" id="btn-refresh" class="btn btn-info">
                             <i class="fas fa-redo"></i> Refresh
                         </button>
                     </div>
+                    <div aria-hidden="true" class="modal fade" id="create-showtime" style="display: none;"
+                         tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <strong class="fs-20px modal-title">Tạo Suất Chiếu</strong>
+                                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                            type="button"></button>
+                                </div>
+                                <div class="modal-body m-3">
+                                    <div>
+                                        <span class="text-danger" id="error">  </span>
+                                    </div>
+                                    <form id="form-create-showtime">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-600" for="create-showtime-cinema">Chọn Rạp</label>
+                                                    <select class="form-control mt-1" id="create-showtime-cinema"
+                                                            name="cinema">
+                                                        <option value="0">Chọn rạp trong danh sách</option>
+                                                        <option th:each="c : ${cinema}" th:value="${c.id}">
+                                                            [[${c.name}]]
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-600" for="create-showtime-date">Chọn Ngày
+                                                        chiếu</label>
+                                                    <input class="form-control mt-1 flatpickr-minimum flatpickr-input"
+                                                           id="create-showtime-date"
+                                                           name="showtime-date"
+                                                           placeholder="Chọn ngày" readonly="readonly" style="height: 32px;
+                                                            width: 100%;" type="text">
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-600" for="create-showtime-movie-schedule">Chọn
+                                                        Phim</label>
+                                                    <select class="form-control mt-1"
+                                                            id="create-showtime-movie-schedule" name="movie"></select>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-600" for="create-showtime-aud">Chọn Phòng</label>
+                                                    <select class="form-control mt-1" id="create-showtime-aud"
+                                                            name="aud"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group d-flex mb-3">
+                                                    <div class="me-1">
+                                                        <label class="fw-600" for="create-showtime-startTime">Giờ Bắt
+                                                            đầu</label>
+                                                        <input class="form-control mt-1 flatpickr-time flatpickr-input"
+                                                               id="create-showtime-startTime"
+                                                               name="startTime"
+                                                               placeholder="Chọn giờ" readonly="readonly" style="height: 32px;
+                                                            width: 100%;" type="text">
+                                                    </div>
+                                                    <div class="ms-1">
+                                                        <label class="fw-600" for="create-showtime-endTime">Giờ Kết
+                                                            Thúc</label>
+                                                        <input class="form-control mt-1 flatpickr-time flatpickr-input"
+                                                               id="create-showtime-endTime"
+                                                               name="endTime"
+                                                               placeholder="Chọn giờ" readonly="readonly" style="height: 32px;
+                                                            width: 100%;" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-600" for="create-showtime-screeningTimeType">Loại
+                                                        Suất Chiếu</label>
+                                                    <select class="form-control mt-1"
+                                                            id="create-showtime-screeningTimeType"
+                                                            name="screeningTimeType">
+                                                        <option value="">Chọn loại suất chiếu</option>
+                                                        <option class="enum" style="display: none"
+                                                                th:each="enum : ${screeningTimeTypes}"
+                                                                th:value="${enum}">[[${enum}]]
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-600" for="create-showtime-graphicsType">Loại Đồ
+                                                        Họa</label>
+                                                    <select class="form-control mt-1" id="create-showtime-graphicsType"
+                                                            name="graphicsType">
+                                                        <option value="">Chọn loại đồ họa</option>
+                                                        <option class="enum" style="display: none"
+                                                                th:each="enum : ${graphicTypes}" th:value="${enum}">
+                                                            [[${enum}]]
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label class="fw-600" for="create-showtime-translationType">Hình
+                                                        Thức Dịch</label>
+                                                    <select class="form-control mt-1"
+                                                            id="create-showtime-translationType" name="translationType">
+                                                        <option value="">Chọn loại hình thức dịch</option>
+                                                        <option class="enum"
+                                                                th:each="enum : ${translationTypes}" th:value="${enum}">
+                                                            [[${enum}]]
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Đóng
+                                    </button>
+                                    <button class="btn btn-primary" id="btn-create" type="button">Tạo Mới</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <table class="table table-responsive table-striped" id="table-post">
+                                <div class="card-header d-flex justify-content-between px-0">
+                                    <div class="d-flex align-items-center ">
+                                        <span class="card-title mb-0 me-3">Danh sách suất chiếu </span>
+                                        <input class="form-control text-center flatpickr-range flatpickr-input ms-2"
+                                               id="showtime-data-date"
+                                               name="showtime-data-date"
+                                               placeholder="Chọn ngày" readonly="readonly" style="height: 32px;
+                                           width: 200px;" type="text">
+                                        <select class="form-select form-select-sm w-auto ms-2" id="showtime-data-cinema"
+                                                name="showtime-data-cinema" style="height: 32px;
+                                           width: 200px !important;;">
+                                            <option>Tất cả rạp</option>
+                                            <option th:each="c : ${cinema}" th:value="${c.id}">[[${c.name}]]</option>
+                                        </select>
+                                        <select class="form-select form-select-sm w-auto ms-2" id="showtime-data-movie"
+                                                name="showtime-data-movie" style="height: 32px;
+                                            width: 200px !important;">
+                                        </select>
+                                        <button class="btn btn-success ms-2 ml-2" id="filler-data" type="button">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <table class="table table-responsive table-striped" id="table-showtime">
                                     <thead>
                                     <tr>
-                                        <th class="text-center" style="width: 40%">Tên phim</th>
-                                        <th class="text-center">Lịch chiếu</th>
-                                        <th class="text-center">Trạng thái</th>
-                                        <th class="text-center">Ngày cập nhật</th>
+                                        <th class="text-center" style="width: 20%"> Tên Rạp</th>
+                                        <th class="text-center" style="width: 20%"> Tên Phim</th>
+                                        <th class="text-center"> Phòng Chiếu</th>
+                                        <th class="text-center"> Loại Phòng</th>
+                                        <th class="text-center"> Ngày chiếu</th>
+                                        <th class="text-center"> thời gian chiếu</th>
+                                        <th class="text-center"> Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -67,60 +212,360 @@
                     </div>
                 </div>
             </div>
+
         </section>
     </div>
 </div>
+
 <th:block id="js">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.min.js"></script>
     <script>
-        $('#table-post').DataTable({
-            "paging": true,
-            "lengthChange": true,
-            "lengthMenu": [10, 25, 50, 100],
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-            "language" : languageTable,
+        flatpickr(".flatpickr-range", {
+            mode: "range",
+            locale: "vn",
+            dateFormat: "d/m/Y",
+            prevArrow: "<span title=\"Tháng trước\">&laquo;</span>",
+            nextArrow: "<span title=\"Tháng sau\">&raquo;</span>",
+            defaultDate: Date.now()
+        });
+        const createShowtimeScheduleEl = flatpickr(".flatpickr-minimum", {
+            locale: "vn",
+            dateFormat: "d/m/Y",
+            enableTime: false,
+            prevArrow: "<span title=\"Tháng trước\">&laquo;</span>",
+            nextArrow: "<span title=\"Tháng sau\">&raquo;</span>",
+            defaultDate: Date.now(),
+            onChange: async function (selectedDates, dateStr, instance) {
+                await getMovieScheduleNonExpiredByDate();
+            },
+        });
+        const createShowtimeEndTimeEl = flatpickr("#create-showtime-endTime", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            onChange: (selectedDates, dateStr, instance) => {
+                if (endTime !== null) {
+                    if (parseTimeString(dateStr) < parseTimeString(endTime)) {
+                        toastShow("Thời gian kết thúc phải sau " + endTime, 'error')
+                    }
+                }
+            },
+        });
+        const createShowtimeStartTimeEl = flatpickr("#create-showtime-startTime", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            onChange: (selectedDates, dateStr, instance) => {
+                startTimeSelect()
+            },
         });
 
-        window.addEventListener('load',async  function() {
-            await getData()
+    </script>
+    <script>
+        let currentMovieSchedule;
+        let auditoriumData;
+        let movieScheduleData = {};
+        let movieScheduleNonExpired = {};
+        let screeningDate;
+        let endTime;
+
+        window.addEventListener('load', function () {
+            getData();
+            formatEnumText();
+            getMovieScheduleNonExpiredByDate();
+
         });
 
-
-        $('#index-post-select').change(async function () {
-            await getData()
+        $('#btn-refresh').on('click', function () {
+            getData();
         });
 
-        async function getData () {
+        $('#filler-data').on('click', function () {
+            getData();
+        })
+
+        $('#create-showtime-cinema').on('change', function () {
+            getAuditorium(this.value);
+        })
+
+        $('#create-showtime-aud').on('change', function () {
+            checkAudType();
+        });
+
+        $('#create-showtime-movie-schedule').on('change', function () {
+            getCurrentMovie(this.value);
+            checkScreeningTimeType();
+            startTimeSelect();
+        })
+
+        $('#btn-create').on('click', function () {
+            createShowtime();
+        });
+
+        $('#create-showtime').on('hidden.bs.modal', function () {
+            $('form-create-showtime').trigger('reset');
+        });
+
+    </script>
+    <script>
+        function getValue() {
+            const cleanedData = $('#showtime-data-date').val().trim().toLowerCase();
+
+            const separator = ' đến ';
+            const hasRange = cleanedData.includes(separator);
+
+
+            if (hasRange) {
+                // Tách chuỗi dựa trên từ khóa "đến"
+                const parts = cleanedData.split(separator);
+                return {
+                    formDate: parts[0].trim(),
+                    toDate: parts[1].trim(),
+                    cinemaId: parseInt($('#showtime-data-cinema').val(), 10),
+                    movieId: parseInt($('#showtime-data-movie').val(), 10)
+                }
+            }
+            return {
+                formDate: cleanedData,
+                toDate: "",
+                cinemaId: parseInt($('#showtime-data-cinema').val(), 10),
+                movieId: parseInt($('#showtime-data-movie').val(), 10)
+            }
+        }
+
+        function getCurrentMovie(id) {
+            currentMovieSchedule = movieScheduleNonExpired.find(e => e.id.toString() === id.toString());
+        }
+
+        function insertDateTable(data) {
+            const tbody = document.getElementById('table-showtime').getElementsByTagName('tbody')[0];
+            let html = '';
+
+            if (data.length > 0) {
+                data.forEach(e => {
+                    html += `
+                                <tr>
+                                    <td class="text-start">${e.auditorium.cinema.name}</td>
+                                    <td class="text-center">${e.movieSchedule.movie.name}</td>
+                                    <td class="text-center">${e.auditorium.name}</td>
+                                    <td class="text-center">${e.auditoriumType}</td>
+                                    <td class="text-center">${e.screeningDate}</td>
+                                    <td class="text-center">${e.startTime} - ${e.endTime}</td>
+                                    <td class="table-action d-flex justify-content-center align-items-center">
+                                        <a class="me-1" onclick="editShowtime(${e.id})" data-aud-id="13">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
+                                        <a onclick="deleteShowtime(${e.id})"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
+                                    </td>
+                               </tr>
+                            `;
+                });
+                tbody.innerHTML = html;
+            } else {
+                tbody.innerHTML = ``;
+            }
+        }
+
+        function selectMovieElUpdate(data, elName) {
+            $(elName).empty();
+
+            if (data.length > 0) {
+                if (elName === '#showtime-data-movie') {
+                    $(elName).append(`<option value="">Tất cả phim</option>`);
+                }
+                data.forEach(e => {
+                    $(elName).append(`<option value="${e.id}">${e.movie.name}</option>`);
+                });
+            } else {
+                $(elName).append(`<option>Không có lịch chiếu phim nào dựa trên ngày bạn chọn</option>`);
+            }
+        }
+
+        function checkScreeningTimeType() {
+            const screeningTypeSelect = $('#create-showtime-screeningTimeType');
+
+            const [day, month, year] = createShowtimeScheduleEl.input.value.split('/').map(Number);
+            const date = new Date(year, month - 1, day);
+
+            const startAtDate = new Date(currentMovieSchedule.startAt);
+
+            const isScheduled = new Date(startAtDate.getFullYear(), startAtDate.getMonth(), startAtDate.getDate()) <=
+                new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+            screeningTypeSelect.find('option[value="SUẤT_CHIẾU_THEO_LỊCH"]').toggle(isScheduled);
+            screeningTypeSelect.find('option[value="SUẤT_CHIẾU_SỚM"]').toggle(!isScheduled);
+
+            screeningTypeSelect.val(isScheduled ? "SUẤT_CHIẾU_THEO_LỊCH" : "SUẤT_CHIẾU_SỚM").change();
+        }
+
+        function checkAudType() {
+            const currentAud = auditoriumData.find(e => e.id.toString() === $('#create-showtime-aud').val().toString());
+
+            if (currentAud && currentAud.auditoriumType.includes("_3D")) {
+                $('#create-showtime-graphicsType option[value="_3D"]').show();
+                $('#create-showtime-graphicsType option[value="_2D"]').show();
+                $('#create-showtime-graphicsType').val("_3D").change();
+            } else {
+                $('#create-showtime-graphicsType option[value="_3D"]').hide();
+                $('#create-showtime-graphicsType').val("_2D").change();
+            }
+        }
+
+        function translationTypeCheck() {
+            if (!currentMovieSchedule) {
+                return
+            }
+
+            const translation = currentMovieSchedule.movie.translationTypes
+
+            translation.forEach(e => {
+                $('#create-showtime-translationType option[value=e]').show();
+                $('#create-showtime-translationType').val(e).change();
+            })
+
+        }
+
+        async function deleteShowtime(id) {
             try {
-                insertDateTable(res.data);
+                await axios.delete(`/admin/api/v1/showtime/delete/${id}`);
+                toastShow("Xóa suất chiếu thành công", "success")
             } catch (e) {
                 console.error('Error:', e);
                 toastShow("Có lỗi sảy ra khi thực hiện thao tác", "error")
             }
         }
 
-        function insertDateTable(posts) {
-            const tbody = document.getElementById('table-post').getElementsByTagName('tbody')[0];
+        async function getData() {
+            const data = getValue();
 
-            let html = '';
+            if ($.fn.DataTable.isDataTable('#table-showtime')) {
+                $('#table-showtime').DataTable().clear().destroy();
+            }
 
-            posts.forEach(post => {
-                html += `
-            <tr>
-                <td class="text-start">
-                    <a href="/admin/post/${post.id}">${post.title}</a>
-                </td>
-                <td class="text-center">${post.type}</td>
-                <td class="text-center">${post.view}</td>
-                <td class="text-center">${post.status ? 'Công khai' : 'Nháp'}</td>
-            </tr>
-        `;
-            });
+            try {
+                const res = await axios.post(`/admin/api/v1/showtime/getData`, data);
+                const movie = await getMovieSchedule(data);
 
-            tbody.innerHTML = html;
+                insertDateTable(res.data);
+                selectMovieElUpdate(movie, '#showtime-data-movie');
+
+                $('#table-showtime').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "lengthMenu": [10, 25, 50, 75, 100],
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                    "language": languageTable,
+                });
+            } catch (e) {
+                console.error('Error:', e);
+                toastShow("Có lỗi sảy ra khi thực hiện thao tác", "error")
+            }
+        }
+
+        async function getMovieSchedule(data) {
+            try {
+                const res = await axios.post(`/admin/api/v1/schedule/getMovieScheduleByDate`, data);
+                movieScheduleData = {};
+                movieScheduleData = res.data;
+                return movieScheduleData;
+            } catch (e) {
+                console.error('Error:', e);
+                toastShow("có lỗi sảy ra", "error")
+            }
+        }
+
+        async function getAuditorium(id) {
+            if (id === undefined) {
+                $('#create-showtime-aud').empty();
+                return;
+            }
+
+            try {
+                const res = await axios.get(`/admin/api/v1/aud/getByCinemaId/${id}`);
+                auditoriumData = res.data;
+
+                $('#create-showtime-aud').empty();
+                res.data.forEach(e => {
+                    $('#create-showtime-aud').append(`<option value="${e.id}">${e.name} : ${e.auditoriumType}</option>`);
+                });
+
+                checkAudType();
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        async function getMovieScheduleNonExpiredByDate() {
+            try {
+                const res = await axios.get(`/admin/api/v1/schedule/getMovieScheduleNonExpiredByDate?date=${createShowtimeScheduleEl.input.value}`);
+                screeningDate = createShowtimeScheduleEl.input.value;
+                currentMovieSchedule = res.data[0];
+                movieScheduleNonExpired = {};
+                movieScheduleNonExpired = res.data;
+                selectMovieElUpdate(res.data, '#create-showtime-movie-schedule');
+                checkScreeningTimeType();
+                translationTypeCheck();
+            } catch (e) {
+                console.error('Error:', e);
+                toastShow("có lỗi sảy ra", "error")
+            }
+        }
+
+        async function createShowtime() {
+
+            getEndTime();
+            const data = getCreateData();
+
+            try {
+                await axios.post(`/admin/api/v1/showtime/create`, data);
+                toastShow("Thêm lịch chiếu thành công", "success");
+                await getData();
+                $('#create-showtime').modal('hide');
+            } catch (e) {
+                console.error('Error:', e);
+                $('#error').html = `${e.data.message}`
+            }
+        }
+
+        function getCreateData() {
+            return {
+                auditoriumId: $('#create-showtime-aud').val(),
+                movieScheduleId: $('#create-showtime-movie-schedule').val(),
+                screeningDate: screeningDate,
+                startTime: createShowtimeStartTimeEl.input.value,
+                endTime: createShowtimeEndTimeEl.input.value,
+                screeningTimeType: $('#create-showtime-screeningTimeType').val(),
+                graphicsType: $('#create-showtime-graphicsType').val(),
+                translationType: $('#create-showtime-translationType').val(),
+            }
+        }
+
+        async function startTimeSelect() {
+            if (!createShowtimeStartTimeEl.input.value) {
+                return;
+            }
+
+            getEndTime();
+            const data = getCreateData();
+
+            try {
+                const res = await axios.post(`/admin/api/v1/showtime/checkDataCreate`, data);
+                console.log(res)
+            } catch (e) {
+                console.error('Error:', e);
+                $('#error').html = e.data.message;
+            }
+        }
+
+        function getEndTime() {
+            const startTime = createShowtimeStartTimeEl.input.value;
+            const [h, m] = startTime.split(':').map(Number);
+            const endTime = new Date(new Date().setHours(h, m + currentMovieSchedule.movie.duration, 0));
+            createShowtimeEndTimeEl.setDate(endTime.getHours() + ':' + (endTime.getMinutes() < 10 ? '0' : '') + endTime.getMinutes())
         }
     </script>
 </th:block>

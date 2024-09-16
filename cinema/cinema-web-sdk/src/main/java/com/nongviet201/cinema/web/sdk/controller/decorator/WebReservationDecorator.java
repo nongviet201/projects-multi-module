@@ -2,6 +2,7 @@ package com.nongviet201.cinema.web.sdk.controller.decorator;
 
 import com.nongviet201.cinema.core.entity.bill.Reservation;
 import com.nongviet201.cinema.core.service.UserService;
+import com.nongviet201.cinema.core.utils.WebFormatter;
 import com.nongviet201.cinema.web.sdk.converter.WebReservationToResponseConverter;
 import com.nongviet201.cinema.web.sdk.response.WebReservationResponse;
 import lombok.AllArgsConstructor;

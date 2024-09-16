@@ -2,9 +2,12 @@ package com.nongviet201.cinema.admin.sdk.rest;
 
 import com.nongviet201.cinema.admin.sdk.request.UpsertMovieScheduleRequest;
 import com.nongviet201.cinema.admin.sdk.service.AdminMovieScheduleService;
+import com.nongviet201.cinema.core.entity.movie.MovieSchedule;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/api/v1/schedule")
@@ -15,7 +18,7 @@ public class MovieScheduleAPI {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(
-       @RequestBody UpsertMovieScheduleRequest request
+       @RequestBody UpsertMovieScheduleRequest.CreateAndUpdate request
     ) {
         adminMovieScheduleService.create(request);
         return ResponseEntity.ok("Created");
@@ -24,7 +27,7 @@ public class MovieScheduleAPI {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(
         @PathVariable Integer id,
-        @RequestBody UpsertMovieScheduleRequest request
+        @RequestBody UpsertMovieScheduleRequest.CreateAndUpdate request
     ) {
         adminMovieScheduleService.update(
             id,
@@ -44,6 +47,24 @@ public class MovieScheduleAPI {
     public ResponseEntity<?> getMovieAvailable() {
         return ResponseEntity.ok(
             adminMovieScheduleService.getAllMoviesAvailable()
+        );
+    }
+
+    @PostMapping("/getMovieScheduleByDate")
+    public ResponseEntity<?> getMovieScheduleByDate(
+        @RequestBody UpsertMovieScheduleRequest.GetMovieScheduleFiller request
+    ) {
+        return ResponseEntity.ok(
+            adminMovieScheduleService.getAllMovieScheduleByDate(request)
+        );
+    }
+
+    @GetMapping("/getMovieScheduleNonExpiredByDate")
+    public ResponseEntity<?> getMovieScheduleByDate(
+        @RequestParam(value = "date") String date
+    ) {
+        return ResponseEntity.ok(
+            adminMovieScheduleService.getMoviesNonExpiredByDate(date)
         );
     }
 

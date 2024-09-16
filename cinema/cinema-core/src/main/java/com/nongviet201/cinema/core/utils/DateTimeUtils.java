@@ -3,10 +3,21 @@ package com.nongviet201.cinema.core.utils;
 import lombok.Getter;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
 public class DateTimeUtils {
+
+    public static LocalDate parseDate(String dateString) {
+        return LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    public static LocalTime parseTime(String timeString) {
+        return LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm"));
+    }
 
     public static DateTimeRange getTimeRange(String time) {
         LocalDateTime endDate;

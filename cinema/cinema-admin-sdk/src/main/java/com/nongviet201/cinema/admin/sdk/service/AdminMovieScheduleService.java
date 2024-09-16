@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.nongviet201.cinema.core.utils.DateTimeUtils.parseDate;
 import static java.time.LocalDate.now;
 
 @Service
@@ -23,7 +24,7 @@ public class AdminMovieScheduleService {
     private final MovieScheduleService movieScheduleService;
 
     public void create(
-        UpsertMovieScheduleRequest request
+        UpsertMovieScheduleRequest.CreateAndUpdate request
     ) {
 
         if (movieScheduleService.findByMovieId(request.getMovieId()) != null) {
@@ -46,7 +47,7 @@ public class AdminMovieScheduleService {
 
     public void update(
         Integer id,
-        UpsertMovieScheduleRequest request
+        UpsertMovieScheduleRequest.CreateAndUpdate request
     ) {
         MovieSchedule movieSchedule = movieScheduleService.findById(id);
 
@@ -86,4 +87,31 @@ public class AdminMovieScheduleService {
             .toList();
     }
 
+    public List<MovieSchedule> getAllMovieScheduleByDate(
+        UpsertMovieScheduleRequest.GetMovieScheduleFiller request
+    ) {
+        if (request.getFormDate().isEmpty()) {
+            return null;
+        }
+
+        if (request.getToDate().isEmpty()) {
+            return movieScheduleService.getMovieScheduleByDate(
+                parseDate(request.getFormDate()),
+                parseDate(request.getFormDate())
+            );
+        }
+
+        return movieScheduleService.getMovieScheduleByDate(
+            parseDate(request.getFormDate()),
+            parseDate(request.getToDate())
+        );
+    }
+
+    public List<MovieSchedule> getMoviesNonExpiredByDate(
+        String date
+    ) {
+        return movieScheduleService.getMovieScheduleOnDateAndNotExpired(
+            parseDate(date)
+        );
+    }
 }

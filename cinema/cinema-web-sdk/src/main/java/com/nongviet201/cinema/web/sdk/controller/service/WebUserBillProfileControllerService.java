@@ -1,10 +1,9 @@
 package com.nongviet201.cinema.web.sdk.controller.service;
 
 import com.nongviet201.cinema.core.entity.bill.Bill;
-import com.nongviet201.cinema.core.entity.bill.Translation;
 import com.nongviet201.cinema.core.service.BillService;
 import com.nongviet201.cinema.core.service.TranslationService;
-import com.nongviet201.cinema.web.sdk.controller.decorator.WebFormatter;
+import com.nongviet201.cinema.core.utils.WebFormatter;
 import com.nongviet201.cinema.web.sdk.controller.decorator.WebUserBillProfileDecorator;
 import com.nongviet201.cinema.web.sdk.response.WebBillDetailResponse;
 import com.nongviet201.cinema.web.sdk.response.WebUserBillProfileResponse;

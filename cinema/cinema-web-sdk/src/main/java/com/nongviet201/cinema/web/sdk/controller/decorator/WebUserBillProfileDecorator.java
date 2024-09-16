@@ -1,13 +1,12 @@
 package com.nongviet201.cinema.web.sdk.controller.decorator;
 
 import com.nongviet201.cinema.core.entity.bill.Bill;
-import com.nongviet201.cinema.core.entity.bill.BillCombo;
-import com.nongviet201.cinema.core.entity.bill.BillSeat;
 import com.nongviet201.cinema.core.entity.bill.Translation;
 import com.nongviet201.cinema.core.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.entity.movie.Movie;
 import com.nongviet201.cinema.core.service.BillComboService;
 import com.nongviet201.cinema.core.service.BillSeatService;
+import com.nongviet201.cinema.core.utils.WebFormatter;
 import com.nongviet201.cinema.web.sdk.converter.WebBillDetailToResponseConverter;
 import com.nongviet201.cinema.web.sdk.converter.WebUserBillProfileToResponseConverter;
 import com.nongviet201.cinema.web.sdk.response.WebBillDetailResponse;
@@ -15,7 +14,6 @@ import com.nongviet201.cinema.web.sdk.response.WebUserBillProfileResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service

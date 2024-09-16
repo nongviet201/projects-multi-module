@@ -1,12 +1,12 @@
 package com.nongviet201.cinema.core.service.impl;
 
-import com.nongviet201.cinema.core.entity.movie.Movie;
 import com.nongviet201.cinema.core.entity.movie.MovieSchedule;
 import com.nongviet201.cinema.core.repository.MovieScheduleRepository;
 import com.nongviet201.cinema.core.service.MovieScheduleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -40,6 +40,26 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
     public MovieSchedule findById(Integer id) {
         return movieScheduleRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Không tìm thấy thông tin lịch chiếu phim có id: " + id));
+    }
+
+    @Override
+    public List<MovieSchedule> getMovieScheduleByDate(
+        LocalDate formDate,
+        LocalDate toDate
+    ) {
+        return movieScheduleRepository.findByStartAtBetweenOrderByStartAtAsc(
+            formDate,
+            toDate
+        );
+    }
+
+    @Override
+    public List<MovieSchedule> getMovieScheduleOnDateAndNotExpired(
+        LocalDate date
+    ) {
+        return movieScheduleRepository.findMovieScheduleNotExpired(
+            date
+        );
     }
 
 }

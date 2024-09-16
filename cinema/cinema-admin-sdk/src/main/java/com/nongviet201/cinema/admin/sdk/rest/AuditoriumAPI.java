@@ -13,6 +13,15 @@ public class AuditoriumAPI {
 
     private final AdminAuditoriumService adminAuditoriumService;
 
+    @GetMapping("/getByCinemaId/{id}")
+    public ResponseEntity<?> getAllAuditoriumByCinemaId(
+        @PathVariable int id
+    ) {
+        return ResponseEntity.ok(
+            adminAuditoriumService.getAllAuditoriumByCinemaId(id)
+        );
+    }
+
     @PostMapping("")
     public ResponseEntity<?> createAud(
         @RequestBody UpsertAuditoriumRequest.AudCreate request

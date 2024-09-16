@@ -56,6 +56,33 @@ async function uploadFile(file, el) {
     }
 }
 
+function formatDate(dateString) {
+    const date = new Date(dateString);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+}
+
+function parseTimeString(timeStr) {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+}
+
+function formatEnumText () {
+    const enumElement = document.querySelectorAll('.enum');
+    if (enumElement) {
+        enumElement.forEach((element) => {
+            const enumText = element.textContent || element.innerText;
+            element.textContent = enumText.replace(/_/g, ' ');
+        });
+    }
+}
+
 function toastShow(message, type) {
     const notyf = new Notyf({
         duration: 3000,

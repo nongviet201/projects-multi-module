@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.web.sdk.controller.decorator;
+package com.nongviet201.cinema.core.utils;
 
 import org.springframework.stereotype.Service;
 

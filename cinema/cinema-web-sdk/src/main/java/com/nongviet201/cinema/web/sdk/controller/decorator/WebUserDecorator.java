@@ -2,14 +2,13 @@ package com.nongviet201.cinema.web.sdk.controller.decorator;
 
 import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.entity.user.UserStatistic;
+import com.nongviet201.cinema.core.utils.WebFormatter;
 import com.nongviet201.cinema.web.sdk.converter.WebUserStatisticToResponseConverter;
 import com.nongviet201.cinema.web.sdk.converter.WebUserToResponseConverter;
 import com.nongviet201.cinema.web.sdk.response.WebUserResponse;
 import com.nongviet201.cinema.web.sdk.response.WebUserStatisticResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.text.DecimalFormat;
 
 @Service
 @AllArgsConstructor

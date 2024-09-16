@@ -7,24 +7,14 @@ import java.util.List;
 
 public class UpsertSeatRequest {
 
-    @ToString
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @Value
     public static class SeatUpdate {
         Integer[] seatIds;
         boolean status;
         String type;
     }
 
-    @ToString
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @Value
     public static class SeatCreate {
         Integer seatId;
         Integer audId;
@@ -34,12 +24,7 @@ public class UpsertSeatRequest {
         Integer positions;
     }
 
-    @ToString
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @Value
     public static class CreateRowAndColumn {
         Integer audId;
         Integer newRow;
