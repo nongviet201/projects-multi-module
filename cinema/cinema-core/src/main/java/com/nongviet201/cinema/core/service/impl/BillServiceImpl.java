@@ -2,7 +2,7 @@ package com.nongviet201.cinema.core.service.impl;
 
 import com.nongviet201.cinema.core.entity.bill.Bill;
 import com.nongviet201.cinema.core.entity.bill.Reservation;
-import com.nongviet201.cinema.core.entity.bill.Translation;
+import com.nongviet201.cinema.core.entity.bill.Transaction;
 import com.nongviet201.cinema.core.entity.cinema.Showtime;
 import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.entity.user.UserStatistic;
@@ -10,7 +10,7 @@ import com.nongviet201.cinema.core.exception.BadRequestException;
 import com.nongviet201.cinema.core.model.enums.bill.BillStatus;
 import com.nongviet201.cinema.core.model.enums.bill.PaymentMethod;
 import com.nongviet201.cinema.core.repository.BillRepository;
-import com.nongviet201.cinema.core.repository.TranslationRepository;
+import com.nongviet201.cinema.core.repository.TransactionRepository;
 import com.nongviet201.cinema.core.request.BillRequestDTO;
 import com.nongviet201.cinema.core.request.ToPaymentRequest;
 import com.nongviet201.cinema.core.service.*;
@@ -31,7 +31,7 @@ public class BillServiceImpl implements BillService {
     private final BillRepository billRepository;
     private final BillSeatService billSeatService;
     private final BillComboService billComboService;
-    private final TranslationRepository translationRepository;
+    private final TransactionRepository transactionRepository;
     private final PaymentService paymentMethodService;
     private final UserStatisticService userStatisticService;
 
@@ -90,7 +90,7 @@ public class BillServiceImpl implements BillService {
             );
         }
 
-        Translation translation = Translation.builder()
+        Transaction transaction = Transaction.builder()
             .status(false)
             .bill(bill)
             .createdAt(now())
@@ -98,7 +98,7 @@ public class BillServiceImpl implements BillService {
             .paymentMethod(PaymentMethod.values()[paymentRequest.getPaymentMethod()-1])
             .cinema(showtime.getAuditorium().getCinema())
             .build();
-        translationRepository.save(translation);
+        transactionRepository.save(transaction);
 
         totalPrice -= (paymentRequest.getPoints() * 1000);
         bill.setTotalPrice(totalPrice);
@@ -114,10 +114,10 @@ public class BillServiceImpl implements BillService {
 
         return paymentMethodService.transitionToPaymentMethod(
             ToPaymentRequest.builder()
-                .translationId(translation.getId())
+                .translationId(transaction.getId())
                 .amount(totalPrice)
                 .timeRemain(timeRemain)
-                .paymentMethod(translation.getPaymentMethod())
+                .paymentMethod(transaction.getPaymentMethod())
                 .build()
         );
     }

@@ -1,16 +1,21 @@
 package com.nongviet201.cinema.core.service;
 
-import com.nongviet201.cinema.core.entity.bill.Translation;
+import com.nongviet201.cinema.core.entity.bill.Transaction;
 import com.nongviet201.cinema.core.payment.vnpay.code.ResponseCodeVNPAY;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TranslationService {
 
-    Translation findTranslationByBillId(Integer id);
+    Transaction findTranslationByBillId(Integer id);
 
-    List<Translation> getAllTranslationByCinemaIdAndTimeAndStatusCode(int id, String time);
+    List<Transaction> getAllTranslationByCinemaIdAndTimeAndStatusCode(int id, String time);
 
-    List<Translation> getAllTranslationByTimeAndStatusAndCode(LocalDateTime startDate, LocalDateTime endDate, boolean b, ResponseCodeVNPAY responseCodeVNPAY);
+    List<Transaction> getAllTranslationByTimeAndStatusAndCode(LocalDateTime startDate, LocalDateTime endDate, boolean b, ResponseCodeVNPAY responseCodeVNPAY);
+
+    List<Transaction> filter(LocalDateTime formDate, LocalDateTime toDate, Integer cinemaId);
+
+    Transaction getTransactionById(Integer id);
 }

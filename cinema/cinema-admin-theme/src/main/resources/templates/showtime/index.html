@@ -194,8 +194,9 @@
                                 <table class="table table-responsive table-striped" id="table-showtime">
                                     <thead>
                                     <tr>
-                                        <th class="text-center" style="width: 20%"> Tên Rạp</th>
-                                        <th class="text-center" style="width: 20%"> Tên Phim</th>
+                                        <th class="text-center"> ID</th>
+                                        <th class="text-center"> Tên Rạp</th>
+                                        <th class="text-center" style="width: 30%"> Tên Phim</th>
                                         <th class="text-center"> Phòng Chiếu</th>
                                         <th class="text-center"> Loại Phòng</th>
                                         <th class="text-center"> Ngày chiếu</th>
@@ -346,13 +347,14 @@
                 data.forEach(e => {
                     html += `
                                 <tr>
-                                    <td class="text-start">${e.auditorium.cinema.name}</td>
+                                    <td class="text-center">${e.id}</td>
+                                    <td class="text-center">${e.auditorium.cinema.name}</td>
                                     <td class="text-center">${e.movieSchedule.movie.name}</td>
                                     <td class="text-center">${e.auditorium.name}</td>
                                     <td class="text-center">${e.auditoriumType}</td>
                                     <td class="text-center">${e.screeningDate}</td>
                                     <td class="text-center">${e.startTime} - ${e.endTime}</td>
-                                    <td class="table-action d-flex justify-content-center align-items-center">
+                                    <td class="">
                                         <a class="me-1" onclick="editShowtime(${e.id})" data-aud-id="13">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>
                                         <a onclick="deleteShowtime(${e.id})"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
@@ -416,9 +418,9 @@
                 return
             }
 
-            const translation = currentMovieSchedule.movie.translationTypes
+            const transaction = currentMovieSchedule.movie.translationTypes
 
-            translation.forEach(e => {
+            transaction.forEach(e => {
                 $('#create-showtime-translationType option[value=e]').show();
                 $('#create-showtime-translationType').val(e).change();
             })
@@ -449,17 +451,7 @@
                 insertDateTable(res.data);
                 selectMovieElUpdate(movie, '#showtime-data-movie');
 
-                $('#table-showtime').DataTable({
-                    "paging": true,
-                    "lengthChange": true,
-                    "lengthMenu": [10, 25, 50, 75, 100],
-                    "searching": true,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                    "language": languageTable,
-                });
+                jTableSetting($('#table-showtime'));
             } catch (e) {
                 console.error('Error:', e);
                 toastShow("Có lỗi sảy ra khi thực hiện thao tác", "error")

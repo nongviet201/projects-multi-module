@@ -1,14 +1,12 @@
 package com.nongviet201.cinema.core.service.impl;
 
-import com.nongviet201.cinema.core.entity.bill.Translation;
-import com.nongviet201.cinema.core.model.enums.bill.BillStatus;
+import com.nongviet201.cinema.core.entity.bill.Transaction;
 import com.nongviet201.cinema.core.payment.vnpay.code.ResponseCodeVNPAY;
-import com.nongviet201.cinema.core.repository.TranslationRepository;
+import com.nongviet201.cinema.core.repository.TransactionRepository;
 import com.nongviet201.cinema.core.service.TranslationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
@@ -17,16 +15,16 @@ import java.util.List;
 @AllArgsConstructor
 public class TranslationServiceImpl implements TranslationService {
 
-    private final TranslationRepository translationRepository;
+    private final TransactionRepository transactionRepository;
 
     @Override
-    public Translation findTranslationByBillId(Integer id) {
-        return translationRepository.findByBillId(id)
+    public Transaction findTranslationByBillId(Integer id) {
+        return transactionRepository.findByBillId(id)
             .orElseThrow(() -> new RuntimeException("Không tìm thấy thông tin giao dịch với số hóa đơn là: " + id));
     }
 
     @Override
-    public List<Translation> getAllTranslationByCinemaIdAndTimeAndStatusCode(
+    public List<Transaction> getAllTranslationByCinemaIdAndTimeAndStatusCode(
         int id,
         String time
     ) {
@@ -52,7 +50,7 @@ public class TranslationServiceImpl implements TranslationService {
             default -> throw new IllegalArgumentException("Thời gian cung cấp không khả dụng: " + time);
         };
 
-        return translationRepository.findAllByCinema_IdAndPayDateBetweenAndStatusAndResponseCodeVNPAY(
+        return transactionRepository.findAllByCinema_IdAndPayDateBetweenAndStatusAndResponseCodeVNPAY(
             id,
             startDate,
             endDate,
@@ -62,17 +60,42 @@ public class TranslationServiceImpl implements TranslationService {
     }
 
     @Override
-    public List<Translation> getAllTranslationByTimeAndStatusAndCode(
+    public List<Transaction> getAllTranslationByTimeAndStatusAndCode(
         LocalDateTime startDate,
         LocalDateTime endDate,
         boolean status,
         ResponseCodeVNPAY responseCodeVNPAY
     ) {
-        return translationRepository.findAllByPayDateBetweenAndStatusAndResponseCodeVNPAY(
+        return transactionRepository.findAllByPayDateBetweenAndStatusAndResponseCodeVNPAY(
             startDate,
             endDate,
             status,
             responseCodeVNPAY
         );
+    }
+
+    @Override
+    public List<Transaction> filter(
+        LocalDateTime formDate,
+        LocalDateTime toDate,
+        Integer cinemaId
+    ) {
+        if (cinemaId != null) {
+            return transactionRepository.findAllByPayDateBetweenAndCinema_Id(
+                formDate,
+                toDate,
+                cinemaId
+            );
+        }
+        return transactionRepository.findAllByPayDateBetween(
+            formDate,
+            toDate
+        );
+    }
+
+    @Override
+    public Transaction getTransactionById(Integer id) {
+        return transactionRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy thông tin giao dịch với ID: " + id));
     }
 }

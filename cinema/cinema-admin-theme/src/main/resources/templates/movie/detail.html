@@ -226,10 +226,10 @@
                                             <div class="select2-purple">
                                                 <select class="select2 form-control" multiple="multiple"
                                                         id="translationTypes" name="translationTypes">
-                                                    <option th:each="translation : ${translationTypes}"
-                                                            th:value="${translation}"
-                                                            th:text="${translation}"
-                                                            th:selected="${movie.translationTypes.contains(translation)}">
+                                                    <option th:each="transaction : ${translationTypes}"
+                                                            th:value="${transaction}"
+                                                            th:text="${transaction}"
+                                                            th:selected="${movie.translationTypes.contains(transaction)}">
                                                     </option>
                                                 </select>
                                             </div>

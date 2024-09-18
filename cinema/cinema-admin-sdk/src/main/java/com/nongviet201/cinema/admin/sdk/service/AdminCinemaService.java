@@ -1,15 +1,11 @@
 package com.nongviet201.cinema.admin.sdk.service;
 
 import com.nongviet201.cinema.admin.sdk.converter.AdminCinemaRevenueToResponseConverter;
-import com.nongviet201.cinema.admin.sdk.request.UpsertAuditoriumRequest;
 import com.nongviet201.cinema.admin.sdk.request.UpsertCinemaRequest;
 import com.nongviet201.cinema.admin.sdk.response.AdminCinemaRevenueResponse;
-import com.nongviet201.cinema.core.entity.bill.Translation;
-import com.nongviet201.cinema.core.entity.cinema.Auditorium;
+import com.nongviet201.cinema.core.entity.bill.Transaction;
 import com.nongviet201.cinema.core.entity.cinema.Cinema;
 import com.nongviet201.cinema.core.entity.cinema.City;
-import com.nongviet201.cinema.core.model.enums.cinema.AuditoriumType;
-import com.nongviet201.cinema.core.service.AuditoriumService;
 import com.nongviet201.cinema.core.service.CinemaService;
 import com.nongviet201.cinema.core.service.CityService;
 import com.nongviet201.cinema.core.service.TranslationService;
@@ -63,16 +59,16 @@ public class AdminCinemaService {
         for (Cinema cinema : cinemaList) {
             List<AdminCinemaRevenueResponse.Manager> managers = getManagersForCinema(cinema);
 
-            // Lấy danh sách Translation dựa trên thời gian và trạng thái thành công
-            List<Translation> translationList =
+            // Lấy danh sách Transaction dựa trên thời gian và trạng thái thành công
+            List<Transaction> transactionList =
                 translationService.getAllTranslationByCinemaIdAndTimeAndStatusCode(
                     cinema.getId(),
                     time
                 );
 
             // Tính tổng doanh thu và số lượng vé
-            long totalRevenue = translationList.stream().mapToLong(translation -> translation.getBill().getTotalPrice()).sum();
-            int totalTickets = translationList.size();
+            long totalRevenue = transactionList.stream().mapToLong(translation -> translation.getBill().getTotalPrice()).sum();
+            int totalTickets = transactionList.size();
 
             revenueList.add(
                 cinemaRevenueToResponseConverter.convert(

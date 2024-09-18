@@ -15,15 +15,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "translation")
-public class Translation {
+@Table(name = "transaction")
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private boolean status;
     private String bankCode;
     private LocalDateTime payDate;
-    private String transactionNo; //Mã giao dịch ghi nhận tại hệ thống VNPAY. Ví dụ: 20170829153052
+    private String transactionNo; //Mã giao dịch ghi nhận tại hệ thống VNPAY
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -35,7 +35,7 @@ public class Translation {
     @Column(name = "response_codevnpay", length = 100)
     private ResponseCodeVNPAY responseCodeVNPAY;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "bill_id")
     private Bill bill;
 

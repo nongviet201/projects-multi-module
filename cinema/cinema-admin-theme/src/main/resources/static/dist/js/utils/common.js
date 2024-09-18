@@ -16,15 +16,7 @@ function jTableSetting(Element) {
         "info": true,
         "autoWidth": false,
         "responsive": true,
-        "language" : languageTable,
-        "createdRow": function(row, data, dataIndex) {
-            $('td', row).eq(0).addClass('text-start');
-            $('td', row).eq(5).addClass('text-end');
-            $('td', row).eq(1).addClass('text-center');
-            $('td', row).eq(2).addClass('text-center');
-            $('td', row).eq(3).addClass('text-center');
-            $('td', row).eq(4).addClass('text-center');
-        },
+        "language" : languageTable
     });
 }
 const languageTable = {

@@ -1,4 +1,4 @@
-package com.nongviet201.cinema.admin.sdk.controller.decorator;
+package com.nongviet201.cinema.admin.sdk.decorator;
 
 import com.nongviet201.cinema.admin.sdk.converter.AdminDashboardWidgetToResponseConvert;
 import com.nongviet201.cinema.admin.sdk.response.AdminDashboardWidgetResponse;

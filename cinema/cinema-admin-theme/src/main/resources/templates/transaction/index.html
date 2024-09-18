@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: .content-index}, ~{:: #js})}">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Transaction</title>
+
+    <th:block id="css">
+    </th:block>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+
+<div class="wrapper">
+    <div class="content-index">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/admin">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/admin/transaction">Quản lý Giao Dịch</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row py-2">
+                    <div class="col-12">
+                        <button class="btn btn-primary"
+                                type="button">
+                            <i class="fas fa-plus"></i> Tạo mới
+                        </button>
+                        <a href="/admin/transaction">
+                            <button type="button" id="btn-refresh" class="btn btn-info">
+                                <i class="fas fa-redo"></i> Refresh
+                            </button>
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-header d-flex justify-content-between px-0">
+                                    <div class="d-flex align-items-center ">
+                                        <span class="card-title mb-0 me-3">Danh sách giao dịch </span>
+                                        <input class="form-control text-center flatpickr-range flatpickr-input ms-2"
+                                               id="transaction-data-date"
+                                               name="transaction-data-date"
+                                               placeholder="Chọn ngày" readonly="readonly" style="height: 32px;
+                                           width: 200px;" type="text">
+                                        <select class="form-select form-select-sm w-auto ms-2" id="transaction-data-cinema"
+                                                name="transaction-data-cinema" style="height: 32px;
+                                           width: 200px !important;;">
+                                            <option>Tất cả rạp</option>
+                                            <option th:each="c : ${cinema}" th:value="${c.id}">[[${c.name}]]</option>
+                                        </select>
+                                        <button class="btn btn-success ms-2 ml-2" id="filter-data" type="button">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-end">
+                                        <span class="card-title mb-0 me-3">Tìm kiếm theo số hóa đơn </span>
+                                        <input type="number" class="form-control" id="transaction-find-id" style="width: 20%">
+                                        <button class="btn btn-success ms-2 ml-2" id="find-transaction" type="button">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <table class="table table-responsive table-striped" id="table-transaction">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center"> Số HD</th>
+                                        <th class="text-center"> Mã GD</th>
+                                        <th class="text-center"> Ngân Hàng</th>
+                                        <th class="text-center"> Cổng</th>
+                                        <th class="text-center"> Rạp</th>
+                                        <th class="text-center"> Thời Gian Thanh Toán</th>
+
+                                        <th class="text-center"> Trạng Thái</th>
+                                        <th class="text-center"> Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div aria-hidden="true" class="modal fade" id="modal-transaction" style="display: none;"
+                     tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header text-center">
+                                <strong class="fs-20px modal-title">Thông Tin Giao Dịch</strong>
+                            </div>
+                            <div class="modal-body m-3">
+                                <div>
+                                    <span class="text-danger" id="error">  </span>
+                                </div>
+                                <form id="form-transaction">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-id">Số hóa đơn</label>
+                                                <input class="form-control mt-1"
+                                                        id="transaction-id" name="transaction-id" type="number" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-no">Mã giao dịch</label>
+                                                <input class="form-control mt-1" id="transaction-no"
+                                                        name="transaction-no" type="text" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-paymentMethod">Cổng thanh toán</label>
+                                                <input class="form-control mt-1" id="transaction-paymentMethod"
+                                                        name="transaction-paymentMethod" type="text" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-bankCode">Ngân Hàng</label>
+                                                <input class="form-control mt-1" id="transaction-bankCode"
+                                                       name="transaction-bankCode" type="text" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-payDate">Thời gian giao dịch</label>
+                                                <input class="form-control mt-1 "
+                                                       id="transaction-payDate"
+                                                       name="transaction-payDate"
+                                                       placeholder="Thời gian giao dịch"  style="height: 32px;
+                                                            width: 100%;" type="text" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-cinema">Chọn Rạp</label>
+                                                <select class="form-control mt-1" id="transaction-cinema"
+                                                        name="transaction-cinema" disabled>
+                                                    <option value="">Chọn rạp trong danh sách</option>
+                                                    <option th:each="c : ${cinema}" th:value="${c.id}">
+                                                        [[${c.name}]]
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-status">Trạng Thái</label>
+                                                <input class="form-control mt-1" id="transaction-status"
+                                                       name="transaction-status" type="text" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-userName">Tên khách hàng</label>
+                                                <input class="form-control mt-1" id="transaction-userName"
+                                                       name="transaction-userName" type="text" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-phoneNumber">SĐT</label>
+                                                <input class="form-control mt-1" id="transaction-phoneNumber"
+                                                       name="transaction-phoneNumber" type="text" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-showtime-movieName">Tên Phim</label>
+                                                <input class="form-control mt-1" id="transaction-showtime-movieName"
+                                                       name="transaction-showtime-movieName" type="text" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-showtime-screeningDateTime">Thời gian chiếu</label>
+                                                <input class="form-control mt-1" id="transaction-showtime-screeningDateTime"
+                                                       name="transaction-showtime-screeningDateTime" type="text" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-totalPrice">Tổng thanh toán</label>
+                                                <input class="form-control mt-1" id="transaction-totalPrice"
+                                                       name="transaction-totalPrice" type="text" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-discount">Trừ khuyến mại</label>
+                                                <input class="form-control mt-1" id="transaction-discount"
+                                                       name="transaction-discount" type="text" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="transaction-points">Điểm tích lũy</label>
+                                                <input class="form-control mt-1" id="transaction-points"
+                                                       name="transaction-points" type="text" disabled>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Đóng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>
+
+<th:block id="js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.min.js"></script>
+    <script>
+        flatpickr(".flatpickr-range", {
+            mode: "range",
+            locale: "vn",
+            dateFormat: "d/m/Y",
+            prevArrow: "<span title=\"Tháng trước\">&laquo;</span>",
+            nextArrow: "<span title=\"Tháng sau\">&raquo;</span>",
+            defaultDate: Date.now()
+        });
+        window.addEventListener('load', function () {
+            getData();
+        });
+        $('#filter-data').on('click', function () {
+           getData();
+        });
+        $('#find-transaction').on('click', function () {
+           getDataById();
+        });
+    </script>
+    <script>
+        let transactionData = {};
+
+
+        function insertDateTable(data) {
+            const tbody = document.getElementById('table-transaction').getElementsByTagName('tbody')[0];
+            let html = '';
+
+            if (data.length > 0) {
+                data.forEach(e => {
+                    html += `
+                                <tr>
+                                    <td class="text-center">${e.id}</td>
+                                    <td class="text-center">${e.transactionNo}</td>
+                                    <td class="text-center">${e.bankCode}</td>
+                                    <td class="text-center">${e.paymentMethod}</td>
+                                    <td class="text-center">${e.cinemaName}</td>
+                                    <td class="text-center">${e.payDate}</td>
+
+                                    <td class="text-center">${e.status}</td>
+                                    <td class="text-center">
+                                        <a onclick="viewTransaction(${e.id})">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>                                        </a>
+                                    </td>
+                               </tr>
+                            `;
+                });
+                tbody.innerHTML = html;
+            } else {
+                tbody.innerHTML = ``;
+            }
+        }
+
+        function getValue() {
+            const cleanedData = $('#transaction-data-date').val().trim().toLowerCase();
+
+            const separator = ' đến ';
+            const hasRange = cleanedData.includes(separator);
+
+
+            if (hasRange) {
+                // Tách chuỗi dựa trên từ khóa "đến"
+                const parts = cleanedData.split(separator);
+                return {
+                    formDate: parts[0].trim(),
+                    toDate: parts[1].trim(),
+                    cinemaId: parseInt($('#transaction-data-cinema').val(), 10),
+                }
+            }
+            return {
+                formDate: cleanedData,
+                toDate: "",
+                cinemaId: parseInt($('#transaction-data-cinema').val(), 10),
+            }
+        }
+
+        function viewTransaction(id) {
+            const transaction = transactionData.find(e => e.id === id);
+
+            if (transaction) {
+                showTransaction(transaction);
+            }
+        }
+
+        function showTransaction(transaction) {
+            $('#modal-transaction').modal('show');
+
+            $('#transaction-id').val(transaction.id);
+            $('#transaction-no').val(transaction.transactionNo);
+            $('#transaction-bankCode').val(transaction.bankCode);
+            $('#transaction-paymentMethod').val(transaction.paymentMethod);
+            $('#transaction-payDate').val(transaction.payDate);
+            $('#transaction-cinema').val(transaction.cinemaId);
+            $('#transaction-status').val(transaction.status);
+
+            $('#transaction-userName').val(transaction.userName);
+            $('#transaction-phoneNumber').val(transaction.phoneNumber);
+            $('#transaction-showtime-movieName').val(transaction.movieName);
+            $('#transaction-showtime-screeningDateTime').val(transaction.screeningDateTime);
+            $('#transaction-totalPrice').val(formatPrice(transaction.totalPrice) + ' VND');
+            $('#transaction-discount').val(formatPrice(transaction.discountAmount) + ' VND');
+            $('#transaction-points').val(transaction.points);
+        }
+
+        async function getData() {
+            const data = getValue();
+
+            if ($.fn.DataTable.isDataTable('#table-transaction')) {
+                $('#table-transaction').DataTable().clear().destroy();
+            }
+
+            try {
+                const res = await axios.post(`/admin/api/v1/transaction/getData`, data);
+                transactionData = res.data;
+                insertDateTable(res.data);
+                jTableSetting($('#table-transaction'));
+
+            } catch (e) {
+                console.error('Error:', e);
+                toastShow("Có lỗi sảy ra khi thực hiện thao tác", "error")
+            }
+        }
+
+        async function getDataById() {
+            try {
+                const res = await axios.get(`/admin/api/v1/transaction/${$('#transaction-find-id').val()}`);
+                showTransaction(res.data);
+
+            } catch (e) {
+                console.error('Error:', e);
+                toastShow(e.response.data.message, "error")
+            }
+        }
+    </script>
+</th:block>
+
+</body>
+</html>

@@ -84,7 +84,7 @@ class CinemaCoreApplicationTests {
     @Autowired
     private BillComboRepository billComboRepository;
     @Autowired
-    private TranslationRepository translationRepository;
+    private TransactionRepository transactionRepository;
     @Autowired
     private MovieScheduleRepository movieScheduleRepository;
 
@@ -712,8 +712,8 @@ class CinemaCoreApplicationTests {
                     billRepository.save(bill);  // Cập nhật lại hóa đơn
 
                     // Tạo transaction ngẫu nhiên tương ứng với hóa đơn
-                    translationRepository.save(
-                        Translation.builder()
+                    transactionRepository.save(
+                        Transaction.builder()
                             .status(true)
                             .bankCode("NCB")
                             .payDate(randomPaymentTime)

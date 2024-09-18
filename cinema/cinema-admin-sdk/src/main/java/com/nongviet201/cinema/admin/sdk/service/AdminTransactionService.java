@@ -1,0 +1,48 @@
+package com.nongviet201.cinema.admin.sdk.service;
+
+import com.nongviet201.cinema.admin.sdk.decorator.AdminTransactionDecorator;
+import com.nongviet201.cinema.admin.sdk.request.UpsertTransactionRequest;
+import com.nongviet201.cinema.admin.sdk.response.AdminTransactionResponse;
+import com.nongviet201.cinema.core.entity.bill.Transaction;
+import com.nongviet201.cinema.core.service.TranslationService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalTime;
+import java.util.List;
+
+import static com.nongviet201.cinema.core.utils.DateTimeUtils.parseDate;
+
+@Service
+@AllArgsConstructor
+public class AdminTransactionService {
+
+    private final TranslationService translationService;
+    private final AdminTransactionDecorator decorator;
+
+    public List<AdminTransactionResponse> getTransactionFilter(
+        UpsertTransactionRequest.GetDataFiller request
+    ) {
+        if (request.getToDate().isEmpty()) {
+            return translationService.filter(
+                parseDate(request.getFormDate()).atStartOfDay(),
+                parseDate(request.getFormDate()).atTime(LocalTime.MAX),
+                request.getCinemaId()
+            ).stream().map(decorator::decorate).toList();
+        }
+
+        return translationService.filter(
+            parseDate(request.getFormDate()).atStartOfDay(),
+            parseDate(request.getToDate()).atTime(LocalTime.MAX),
+            request.getCinemaId()
+        ).stream().map(decorator::decorate).toList();
+    }
+
+    public AdminTransactionResponse getTransactionById(
+        Integer id
+    ) {
+        return decorator.decorate(
+            translationService.getTransactionById(id)
+        );
+    }
+}

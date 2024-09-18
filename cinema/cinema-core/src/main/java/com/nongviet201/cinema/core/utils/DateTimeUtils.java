@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalAdjusters;
 
 public class DateTimeUtils {
@@ -17,6 +18,19 @@ public class DateTimeUtils {
 
     public static LocalTime parseTime(String timeString) {
         return LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HH:mm"));
+    }
+
+    public static LocalDateTime parseDateTime(String timeString) {
+        try {
+            return LocalDateTime.parse(timeString, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        } catch (DateTimeParseException e) {
+            try {
+                LocalDate date = LocalDate.parse(timeString, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                return date.atStartOfDay();
+            } catch (DateTimeParseException ex) {
+                throw new IllegalArgumentException("Invalid date/time format. Expected dd/MM/yyyy or dd/MM/yyyy HH:mm", ex);
+            }
+        }
     }
 
     public static DateTimeRange getTimeRange(String time) {

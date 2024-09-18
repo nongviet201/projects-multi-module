@@ -1,10 +1,10 @@
 package com.nongviet201.cinema.admin.sdk.controller.service;
 
-import com.nongviet201.cinema.admin.sdk.controller.decorator.AdminDashboardDecorator;
+import com.nongviet201.cinema.admin.sdk.decorator.AdminDashboardDecorator;
 import com.nongviet201.cinema.admin.sdk.response.AdminDashboardWidgetResponse;
 import com.nongviet201.cinema.admin.sdk.service.AdminDashboardService;
 import com.nongviet201.cinema.admin.sdk.service.AdminRevenueService;
-import com.nongviet201.cinema.core.entity.bill.Translation;
+import com.nongviet201.cinema.core.entity.bill.Transaction;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +20,11 @@ public class AdminDashboardControllerService {
 
     public AdminDashboardWidgetResponse getDashboardWidget() {
 
-        List<Translation> weekRevenue = revenueService.getTotalRevenueByTime("week");
-        List<Translation> lastWeekRevenue = revenueService.getTotalRevenueByTime("lastWeek");
+        List<Transaction> weekRevenue = revenueService.getTotalRevenueByTime("week");
+        List<Transaction> lastWeekRevenue = revenueService.getTotalRevenueByTime("lastWeek");
 
-        List<Translation> monthRevenue = revenueService.getTotalRevenueByTime("month");
-        List<Translation> lastMonthRevenue = revenueService.getTotalRevenueByTime("lastMonth");
+        List<Transaction> monthRevenue = revenueService.getTotalRevenueByTime("month");
+        List<Transaction> lastMonthRevenue = revenueService.getTotalRevenueByTime("lastMonth");
 
 
         Double totalLastWeekTicketSoldPercent = AdminDashboardService.calculatePercentage(
