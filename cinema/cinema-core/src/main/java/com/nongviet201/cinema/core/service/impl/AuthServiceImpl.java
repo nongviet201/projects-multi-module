@@ -1,11 +1,11 @@
 package com.nongviet201.cinema.core.service.impl;
 
-import com.nongviet201.cinema.core.exception.BadRequestException;
 import com.nongviet201.cinema.core.entity.user.TokenConfirm;
 import com.nongviet201.cinema.core.entity.user.User;
+import com.nongviet201.cinema.core.exception.BadRequestException;
+import com.nongviet201.cinema.core.model.enums.bill.VerifyResponseType;
 import com.nongviet201.cinema.core.model.enums.user.TokenType;
 import com.nongviet201.cinema.core.model.enums.user.UserRole;
-import com.nongviet201.cinema.core.model.enums.bill.VerifyResponseType;
 import com.nongviet201.cinema.core.repository.TokenConfirmRepository;
 import com.nongviet201.cinema.core.repository.UserRepository;
 import com.nongviet201.cinema.core.request.ChangePasswordAccountRequest;
@@ -106,7 +106,7 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
-        login(new LoginRequest(user.getEmail(), request.getPassword()));
+        login(new LoginRequest(user.getEmail(), request.getPassword(), false));
     }
 
     @Override

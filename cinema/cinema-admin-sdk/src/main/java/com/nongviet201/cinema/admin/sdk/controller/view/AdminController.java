@@ -16,23 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 @AllArgsConstructor
 public abstract class AdminController {
-    private final AdminMovieControllerService adminMovieControllerService;
-    private final AdminCinemaControllerService adminCinemaControllerService;
-    private final AdminDashboardControllerService adminDashboardControllerService;
-
-    @GetMapping("")
-    public String getDashBoardPage(
-        Model model
-    ) {
-        return "index";
-    }
 
     @GetMapping("/user-details")
     public String getUserDetailsPage() {
         return "/user/detail";
     }
 
-
+    @GetMapping("")
+    public String getDashBoardPage() {
+        return "dashboard/index";
+    }
 
     @GetMapping("/web/settings/banner")
     public String getAdminWebSettingsBannerPage(

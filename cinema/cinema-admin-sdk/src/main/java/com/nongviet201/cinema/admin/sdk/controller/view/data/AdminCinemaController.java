@@ -17,7 +17,7 @@ public class AdminCinemaController {
     private final AdminCinemaControllerService adminCinemaControllerService;
 
     @GetMapping("")
-    public String getAdminMoviePage(
+    public String getAdminCinemaPage(
         @RequestParam(
             value = "data",
             defaultValue = "all"
@@ -48,9 +48,7 @@ public class AdminCinemaController {
     }
 
     @GetMapping("/create")
-    public String getAdminMovieCreatePage(
-        Model model
-    ) {
+    public String getAdminCinemaCreatePage() {
         return "/cinema/create";
     }
 

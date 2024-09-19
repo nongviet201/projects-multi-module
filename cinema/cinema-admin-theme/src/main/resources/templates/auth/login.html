@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/auth-layout :: layout(~{:: title}, ~{:: #css}, ~{:: .auth-content}, ~{:: #js})}">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Sign In | VCINEMA ADMIN</title>
+
+    <th:block id="css">
+    </th:block>
+</head>
+
+<body>
+<main class="auth-content d-flex w-100 h-100">
+    <div class="container d-flex flex-column">
+        <div class="row vh-100">
+            <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table h-100">
+                <div class="d-table-cell align-middle">
+
+                    <div class="text-center mt-4">
+                        <h1 class="h2">Đăng Nhập!</h1>
+                        <p class="lead">
+                            Vui lòng đăng nhập để truy cập trang quản trị
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="m-sm-3">
+                                <div class="d-grid gap-2 mb-3">
+                                    <a class="btn btn-facebook btn-lg" href="/"><i class="fab fa-fw fa-facebook-f"></i> Đăng nhập bằng Facebook</a>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <hr>
+                                    </div>
+                                    <div class="col-auto text-uppercase d-flex align-items-center">Or</div>
+                                    <div class="col">
+                                        <hr>
+                                    </div>
+                                </div>
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input id="email" class="form-control form-control-lg" type="email" name="email" placeholder="Nhập địa chỉ email">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input id="password" class="form-control form-control-lg" type="password" name="password" placeholder="Nhập mật khẩu">
+                                        <small>
+                                            <a href="/reset-password">Quên mật khẩu?</a>
+                                        </small>
+                                    </div>
+                                    <div>
+                                        <div class="form-check align-items-center">
+                                            <input id="remember-box" type="checkbox" class="form-check-input" value="remember-me" name="remember-me" checked="">
+                                            <label class="form-check-label text-small" for="remember-box">Ghi nhớ cho lần đăng nhập tới</label>
+                                        </div>
+                                    </div>
+                                    <div class="d-grid gap-2 mt-3">
+                                        <button id="btn-login" class="btn btn-lg btn-primary" >Đăng Nhập</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mb-3">
+                        Chưa có tài khoản? <a href="/pages-sign-up">Đăng ký</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js">
+    <script>
+        document.getElementById('btn-login').addEventListener('click', async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                toastShow("Vui lòng nhập email và mật khẩu", "error");
+                return;
+            }
+
+            const data = {
+                email: email,
+                password: password,
+                rememberMe: document.getElementById('remember-box').checked,
+            }
+
+            try {
+                await axios.post("/api/v1/auth/login", data);
+
+                setTimeout(() => {
+                    window.location.href = '/admin';
+                }, 2000);
+
+            } catch (e) {
+                toastShow(e.response.data.message, "error");
+                console.error(e);
+            }
+        })
+    </script>
+</th:block>
+</body>
+
+</html>
+

@@ -15,11 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration
 @EnableWebSecurity
 @EnableMethodSecurity (
-        securedEnabled = true,
-        jsr250Enabled = true
+    securedEnabled = true,
+    jsr250Enabled = true
 )
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -41,35 +40,16 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable); //tắt csrf
 
-        String[] web = {
-            "/booking/get/stage-two",
-            "/booking/get/stage-three",
-            "/user"
-        };
-
-        String[] admin = {
-          "/admin"
-        };
-
-        http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers(web).authenticated();
-            auth.requestMatchers(web).hasRole("ADMIN");
-            auth.anyRequest().permitAll();
-        });
-
         // Cấu hình logout
         http.logout(logout -> {
-            logout.logoutSuccessUrl("/");
             logout.deleteCookies("JSESSIONID");
             logout.invalidateHttpSession(true);
             logout.clearAuthentication(true);
             logout.permitAll();
         });
-
 
         // Cấu hình xác thực
         http.authenticationProvider(authenticationProvider());
