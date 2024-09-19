@@ -15,5 +15,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByPhoneNumber(String phoneNumber);
 
-    List<User> findByRoleAndEnabledAndCreatedAtBetween(UserRole role, boolean enabled, LocalDate startDate, LocalDate endDate);
+    List<User> findByRoleAndEnabledAndCreatedAtBetween(
+        UserRole role,
+        boolean enabled,
+        LocalDate startDate,
+        LocalDate endDate
+    );
+
+    List<User> findByCreatedAtBetween(
+        LocalDate formDate,
+        LocalDate toDate
+    );
 }

@@ -22,7 +22,4 @@ public class UserStatistic {
     @Enumerated(EnumType.STRING)
     private UserRank userRank;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 }

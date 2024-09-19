@@ -37,9 +37,9 @@
             <div class="container-fluid">
                 <div class="row py-2">
                     <div class="col-12">
-                        <button class="btn btn-primary"
+                        <button id="export-excel" class="btn btn-primary"
                                 type="button">
-                            <i class="fas fa-plus"></i> Tạo mới
+                            <i class="fa-regular fa-file-excel"></i> Xuất Excel
                         </button>
                         <a href="/admin/transaction">
                             <button type="button" id="btn-refresh" class="btn btn-info">
@@ -47,7 +47,6 @@
                             </button>
                         </a>
                     </div>
-
                 </div>
 
                 <div class="row">
@@ -236,6 +235,9 @@
         $('#find-transaction').on('click', function () {
            getDataById();
         });
+        $('#export-excel').on('click', function () {
+            exportToExcel();
+        });
     </script>
     <script>
         let transactionData = {};
@@ -337,6 +339,32 @@
             } catch (e) {
                 console.error('Error:', e);
                 toastShow("Có lỗi sảy ra khi thực hiện thao tác", "error")
+            }
+        }
+
+        async function exportToExcel() {
+            const data = getValue();
+
+            try {
+                const res = await axios.post(`/admin/api/v1/transaction/export-excel`, data, {
+                    responseType: 'blob'  // Định dạng phản hồi là 'blob' để nhận file nhị phân
+                });
+
+                const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                const url = window.URL.createObjectURL(blob);
+
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `Thông tin giao dịch.xlsx`);
+                document.body.appendChild(link);
+                link.click();
+
+                window.URL.revokeObjectURL(url);
+                link.remove();
+
+            } catch (e) {
+                console.error('Error:', e);
+                toastShow("Có lỗi xảy ra khi thực hiện thao tác", "error");
             }
         }
 

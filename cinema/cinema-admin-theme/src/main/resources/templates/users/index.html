@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/layout :: layout(~{:: title}, ~{:: #css}, ~{:: .content-index}, ~{:: #js})}">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Transaction</title>
+
+    <th:block id="css">
+    </th:block>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+
+<div class="wrapper">
+    <div class="content-index">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/admin">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="/admin/users">Quản lý Người Dùng</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-header d-flex justify-content-between px-0">
+                                    <div class="d-flex align-items-center ">
+                                        <span class="card-title mb-0 me-3">Danh sách User </span>
+                                        <input class="form-control text-center flatpickr-range flatpickr-input ms-2"
+                                               id="date-range"
+                                               name="date-range"
+                                               placeholder="Chọn ngày" readonly="readonly" style="height: 32px;
+                                           width: 200px;" type="text">
+                                        <button class="btn btn-success ms-2 ml-2" id="filter-data" type="button">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-end">
+                                        <span class="card-title mb-0 me-3">Tìm kiếm theo số điện thoại </span>
+                                        <input type="text" class="form-control me-2" id="find-user-phoneNumber" style="width: 20%">
+                                        <span class="card-title mb-0 me-2"> hoặc email </span>
+                                        <input type="text" class="form-control" id="find-user-email" style="width: 20%">
+                                        <button class="btn btn-success ms-2 ml-2" id="find-user" type="button">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <table class="table table-responsive table-striped" id="table-user">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center"> Tên Người Dùng</th>
+                                        <th class="text-center"> Email</th>
+                                        <th class="text-center"> Số Điện Thoại</th>
+                                        <th class="text-center"> Giới Tính</th>
+                                        <th class="text-center"> Sinh Nhật</th>
+                                        <th class="text-center"> Trạng Thái</th>
+                                        <th class="text-center"> Ngày Tạo</th>
+                                        <th class="text-center"> Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div aria-hidden="true" class="modal fade" id="modal-user" style="display: none;"
+                     tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header text-center">
+                                <strong class="fs-20px modal-title">Thông Tin Người Dùng</strong>
+                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                        type="button"></button>
+                            </div>
+                            <div class="modal-body m-3">
+                                <div>
+                                    <span class="text-danger" id="error">  </span>
+                                </div>
+                                <form id="form-user">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="user-name">Tên người dùng</label>
+                                                <input class="form-control mt-1"
+                                                       id="user-name" name="user-name" type="text">
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="user-email">Email</label>
+                                                <input class="form-control mt-1" id="user-email"
+                                                       name="user-email" type="text">
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="user-phoneNumber">Số điện thoại</label>
+                                                <input class="form-control mt-1" id="user-phoneNumber"
+                                                       name="user-phoneNumber" type="text" >
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="user-birthDay">Sinh nhật</label>
+                                                <input class="form-control mt-1" id="user-birthDay"
+                                                       name="user-birthDay" type="text">
+                                            </div>
+                                             <div class="form-group mb-3">
+                                                <label class="fw-600" for="user-genre">Giới tính</label>
+                                                <select class="form-control mt-1" id="user-genre"
+                                                        name="user-genre">
+                                                    <option value="Nam">Nam</option>
+                                                    <option value="Nữ">Nữ</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="user-points">Điểm tích lũy</label>
+                                                <input class="form-control mt-1" id="user-points"
+                                                       name="user-points" type="text" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="user-totalSpending">Tổng chi tiêu</label>
+                                                <input class="form-control mt-1" id="user-totalSpending"
+                                                       name="user-totalSpending" type="text" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="user-userRank">Hạng Thành Viên</label>
+                                                <input class="form-control mt-1" id="user-userRank"
+                                                       name="user-userRank" type="text" disabled>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="user-enable">Trạng Thái</label>
+                                                <select class="form-control mt-1" id="user-enable" name="user-enable" disabled>
+                                                    <option value="true">Đã kích Hoạt</option>
+                                                    <option value="false">Chưa Kích Hoạt</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="user-createAt">Ngày Đăng Ký</label>
+                                                <input class="form-control mt-1" id="user-createAt"
+                                                       name="user-createAt" type="text" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="btn-sendTokenPasswordReset" class="btn btn-warning" type="button">Gửi Mail Đổi MK</button>
+                                <button id="btn-sendTokenRegister" class="btn btn-warning" type="button">Gửi Mail Kích Hoạt</button>
+                                <button id="btn-update" class="btn btn-primary" type="button">Cập Nhật Thông Tin</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+</div>
+
+<th:block id="js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.min.js"></script>
+    <script>
+        flatpickr(".flatpickr-range", {
+            mode: "range",
+            locale: "vn",
+            dateFormat: "d/m/Y",
+            prevArrow: "<span title=\"Tháng trước\">&laquo;</span>",
+            nextArrow: "<span title=\"Tháng sau\">&raquo;</span>",
+            defaultDate: Date.now()
+        });
+        window.addEventListener('load', function () {
+            getData();
+        });
+        $('#filter-data').on('click', function () {
+            getData();
+        });
+        $('#find-user').on('click', function () {
+            findUser();
+        });
+
+    </script>
+    <script>
+        function insertModal(user) {
+            $('#user-name').val(user.name);
+            $('#user-email').val(user.email);
+            $('#user-phoneNumber').val(user.phoneNumber);
+            $('#user-birthDay').val(user.birthDay);
+            $('#user-enable').val(user.enabled === true? 'true' : 'false');
+            $('#user-genre').val(user.genre);
+            $('#user-createAt').val(user.createdAt);
+            $('#user-points').val(formatPrice(user.points));
+            $('#user-totalSpending').val(formatPrice(user.totalSpending) + ' VND' );
+            $('#user-userRank').val(user.userRank);
+
+            $('#btn-update').on('click', function () {
+                updateUser(user.email);
+            });
+
+            $('#btn-sendTokenRegister').on('click', function () {
+                sendToken(user.email, "register");
+            });
+            $('#btn-sendTokenPasswordReset').on('click', function () {
+                sendToken(user.email, "resetPassword");
+            });
+
+            $('#modal-user').modal('show');
+        }
+        function insertDateTable(data) {
+            const tbody = document.getElementById('table-user').getElementsByTagName('tbody')[0];
+            let html = '';
+
+            if (data.length > 0) {
+                data.forEach(e => {
+                    html += `
+                                <tr>
+                                    <td class="text-center">${e.name}</td>
+                                    <td class="text-center">${e.email}</td>
+                                    <td class="text-center">${e.phoneNumber}</td>
+                                    <td class="text-center">${e.genre}</td>
+                                    <td class="text-center">${e.birthDay}</td>
+                                    <td class="text-center">${e.enabled === true ?  'Đã khích hoạt' : 'Chưa khích hoạt' }</td>
+                                    <td class="text-center">${e.createdAt}</td>
+                                    <td class="text-center">
+                                        <a onclick="findUser('${e.email}')">
+                                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>                                        </a>
+                                    </td>
+                               </tr>
+                            `;
+                });
+                tbody.innerHTML = html;
+            } else {
+                tbody.innerHTML = ``;
+            }
+        }
+
+        function getValue() {
+            const cleanedData = $('#date-range').val().trim().toLowerCase();
+
+            const separator = ' đến ';
+            const hasRange = cleanedData.includes(separator);
+
+
+            if (hasRange) {
+                // Tách chuỗi dựa trên từ khóa "đến"
+                const parts = cleanedData.split(separator);
+                return {
+                    formDate: parts[0].trim(),
+                    toDate: parts[1].trim(),
+                }
+            }
+            return {
+                formDate: cleanedData,
+                toDate: "",
+            }
+        }
+        function findUser(email) {
+
+            if (email != null) {
+                const data = {
+                    phoneNumber: "",
+                    email: email
+                }
+                showUser(data)
+            } else {
+                const data = {
+                    phoneNumber: $('#find-user-phoneNumber').val(),
+                    email: $('#find-user-email').val()
+                }
+                showUser(data)
+            }
+        }
+
+        async function getData() {
+            const data = getValue();
+
+            if ($.fn.DataTable.isDataTable('#table-user')) {
+                $('#table-user').DataTable().clear().destroy();
+            }
+
+            try {
+                const res = await axios.post(`/admin/api/v1/user/getData`, data);
+                userData = res.data;
+                insertDateTable(userData);
+
+                if (userData != null) {
+                    jTableSetting($('#table-user'));
+                }
+            } catch (e) {
+                console.error('Error:', e);
+                toastShow("Có lỗi sảy ra khi thực hiện thao tác", "error")
+            }
+        }
+        async function showUser(data) {
+            try {
+                const res = await axios.post(`/admin/api/v1/user/findUser`, data);
+                insertModal(res.data);
+
+            } catch (e) {
+                console.error('Error:', e);
+                toastShow(e.response.data.message, "error")
+            }
+        }
+        async function updateUser(oldEmail) {
+
+            const data = {
+                oldEmail: oldEmail,
+                name: $('#user-name').val(),
+                email: $('#user-email').val(),
+                phoneNumber: $('#user-phoneNumber').val(),
+                birthDay: $('#user-birthDay').val(),
+                genre: $('#user-genre').val(),
+            }
+
+            try {
+                await axios.put(`/admin/api/v1/user/update`, data);
+                toastShow("Cập nhật thông tin người dùng thành công", "success");
+                $('#modal-user').modal('hide');
+                await getData();
+            } catch (e) {
+                console.error('Error:', e);
+                toastShow(e.response.data.message, "error")
+            }
+        }
+        async function sendToken(email, type) {
+
+            try {
+                await axios.put(`/admin/api/v1/user/sendToken?email=${email}&type=${type}`);
+                toastShow("Gửi mail thành công", "success");
+            } catch (e) {
+                console.error('Error:', e);
+                toastShow(e.response.data.message, "error")
+            }
+        }
+    </script>
+</th:block>
+
+</body>
+</html>

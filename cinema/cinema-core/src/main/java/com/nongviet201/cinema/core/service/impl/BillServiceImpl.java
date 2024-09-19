@@ -41,7 +41,7 @@ public class BillServiceImpl implements BillService {
     ) {
         User user = userService.getCurrentUser();
 
-        UserStatistic userStatistic = userStatisticService.getUserStatisticByUserId(user.getId());
+        UserStatistic userStatistic = user.getUserStatistic();
 
         if (paymentRequest.getPoints() > userStatistic.getPoints()) {
             throw new BadRequestException("User hiện tại không đủ số Points để thực hiện thao tác");

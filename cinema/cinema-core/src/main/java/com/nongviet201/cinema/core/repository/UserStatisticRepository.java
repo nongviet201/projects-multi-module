@@ -8,5 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface UserStatisticRepository extends JpaRepository<UserStatistic, Integer> {
-    Optional<UserStatistic> findByUserId(Integer userId);
 }

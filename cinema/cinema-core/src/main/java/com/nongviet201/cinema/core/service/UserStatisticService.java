@@ -4,7 +4,6 @@ import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.entity.user.UserStatistic;
 
 public interface UserStatisticService {
-    UserStatistic getUserStatisticByUserId(int userId);
     UserStatistic getCurrentUserStatistic();
     Integer UpdateUserStatistic(Long totalSpending);
 

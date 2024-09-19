@@ -8,11 +8,15 @@ import java.util.List;
 public interface UserService {
     User findByEmail(String email);
 
-    void createUser();
-
     User getCurrentUser();
 
     Boolean isCurrentUser(User user);
 
     List<User> getNewUsersByTimeRange(LocalDate startDate, LocalDate endDate);
+
+    List<User> getDataFilter(LocalDate formDate, LocalDate toDate);
+
+    User getUserByPhoneNumber(String phoneNumber);
+
+    void save(User user);
 }

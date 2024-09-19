@@ -55,6 +55,12 @@ public class WebFormatter {
         return date.format(formatter);
     }
 
+    public String formatDateTimeToHHmmDDmmYYYY(
+        LocalDateTime date
+    ) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm - dd/MM/yyyy ");
+        return date.format(formatter);
+    }
 
     public String formatFullDateTime(
         LocalDateTime dateTime

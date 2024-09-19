@@ -19,6 +19,7 @@ function jTableSetting(Element) {
         "language" : languageTable
     });
 }
+
 const languageTable = {
     "sProcessing": "Đang xử lý...",
     "sLengthMenu": "Hiển thị _MENU_ mục",

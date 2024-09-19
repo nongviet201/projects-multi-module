@@ -209,6 +209,22 @@ public class AuthServiceImpl implements AuthService {
         mailService.sendMailConfirmRegistration(data);
     }
 
+    public void resendEmail(
+        User user,
+        String type
+    ) {
+        TokenConfirm token = generateToken(user, TokenType.REGISTRATION, 24);
+
+        Map<String, String> data = createEmailData(user, token);
+
+        if (type.equalsIgnoreCase("register")) {
+            mailService.sendMailConfirmRegistration(data);
+        }
+        if (type.equalsIgnoreCase("resetPassword")) {
+            mailService.sendMailResetPassword(data);
+        }
+    }
+
     private void sendPasswordResetEmail(User user, TokenConfirm token) {
         Map<String, String> data = createEmailData(user, token);
         System.out.println("token:" + token);

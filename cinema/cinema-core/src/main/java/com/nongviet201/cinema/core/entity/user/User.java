@@ -32,4 +32,8 @@ public class User {
     private boolean enabled;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+
+    @OneToOne
+    @JoinColumn(name = "user_statistics_id")
+    private UserStatistic userStatistic;
 }

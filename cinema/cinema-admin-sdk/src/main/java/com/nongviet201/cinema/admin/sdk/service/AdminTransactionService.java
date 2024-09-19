@@ -6,8 +6,12 @@ import com.nongviet201.cinema.admin.sdk.response.AdminTransactionResponse;
 import com.nongviet201.cinema.core.entity.bill.Transaction;
 import com.nongviet201.cinema.core.service.TranslationService;
 import lombok.AllArgsConstructor;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -19,6 +23,7 @@ public class AdminTransactionService {
 
     private final TranslationService translationService;
     private final AdminTransactionDecorator decorator;
+    private final AdminExcelService adminExcelService;
 
     public List<AdminTransactionResponse> getTransactionFilter(
         UpsertTransactionRequest.GetDataFiller request
@@ -44,5 +49,21 @@ public class AdminTransactionService {
         return decorator.decorate(
             translationService.getTransactionById(id)
         );
+    }
+
+    public byte[] getExcelData(
+        UpsertTransactionRequest.GetDataFiller request
+    ) throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+        adminExcelService.exportTransactionToExcel(
+            getTransactionFilter(request),
+            workbook
+        );
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        workbook.write(byteArrayOutputStream);
+        workbook.close();
+
+        return byteArrayOutputStream.toByteArray();
     }
 }

@@ -36,7 +36,7 @@ public class AdminTransactionDecorator {
             transaction.getPaymentMethod(),
             transaction.getCinema().getId(),
             transaction.getCinema().getName(),
-            webFormatter.formatFullDateTime(transaction.getPayDate()),
+            webFormatter.formatDateTimeToHHmmDDmmYYYY(transaction.getPayDate()),
             status,
             transaction.getBill().getUser().getFullName(),
             transaction.getBill().getUser().getPhoneNumber(),

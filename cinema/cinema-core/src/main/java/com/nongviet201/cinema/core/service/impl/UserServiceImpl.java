@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.core.service.impl;
 
+import com.nongviet201.cinema.core.exception.BadRequestException;
 import com.nongviet201.cinema.core.exception.ResourceNotFoundException;
 import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.model.enums.user.UserRole;
@@ -27,16 +28,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser() {
-
-    }
-
-    @Override
     public User getCurrentUser() {
         if (authenticationFacade.getAuthentication() != null &&
-            authenticationFacade.getAuthentication().getPrincipal() instanceof CustomUserDetail
+            authenticationFacade.getAuthentication().getPrincipal() instanceof CustomUserDetail userDetails
         ) {
-            CustomUserDetail userDetails = (CustomUserDetail) authenticationFacade.getAuthentication().getPrincipal();
             return findByEmail(userDetails.getUsername());
         }
         return null;
@@ -55,6 +50,30 @@ public class UserServiceImpl implements UserService {
             startDate,
             endDate
         );
+    }
+
+    @Override
+    public List<User> getDataFilter(
+        LocalDate formDate,
+        LocalDate toDate
+    ) {
+        return userRepository.findByCreatedAtBetween(
+            formDate,
+            toDate
+        );
+    }
+
+    @Override
+    public User getUserByPhoneNumber(String phoneNumber) {
+        return userRepository.findByPhoneNumber(phoneNumber)
+            .orElseThrow(() -> new BadRequestException("Không tìm thấy thông tin người dùng dựa trên sđt: " + phoneNumber));
+    }
+
+    @Override
+    public void save(
+        User user
+    ) {
+        userRepository.save(user);
     }
 }
 

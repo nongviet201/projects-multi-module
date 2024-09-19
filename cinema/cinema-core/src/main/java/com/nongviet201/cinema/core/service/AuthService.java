@@ -1,5 +1,6 @@
 package com.nongviet201.cinema.core.service;
 
+import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.request.ChangePasswordAccountRequest;
 import com.nongviet201.cinema.core.request.ChangePasswordMailRequest;
 import com.nongviet201.cinema.core.request.LoginRequest;
@@ -20,4 +21,6 @@ public interface AuthService {
     VerifyResponse confirmForgotPassword(String token);
 
     void changePasswordAccount(ChangePasswordAccountRequest request);
+
+    void resendEmail(User user, String type);
 }

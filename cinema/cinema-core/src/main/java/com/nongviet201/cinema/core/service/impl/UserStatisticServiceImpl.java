@@ -4,6 +4,7 @@ import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.entity.user.UserStatistic;
 import com.nongviet201.cinema.core.exception.BadRequestException;
 import com.nongviet201.cinema.core.model.enums.user.UserRank;
+import com.nongviet201.cinema.core.repository.UserRepository;
 import com.nongviet201.cinema.core.repository.UserStatisticRepository;
 import com.nongviet201.cinema.core.service.UserService;
 import com.nongviet201.cinema.core.service.UserStatisticService;
@@ -16,18 +17,12 @@ public class UserStatisticServiceImpl implements UserStatisticService {
 
     private final UserStatisticRepository userStatisticRepository;
     private final UserService userService;
-
-    @Override
-    public UserStatistic getUserStatisticByUserId(int userId) {
-        return userStatisticRepository.findByUserId(userId)
-            .orElseThrow(() -> new BadRequestException("Không tìm thấy thông tin"));
-    }
+    private final UserRepository userRepository;
 
     @Override
     public UserStatistic getCurrentUserStatistic() {
-        return getUserStatisticByUserId(
-            userService.getCurrentUser().getId()
-        );
+        return userService.getCurrentUser().getUserStatistic()
+        ;
     }
 
     @Override
@@ -36,29 +31,33 @@ public class UserStatisticServiceImpl implements UserStatisticService {
     ) {
         User user = userService.getCurrentUser();
 
-        UserStatistic userStatistic = userStatisticRepository.findByUserId(user.getId())
-            .orElse(null);
-
         int points;
 
-        if (userStatistic == null) {
+        if (user.getUserStatistic() == null) {
             points = calculatePoints(UserRank.NORMAL, totalSpending);
-            userStatisticRepository.save(
+
+            UserStatistic userStatistic =
                 UserStatistic.builder()
-                    .userRank(UserRank.NORMAL)
-                    .points(points)
-                    .totalSpending(totalSpending)
-                    .user(user)
-                    .build()
+                .userRank(UserRank.NORMAL)
+                .points(points)
+                .totalSpending(totalSpending)
+                .build();
+
+            userStatisticRepository.save(
+                userStatistic
             );
+
+            user.setUserStatistic(userStatistic);
+            userRepository.save(user);
+
             return points;
         } else {
-            points = calculatePoints(userStatistic.getUserRank(), totalSpending);
+            points = calculatePoints(user.getUserStatistic().getUserRank(), totalSpending);
 
-            userStatistic.setPoints(userStatistic.getPoints() + calculatePoints(userStatistic.getUserRank(), totalSpending));
-            userStatistic.setTotalSpending(userStatistic.getTotalSpending() + totalSpending);
-            userStatistic.setUserRank(setUserRank(userStatistic.getTotalSpending()));
-            userStatisticRepository.save(userStatistic);
+            user.getUserStatistic().setPoints(user.getUserStatistic().getPoints() + calculatePoints(user.getUserStatistic().getUserRank(), totalSpending));
+            user.getUserStatistic().setTotalSpending(user.getUserStatistic().getTotalSpending() + totalSpending);
+            user.getUserStatistic().setUserRank(setUserRank(user.getUserStatistic().getTotalSpending()));
+            userStatisticRepository.save(user.getUserStatistic());
         }
         return points;
     }
@@ -67,13 +66,17 @@ public class UserStatisticServiceImpl implements UserStatisticService {
     public void createStatistic(
         User newUser
     ) {
-        userStatisticRepository.save(
+
+        newUser.setUserStatistic(
             UserStatistic.builder()
-                .userRank(UserRank.NORMAL)
-                .points(0)
-                .totalSpending(0L)
-                .user(newUser)
-                .build()
+            .userRank(UserRank.NORMAL)
+            .points(0)
+            .totalSpending(0L)
+            .build()
+        );
+        userRepository.save(newUser);
+        userStatisticRepository.save(
+            newUser.getUserStatistic()
         );
     }
 
