@@ -3,7 +3,7 @@ package com.nongviet201.cinema.core.service.impl;
 import com.nongviet201.cinema.core.entity.bill.Transaction;
 import com.nongviet201.cinema.core.payment.vnpay.code.ResponseCodeVNPAY;
 import com.nongviet201.cinema.core.repository.TransactionRepository;
-import com.nongviet201.cinema.core.service.TranslationService;
+import com.nongviet201.cinema.core.service.TransactionService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class TranslationServiceImpl implements TranslationService {
+public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
 

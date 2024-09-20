@@ -42,7 +42,7 @@ public class BillComboServiceImpl implements BillComboService {
     }
 
     @Override
-    public List<BillCombo> getBIllComboByBillId(int billId) {
+    public List<BillCombo> getBillComboByBillId(int billId) {
         return billComboRepository.findByBillId(billId);
     }
 }

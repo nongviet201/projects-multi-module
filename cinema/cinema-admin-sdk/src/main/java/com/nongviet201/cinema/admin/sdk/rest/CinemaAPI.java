@@ -50,6 +50,14 @@ public class CinemaAPI {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<?> createItem(
+        @RequestBody UpsertCinemaRequest request
+    ) {
+        adminCinemaService.createCinema(request);
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping("/restore/{id}")
     public ResponseEntity<?> restoreItem(
         @PathVariable int id

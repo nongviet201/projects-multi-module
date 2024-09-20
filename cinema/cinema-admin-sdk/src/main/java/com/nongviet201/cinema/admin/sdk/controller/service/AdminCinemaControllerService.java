@@ -8,6 +8,7 @@ import com.nongviet201.cinema.admin.sdk.service.AdminCinemaService;
 import com.nongviet201.cinema.admin.sdk.service.AdminSeatService;
 import com.nongviet201.cinema.core.entity.cinema.Auditorium;
 import com.nongviet201.cinema.core.entity.cinema.Cinema;
+import com.nongviet201.cinema.core.entity.cinema.City;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -38,7 +39,7 @@ public class AdminCinemaControllerService {
     ) {
         model.addAttribute("cinema", adminCinemaService.getCinemaById(id));
         model.addAttribute("auditoriums", adminAuditoriumService.getAllAuditoriumByCinemaId(id));
-        model.addAttribute("cities", adminCinemaService.getAllCities());
+        model.addAttribute("cities", getAllCities());
         model.addAttribute("audType", adminAuditoriumService.getAllAuditoriumTypes());
         model.addAttribute("seatTypes", adminSeatService.getAllSeatTypes());
     }
@@ -57,6 +58,9 @@ public class AdminCinemaControllerService {
         );
     }
 
+    public List<City> getAllCities() {
+       return adminCinemaService.getAllCities();
+    }
 
     public List<Auditorium> getAllAuditoriumDeleted() {
         return adminAuditoriumService.getAllDeletedAuditorium();

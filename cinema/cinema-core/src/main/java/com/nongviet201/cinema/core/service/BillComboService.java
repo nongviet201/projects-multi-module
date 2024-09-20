@@ -7,5 +7,6 @@ import java.util.List;
 public interface BillComboService {
     long createBillCombo(Integer billId, Integer ComboId, Integer quantity);
 
-    List<BillCombo> getBIllComboByBillId(int billId);
+    List<BillCombo> getBillComboByBillId(int billId);
+
 }

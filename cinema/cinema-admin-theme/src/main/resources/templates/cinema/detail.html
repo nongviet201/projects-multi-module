@@ -126,9 +126,17 @@
                                                    type="text"/>
                                         </div>
                                         <div class="form-group mt-3">
+                                            <label for="manager">Quản Lý</label>
+                                            <select class="form-control" id="manager" name="manager">
+                                                <option th:each="manager : ${cinema.manager}"
+                                                        th:value="${manager.id}"
+                                                        th:text="${manager.fullName}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group mt-3">
                                             <label for="address">Địa chỉ</label>
-                                            <textarea class="form-control" id="address" name="address"
-                                                      rows="4" th:text="${cinema.address}"></textarea>
+                                            <input class="form-control" id="address" name="address" th:value="${cinema.address}">
                                         </div>
                                     </div>
 

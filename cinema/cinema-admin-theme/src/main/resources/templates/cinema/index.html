@@ -37,11 +37,9 @@
             <div class="container-fluid">
                 <div class="row py-2">
                     <div class="col-12">
-                        <a href="/admin/cinema/create">
-                            <button type="button" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Tạo rạp
-                            </button>
-                        </a>
+                        <button id="btn-create" type="button" data-bs-toggle="modal" data-bs-target="#modal-cinema" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Tạo rạp
+                        </button>
                         <a href="/admin/cinema">
                             <button type="button" class="btn btn-info">
                                 <i class="fas fa-redo"></i> Refresh
@@ -49,11 +47,83 @@
                         </a>
                     </div>
                 </div>
+
+                <div aria-hidden="true" class="modal fade" id="modal-cinema" style="display: none;"
+                     tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header text-center">
+                                <strong class="fs-20px modal-title">Tạo Rạp Mới</strong>
+                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                        type="button"></button>
+                            </div>
+                            <div class="modal-body m-3">
+                                <div>
+                                    <span class="text-danger" id="error"></span>
+                                </div>
+                                <form id="form-cinema">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="cinema-name">Tên Rạp</label>
+                                                <input class="form-control mt-1"
+                                                       id="cinema-name" name="cinema-name" type="text">
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="cinema-address">Địa chỉ</label>
+                                                <input class="form-control mt-1" id="cinema-address"
+                                                       name="cinema-address" type="text">
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="cinema-city">Thành Phố</label>
+                                                <select class="form-control mt-1" id="cinema-city"
+                                                       name="cinema-city" >
+                                                    <option th:each="city : ${cities}" th:value="${city.id}">[[${city.name}]]</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="d-flex mb-3">
+                                                <div class="form-group mt-1 me-1">
+                                                    <label class="fw-600" for="cinema-lat">Vĩ Độ</label>
+                                                    <input class="form-control" id="cinema-lat"
+                                                           name="cinema-lat" type="text">
+                                                </div>
+                                                <div class="form-group mt-1 ms-1">
+                                                    <label class="fw-600" for="cinema-lng">Kinh Độ</label>
+                                                    <input class="form-control " id="cinema-lng"
+                                                           name="cinema-lng" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="cinema-status">Trạng Thái</label>
+                                                <select class="form-control mt-1" id="cinema-status"
+                                                        name="cinema-status">
+                                                    <option value="1">Công Khai</option>
+                                                    <option value="0">Nháp</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label class="fw-600" for="cinema-manager">Quản Lý</label>
+                                                <input class="form-control mt-1" id="cinema-manager"
+                                                       name="cinema-manager" placeholder="Nhập mã nhân viên của quản lý" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="btn-create-submit" class="btn btn-primary" type="button">Tạo Mới</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <table class="table table-responsive table-striped" id="table-movie">
+                                <table class="table table-responsive table-striped" id="table-cinema">
                                     <thead>
                                     <tr>
                                         <th>Tên Rạp</th>
@@ -77,7 +147,9 @@
                                                   th:text="${item.enabled ? 'Công khai' : 'Nháp'}">
                                             </span>
                                         </td>
-                                        <td th:each="manager:  ${item.manager}" th:text="${manager.getFullName()}">Công khai</td>
+                                        <td>
+                                            [[${#strings.listJoin(#lists.toList(#arrays.toArray(item.manager).![fullName]), ', ')}]]
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -91,7 +163,7 @@
 </div>
 <th:block id="js">
     <script>
-        $('#table-movie').DataTable({
+        $('#table-cinema').DataTable({
             "paging": true,
             "lengthChange": true,
             "lengthMenu": [10, 25, 50, 100],
@@ -109,6 +181,42 @@
                 $('td', row).eq(3).addClass('text-center');
                 $('td', row).eq(4).addClass('text-center');
             },
+        });
+    </script>
+    <script>
+
+        $('#btn-create-submit').click( async function () {
+            const name = $('#cinema-name').val();
+            const address = $('#cinema-address').val();
+            const city = $('#cinema-city').val();
+            const lat = $('#cinema-lat').val();
+            const lng = $('#cinema-lng').val();
+            const status = $('#cinema-status').val();
+            const managerId = $('#cinema-manager').val();
+
+            if (name === '' || address === '' || city === '' || lat === '' || lng === '' || status === '') {
+                toastShow('Vui lòng nhập đầy đủ thông tin.', "error");
+                return;
+            }
+
+            const data = {
+                name: name,
+                address: address,
+                enabled: status === '1',
+                city: parseInt(city, 10),
+                lat: lat,
+                lng: lng,
+                managerId: parseInt(managerId, 10),
+            }
+
+            try {
+                await axios.post("/admin/api/v1/cinema/create", data)
+                toastShow("Thêm rạp mới thành công", "success");
+                $('#modal-cinema').modal('hide');
+            } catch (e) {
+                console.error('Error:', e);
+                toastShow(e.response.data.message, "error")
+            }
         });
     </script>
 </th:block>

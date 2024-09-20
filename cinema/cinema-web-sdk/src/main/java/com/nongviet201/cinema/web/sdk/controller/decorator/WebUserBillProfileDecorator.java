@@ -56,7 +56,7 @@ public class WebUserBillProfileDecorator {
             .map(seat -> seat.getSeat().getSeatRow() + seat.getSeat().getSeatColumn())
             .collect(Collectors.joining(", "));
 
-        String combos = billComboService.getBIllComboByBillId(bill.getId()).stream()
+        String combos = billComboService.getBillComboByBillId(bill.getId()).stream()
             .filter(combo -> combo.getQuantity() > 0)
             .map(combo -> combo.getCombo().getName() + " x " + combo.getQuantity())
             .collect(Collectors.joining(", "));

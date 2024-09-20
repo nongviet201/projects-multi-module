@@ -2,7 +2,7 @@ package com.nongviet201.cinema.web.sdk.controller.service;
 
 import com.nongviet201.cinema.core.entity.bill.Bill;
 import com.nongviet201.cinema.core.service.BillService;
-import com.nongviet201.cinema.core.service.TranslationService;
+import com.nongviet201.cinema.core.service.TransactionService;
 import com.nongviet201.cinema.core.utils.WebFormatter;
 import com.nongviet201.cinema.web.sdk.controller.decorator.WebUserBillProfileDecorator;
 import com.nongviet201.cinema.web.sdk.response.WebBillDetailResponse;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class WebUserBillProfileControllerService {
 
     private final BillService billService;
-    private final TranslationService translationService;
+    private final TransactionService transactionService;
     private final WebUserBillProfileDecorator userBillProfileDecorator;
     private final WebFormatter dateTimeFormatter;
 
@@ -42,7 +42,7 @@ public class WebUserBillProfileControllerService {
         Integer billId
     ) {
         return userBillProfileDecorator.billDetailDecorator(
-            translationService.findTranslationByBillId(billId)
+            transactionService.findTranslationByBillId(billId)
         );
     }
 }

@@ -3,11 +3,10 @@ package com.nongviet201.cinema.core.service;
 import com.nongviet201.cinema.core.entity.bill.Transaction;
 import com.nongviet201.cinema.core.payment.vnpay.code.ResponseCodeVNPAY;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface TranslationService {
+public interface TransactionService {
 
     Transaction findTranslationByBillId(Integer id);
 

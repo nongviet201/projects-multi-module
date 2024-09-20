@@ -19,4 +19,6 @@ public interface UserService {
     User getUserByPhoneNumber(String phoneNumber);
 
     void save(User user);
+
+    User getUserById(Integer id);
 }

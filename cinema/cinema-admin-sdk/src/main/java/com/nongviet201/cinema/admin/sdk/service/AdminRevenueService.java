@@ -3,7 +3,7 @@ package com.nongviet201.cinema.admin.sdk.service;
 import com.nongviet201.cinema.admin.sdk.response.AdminTotalMonthlyRevenueResponse;
 import com.nongviet201.cinema.core.entity.bill.Transaction;
 import com.nongviet201.cinema.core.payment.vnpay.code.ResponseCodeVNPAY;
-import com.nongviet201.cinema.core.service.TranslationService;
+import com.nongviet201.cinema.core.service.TransactionService;
 import com.nongviet201.cinema.core.utils.DateTimeUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AdminRevenueService {
 
-    private final TranslationService translationService;
+    private final TransactionService transactionService;
 
     public List<AdminTotalMonthlyRevenueResponse> getTotalMonthlyRevenueOfAllCinemasForYear(
         int year
@@ -35,7 +35,7 @@ public class AdminRevenueService {
             LocalDateTime startDate = LocalDateTime.of(year, month, 1, 0, 0);
             LocalDateTime endDate = startDate.with(TemporalAdjusters.lastDayOfMonth()).withHour(23).withMinute(59).withSecond(59);
 
-            List<Transaction> transactions = translationService.getAllTranslationByTimeAndStatusAndCode(
+            List<Transaction> transactions = transactionService.getAllTranslationByTimeAndStatusAndCode(
                 startDate,
                 endDate,
                 true,
@@ -61,7 +61,7 @@ public class AdminRevenueService {
     public List<Transaction> getTotalRevenueByTime(String time) {
         DateTimeUtils.DateTimeRange timeRange = DateTimeUtils.getTimeRange(time);
 
-        return translationService.getAllTranslationByTimeAndStatusAndCode(
+        return transactionService.getAllTranslationByTimeAndStatusAndCode(
             timeRange.getStartDate(),
             timeRange.getEndDate(),
             true,

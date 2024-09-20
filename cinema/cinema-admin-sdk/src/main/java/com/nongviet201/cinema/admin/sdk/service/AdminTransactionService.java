@@ -3,8 +3,7 @@ package com.nongviet201.cinema.admin.sdk.service;
 import com.nongviet201.cinema.admin.sdk.decorator.AdminTransactionDecorator;
 import com.nongviet201.cinema.admin.sdk.request.UpsertTransactionRequest;
 import com.nongviet201.cinema.admin.sdk.response.AdminTransactionResponse;
-import com.nongviet201.cinema.core.entity.bill.Transaction;
-import com.nongviet201.cinema.core.service.TranslationService;
+import com.nongviet201.cinema.core.service.TransactionService;
 import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -21,7 +20,7 @@ import static com.nongviet201.cinema.core.utils.DateTimeUtils.parseDate;
 @AllArgsConstructor
 public class AdminTransactionService {
 
-    private final TranslationService translationService;
+    private final TransactionService transactionService;
     private final AdminTransactionDecorator decorator;
     private final AdminExcelService adminExcelService;
 
@@ -29,14 +28,14 @@ public class AdminTransactionService {
         UpsertTransactionRequest.GetDataFiller request
     ) {
         if (request.getToDate().isEmpty()) {
-            return translationService.filter(
+            return transactionService.filter(
                 parseDate(request.getFormDate()).atStartOfDay(),
                 parseDate(request.getFormDate()).atTime(LocalTime.MAX),
                 request.getCinemaId()
             ).stream().map(decorator::decorate).toList();
         }
 
-        return translationService.filter(
+        return transactionService.filter(
             parseDate(request.getFormDate()).atStartOfDay(),
             parseDate(request.getToDate()).atTime(LocalTime.MAX),
             request.getCinemaId()
@@ -47,7 +46,7 @@ public class AdminTransactionService {
         Integer id
     ) {
         return decorator.decorate(
-            translationService.getTransactionById(id)
+            transactionService.getTransactionById(id)
         );
     }
 

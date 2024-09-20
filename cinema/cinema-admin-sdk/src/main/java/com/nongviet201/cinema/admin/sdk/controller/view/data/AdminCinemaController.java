@@ -34,6 +34,10 @@ public class AdminCinemaController {
                 "cinemas",
                 adminCinemaControllerService.getAllCinema()
             );
+            model.addAttribute(
+                "cities",
+                adminCinemaControllerService.getAllCities()
+            );
         }
         return "/cinema/index";
     }
@@ -45,11 +49,6 @@ public class AdminCinemaController {
     ) {
         adminCinemaControllerService.getCinemaDetailById(id, model);
         return "/cinema/detail";
-    }
-
-    @GetMapping("/create")
-    public String getAdminCinemaCreatePage() {
-        return "/cinema/create";
     }
 
     @GetMapping("/aud-deleted")

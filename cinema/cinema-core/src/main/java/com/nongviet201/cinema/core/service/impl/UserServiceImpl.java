@@ -75,5 +75,11 @@ public class UserServiceImpl implements UserService {
     ) {
         userRepository.save(user);
     }
+
+    @Override
+    public User getUserById(Integer id) {
+        return userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy thông tin người dùng với Id: " +id));
+    }
 }
 

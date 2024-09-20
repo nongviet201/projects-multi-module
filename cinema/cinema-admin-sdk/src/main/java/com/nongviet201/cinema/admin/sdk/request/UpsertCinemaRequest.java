@@ -10,4 +10,5 @@ public class UpsertCinemaRequest {
     Integer city;
     Double lat;
     Double lng;
+    Integer managerId;
 }

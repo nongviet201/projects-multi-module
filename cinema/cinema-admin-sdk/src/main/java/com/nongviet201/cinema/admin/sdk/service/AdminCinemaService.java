@@ -8,7 +8,8 @@ import com.nongviet201.cinema.core.entity.cinema.Cinema;
 import com.nongviet201.cinema.core.entity.cinema.City;
 import com.nongviet201.cinema.core.service.CinemaService;
 import com.nongviet201.cinema.core.service.CityService;
-import com.nongviet201.cinema.core.service.TranslationService;
+import com.nongviet201.cinema.core.service.TransactionService;
+import com.nongviet201.cinema.core.service.UserService;
 import com.nongviet201.cinema.core.utils.EnumService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,9 +26,10 @@ public class AdminCinemaService {
 
     private final CityService cityService;
     private final CinemaService cinemaService;
-    private final TranslationService translationService;
+    private final TransactionService transactionService;
     private final AdminCinemaRevenueToResponseConverter cinemaRevenueToResponseConverter;
     private final EnumService enumService;
+    private final UserService userService;
 
     public List<Cinema> getAllCinema() {
         return cinemaService.getAllCinemaByDeleted(false);
@@ -61,7 +63,7 @@ public class AdminCinemaService {
 
             // Lấy danh sách Transaction dựa trên thời gian và trạng thái thành công
             List<Transaction> transactionList =
-                translationService.getAllTranslationByCinemaIdAndTimeAndStatusCode(
+                transactionService.getAllTranslationByCinemaIdAndTimeAndStatusCode(
                     cinema.getId(),
                     time
                 );
@@ -114,4 +116,22 @@ public class AdminCinemaService {
         return cityService.getAllCities();
     }
 
+    public void createCinema(
+        UpsertCinemaRequest request
+    ) {
+        cinemaService.save(
+            Cinema.builder()
+               .name(request.getName())
+               .address(request.getAddress())
+               .enabled(request.isEnabled())
+               .city(cityService.getCityById(request.getCity()))
+               .lat(request.getLat())
+               .lng(request.getLng())
+                .deleted(false)
+               .manager(List.of(userService.getUserById(request.getManagerId())))
+               .createdAt(now())
+               .updatedAt(now())
+               .build()
+        );
+    }
 }
