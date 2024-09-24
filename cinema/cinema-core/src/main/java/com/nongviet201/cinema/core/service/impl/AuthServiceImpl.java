@@ -213,14 +213,15 @@ public class AuthServiceImpl implements AuthService {
         User user,
         String type
     ) {
-        TokenConfirm token = generateToken(user, TokenType.REGISTRATION, 24);
-
-        Map<String, String> data = createEmailData(user, token);
 
         if (type.equalsIgnoreCase("register")) {
+            TokenConfirm token = generateToken(user, TokenType.REGISTRATION, 1);
+            Map<String, String> data = createEmailData(user, token);
             mailService.sendMailConfirmRegistration(data);
         }
         if (type.equalsIgnoreCase("resetPassword")) {
+            TokenConfirm token = generateToken(user, TokenType.PASSWORD_RESET, 1);
+            Map<String, String> data = createEmailData(user, token);
             mailService.sendMailResetPassword(data);
         }
     }

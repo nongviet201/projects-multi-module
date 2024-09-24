@@ -91,7 +91,6 @@ class CinemaCoreApplicationTests {
     private UserStatisticRepository userStatisticRepository;
 
 
-    @Test
     void createData() {
         createCityData();
         createCinemaData();
@@ -382,7 +381,6 @@ class CinemaCoreApplicationTests {
         createShowTime();
     }
 
-    @Test
     void createShowTime() {
 
         // Mảng các số giờ có thể dùng để nhân với giờ bắt đầu
@@ -608,7 +606,6 @@ class CinemaCoreApplicationTests {
     @Autowired
     BaseTicketPriceService baseTicketPriceService;
 
-    @Test
     void generateRandomBills() {
         List<User> users = generateUsers(20);
         List<Combo> allCombos = comboRepository.findAll();  // Lấy tất cả combo

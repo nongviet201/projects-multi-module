@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+@Configuration
 @EnableWebSecurity
 @EnableMethodSecurity (
     securedEnabled = true,
@@ -40,8 +40,25 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable); //tắt csrf
+
+        String[] web = {
+                "/booking/get/stage-two",
+                "/booking/get/stage-three",
+                "/user"
+        };
+
+        http.authorizeHttpRequests(auth -> {
+            auth.requestMatchers(web).authenticated();
+            auth.requestMatchers("/admin").authenticated();
+            auth.anyRequest().permitAll();
+        });
+
+        http.formLogin(
+                login -> login.loginPage("/login").permitAll()
+        );
 
         // Cấu hình logout
         http.logout(logout -> {
