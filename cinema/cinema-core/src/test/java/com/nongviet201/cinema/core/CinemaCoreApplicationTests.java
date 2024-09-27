@@ -90,7 +90,6 @@ class CinemaCoreApplicationTests {
     @Autowired
     private UserStatisticRepository userStatisticRepository;
 
-
     void createData() {
         createCityData();
         createCinemaData();

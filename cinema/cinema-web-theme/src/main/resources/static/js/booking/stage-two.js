@@ -82,7 +82,7 @@ function fetchSeatsByShowtimeId(showtimeId) {
         }
     });
 }
-function renderSeats(seats) {
+async function renderSeats(seats) {
     document.getElementById("seat-container").classList.remove("d-none");
     const seatMap = document.getElementById('seat-map');
     seatMap.innerHTML = "";
@@ -103,6 +103,7 @@ function renderSeats(seats) {
         const rowList = document.createElement('div');
 
         rowDiv.className = 'seat-row';
+        rowDiv.dataset.row = row;
         rowNameS.innerText = row;
         rowNameE.innerText = row;
         rowDiv.appendChild(rowNameS);
@@ -127,6 +128,7 @@ function renderSeats(seats) {
                 seatBtn.className = 'seat';
                 seatBtn.value = seat.id;
                 seatBtn.id = `seat-${seat.id}`;
+                seatBtn.dataset.column = seat.seatColumn;
 
                 if (seat.type === 'COUPLE') {
                     if (coupleCounter % 2 === 0) {
@@ -157,8 +159,33 @@ function renderSeats(seats) {
         rowDiv.appendChild(rowNameE);
         seatMap.appendChild(rowDiv);
     }
-    getReservation(showtime.id);
-    getBlock(showtime.auditoriumId)
+    await getReservation(showtime.id);
+    await getBlock(showtime.auditoriumId)
+}
+
+function renderBlock(blockData) {
+    blockData.forEach(block => {
+        const blockEl = document.createElement('button');
+        blockEl.classList.add('block');
+        blockEl.dataset.column = block.startColumn;
+        blockEl.dataset.blockId = block.id;
+
+        const row = document.querySelector(`div[data-row=${block.seatRow}]`);
+        const startColumn = row.querySelector(`button[data-column="${block.startColumn}"]`);
+        const endColumn = row.querySelector(`button[data-column="${block.endColumn}"]`);
+
+        if (startColumn != null && startColumn.classList.contains('seat')) {
+            startColumn.insertAdjacentElement('afterend', blockEl);
+        } else if (startColumn != null && startColumn.classList.contains('seat-double')) {
+            startColumn.parentElement.insertAdjacentElement('afterend', blockEl);
+        } else
+
+        if (startColumn == null && endColumn.classList.contains('seat')) {
+            endColumn.insertAdjacentElement('beforebegin', blockEl);
+        } else if (startColumn == null && endColumn.classList.contains('seat-double')) {
+            endColumn.parentElement.insertAdjacentElement('beforebegin', blockEl);
+        }
+    })
 }
 
 function seatCoupleBtnFunc(coupleDivEl) {
@@ -274,8 +301,7 @@ async function getBlock(auditoriumId) {
             type: 'GET',
         });
 
-        checkNextBtn();
-        showtimeDetailSeatShow();
+        await renderBlock(block);
     } catch (error) {
         console.error(`Đã xảy ra lỗi: ${error}`);
     }
