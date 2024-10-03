@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        .invoice {
+            width: 14.8cm;
+            height: 100%;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .invoice-header {
+            text-align: left;
+        }
+        .invoice-header h2 {
+            font-family: 'Georgia', serif;
+            margin: 0;
+        }
+        .invoice-header small {
+            color: #777;
+        }
+        .invoice-total {
+            text-align: right;
+        }
+        .invoice-total h5 {
+            font-weight: bold;
+        }
+        .table th, .table td {
+            text-align: center;
+        }
+        .fw-600 {
+            font-weight: 600 !important;
+        }
+        .fs-14px {
+            font-size: 14px !important;
+        }
+        .fs-16px {
+            font-size: 16px !important;
+        }
+        th {
+            font-size: 14px;
+        }
+        .logo {
+            text-transform: uppercase;
+            font-family: verdana, serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1558a8;
+            text-shadow:
+                    1px 1px 1px #1558a8,
+                    1px 2px 1px #1558a8,
+                    1px 3px 1px #919191,
+                    1px 4px 1px #919191,
+                    1px 7px 1px #919191,
+                    1px 8px 1px #1558a8,
+                    1px 9px 1px #1558a8,
+                    1px 10px 1px #1558a8,
+                    1px 18px 6px rgba(16,16,16,0.4)
+        }
+    </style>
+</head>
+<body>
+<div class="d-flex">
+    <button id="btn-download" type="button" class="btn btn-danger me-3">Tải PDF</button>
+    <button id="btn-print" type="button" class="btn btn-primary">In PDF</button>
+</div>
+<div id="content" class="invoice pt-5 pb-3">
+    <div class="row mb-4 px-4">
+        <div class="col-md-7 invoice-header">
+            <span class="logo">VCINEMA</span>
+        </div>
+        <div class="text-start col-md-5 text-end">
+            <p class="w-100 mb-3 d-flex align-items-center">
+                <i class="fa-solid fa-phone"></i>
+                <small class="fw-600 ms-4">+18008008</small>
+            </p>
+            <p class="w-100 mb-3 d-flex align-items-center">
+                <i class="fa-solid fa-envelope"></i>
+                <small class="fw-600 ms-4">vcinema@support.com</small>
+            </p>
+            <p class="w-100 mb-3 d-flex align-items-center">
+                <i class="fa-solid fa-location-dot"></i>
+                <small class="fw-600 ms-4">123 Đống Đa, Hà Nội</small>
+            </p>
+            <p class="w-100 mb-3 d-flex align-items-center">
+                <i class="fa-solid fa-globe"></i>
+                <small class="fw-600 ms-4">www.vcinema.com</small>
+            </p>
+        </div>
+        <p class="mt-4 mb-2" style="font-weight: 700; font-size: 20px">THÔNG TIN HÓA ĐƠN</p>
+        <div class="col-md-7">
+            <p class="m-0 fw-600">[[${bill.username}]]</p>
+            <p class="m-0">[[${bill.email}]]</p>
+        </div>
+        <div class="col-md-5">
+            <p class="m-0">No. <span class="fw-600">[[${bill.billId}]]</span></p>
+            <p class="m-0">[[${bill.payDate}]]</p>
+        </div>
+    </div>
+
+    <div class="px-2" >
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>MẶT HÀNG</th>
+                <th>SỐ LƯỢNG</th>
+                <th>GIÁ</th>
+                <th>TỔNG</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="text-start ps-3" colspan="4" th:utext="${bill.showtimeDetails}"></td>
+            </tr>
+            <tr th:each="seat : ${bill.seatResponses}">
+                <td class="text-start ps-3 fs-14px">
+                    Ghế [[${seat.seatType}]]: <strong>[[${seat.name}]]</strong>
+                </td>
+                <td class="fs-14px">x <strong>[[${seat.quantity}]]</strong></td>
+                <td class="fs-14px">[[${seat.price}]] đ</td>
+                <td class="fw-600 fs-14px">[[${seat.totalPrice}]] đ</td>
+            </tr>
+            <tr th:each="combo : ${bill.comboResponses}">
+                <td class="text-start ps-3 fs-14px">
+                    [[${combo.name}]]
+                </td>
+                <td class="fs-14px">x <strong>[[${combo.quantity}]]</strong></td>
+                <td class="fs-14px">[[${combo.price}]] đ</td>
+                <td class="fw-600 fs-14px">[[${combo.totalPrice}]] đ</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="row mt-4 px-4">
+        <div class="col-md-6">
+            <strong>TRẠNG THÁI</strong>
+            <p class="mt-4 fw-600">[[${bill.status}]]</p>
+        </div>
+        <div class="col-md-6 ps-4 invoice-total">
+            <p class="w-100 mb-3 d-flex justify-content-between align-items-center">
+                <small>Tổng Đơn:</small>
+                <span class="ms-2 fs-14px fw-600">[[${bill.totalPrice}]] đ</span>
+            </p>
+            <p class="w-100 mb-3 d-flex justify-content-between align-items-center">
+                <small>Giảm Giá:</small>
+                <span class="ms-2 fs-14px fw-600">- [[${bill.discountPrice}]] đ</span>
+            </p>
+            <p class="w-100 mb-3 d-flex justify-content-between align-items-center">
+                <small>Tổng Thanh Toán:</small>
+                <span class="ms-2 fs-16px fw-600">[[${bill.finalPrice}]] đ</span>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        const element = document.getElementById('content');
+
+        function printPdf(pdfBlob) {
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = pdfUrl;
+            document.body.appendChild(iframe);
+            iframe.onload = function () {
+                iframe.contentWindow.print();
+            };
+        }
+
+        function downloadPdf(pdfBlob) {
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+            const downloadLink = document.createElement('a');
+            downloadLink.href = pdfUrl;
+            downloadLink.download = 'bill.pdf';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+
+        html2pdf()
+            .from(element)
+            .set({
+                margin: [10, 10, 0, 10],
+                html2canvas: {
+                    scale: 2
+                },
+            })
+            .outputPdf('blob')
+            .then(function (pdfBlob) {
+                document.getElementById("btn-print").addEventListener('click', function () {
+                    printPdf(pdfBlob);
+                });
+
+                document.getElementById("btn-download").addEventListener('click', function () {
+                    downloadPdf(pdfBlob);
+                });
+            });
+    });
+
+
+
+</script>
+</body>
+</html>
