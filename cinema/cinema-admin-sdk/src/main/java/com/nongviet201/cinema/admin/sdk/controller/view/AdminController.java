@@ -13,7 +13,7 @@ public abstract class AdminController {
 
     @GetMapping("/user-details")
     public String getUserDetailsPage() {
-        return "/user/detail";
+        return "/users/detail";
     }
 
     @GetMapping("")

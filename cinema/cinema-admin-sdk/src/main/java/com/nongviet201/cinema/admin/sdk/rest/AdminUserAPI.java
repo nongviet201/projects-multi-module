@@ -18,7 +18,7 @@ public class AdminUserAPI {
         @RequestBody UpsertUserRequest.UserFilter request
     ) {
         return ResponseEntity.ok(
-            adminUserService.getDataFilter(request)
+            adminUserService.getUserDataFilter(request)
         );
     }
 

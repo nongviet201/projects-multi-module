@@ -8,6 +8,7 @@ import com.nongviet201.cinema.core.entity.bill.coupon.CouponRoles;
 import com.nongviet201.cinema.core.entity.bill.coupon.OneTimeCoupon;
 import com.nongviet201.cinema.core.entity.cinema.*;
 import com.nongviet201.cinema.core.entity.movie.*;
+import com.nongviet201.cinema.core.entity.user.Employee;
 import com.nongviet201.cinema.core.entity.user.User;
 import com.nongviet201.cinema.core.entity.user.UserStatistic;
 import com.nongviet201.cinema.core.model.enums.PostType;
@@ -23,6 +24,8 @@ import com.nongviet201.cinema.core.model.enums.movie.MovieScheduleStatus;
 import com.nongviet201.cinema.core.model.enums.movie.TranslationType;
 import com.nongviet201.cinema.core.model.enums.showtime.DayType;
 import com.nongviet201.cinema.core.model.enums.showtime.ScreeningTimeType;
+import com.nongviet201.cinema.core.model.enums.user.EmployeePosition;
+import com.nongviet201.cinema.core.model.enums.user.EmployeeStatus;
 import com.nongviet201.cinema.core.model.enums.user.UserRank;
 import com.nongviet201.cinema.core.model.enums.user.UserRole;
 import com.nongviet201.cinema.core.payment.vnpay.code.ResponseCodeVNPAY;
@@ -89,6 +92,8 @@ class CinemaCoreApplicationTests {
     private MovieScheduleRepository movieScheduleRepository;
     @Autowired
     private UserStatisticRepository userStatisticRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     void createData() {
         createCityData();
@@ -107,6 +112,7 @@ class CinemaCoreApplicationTests {
         createBaseOneTimeCoupon();
         createCoupon();
         generateRandomBills();
+        employeeCreateData();
     }
 
     void createCityData() {
@@ -734,12 +740,41 @@ class CinemaCoreApplicationTests {
         }
     }
 
+    void employeeCreateData() {
+        List<Cinema> cinemas = cinemaRepository.findAll();
+
+        cinemas.forEach(c -> {
+            EmployeePosition[] positions = EmployeePosition.values();
+            List<User> employee = generateUsers(5);
+
+            for (int i = 0; i < employee.size(); i++) {
+                try {
+                    employeeRepository.save(
+                        Employee.builder()
+                            .position(positions[i])
+                            .status(EmployeeStatus.OFFICIAL_EMPLOYEE)
+                            .salary(5000L)
+                            .joinDate(now())
+                            .createdAt(now())
+                            .updatedAt(now())
+                            .user(employee.get(i))
+                            .cinema(c)
+                            .build()
+                    );
+                } catch (Exception e) {
+                    System.out.println("Error saving employee: " + e.getMessage());
+                }
+
+            }
+        });
+    }
 
     private DayType getDayType(LocalDate screeningDate) {
         // Giả định: ngày cuối tuần là Saturday (6) và Sunday (7)
         DayOfWeek dayOfWeek = screeningDate.getDayOfWeek();
         return (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) ? DayType.WEEKEND : DayType.WEEKDAY;
     }
+
 }
 
 

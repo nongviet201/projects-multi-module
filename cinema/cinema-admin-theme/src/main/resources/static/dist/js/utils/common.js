@@ -16,6 +16,7 @@ function jTableSetting(Element) {
         "info": true,
         "autoWidth": false,
         "responsive": true,
+        "scrollX": true,
         "language" : languageTable
     });
 }

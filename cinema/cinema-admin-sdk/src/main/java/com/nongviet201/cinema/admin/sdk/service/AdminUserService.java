@@ -23,7 +23,7 @@ public class AdminUserService {
     private final AdminUserDecorator decorator;
     private final AuthService authService;
 
-    public List<AdminUserResponse> getDataFilter(
+    public List<AdminUserResponse> getUserDataFilter(
         UpsertUserRequest.UserFilter request
     ) {
         if (!request.getToDate().isEmpty()) {

@@ -2,10 +2,10 @@ package com.nongviet201.cinema.admin.sdk.request;
 
 import lombok.Value;
 
-public class UpsertUserRequest {
+public class UpsertEmployeeRequest {
 
     @Value
-    public static class UserFilter {
+    public static class EmployeeFilter {
         String formDate;
         String toDate;
         String type;
@@ -14,7 +14,7 @@ public class UpsertUserRequest {
     @Value
     public static class Find {
         String phoneNumber;
-        String email;
+        Integer id;
     }
 
     @Value

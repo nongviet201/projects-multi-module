@@ -12,6 +12,7 @@
             background-color: #f9f9f9;
             padding: 20px;
         }
+
         .invoice {
             width: 14.8cm;
             height: 100%;
@@ -21,53 +22,63 @@
             border: 1px solid #ddd;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .invoice-header {
             text-align: left;
         }
+
         .invoice-header h2 {
             font-family: 'Georgia', serif;
             margin: 0;
         }
+
         .invoice-header small {
             color: #777;
         }
+
         .invoice-total {
             text-align: right;
         }
+
         .invoice-total h5 {
             font-weight: bold;
         }
+
         .table th, .table td {
             text-align: center;
         }
+
         .fw-600 {
             font-weight: 600 !important;
         }
+
         .fs-14px {
             font-size: 14px !important;
         }
+
         .fs-16px {
             font-size: 16px !important;
         }
+
         th {
             font-size: 14px;
         }
+
         .logo {
             text-transform: uppercase;
             font-family: verdana, serif;
             font-size: 2.5rem;
             font-weight: 700;
             color: #1558a8;
-            text-shadow:
-                    1px 1px 1px #1558a8,
-                    1px 2px 1px #1558a8,
-                    1px 3px 1px #919191,
-                    1px 4px 1px #919191,
-                    1px 7px 1px #919191,
-                    1px 8px 1px #1558a8,
-                    1px 9px 1px #1558a8,
-                    1px 10px 1px #1558a8,
-                    1px 18px 6px rgba(16,16,16,0.4)
+            text-shadow: 1px 1px 1px #1558a8,
+            1px 2px 1px #1558a8,
+            1px 3px 1px #919191,
+            1px 4px 1px #919191,
+            1px 7px 1px #919191,
+            1px 8px 1px #1558a8,
+            1px 9px 1px #1558a8,
+            1px 10px 1px #1558a8,
+            1px 18px 6px rgba(16, 16, 16, 0.4)
         }
     </style>
 </head>
@@ -110,7 +121,7 @@
         </div>
     </div>
 
-    <div class="px-2" >
+    <div class="px-2">
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -146,11 +157,11 @@
 
 
     <div class="row mt-4 px-4">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <strong>TRẠNG THÁI</strong>
             <p class="mt-4 fw-600">[[${bill.status}]]</p>
         </div>
-        <div class="col-md-6 ps-4 invoice-total">
+        <div class="col-md-7 ps-4 invoice-total">
             <p class="w-100 mb-3 d-flex justify-content-between align-items-center">
                 <small>Tổng Đơn:</small>
                 <span class="ms-2 fs-14px fw-600">[[${bill.totalPrice}]] đ</span>
@@ -166,7 +177,6 @@
         </div>
     </div>
 </div>
-
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -214,8 +224,6 @@
                 });
             });
     });
-
-
 
 </script>
 </body>
